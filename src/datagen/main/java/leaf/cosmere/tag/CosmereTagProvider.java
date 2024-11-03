@@ -24,7 +24,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -234,7 +236,76 @@ public class CosmereTagProvider extends BaseTagProvider
 			blockTagBuilder.add(storageBlockTag);
 		}
 
+		addCopperBlockVariations(itemTagBuilder, blockTagBuilder);
+
 		//entities
 		entityTagBuilder.add(EntityType.IRON_GOLEM);
+	}
+
+	private void addCopperBlockVariations(IntrinsicCosmereTagBuilder<Item> itemTagBuilder, IntrinsicCosmereTagBuilder<Block> blockTagBuilder)
+	{
+		itemTagBuilder.add(Items.EXPOSED_COPPER);
+		itemTagBuilder.add(Items.EXPOSED_CUT_COPPER);
+		itemTagBuilder.add(Items.EXPOSED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.EXPOSED_CUT_COPPER_STAIRS);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_COPPER);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_CUT_COPPER_STAIRS);
+
+		itemTagBuilder.add(Items.WEATHERED_COPPER);
+		itemTagBuilder.add(Items.WEATHERED_CUT_COPPER);
+		itemTagBuilder.add(Items.WEATHERED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WEATHERED_CUT_COPPER_STAIRS);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_COPPER);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_CUT_COPPER_STAIRS);
+
+		itemTagBuilder.add(Items.OXIDIZED_COPPER);
+		itemTagBuilder.add(Items.OXIDIZED_CUT_COPPER);
+		itemTagBuilder.add(Items.OXIDIZED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.OXIDIZED_CUT_COPPER_STAIRS);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_COPPER);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
+
+		itemTagBuilder.add(Items.WAXED_COPPER_BLOCK);
+		itemTagBuilder.add(Items.WAXED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.EXPOSED_COPPER);
+		blockTagBuilder.add(Blocks.EXPOSED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.EXPOSED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.EXPOSED_CUT_COPPER_STAIRS);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.WEATHERED_COPPER);
+		blockTagBuilder.add(Blocks.WEATHERED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WEATHERED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WEATHERED_CUT_COPPER_STAIRS);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.OXIDIZED_COPPER);
+		blockTagBuilder.add(Blocks.OXIDIZED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.OXIDIZED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.OXIDIZED_CUT_COPPER_STAIRS);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.WAXED_COPPER_BLOCK);
+		blockTagBuilder.add(Blocks.WAXED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_CUT_COPPER_STAIRS);
 	}
 }
