@@ -113,7 +113,7 @@ public class FeruchemyEntityEventHandler
 
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onBreakBlock(BlockEvent.BreakEvent evt)
+	public static void onBreakBlock(BlockEvent.BreakEvent evt)
 	{
 		Player player = evt.getPlayer();
 
