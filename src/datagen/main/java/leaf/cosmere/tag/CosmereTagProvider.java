@@ -66,7 +66,7 @@ public class CosmereTagProvider extends BaseTagProvider
 		for (Metals.MetalType metalType : Metals.MetalType.values())
 		{
 
-			if (metalType.hasMaterialItem())
+			if (metalType.hasMaterialItem() && metalType != Metals.MetalType.COPPER)
 			{
 				MetalIngotItem ingotItem = ItemsRegistry.METAL_INGOTS.get(metalType).asItem();
 
@@ -95,6 +95,19 @@ public class CosmereTagProvider extends BaseTagProvider
 
 			}
 
+			// copper needs a nugget
+			if (metalType == Metals.MetalType.COPPER)
+			{
+				//tell the nuggets that our nugget tags are part of them
+				final TagKey<Item> metalNuggetTag = metalType.getMetalNuggetTag();
+				getItemBuilder(Tags.Items.NUGGETS).add(metalNuggetTag);
+
+				// tell the Nugget that our Nuggets are related
+				Item nuggetItem = ItemsRegistry.METAL_NUGGETS.get(metalType).asItem();
+
+				addToTag(metalNuggetTag, nuggetItem);
+			}
+
 			if (metalType.hasOre())
 			{
 				Item item = ItemsRegistry.METAL_RAW_ORE.get(metalType).asItem();
@@ -119,7 +132,7 @@ public class CosmereTagProvider extends BaseTagProvider
 
 		for (Metals.MetalType metalType : Metals.MetalType.values())
 		{
-			if (!metalType.hasMaterialItem())
+			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
 				continue;
 			}
@@ -172,7 +185,7 @@ public class CosmereTagProvider extends BaseTagProvider
 
 		for (Metals.MetalType metalType : Metals.MetalType.values())
 		{
-			if (!metalType.hasMaterialItem())
+			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
 				continue;
 			}

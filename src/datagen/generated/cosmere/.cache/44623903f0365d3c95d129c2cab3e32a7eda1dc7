@@ -1,4 +1,4 @@
-// 1.20.1	2024-10-09T13:22:13.1407708	Block States: cosmere
+// 1.20.1	2024-11-04T18:26:44.0754925	Block States: cosmere
 83677ec98e79601ff5abf2788a2f9c319357aa1f assets/cosmere/blockstates/aluminum_block.json
 9f961b21bd6cd2168f09c80b16a4607806b79816 assets/cosmere/blockstates/aluminum_ore.json
 83677ec98e79601ff5abf2788a2f9c319357aa1f assets/cosmere/blockstates/atium_block.json
@@ -9,7 +9,6 @@
 9f961b21bd6cd2168f09c80b16a4607806b79816 assets/cosmere/blockstates/cadmium_ore.json
 83677ec98e79601ff5abf2788a2f9c319357aa1f assets/cosmere/blockstates/chromium_block.json
 9f961b21bd6cd2168f09c80b16a4607806b79816 assets/cosmere/blockstates/chromium_ore.json
-83677ec98e79601ff5abf2788a2f9c319357aa1f assets/cosmere/blockstates/copper_block.json
 022f995a5e5c9e1566a84b469aa7af41a49a72ed assets/cosmere/blockstates/deepslate_aluminum_ore.json
 022f995a5e5c9e1566a84b469aa7af41a49a72ed assets/cosmere/blockstates/deepslate_cadmium_ore.json
 022f995a5e5c9e1566a84b469aa7af41a49a72ed assets/cosmere/blockstates/deepslate_chromium_ore.json
@@ -52,7 +51,6 @@ c14c73493fe0a8a50c4d52a9f5841c0325d906cc assets/cosmere/models/item/cadmium_bloc
 bd34edaadf4c9747cc8e3d5f20cfec29d929487d assets/cosmere/models/item/cadmium_ore.json
 c14c73493fe0a8a50c4d52a9f5841c0325d906cc assets/cosmere/models/item/chromium_block.json
 bd34edaadf4c9747cc8e3d5f20cfec29d929487d assets/cosmere/models/item/chromium_ore.json
-c14c73493fe0a8a50c4d52a9f5841c0325d906cc assets/cosmere/models/item/copper_block.json
 a9fbd523e19adaa83060b8323cdcaf80b760967d assets/cosmere/models/item/deepslate_aluminum_ore.json
 a9fbd523e19adaa83060b8323cdcaf80b760967d assets/cosmere/models/item/deepslate_cadmium_ore.json
 a9fbd523e19adaa83060b8323cdcaf80b760967d assets/cosmere/models/item/deepslate_chromium_ore.json

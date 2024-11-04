@@ -84,19 +84,21 @@ public class EngLangGen extends LanguageProvider
 		//work through each metal and generate localisation for related things.
 		for (Metals.MetalType metalType : Metals.MetalType.values())
 		{
-			//if a vanilla metal, like iron/gold
-			if (!metalType.hasMaterialItem())
+			//if a vanilla metal, like iron/gold/copper
+			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
 				final String name = metalType.getName();
 				//add(item.getDescriptionId(), localisedString);
-				final String n = name + "_nugget";
+				if (metalType != Metals.MetalType.COPPER)       // copper specifically has no vanilla nugget, and so we have already made this key
+				{
+					final String n = name + "_nugget";
+					add("item.cosmere." + n, StringHelper.fixCapitalisation(n));
+				}
 				final String i = name + "_ingot";
 				final String b = name + "_block";
-				add("item.cosmere." + n, StringHelper.fixCapitalisation(n));
 				add("item.cosmere." + i, StringHelper.fixCapitalisation(i));
 				add("item.cosmere." + b, StringHelper.fixCapitalisation(b));
 			}
-
 		}
 	}
 
