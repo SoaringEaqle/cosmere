@@ -1,4 +1,4 @@
-// 1.20.1	2024-11-03T19:40:11.1984442	Tags: cosmere
+// 1.20.1	2024-11-04T18:26:44.0674115	Tags: cosmere
 7e6f8b5d96792bb9046c5c1d332e4ba04dcade48 data/cosmere/tags/blocks/contains_metal.json
 29671cfa11d074462c259806e9d60468451e3cdb data/cosmere/tags/entity_types/contains_metal.json
 d0c886fa06555d83e6eb011a2ee98463827788e1 data/cosmere/tags/items/contains_metal.json
@@ -11,7 +11,7 @@ b020f6cdcd2d955793278b2f89a178a1d31e599a data/cosmere/tags/worldgen/biome/spawn_
 bf15df3859cfb24abdf9c50475ea436bb9527b90 data/forge/tags/blocks/ores/silver.json
 f6158edb21c3a84db0cab4708e1f0b053b84611c data/forge/tags/blocks/ores/tin.json
 a27c0172d736de07c8d51c7c2a4908565de80834 data/forge/tags/blocks/ores/zinc.json
-b7d064e2151d5cd1e9b8defadc782f142ae240d8 data/forge/tags/blocks/storage_blocks.json
+5ac052c5e6c3d60c719087891e3f2fa00220c040 data/forge/tags/blocks/storage_blocks.json
 9079d45393bba22e2b2061d1f6eb588c46ee7346 data/forge/tags/blocks/storage_blocks/aluminum.json
 8fe1f17a4eb16ada9285bedf30fb598edf113e5f data/forge/tags/blocks/storage_blocks/atium.json
 1eccb19f0c1fe5f19a6bdeaa14037aa8e7eeb959 data/forge/tags/blocks/storage_blocks/bendalloy.json
@@ -19,7 +19,6 @@ b7d064e2151d5cd1e9b8defadc782f142ae240d8 data/forge/tags/blocks/storage_blocks.j
 cb95af58ea489974ff1d66f2786c5ddfda52c789 data/forge/tags/blocks/storage_blocks/bronze.json
 3d56499024b4a14434474e46d8f2b69192d46ee2 data/forge/tags/blocks/storage_blocks/cadmium.json
 255ac6518c4487670978a4328e9863a36fee50d6 data/forge/tags/blocks/storage_blocks/chromium.json
-224bfdd99d8cf23d363de895c7ff1a97583bb023 data/forge/tags/blocks/storage_blocks/copper.json
 b41a04c1f7f5a9ee2c8de45c3ebdc092c1b5b274 data/forge/tags/blocks/storage_blocks/duralumin.json
 48a29eed7bc75b67c2c7545457c0e00f47268c5d data/forge/tags/blocks/storage_blocks/electrum.json
 90317483f1fa9a4fcb4e76bef622ea503b7f44f8 data/forge/tags/blocks/storage_blocks/harmonium.json
@@ -42,7 +41,7 @@ d3c6aea87270e6a14a81d073165dc4e68acc9368 data/forge/tags/items/dusts/electrum.js
 6b3f41494cbfbe11ad847477d7b719f25b767d99 data/forge/tags/items/dusts/nicrosil.json
 37fd2d6f6d310b25099a5e905249c0d008e4fbf4 data/forge/tags/items/dusts/pewter.json
 f225195803f1415a4b6ba68ff770bb67fa1e53d0 data/forge/tags/items/dusts/steel.json
-ce3d99ae4d8fcf46777f84066491153ea80d97a9 data/forge/tags/items/ingots.json
+3da8daa1bc9de8dbf391f92903bb6547b20de660 data/forge/tags/items/ingots.json
 45b26fa18eddb33ca9cb55959717696bbf61f818 data/forge/tags/items/ingots/aluminum.json
 a722ca59d260a3b0affcd7aff582c8d562bb6962 data/forge/tags/items/ingots/atium.json
 59cebf4da98b0a57a01d91e3180cee289595f0e0 data/forge/tags/items/ingots/bendalloy.json
@@ -50,7 +49,6 @@ a722ca59d260a3b0affcd7aff582c8d562bb6962 data/forge/tags/items/ingots/atium.json
 5e69bdc82871946f266ec4f246ea11337cd053b3 data/forge/tags/items/ingots/bronze.json
 c162b7f94f6ea2fc1a880e6c493424d1245ed683 data/forge/tags/items/ingots/cadmium.json
 0ba50a99c9244dfd4ef980a4ba60a07438625846 data/forge/tags/items/ingots/chromium.json
-4fc40de2f71167f6511fbe5d285a2feca298a76b data/forge/tags/items/ingots/copper.json
 071137605127d406546f7980f4b7796d83774313 data/forge/tags/items/ingots/duralumin.json
 cb3df3e788ecfdbc6114f2ab380972c995b803ba data/forge/tags/items/ingots/electrum.json
 a117d096b41c112406043a446078d0916d7da6b3 data/forge/tags/items/ingots/harmonium.json
@@ -96,7 +94,7 @@ a8ecda7d56fa1b838d47ed4d0c0423b85e8e81ce data/forge/tags/items/raw_materials/nic
 8f973b03988ae06d72f224704e6c69c28b68861e data/forge/tags/items/raw_materials/silver.json
 5399d4dc7d03dadbc0ff52718d2d1a53fcb27d0a data/forge/tags/items/raw_materials/tin.json
 ed48136c06f3a6a200f954e99ccef4dcece821b0 data/forge/tags/items/raw_materials/zinc.json
-b7d064e2151d5cd1e9b8defadc782f142ae240d8 data/forge/tags/items/storage_blocks.json
+5ac052c5e6c3d60c719087891e3f2fa00220c040 data/forge/tags/items/storage_blocks.json
 9079d45393bba22e2b2061d1f6eb588c46ee7346 data/forge/tags/items/storage_blocks/aluminum.json
 8fe1f17a4eb16ada9285bedf30fb598edf113e5f data/forge/tags/items/storage_blocks/atium.json
 1eccb19f0c1fe5f19a6bdeaa14037aa8e7eeb959 data/forge/tags/items/storage_blocks/bendalloy.json
@@ -104,7 +102,6 @@ b7d064e2151d5cd1e9b8defadc782f142ae240d8 data/forge/tags/items/storage_blocks.js
 cb95af58ea489974ff1d66f2786c5ddfda52c789 data/forge/tags/items/storage_blocks/bronze.json
 3d56499024b4a14434474e46d8f2b69192d46ee2 data/forge/tags/items/storage_blocks/cadmium.json
 255ac6518c4487670978a4328e9863a36fee50d6 data/forge/tags/items/storage_blocks/chromium.json
-224bfdd99d8cf23d363de895c7ff1a97583bb023 data/forge/tags/items/storage_blocks/copper.json
 b41a04c1f7f5a9ee2c8de45c3ebdc092c1b5b274 data/forge/tags/items/storage_blocks/duralumin.json
 48a29eed7bc75b67c2c7545457c0e00f47268c5d data/forge/tags/items/storage_blocks/electrum.json
 90317483f1fa9a4fcb4e76bef622ea503b7f44f8 data/forge/tags/items/storage_blocks/harmonium.json
@@ -119,10 +116,10 @@ b41a04c1f7f5a9ee2c8de45c3ebdc092c1b5b274 data/forge/tags/items/storage_blocks/du
 111cd9089f8b7afe88830102207124d8648b7039 data/forge/tags/items/storage_blocks/steel.json
 ba66a11a92fb155d8de179f3a24e01ea3a763255 data/forge/tags/items/storage_blocks/tin.json
 15f37fc42e91a2576f74d58e17e68ec24def1505 data/forge/tags/items/storage_blocks/zinc.json
-b7d064e2151d5cd1e9b8defadc782f142ae240d8 data/minecraft/tags/blocks/beacon_base_blocks.json
+5ac052c5e6c3d60c719087891e3f2fa00220c040 data/minecraft/tags/blocks/beacon_base_blocks.json
 d3a86f2ebc65cb1002d7b7bf25b64d7716ca748c data/minecraft/tags/blocks/mineable/axe.json
-b1a303c42d404ef8fcce687b447a375205c62729 data/minecraft/tags/blocks/mineable/pickaxe.json
-856989bd55316d86fc143d02386ba36eaa744d26 data/minecraft/tags/blocks/needs_iron_tool.json
+aa1455f74d106d8636e039dcd11b9f364f603234 data/minecraft/tags/blocks/mineable/pickaxe.json
+acc52727279f24a6209e4fd41825c55ebf8db795 data/minecraft/tags/blocks/needs_iron_tool.json
 a392c38fde2e886f438ad7289b3cdec3ad7875f6 data/minecraft/tags/blocks/needs_stone_tool.json
 189ad22331d159102eee28a57ebe9bfee7ff8a46 data/minecraft/tags/game_events/vibrations.json
 189ad22331d159102eee28a57ebe9bfee7ff8a46 data/minecraft/tags/game_events/warden_can_listen.json

@@ -60,7 +60,7 @@ public class Metals
 		//Mental/Cognitive
 		ZINC(4, 2, 276, 16f, 0.5f, 12),
 		BRASS(5, 2, 142, 10f, 0f, 16),//alloy of zinc and copper 50/50 ?
-		COPPER(6, 2, 131, 9f, 2.0f, 32),
+		COPPER(6, 0, 0, 0, 0, 0),//ignore tier data
 		BRONZE(7, 2, 400, 8f, 1.8f, 16),//alloy of copper and tin? 3/1 ?
 
 		//Enhancement/spiritual
@@ -300,14 +300,14 @@ public class Metals
 		}
 
 		//Used for metals that exist in the base minecraft
-		//todo add copper in 1.18
+		//note: copper can't be here, too many exceptions
 		public boolean hasMaterialItem()
 		{
 			switch (this)
 			{
 				case IRON:
 				case GOLD:
-					//case COPPER:
+				//case COPPER:
 					return false;
 				default:
 					return true;

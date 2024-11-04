@@ -38,7 +38,7 @@ public class ToolsRecipeGen extends BaseRecipeProvider implements IConditionBuil
 		{
 			if (!metalType.hasMaterialItem())
 			{
-				return;
+				continue;
 			}
 
 			addPickaxeRecipe(consumer, ToolsItems.METAL_PICKAXES.get(metalType), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType));

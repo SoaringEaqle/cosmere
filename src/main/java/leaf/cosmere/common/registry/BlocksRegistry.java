@@ -33,7 +33,7 @@ public class BlocksRegistry
 
 	public static final Map<Metals.MetalType, BlockRegistryObject<MetalBlock, BlockItem>> METAL_BLOCKS =
 			Arrays.stream(Metals.MetalType.values())
-					.filter(Metals.MetalType::hasMaterialItem)
+					.filter(type -> type.hasMaterialItem() && type != Metals.MetalType.COPPER)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							metalType -> BLOCKS.registerWithRarity(

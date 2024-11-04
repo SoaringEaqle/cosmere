@@ -57,7 +57,7 @@ public class ItemsRegistry
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_NUGGETS =
 			Arrays.stream(Metals.MetalType.values())
-					.filter(Metals.MetalType::hasMaterialItem)
+					.filter(type -> type.hasMaterialItem() || type == Metals.MetalType.COPPER)      // I'm sorry for this Leaf :( >> Gerbagel
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -67,7 +67,7 @@ public class ItemsRegistry
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<MetalIngotItem>> METAL_INGOTS =
 			Arrays.stream(Metals.MetalType.values())
-					.filter(Metals.MetalType::hasMaterialItem)
+					.filter(type -> type.hasMaterialItem() && type != Metals.MetalType.COPPER)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
