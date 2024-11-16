@@ -5,13 +5,18 @@
 package leaf.cosmere.common.cap.entity;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.font.GlyphInfo;
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.shaders.Shader;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import leaf.cosmere.api.CosmereAPI;
+import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
+import leaf.cosmere.api.helpers.DrawHelper;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
@@ -21,11 +26,16 @@ import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
 import leaf.cosmere.common.registry.ManifestationRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -35,6 +45,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -43,10 +54,13 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /*
     "The actual outlet of the power is not chosen by the practitioner, but instead is hardwritten into their Spiritweb"
@@ -499,12 +513,88 @@ public class SpiritwebCapability implements ISpiritweb
 		int y = mainWindow.getGuiScaledHeight() / 5;
 
 		String stringToDraw = I18n.get(selectedManifestation.getTextComponent().getString());
-		gg.drawString(mc.font, stringToDraw, x + 18, y, 0xFF4444);
+		//gg.drawString(mc.font, stringToDraw, x + 18, y, 0xFF4444);
 
 		int mode = getMode(selectedManifestation);
 
 		String stringToDraw2 = "";
 
+		gg.pose().pushPose();
+		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+		Tesselator tesselator = Tesselator.getInstance();
+		BufferBuilder buffer = tesselator.getBuilder();
+		buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
+		int startX = 10;
+		int startY = 50;
+		int size = 40;
+
+		// draw square and manifestation icon
+		{
+			int color = 0xEE71797E;
+			//set first triangle
+			buffer.vertex(startX, startY, 0).color(color).endVertex();
+			buffer.vertex(startX, startY + size, 0).color(color).endVertex();
+			//set second triangle
+			buffer.vertex(startX + size, startY + size, 0).color(color).endVertex();
+			buffer.vertex(startX + size, startY, 0).color(color).endVertex();
+		}
+
+		tesselator.end();
+		gg.pose().popPose();
+
+		{
+			// icon
+			RenderSystem.setShader(GameRenderer::getPositionTexShader);
+			final StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.setLength(0);
+			String manifestationTypeName = selectedManifestation.getManifestationType().getName();
+			stringBuilder
+					.append("textures/icon/")
+					.append(manifestationTypeName)
+					.append("/");
+			switch (selectedManifestation.getManifestationType())
+			{
+				case ALLOMANCY:
+				case FERUCHEMY:
+					if (selectedManifestation instanceof IHasMetalType metalType)
+					{
+						stringBuilder.append(metalType.getMetalType().getName());
+					}
+					break;
+				case SURGEBINDING:
+					stringBuilder.append(selectedManifestation.getName());
+					break;
+				case AON_DOR:
+					break;
+				case AWAKENING:
+					break;
+			}
+			stringBuilder.append(".png");
+
+			final ResourceLocation textureLocation = new ResourceLocation(selectedManifestation.getRegistryName().getNamespace(), stringBuilder.toString());
+			RenderSystem.setShaderTexture(0, textureLocation);
+			int posX = startX + 4;
+			int posY = startY + 2;
+			if (selectedManifestation.getManifestationType() != Manifestations.ManifestationTypes.ALLOMANCY && selectedManifestation.getManifestationType() != Manifestations.ManifestationTypes.FERUCHEMY)
+			{
+				posX = startX + 2;
+			}
+			gg.blit(textureLocation,
+					posX,
+					posY,
+					size-4,
+					size-4,
+					0,
+					0,
+					18,
+					18,
+					18,
+					18);
+		}
+		RenderSystem.disableBlend();
 
 		//todo migrate drawing text to manifestation, this shouldn't be in main module.
 		if (selectedManifestation.getManifestationType() == Manifestations.ManifestationTypes.FERUCHEMY)
@@ -512,11 +602,11 @@ public class SpiritwebCapability implements ISpiritweb
 			//todo translations
 			if (mode < 0)
 			{
-				stringToDraw2 = "Mode: " + "Tapping " + mode;
+				stringToDraw2 = "T" + mode;
 			}
 			else if (mode > 0)
 			{
-				stringToDraw2 = "Mode: " + "Storing " + mode;
+				stringToDraw2 = "S" + mode;
 			}
 			else
 			{
@@ -530,19 +620,27 @@ public class SpiritwebCapability implements ISpiritweb
 
 			switch (mode)
 			{
-				case -2 -> rate = "Flared Compounding!";
-				case -1 -> rate = "Compounding";
-				default -> rate = "Off";
-				case 1 -> rate = "Burning";
-				case 2, 3 -> rate = "Flared!";//copper has a 3rd mode for only smoking self
+				case -2 -> rate = "CF";
+				case -1 -> rate = "C";
+				default -> rate = "";
+				case 1 -> rate = "B";
+				case 2, 3 -> rate = "F";//copper has a 3rd mode for only smoking self
 			}
-			stringToDraw2 = "Mode: " + rate;
+			stringToDraw2 = rate;
 		}
 
 		//todo translations
 		if (!stringToDraw2.isEmpty())
 		{
-			gg.drawString(mc.font, stringToDraw2, x + 18, y + 10, 0xFF4444);
+			int yOffset = (size / 2) - (stringToDraw2.length() * mc.font.lineHeight) / 2; // center the text vertically
+			for (char c : stringToDraw2.toCharArray())
+			{
+				if (c == '-')
+					c = '|';
+				int xOffset = mc.font.width(String.valueOf(c)) / 2 - 4;
+				gg.drawString(mc.font, String.valueOf(c), startX - xOffset, startY + yOffset, 0xFFFFFF);
+				yOffset += mc.font.lineHeight;
+			}
 		}
 	}
 
