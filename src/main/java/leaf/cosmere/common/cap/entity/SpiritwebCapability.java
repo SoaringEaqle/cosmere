@@ -38,6 +38,9 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
@@ -59,6 +62,7 @@ import org.lwjgl.opengl.GL11;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 
@@ -507,47 +511,69 @@ public class SpiritwebCapability implements ISpiritweb
 
 	public void renderSelectedHUD(GuiGraphics gg)
 	{
+		if (CosmereConfigs.CLIENT_CONFIG.disableSelectedManifestationHud.get())
+		{
+			return;
+		}
+
 		Minecraft mc = Minecraft.getInstance();
-		Window mainWindow = mc.getWindow();
-		int x = 10;
-		int y = mainWindow.getGuiScaledHeight() / 5;
+		int startX = 10;
+		int startY = 20;
+		int size = 40;
 
 		String stringToDraw = I18n.get(selectedManifestation.getTextComponent().getString());
-		//gg.drawString(mc.font, stringToDraw, x + 18, y, 0xFF4444);
+		int xOffset = -5;
+		float textScale = size / (float) (mc.font.width(stringToDraw) - 20);
+		gg.pose().pushPose();
+		gg.pose().scale(textScale, textScale, 1f);
+		gg.drawString(mc.font, stringToDraw, (int) ((startX + xOffset) / textScale), (int) ((startY + size + 5) / textScale), 0xFFFFFF);
+		gg.pose().popPose();
 
 		int mode = getMode(selectedManifestation);
 
 		String stringToDraw2 = "";
 
 		gg.pose().pushPose();
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		Tesselator tesselator = Tesselator.getInstance();
 		BufferBuilder buffer = tesselator.getBuilder();
-		buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
-		int startX = 10;
-		int startY = 50;
-		int size = 40;
+		// draw square
+		try {
+			final ResourceLocation textureLocation = new ResourceLocation(selectedManifestation.getRegistryName().getNamespace(), "textures/gui/hud_background.png");
+			mc.getResourceManager().getResourceOrThrow(textureLocation);
 
-		// draw square and manifestation icon
+			RenderSystem.setShaderTexture(0, textureLocation);
+			gg.blit(textureLocation,
+					startX,
+					startY,
+					size,
+					size,
+					0,
+					0,
+					18,
+					18,
+					18,
+					18);
+		}
+		catch (FileNotFoundException ex) // backup in case no texture
 		{
-			int color = 0xEE71797E;
+			RenderSystem.setShader(GameRenderer::getPositionColorShader);
+			buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+			int color = 0xCC000000;
 			//set first triangle
 			buffer.vertex(startX, startY, 0).color(color).endVertex();
 			buffer.vertex(startX, startY + size, 0).color(color).endVertex();
 			//set second triangle
 			buffer.vertex(startX + size, startY + size, 0).color(color).endVertex();
 			buffer.vertex(startX + size, startY, 0).color(color).endVertex();
+			tesselator.end();
 		}
 
-		tesselator.end();
-		gg.pose().popPose();
-
+		// draw manifestation icon
 		{
-			// icon
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			final StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.setLength(0);
 			String manifestationTypeName = selectedManifestation.getManifestationType().getName();
@@ -594,6 +620,27 @@ public class SpiritwebCapability implements ISpiritweb
 					18,
 					18);
 		}
+
+		// todo draw pentagon
+//		{
+//			int color = 0xCC000000;
+//			float centerX = (float) mc.getWindow().getGuiScaledWidth() /2;//startX + (float) size / 2;
+//			float centerY = (float) mc.getWindow().getGuiScaledHeight() /2;//startY + size + 10;
+//			float[][] pentagonVertices = calculatePentagonVertices(centerX, centerY, 40, 0.5f);
+//
+//			RenderSystem.setShader(GameRenderer::getPositionColorShader);
+//			buffer.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+//
+//			buffer.vertex(centerX, centerY, 0).color(color).endVertex(); // Center point for triangle fan
+//			for (float[] vertex : pentagonVertices)
+//			{
+//				buffer.vertex(vertex[0], vertex[1], 0).color(color).endVertex();
+//			}
+//			buffer.vertex(pentagonVertices[0][0], pentagonVertices[0][1], 0).color(color).endVertex();
+//			tesselator.end();
+//		}
+
+		gg.pose().popPose();
 		RenderSystem.disableBlend();
 
 		//todo migrate drawing text to manifestation, this shouldn't be in main module.
@@ -637,11 +684,28 @@ public class SpiritwebCapability implements ISpiritweb
 			{
 				if (c == '-')
 					c = '|';
-				int xOffset = mc.font.width(String.valueOf(c)) / 2 - 4;
+				xOffset = mc.font.width(String.valueOf(c)) / 2 - 4;
 				gg.drawString(mc.font, String.valueOf(c), startX - xOffset, startY + yOffset, 0xFFFFFF);
 				yOffset += mc.font.lineHeight;
 			}
 		}
+	}
+
+	static float[][] calculatePentagonVertices(float centerX, float centerY, float radius, float scaleY)
+	{
+//		for i in range(5):
+//		    angle = 2 * math.pi * i / 5  # Divide 360° into 5 angles (in radians)
+//		    x = cx + radius * math.cos(angle)
+//		    y = cy + radius * math.sin(angle)
+//		    vertices.append((x, y))
+//		return vertices
+		float[][] vertices = new float[5][2];
+		for (int i = 0; i < 5; i++) {
+			double angle = 2 * Math.PI * ((double) i / 5);
+			vertices[i][0] = centerX + (float) (radius * Math.cos(angle));
+			vertices[i][1] = centerY + (float) (radius * Math.sin(angle)); // Scale Y
+		}
+		return vertices;
 	}
 
 	@Override
