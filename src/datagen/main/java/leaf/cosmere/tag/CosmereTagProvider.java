@@ -1,5 +1,5 @@
 /*
- * File updated ~ 9 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.tag;
@@ -15,6 +15,7 @@ import leaf.cosmere.common.registry.BlocksRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import leaf.cosmere.common.resource.ore.OreBlockType;
+import leaf.cosmere.common.resource.ore.OreType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BiomeTags;
@@ -137,19 +138,6 @@ public class CosmereTagProvider extends BaseTagProvider
 				continue;
 			}
 
-			if (metalType.hasOre())
-			{
-				final OreBlockType oreBlockType = BlocksRegistry.METAL_ORE.get(metalType);
-
-				final TagKey<Block> oreBlockTag = CosmereTags.Blocks.METAL_ORE_BLOCK_TAGS.get(metalType);
-				addToTag(oreBlockTag, oreBlockType.stone(), oreBlockType.deepslate());
-
-				addToTag(BlockTags.NEEDS_STONE_TOOL, oreBlockType.stone());
-				addToTag(BlockTags.NEEDS_IRON_TOOL, oreBlockType.deepslate());
-
-				addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, oreBlockType.stone(), oreBlockType.deepslate());
-			}
-
 			//put metal type tag on block
 			final BlockRegistryObject<MetalBlock, BlockItem> metalBlock = BlocksRegistry.METAL_BLOCKS.get(metalType);
 
@@ -159,6 +147,20 @@ public class CosmereTagProvider extends BaseTagProvider
 
 			//put beacon tag on block
 			getBlockBuilder(BlockTags.BEACON_BASE_BLOCKS).add(metalBlockTag);
+		}
+
+		for (OreType oreType : OreType.values())
+		{
+			final Metals.MetalType metalType = oreType.getMetalType();
+			final OreBlockType oreBlockType = BlocksRegistry.METAL_ORE.get(oreType);
+
+			final TagKey<Block> oreBlockTag = CosmereTags.Blocks.METAL_ORE_BLOCK_TAGS.get(metalType);
+			addToTag(oreBlockTag, oreBlockType.stone(), oreBlockType.deepslate());
+
+			addToTag(BlockTags.NEEDS_STONE_TOOL, oreBlockType.stone());
+			addToTag(BlockTags.NEEDS_IRON_TOOL, oreBlockType.deepslate());
+
+			addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, oreBlockType.stone(), oreBlockType.deepslate());
 		}
 	}
 
