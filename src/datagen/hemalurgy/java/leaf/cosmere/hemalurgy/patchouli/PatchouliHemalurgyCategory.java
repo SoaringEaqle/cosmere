@@ -1,9 +1,10 @@
 /*
- * File updated ~ 18 - 9 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy.patchouli;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.patchouli.data.BookStuff;
 import leaf.cosmere.patchouli.data.PatchouliTextFormat;
@@ -82,7 +83,7 @@ public class PatchouliHemalurgyCategory
 		entries.add(Koloss);
 
 		//hemalurgy
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (!metalType.hasHemalurgicEffect())
 			{

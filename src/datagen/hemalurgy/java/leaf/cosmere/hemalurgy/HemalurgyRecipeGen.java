@@ -1,10 +1,11 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy;
 
 import leaf.cosmere.BaseRecipeProvider;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import leaf.cosmere.hemalurgy.common.Hemalurgy;
@@ -39,7 +40,7 @@ public class HemalurgyRecipeGen extends BaseRecipeProvider implements ICondition
 	{
 		addOreSmeltingRecipes(consumer, HemalurgyItems.METAL_SPIKE.get(Metals.MetalType.IRON), ItemsRegistry.GUIDE.get(), 1.0f, 200);
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			addSpikes(consumer, metalType);
 		}

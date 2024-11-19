@@ -4,6 +4,7 @@
 
 package leaf.cosmere.surgebinding.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.common.registration.impl.CreativeTabDeferredRegister;
 import leaf.cosmere.common.registration.impl.CreativeTabRegistryObject;
@@ -65,7 +66,7 @@ public class SurgebindingCreativeTabs
 		}
 		else if (tabKey == CreativeModeTabs.COMBAT)
 		{
-			for (var gemstone : Roshar.Gemstone.values())
+			for (var gemstone : EnumUtils.GEMSTONE_TYPES)
 			{
 				CreativeTabDeferredRegister.addToDisplay(event, SurgebindingItems.HONORBLADES.get(gemstone));
 			}
@@ -80,7 +81,7 @@ public class SurgebindingCreativeTabs
 		}
 		else if (tabKey == CreativeModeTabs.INGREDIENTS)
 		{
-			for (var gemstone : Roshar.Gemstone.values())
+			for (var gemstone : EnumUtils.GEMSTONE_TYPES)
 			{
 				CreativeTabDeferredRegister.addToDisplay(event, SurgebindingItems.GEMSTONE_CHIPS.get(gemstone));
 				CreativeTabDeferredRegister.addToDisplay(event, SurgebindingItems.GEMSTONE_MARKS.get(gemstone));

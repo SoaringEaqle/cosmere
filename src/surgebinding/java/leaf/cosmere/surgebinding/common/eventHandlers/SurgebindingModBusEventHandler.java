@@ -1,9 +1,10 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.eventHandlers;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.entity.Chull;
@@ -25,7 +26,7 @@ public class SurgebindingModBusEventHandler
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onEntityAttributeModificationEvent(EntityAttributeModificationEvent event)
 	{
-		for (Roshar.Surges surge : Roshar.Surges.values())
+		for (Roshar.Surges surge : EnumUtils.SURGES)
 		{
 			event.add(EntityType.PLAYER, SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(surge).getAttribute());
 		}

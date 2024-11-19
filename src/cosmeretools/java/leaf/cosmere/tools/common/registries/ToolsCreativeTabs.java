@@ -1,10 +1,10 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.tools.common.registries;
 
-import leaf.cosmere.api.Metals;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.common.registration.impl.CreativeTabDeferredRegister;
 import leaf.cosmere.common.registration.impl.CreativeTabRegistryObject;
 import leaf.cosmere.tools.common.CosmereTools;
@@ -61,7 +61,7 @@ public class ToolsCreativeTabs
 		}
 		else if (tabKey == CreativeModeTabs.TOOLS_AND_UTILITIES)
 		{
-			for (var metalType : Metals.MetalType.values())
+			for (var metalType : EnumUtils.METAL_TYPES)
 			{
 				if (!metalType.hasMaterialItem())
 				{
@@ -76,7 +76,7 @@ public class ToolsCreativeTabs
 		}
 		else if (tabKey == CreativeModeTabs.COMBAT)
 		{
-			for (var metalType : Metals.MetalType.values())
+			for (var metalType : EnumUtils.METAL_TYPES)
 			{
 				if (!metalType.hasMaterialItem())
 				{

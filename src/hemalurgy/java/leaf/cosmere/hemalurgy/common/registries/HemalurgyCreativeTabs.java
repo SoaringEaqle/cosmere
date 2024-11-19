@@ -1,9 +1,10 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registration.impl.CreativeTabDeferredRegister;
 import leaf.cosmere.common.registration.impl.CreativeTabRegistryObject;
@@ -82,7 +83,7 @@ public class HemalurgyCreativeTabs
 
 	private static void addFilledSpikes(CreativeModeTab.Output output)
 	{
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasHemalurgicEffect())
 			{

@@ -1,10 +1,11 @@
 /*
- * File updated ~ 8 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy;
 
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.hemalurgy.common.Hemalurgy;
 import leaf.cosmere.hemalurgy.common.items.HemalurgicSpikeItem;
@@ -27,7 +28,7 @@ public class HemalurgyTagsProvider extends BaseTagProvider
 	@Override
 	protected void registerTags(HolderLookup.Provider registries)
 	{
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasHemalurgicEffect())
 			{

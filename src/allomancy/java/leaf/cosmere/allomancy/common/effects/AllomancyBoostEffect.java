@@ -1,11 +1,12 @@
 /*
- * File updated ~ 8 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.effects;
 
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
 import leaf.cosmere.allomancy.common.registries.AllomancyAttributes;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
@@ -18,7 +19,7 @@ public class AllomancyBoostEffect extends CosmereEffect
 	{
 		super();
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasAssociatedManifestation() && AllomancyAttributes.ALLOMANCY_ATTRIBUTES.containsKey(metalType))
 			{
@@ -47,7 +48,7 @@ public class AllomancyBoostEffect extends CosmereEffect
 
 		AllomancySpiritwebSubmodule allo = AllomancySpiritwebSubmodule.getSubmodule(data);
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (!metalType.hasAssociatedManifestation() || metalType == Metals.MetalType.DURALUMIN)
 			{

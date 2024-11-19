@@ -1,9 +1,10 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.common.registration.impl.ManifestationDeferredRegister;
@@ -22,7 +23,7 @@ public class SurgebindingManifestations
 
 
 	public static final Map<Roshar.Surges, ManifestationRegistryObject<Manifestation>> SURGEBINDING_POWERS =
-			Arrays.stream(Roshar.Surges.values())
+			Arrays.stream(EnumUtils.SURGES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							surge ->
@@ -35,17 +36,17 @@ public class SurgebindingManifestations
 	private static SurgebindingManifestation makeSurgebindingManifestation(Roshar.Surges surge)
 	{
 		return switch (surge)
-				{
-					case ADHESION -> new SurgeAdhesion(surge);
-					case GRAVITATION -> new SurgeGravitation(surge);
-					case DIVISION -> new SurgeDivision(surge);
-					case ABRASION -> new SurgeAbrasion(surge);
-					case PROGRESSION -> new SurgeProgression(surge);
-					case ILLUMINATION -> new SurgeIllumination(surge);
-					case TRANSFORMATION -> new SurgeTransformation(surge);
-					case TRANSPORTATION -> new SurgeTransportation(surge);
-					case COHESION -> new SurgeCohesion(surge);
-					case TENSION -> new SurgeTension(surge);
-				};
+		{
+			case ADHESION -> new SurgeAdhesion(surge);
+			case GRAVITATION -> new SurgeGravitation(surge);
+			case DIVISION -> new SurgeDivision(surge);
+			case ABRASION -> new SurgeAbrasion(surge);
+			case PROGRESSION -> new SurgeProgression(surge);
+			case ILLUMINATION -> new SurgeIllumination(surge);
+			case TRANSFORMATION -> new SurgeTransformation(surge);
+			case TRANSPORTATION -> new SurgeTransportation(surge);
+			case COHESION -> new SurgeCohesion(surge);
+			case TENSION -> new SurgeTension(surge);
+		};
 	}
 }

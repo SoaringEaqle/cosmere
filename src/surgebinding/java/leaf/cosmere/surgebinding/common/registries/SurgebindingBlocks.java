@@ -6,6 +6,7 @@ package leaf.cosmere.surgebinding.common.registries;
 
 import com.google.common.collect.ImmutableList;
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.common.registration.impl.BlockDeferredRegister;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
@@ -24,7 +25,7 @@ public class SurgebindingBlocks
 	public static final BlockDeferredRegister BLOCKS = new BlockDeferredRegister(Surgebinding.MODID);
 
 	public static final Map<Roshar.Gemstone, BlockRegistryObject<GemBlock, BlockItem>> GEM_BLOCKS =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							gemstone -> BLOCKS.registerWithRarity(
@@ -33,7 +34,7 @@ public class SurgebindingBlocks
 									Rarity.UNCOMMON)));
 
 /*	public static final Map<Roshar.Gemstone, BlockRegistryObject<GemOreBlock, BlockItem>> GEM_ORE =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							gemstone -> BLOCKS.registerWithRarity(
@@ -42,7 +43,7 @@ public class SurgebindingBlocks
 									Rarity.UNCOMMON)));
 
 	public static final Map<Roshar.Gemstone, BlockRegistryObject<GemOreBlock, BlockItem>> GEM_ORE_DEEPSLATE =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							gemstone -> BLOCKS.registerWithRarity(

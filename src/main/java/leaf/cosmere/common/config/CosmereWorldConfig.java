@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import leaf.cosmere.common.resource.ore.BaseOreConfig;
 import leaf.cosmere.common.resource.ore.OreType;
+import leaf.cosmere.common.util.CosmereEnumUtils;
 import leaf.cosmere.common.world.height.ConfigurableHeightRange;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -31,7 +32,7 @@ public class CosmereWorldConfig implements ICosmereConfig
 		builder.comment("World generation settings for Cosmere. This config is synced from server to client")
 				.push("world_generation");
 
-		for (OreType ore : OreType.values())
+		for (OreType ore : CosmereEnumUtils.ORE_TYPES)
 		{
 			ores.put(ore, new OreConfig(builder, ore));
 		}
@@ -128,7 +129,7 @@ public class CosmereWorldConfig implements ICosmereConfig
 	@Override
 	public void clearCache()
 	{
-		for (OreType ore : OreType.values())
+		for (OreType ore : CosmereEnumUtils.ORE_TYPES)
 		{
 			final OreConfig oreConfig = ores.get(ore);
 			oreConfig.shouldGenerate.clearCache();

@@ -4,7 +4,7 @@
 
 package leaf.cosmere.surgebinding.loottables;
 
-import leaf.cosmere.api.Roshar;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.loottables.BaseEntityLootTables;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingEntityTypes;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
@@ -32,7 +32,7 @@ public class SurgebindingEntityLootTableGen extends BaseEntityLootTables
 
 		//gems aren't guaranteed to drop, generally.
 		//The concept that the gems may be damaged while fighting or harvesting.
-		for (var gemType : Roshar.Gemstone.values())
+		for (var gemType : EnumUtils.GEMSTONE_TYPES)
 		{
 			lootPool.add(
 					LootItem.lootTableItem(SurgebindingItems.GEMSTONE_BROAMS.get(gemType))

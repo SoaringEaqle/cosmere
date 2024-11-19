@@ -1,5 +1,5 @@
 /*
- * File updated ~ 7 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.client.eventHandlers;
@@ -72,7 +72,7 @@ public class AllomancyModClientEvents
 
 		event.addSprite(Allomancy.rl("icon/allomancy"));
 
-		for (final Metals.MetalType metalType : Metals.MetalType.values())
+		for (final Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (!metalType.hasAssociatedManifestation())
 			{

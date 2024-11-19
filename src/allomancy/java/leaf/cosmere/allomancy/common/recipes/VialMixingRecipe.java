@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.recipes;
@@ -8,6 +8,7 @@ import leaf.cosmere.allomancy.common.Allomancy;
 import leaf.cosmere.allomancy.common.items.MetalVialItem;
 import leaf.cosmere.allomancy.common.registries.AllomancyItems;
 import leaf.cosmere.allomancy.common.registries.AllomancyRecipes;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -101,7 +102,7 @@ public class VialMixingRecipe extends CustomRecipe
 
 	private Optional<TagKey<Item>> testForViableNugget(ItemStack stack)
 	{
-		for (Metals.MetalType value : Metals.MetalType.values())
+		for (Metals.MetalType value : EnumUtils.METAL_TYPES)
 		{
 			TagKey<Item> metalNuggetTag = value.getMetalNuggetTag();
 			if (stack.is(metalNuggetTag))
@@ -130,7 +131,7 @@ public class VialMixingRecipe extends CustomRecipe
 
 			if (stackInSlot.is(Tags.Items.NUGGETS))
 			{
-				for (Metals.MetalType metalType : Metals.MetalType.values())
+				for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 				{
 					if (stackInSlot.is(metalType.getMetalNuggetTag()))
 					{

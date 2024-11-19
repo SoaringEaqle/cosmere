@@ -17,6 +17,7 @@ import leaf.cosmere.common.registry.FeatureRegistry;
 import leaf.cosmere.common.resource.ore.OreBlockType;
 import leaf.cosmere.common.resource.ore.OreType;
 import leaf.cosmere.common.resource.ore.OreType.OreVeinType;
+import leaf.cosmere.common.util.CosmereEnumUtils;
 import leaf.cosmere.common.world.ConfigurableConstantInt;
 import leaf.cosmere.common.world.ResizableOreFeature;
 import leaf.cosmere.common.world.ResizableOreFeatureConfig;
@@ -83,7 +84,7 @@ public class CosmereDatapackRegistryProvider extends BaseDatapackRegistryProvide
 	private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
 			.add(Registries.CONFIGURED_FEATURE, context ->
 			{
-				for (OreType type : OreType.values())
+				for (OreType type : CosmereEnumUtils.ORE_TYPES)
 				{
 					int features = type.getBaseConfigs().size();
 					for (int vein = 0; vein < features; vein++)
@@ -96,7 +97,7 @@ public class CosmereDatapackRegistryProvider extends BaseDatapackRegistryProvide
 			})
 			.add(Registries.PLACED_FEATURE, context ->
 			{
-				for (OreType type : OreType.values())
+				for (OreType type : CosmereEnumUtils.ORE_TYPES)
 				{
 					int features = type.getBaseConfigs().size();
 					for (int vein = 0; vein < features; vein++)
@@ -117,7 +118,7 @@ public class CosmereDatapackRegistryProvider extends BaseDatapackRegistryProvide
 			{
 				HolderSet.Named<Biome> isTaggedCanSpawnOres = context.lookup(Registries.BIOME).getOrThrow(CosmereTags.Biomes.SPAWN_ORES);
 				HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
-				for (OreType type : OreType.values())
+				for (OreType type : CosmereEnumUtils.ORE_TYPES)
 				{
 					int features = type.getBaseConfigs().size();
 					List<Holder.Reference<PlacedFeature>> placedVeins = new ArrayList<>(features);

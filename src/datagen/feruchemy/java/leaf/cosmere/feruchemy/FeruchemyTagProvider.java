@@ -1,10 +1,11 @@
 /*
- * File updated ~ 8 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy;
 
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.feruchemy.common.Feruchemy;
 import leaf.cosmere.feruchemy.common.registries.FeruchemyItems;
@@ -30,7 +31,7 @@ public class FeruchemyTagProvider extends BaseTagProvider
 
 		getItemBuilder(CosmereTags.Items.CURIO_BRACELET).add(FeruchemyItems.BANDS_OF_MOURNING.get());
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasFeruchemicalEffect())
 			{
