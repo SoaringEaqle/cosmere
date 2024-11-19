@@ -511,7 +511,7 @@ public class SpiritwebCapability implements ISpiritweb
 
 	public void renderSelectedHUD(GuiGraphics gg)
 	{
-		if (CosmereConfigs.CLIENT_CONFIG.disableSelectedManifestationHud.get())
+		if (CosmereConfigs.CLIENT_CONFIG.disableSelectedManifestationHud.get() || selectedManifestation.getManifestationType() == Manifestations.ManifestationTypes.NONE)
 		{
 			return;
 		}
