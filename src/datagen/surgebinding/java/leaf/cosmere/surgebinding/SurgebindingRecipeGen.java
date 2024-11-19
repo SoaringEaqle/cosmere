@@ -1,11 +1,12 @@
 /*
- * File updated ~ 9 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding;
 
 import leaf.cosmere.BaseRecipeProvider;
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingBlocks;
@@ -34,7 +35,7 @@ public class SurgebindingRecipeGen extends BaseRecipeProvider implements ICondit
 	@Override
 	protected void addRecipes(Consumer<FinishedRecipe> consumer)
 	{
-		for (Roshar.Gemstone gemstone : Roshar.Gemstone.values())
+		for (Roshar.Gemstone gemstone : EnumUtils.GEMSTONE_TYPES)
 		{
 			compressRecipe(SurgebindingBlocks.GEM_BLOCKS.get(gemstone).getBlock(), CosmereTags.Items.GEM_TAGS.get(gemstone), SurgebindingItems.GEMSTONE_BROAMS.get(gemstone)).save(consumer);
 			decompressRecipe(consumer, SurgebindingItems.GEMSTONE_BROAMS.get(gemstone).get(), SurgebindingBlocks.GEM_BLOCKS.get(gemstone), gemstone.getName() + "_block_deconstruct");

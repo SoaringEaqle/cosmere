@@ -1,9 +1,10 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.tools.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registration.impl.ItemDeferredRegister;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
@@ -24,7 +25,7 @@ public class ToolsItems
 	public static final Supplier<Item.Properties> TOOL = () -> new Item.Properties();
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_PICKAXES =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -39,7 +40,7 @@ public class ToolsItems
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_AXES =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -55,7 +56,7 @@ public class ToolsItems
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_SHOVEL =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -71,7 +72,7 @@ public class ToolsItems
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_HOE =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -87,7 +88,7 @@ public class ToolsItems
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_SWORDS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -103,7 +104,7 @@ public class ToolsItems
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_HELMETS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -114,7 +115,7 @@ public class ToolsItems
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_CHESTPLATES =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -125,7 +126,7 @@ public class ToolsItems
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_LEGGINGS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -136,7 +137,7 @@ public class ToolsItems
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_BOOTS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasMaterialItem)
 					.collect(Collectors.toMap(
 							Function.identity(),

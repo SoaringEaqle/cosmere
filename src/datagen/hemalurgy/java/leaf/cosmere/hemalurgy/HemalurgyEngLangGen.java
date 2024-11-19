@@ -1,10 +1,11 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy;
 
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IEntityTypeProvider;
@@ -96,7 +97,7 @@ public class HemalurgyEngLangGen extends LanguageProvider
 	private void addPatchouli()
 	{
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			final String name = metalType.getName();
 			String hKey = "hemalurgic_" + name;

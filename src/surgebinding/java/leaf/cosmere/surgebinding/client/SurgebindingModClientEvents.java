@@ -1,5 +1,5 @@
 /*
- * File updated ~ 7 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.client;
@@ -50,26 +50,5 @@ public class SurgebindingModClientEvents
 
 		CosmereAPI.logger.info("Surgebinding client setup complete!");
 	}
-
-
-	/* todo - re setup power icon registration
-	//special thank you to the chisels and bits team who have an example of how to register other sprites
-	@SubscribeEvent
-	public static void registerIconTextures(TextureStitchEvent.Pre event)
-	{
-		final TextureAtlas map = event.getAtlas();
-		if (!map.location().equals(InventoryMenu.BLOCK_ATLAS))
-		{
-			return;
-		}
-
-		event.addSprite(Surgebinding.rl("icon/surgebinding"));
-
-		for (final Roshar.Surges surge : Roshar.Surges.values())
-		{
-			String toLowerCase = surge.toString().toLowerCase(Locale.ROOT);
-			event.addSprite(Surgebinding.rl("icon/surgebinding/" + toLowerCase));
-		}
-	}*/
 
 }

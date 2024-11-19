@@ -1,10 +1,11 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.registries;
 
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.common.properties.PropTypes;
 import leaf.cosmere.common.registration.impl.ItemDeferredRegister;
@@ -43,7 +44,7 @@ public class SurgebindingItems
 
 
 	public static final Map<Roshar.Gemstone, ItemRegistryObject<HonorbladeItem>> HONORBLADES =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -53,7 +54,7 @@ public class SurgebindingItems
 
 
 	public static final Map<Roshar.Gemstone, ItemRegistryObject<GemstoneItem>> GEMSTONE_CHIPS =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -63,7 +64,7 @@ public class SurgebindingItems
 
 
 	public static final Map<Roshar.Gemstone, ItemRegistryObject<GemstoneItem>> GEMSTONE_MARKS =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -73,7 +74,7 @@ public class SurgebindingItems
 
 
 	public static final Map<Roshar.Gemstone, ItemRegistryObject<GemstoneItem>> GEMSTONE_BROAMS =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.capabilities;
@@ -27,6 +27,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	//stormlight stored
 
 	private int stormlightStored = 0;
+
+	//a little ew, I'd rather this in an enum utils, but it's the only place that needs it
+	public static final ShardplateArmorMaterial[] ARMOR_MATERIALS = ShardplateArmorMaterial.values();
 
 
 	@Override
@@ -111,7 +114,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 			if (Stream.of(helmet, breastplate, leggings, boots).allMatch(armorStack -> !armorStack.isEmpty() && armorStack.getItem() instanceof ArmorItem))
 			{
 				//check armor matches same material
-				for (ShardplateArmorMaterial material : ShardplateArmorMaterial.values())
+				for (ShardplateArmorMaterial material : ARMOR_MATERIALS)
 				{
 					if (Stream.of(helmet, breastplate, leggings, boots).allMatch((armorStack -> ((ArmorItem) armorStack.getItem()).getMaterial() == material)))
 					{

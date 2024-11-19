@@ -1,10 +1,11 @@
 /*
- * File updated ~ 29 - 2 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.registries;
 
 import leaf.cosmere.allomancy.common.Allomancy;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registration.impl.AttributeDeferredRegister;
 import leaf.cosmere.common.registration.impl.AttributeRegistryObject;
@@ -20,7 +21,7 @@ public class AllomancyAttributes
 	public static final AttributeDeferredRegister ATTRIBUTES = new AttributeDeferredRegister(Allomancy.MODID);
 
 	public static final Map<Metals.MetalType, AttributeRegistryObject<Attribute>> ALLOMANCY_ATTRIBUTES =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(metalType -> metalType != Metals.MetalType.ATIUM && metalType.hasAssociatedManifestation())
 					.collect(Collectors.toMap(
 							Function.identity(),

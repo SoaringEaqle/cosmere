@@ -1,11 +1,12 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.tools;
 
 import leaf.cosmere.BaseRecipeProvider;
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.tools.common.CosmereTools;
 import leaf.cosmere.tools.common.registries.ToolsItems;
@@ -34,7 +35,7 @@ public class ToolsRecipeGen extends BaseRecipeProvider implements IConditionBuil
 	protected void addRecipes(Consumer<FinishedRecipe> consumer)
 	{
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (!metalType.hasMaterialItem())
 			{

@@ -1,11 +1,12 @@
 /*
- * File updated ~ 9 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding;
 
 import com.google.common.collect.ImmutableList;
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
@@ -60,7 +61,7 @@ public class SurgebindingTagsProvider extends BaseTagProvider
 
 	private void addItems()
 	{
-		for (Roshar.Gemstone gemstone : Roshar.Gemstone.values())
+		for (Roshar.Gemstone gemstone : EnumUtils.GEMSTONE_TYPES)
 		{
 			final ItemRegistryObject<GemstoneItem> broamItem = SurgebindingItems.GEMSTONE_BROAMS.get(gemstone);
 
@@ -75,7 +76,7 @@ public class SurgebindingTagsProvider extends BaseTagProvider
 
 	private void addBlocks()
 	{
-		for (Roshar.Gemstone gemstone : Roshar.Gemstone.values())
+		for (Roshar.Gemstone gemstone : EnumUtils.GEMSTONE_TYPES)
 		{
 			final BlockRegistryObject<GemBlock, BlockItem> gemBlock = SurgebindingBlocks.GEM_BLOCKS.get(gemstone);
 			//final BlockRegistryObject<GemOreBlock, BlockItem> gemOre = SurgebindingBlocks.GEM_ORE.get(gemstone);
@@ -107,7 +108,7 @@ public class SurgebindingTagsProvider extends BaseTagProvider
 		final IntrinsicCosmereTagBuilder<Item> itemBuilder = getItemBuilder(Tags.Items.STORAGE_BLOCKS);
 		final IntrinsicCosmereTagBuilder<Block> blockBuilder = getBlockBuilder(Tags.Blocks.STORAGE_BLOCKS);
 
-		for (Roshar.Gemstone gemstone : Roshar.Gemstone.values())
+		for (Roshar.Gemstone gemstone : EnumUtils.GEMSTONE_TYPES)
 		{
 			final TagKey<Item> storageBlockItemTag = CosmereTags.Items.GEM_BLOCK_ITEM_TAGS.get(gemstone);
 			final TagKey<Block> storageBlockTag = CosmereTags.Blocks.GEM_BLOCK_TAGS.get(gemstone);

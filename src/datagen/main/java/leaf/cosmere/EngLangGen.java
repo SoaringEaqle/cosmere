@@ -1,9 +1,10 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IAttributeProvider;
@@ -82,7 +83,7 @@ public class EngLangGen extends LanguageProvider
 
 
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			//if a vanilla metal, like iron/gold/copper
 			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)

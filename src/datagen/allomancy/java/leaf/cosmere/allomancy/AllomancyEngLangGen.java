@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy;
@@ -10,6 +10,7 @@ import leaf.cosmere.allomancy.common.registries.AllomancyAttributes;
 import leaf.cosmere.allomancy.common.registries.AllomancyEffects;
 import leaf.cosmere.allomancy.common.registries.AllomancyEntityTypes;
 import leaf.cosmere.allomancy.common.registries.AllomancyManifestations;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.RegistryHelper;
@@ -129,7 +130,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 
 
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasAssociatedManifestation())
 			{
@@ -158,7 +159,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 	private void addPatchouli()
 	{
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			final String name = metalType.getName();
 			final String mistingName = metalType.getMistingName();
@@ -227,7 +228,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 	private void addStats()
 	{
 		//stats
-		Arrays.stream(Metals.MetalType.values())
+		Arrays.stream(EnumUtils.METAL_TYPES)
 				.filter(Metals.MetalType::hasAssociatedManifestation).forEach(metalType ->
 						add(
 								"stat.minecraft.time_since_started_burning_" + metalType.getName(),

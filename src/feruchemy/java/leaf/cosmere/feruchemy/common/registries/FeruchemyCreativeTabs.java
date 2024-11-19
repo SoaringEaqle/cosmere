@@ -1,9 +1,10 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registration.impl.CreativeTabDeferredRegister;
 import leaf.cosmere.common.registration.impl.CreativeTabRegistryObject;
@@ -40,7 +41,7 @@ public class FeruchemyCreativeTabs
 
 		//I don't like the multiple for loops,
 		// but this is how we have them ordered nicely in the creative menu
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasFeruchemicalEffect())
 			{
@@ -48,7 +49,7 @@ public class FeruchemyCreativeTabs
 				item.addFilled(output);
 			}
 		}
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasFeruchemicalEffect())
 			{
@@ -56,7 +57,7 @@ public class FeruchemyCreativeTabs
 				item.addFilled(output);
 			}
 		}
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasFeruchemicalEffect())
 			{

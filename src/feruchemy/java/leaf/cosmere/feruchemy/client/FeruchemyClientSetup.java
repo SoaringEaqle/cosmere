@@ -1,5 +1,5 @@
 /*
- * File updated ~ 7 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.client;
@@ -34,28 +34,4 @@ public class FeruchemyClientSetup
 		CosmereAPI.logger.info("Feruchemy client setup complete!");
 	}
 
-	/* todo - re setup power icon registration
-	//special thank you to the chisels and bits team who have an example of how to register other sprites
-	@SubscribeEvent
-	public static void registerIconTextures(TextureStitchEvent.Pre event)
-	{
-		final TextureAtlas map = event.getAtlas();
-		if (!map.location().equals(InventoryMenu.BLOCK_ATLAS))
-		{
-			return;
-		}
-		event.addSprite(Feruchemy.rl("icon/feruchemy"));
-
-		for (final Metals.MetalType metalType : Metals.MetalType.values())
-		{
-			if (!metalType.hasAssociatedManifestation())
-			{
-				continue;
-			}
-
-			String metalToLower = metalType.toString().toLowerCase(Locale.ROOT);
-			event.addSprite(Feruchemy.rl("icon/feruchemy/" + metalToLower));
-		}
-	}
-	*/
 }

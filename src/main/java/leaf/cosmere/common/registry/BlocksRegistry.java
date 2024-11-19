@@ -5,6 +5,7 @@
 package leaf.cosmere.common.registry;
 
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.blocks.MetalBlock;
@@ -14,6 +15,7 @@ import leaf.cosmere.common.registration.impl.BlockDeferredRegister;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
 import leaf.cosmere.common.resource.ore.OreBlockType;
 import leaf.cosmere.common.resource.ore.OreType;
+import leaf.cosmere.common.util.CosmereEnumUtils;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 
@@ -33,7 +35,7 @@ public class BlocksRegistry
 	public static final BlockRegistryObject<Block, BlockItem> METALWORKING_TABLE = BLOCKS.register("metalworking_table", MetalworkingTableBlock::new);
 
 	public static final Map<Metals.MetalType, BlockRegistryObject<MetalBlock, BlockItem>> METAL_BLOCKS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(type -> type.hasMaterialItem() && type != Metals.MetalType.COPPER)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -44,7 +46,7 @@ public class BlocksRegistry
 
 
 	public static final Map<OreType, OreBlockType> METAL_ORE =
-			Arrays.stream(OreType.values())
+			Arrays.stream(CosmereEnumUtils.ORE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							oreType ->

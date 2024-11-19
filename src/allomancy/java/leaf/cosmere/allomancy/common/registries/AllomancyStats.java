@@ -1,10 +1,11 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.registries;
 
 import leaf.cosmere.allomancy.common.Allomancy;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registration.impl.StatDeferredRegister;
 import leaf.cosmere.common.registration.impl.StatRegistryObject;
@@ -21,7 +22,7 @@ public class AllomancyStats
 	public static final StatDeferredRegister STATS = new StatDeferredRegister(Allomancy.MODID);
 
 	public static final Map<Metals.MetalType, StatRegistryObject> ALLOMANCY_BURN_TIME =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasAssociatedManifestation)
 					.collect(Collectors.toMap(
 							Function.identity(),

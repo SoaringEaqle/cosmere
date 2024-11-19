@@ -1,11 +1,12 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.sandmastery.common.blocks;
 
 //import leaf.cosmere.allomancy.common.registries.AllomancyEffects;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.common.blocks.BaseFallingBlock;
 import leaf.cosmere.common.properties.PropTypes;
 import leaf.cosmere.sandmastery.common.registries.SandmasteryBlocks;
@@ -68,7 +69,7 @@ public class TaldainWhiteSandBlock extends BaseFallingBlock
 	{
 		boolean touching = false;
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.mutable();
-		for (Direction direction : Direction.values())
+		for (Direction direction : EnumUtils.DIRECTIONS)
 		{
 			BlockState blockstate = pLevel.getBlockState(blockpos$mutableblockpos);
 			if (direction != Direction.DOWN || state.canBeHydrated(pLevel, pPos, blockstate.getFluidState(), blockpos$mutableblockpos))

@@ -1,10 +1,11 @@
 /*
- * File updated ~ 7 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.manifestation;
 
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
@@ -26,7 +27,7 @@ public class AllomancyAluminum extends AllomancyManifestation
 			int drainedCount = 0;
 
 			//drain all metals
-			for (Metals.MetalType metalType : Metals.MetalType.values())
+			for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 			{
 				if (metalType == Metals.MetalType.ALUMINUM)
 				{

@@ -5,6 +5,7 @@
 package leaf.cosmere.tag;
 
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.common.Cosmere;
@@ -16,6 +17,7 @@ import leaf.cosmere.common.registry.GameEventRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import leaf.cosmere.common.resource.ore.OreBlockType;
 import leaf.cosmere.common.resource.ore.OreType;
+import leaf.cosmere.common.util.CosmereEnumUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BiomeTags;
@@ -64,7 +66,7 @@ public class CosmereTagProvider extends BaseTagProvider
 
 	private void addItems()
 	{
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 
 			if (metalType.hasMaterialItem() && metalType != Metals.MetalType.COPPER)
@@ -131,7 +133,7 @@ public class CosmereTagProvider extends BaseTagProvider
 		addToHarvestTag(BlockTags.MINEABLE_WITH_AXE, BlocksRegistry.METALWORKING_TABLE);
 
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
@@ -149,7 +151,7 @@ public class CosmereTagProvider extends BaseTagProvider
 			getBlockBuilder(BlockTags.BEACON_BASE_BLOCKS).add(metalBlockTag);
 		}
 
-		for (OreType oreType : OreType.values())
+		for (OreType oreType : CosmereEnumUtils.ORE_TYPES)
 		{
 			final Metals.MetalType metalType = oreType.getMetalType();
 			final OreBlockType oreBlockType = BlocksRegistry.METAL_ORE.get(oreType);
@@ -185,7 +187,7 @@ public class CosmereTagProvider extends BaseTagProvider
 		final IntrinsicCosmereTagBuilder<Item> itemBuilder = getItemBuilder(Tags.Items.STORAGE_BLOCKS);
 		final IntrinsicCosmereTagBuilder<Block> blockBuilder = getBlockBuilder(Tags.Blocks.STORAGE_BLOCKS);
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
@@ -212,7 +214,7 @@ public class CosmereTagProvider extends BaseTagProvider
 		itemTagBuilder.addOptionalTag(CosmereTags.Items.METAL_SPIKE);
 
 		//Our metals
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType == Metals.MetalType.ALUMINUM)
 			{

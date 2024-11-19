@@ -5,11 +5,13 @@
 package leaf.cosmere;
 
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.registry.BlocksRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import leaf.cosmere.common.resource.ore.OreType;
+import leaf.cosmere.common.util.CosmereEnumUtils;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -57,7 +59,7 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 				.save(consumer);
 
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			//theres no reason for uss to add ways to recipe blocks/ingots that minecraft already has
 			final Metals.MetalType[] blacklistedTypes = {Metals.MetalType.IRON, Metals.MetalType.GOLD,};
@@ -93,7 +95,7 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 
 		}
 
-		for (OreType oreType : OreType.values())
+		for (OreType oreType : CosmereEnumUtils.ORE_TYPES)
 		{
 			final Metals.MetalType metalType = oreType.getMetalType();
 			addOreSmeltingRecipes(consumer, BlocksRegistry.METAL_ORE.get(oreType).stone().getBlock(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
