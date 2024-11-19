@@ -1,5 +1,5 @@
 /*
- * File updated ~ 11 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy.common.items;
@@ -131,9 +131,15 @@ public class HemalurgicSpikeItem extends ChargeableMetalCurioItem implements IHe
 			}
 			else if (this.getMetalType() == Metals.MetalType.TIN)
 			{
-				ItemStack filledIronSpike = new ItemStack(this);
-				Invest(filledIronSpike, this.getMetalType(), 0.25f, UUID.randomUUID());
-				output.accept(filledIronSpike);
+				ItemStack filledSpike = new ItemStack(this);
+				Invest(filledSpike, this.getMetalType(), 0.25f, UUID.randomUUID());
+				output.accept(filledSpike);
+			}
+			else if (this.getMetalType() == Metals.MetalType.COPPER)
+			{
+				ItemStack filledSpike = new ItemStack(this);
+				Invest(filledSpike, this.getMetalType(), 0.5f, UUID.randomUUID());
+				output.accept(filledSpike);
 			}
 
 
