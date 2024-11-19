@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 10 - 10 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.common;
@@ -74,8 +74,9 @@ public class Cosmere
 		CreativeTabsRegistry.CREATIVE_TABS.register(modBus);
 		BiomeRegistry.BIOMES.register(modBus);
 		LootModifiersRegistry.LOOT_MODIFIERS.register(modBus);
-		FeatureRegistry.CONFIGURED_FEATURES.register(modBus);
-		FeatureRegistry.PLACED_FEATURES.register(modBus);
+		FeatureRegistry.FEATURES.register(modBus);
+		IntProviderTypesRegistry.INT_PROVIDER_TYPES.register(modBus);
+		HeightProviderTypesRegistry.HEIGHT_PROVIDER_TYPES.register(modBus);
 
 		DimensionRegistry.register();
 

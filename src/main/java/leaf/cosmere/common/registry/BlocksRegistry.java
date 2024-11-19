@@ -1,5 +1,5 @@
 /*
- * File updated ~ 9 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.common.registry;
@@ -13,6 +13,7 @@ import leaf.cosmere.common.blocks.MetalworkingTableBlock;
 import leaf.cosmere.common.registration.impl.BlockDeferredRegister;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
 import leaf.cosmere.common.resource.ore.OreBlockType;
+import leaf.cosmere.common.resource.ore.OreType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 
@@ -33,7 +34,7 @@ public class BlocksRegistry
 
 	public static final Map<Metals.MetalType, BlockRegistryObject<MetalBlock, BlockItem>> METAL_BLOCKS =
 			Arrays.stream(Metals.MetalType.values())
-					.filter(Metals.MetalType::hasMaterialItem)
+					.filter(type -> type.hasMaterialItem() && type != Metals.MetalType.COPPER)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							metalType -> BLOCKS.registerWithRarity(
@@ -42,13 +43,13 @@ public class BlocksRegistry
 									metalType.getRarity())));
 
 
-	public static final Map<Metals.MetalType, OreBlockType> METAL_ORE =
-			Arrays.stream(Metals.MetalType.values())
-					.filter(Metals.MetalType::hasOre)
+	public static final Map<OreType, OreBlockType> METAL_ORE =
+			Arrays.stream(OreType.values())
 					.collect(Collectors.toMap(
 							Function.identity(),
-							metalType ->
+							oreType ->
 							{
+								final Metals.MetalType metalType = oreType.getMetalType();
 								final BlockRegistryObject<MetalOreBlock, BlockItem> stoneOre = BLOCKS.registerWithRarity(
 										metalType.getName() + Constants.RegNameStubs.ORE,
 										() -> new MetalOreBlock(metalType),

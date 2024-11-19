@@ -1,4 +1,4 @@
-// 1.20.1	2024-10-09T13:22:13.1357663	Loot Tables
+// 1.20.1	2024-11-04T18:26:44.0719647	Loot Tables
 1440a509cd4375633c42e39a73c393fac55bc5b5 data/cosmere/loot_tables/blocks/aluminum_block.json
 b11f02392d505e4d09ad5b4d2ae886a9d6ec9f23 data/cosmere/loot_tables/blocks/aluminum_ore.json
 cd731279bd267f94d0afd47ad08ae376ed5a9f88 data/cosmere/loot_tables/blocks/atium_block.json
@@ -9,7 +9,6 @@ b23765f334dad8db8a5ee67557013adaaf56aa49 data/cosmere/loot_tables/blocks/cadmium
 0bbacdb84127d0788045d6c0c95c73bf2246929c data/cosmere/loot_tables/blocks/cadmium_ore.json
 158625ad82a7f3412e2d8fe8ba5865ac45ea632a data/cosmere/loot_tables/blocks/chromium_block.json
 9c2ceb3734a131a37b3d8b7f09f933d0123b1746 data/cosmere/loot_tables/blocks/chromium_ore.json
-68c5f9187043df0179e5f770d9bb9b5bb6d92489 data/cosmere/loot_tables/blocks/copper_block.json
 abb8e67ed41500f08a74b4eaf8712c217359973c data/cosmere/loot_tables/blocks/deepslate_aluminum_ore.json
 a67fb03d8402fcc8af36c5cc18de613ae80ec1b3 data/cosmere/loot_tables/blocks/deepslate_cadmium_ore.json
 3b98ebb6b759abc221bb03d1df0375efef0cb5a8 data/cosmere/loot_tables/blocks/deepslate_chromium_ore.json

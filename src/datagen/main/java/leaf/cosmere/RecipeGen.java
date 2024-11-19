@@ -1,5 +1,5 @@
 /*
- * File updated ~ 9 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere;
@@ -9,6 +9,7 @@ import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.registry.BlocksRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
+import leaf.cosmere.common.resource.ore.OreType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -65,18 +66,20 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 				continue;
 			}
 
+			// specifically copper has no nuggets, so create nugget and move on
+			if (metalType == Metals.MetalType.COPPER)
+			{
+				compressRecipe(Items.COPPER_INGOT, CosmereTags.Items.METAL_NUGGET_TAGS.get(metalType), ItemsRegistry.METAL_NUGGETS.get(metalType)).save(consumer);
+				decompressRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get(), Tags.Items.INGOTS_COPPER, metalType.getName() + "_item_deconstruct");
+				continue;
+			}
+
 			compressRecipe(BlocksRegistry.METAL_BLOCKS.get(metalType).getBlock(), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType), ItemsRegistry.METAL_INGOTS.get(metalType)).save(consumer);
 			decompressRecipe(consumer, ItemsRegistry.METAL_INGOTS.get(metalType).get(), BlocksRegistry.METAL_BLOCKS.get(metalType), metalType.getName() + "_block_deconstruct");
 
 			compressRecipe(ItemsRegistry.METAL_INGOTS.get(metalType).get(), CosmereTags.Items.METAL_NUGGET_TAGS.get(metalType), ItemsRegistry.METAL_NUGGETS.get(metalType)).save(consumer);
 			decompressRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get(), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType), metalType.getName() + "_item_deconstruct");
 
-			if (metalType.hasOre())
-			{
-				addOreSmeltingRecipes(consumer, BlocksRegistry.METAL_ORE.get(metalType).stone().getBlock(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
-				addOreSmeltingRecipes(consumer, BlocksRegistry.METAL_ORE.get(metalType).deepslate().getBlock(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
-				addOreSmeltingRecipes(consumer, ItemsRegistry.METAL_RAW_ORE.get(metalType).get(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
-			}
 
 			if (metalType.isAlloy())
 			{
@@ -89,6 +92,15 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 			}
 
 		}
+
+		for (OreType oreType : OreType.values())
+		{
+			final Metals.MetalType metalType = oreType.getMetalType();
+			addOreSmeltingRecipes(consumer, BlocksRegistry.METAL_ORE.get(oreType).stone().getBlock(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
+			addOreSmeltingRecipes(consumer, BlocksRegistry.METAL_ORE.get(oreType).deepslate().getBlock(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
+			addOreSmeltingRecipes(consumer, ItemsRegistry.METAL_RAW_ORE.get(metalType).get(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
+		}
+
 	}
 
 	protected static void addAlloyRecipes(Consumer<FinishedRecipe> consumer, Metals.MetalType metalType, Item output, Map<Metals.MetalType, TagKey<Item>> materialTag, String recipe)
