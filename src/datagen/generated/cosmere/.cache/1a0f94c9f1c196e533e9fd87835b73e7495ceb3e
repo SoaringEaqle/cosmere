@@ -1,4 +1,4 @@
-// 1.20.1	2024-11-04T18:26:44.0674115	Tags: cosmere
+// 1.20.1	2024-11-20T10:15:19.8914061	Tags: cosmere
 7e6f8b5d96792bb9046c5c1d332e4ba04dcade48 data/cosmere/tags/blocks/contains_metal.json
 29671cfa11d074462c259806e9d60468451e3cdb data/cosmere/tags/entity_types/contains_metal.json
 d0c886fa06555d83e6eb011a2ee98463827788e1 data/cosmere/tags/items/contains_metal.json
@@ -118,8 +118,8 @@ ba66a11a92fb155d8de179f3a24e01ea3a763255 data/forge/tags/items/storage_blocks/ti
 15f37fc42e91a2576f74d58e17e68ec24def1505 data/forge/tags/items/storage_blocks/zinc.json
 5ac052c5e6c3d60c719087891e3f2fa00220c040 data/minecraft/tags/blocks/beacon_base_blocks.json
 d3a86f2ebc65cb1002d7b7bf25b64d7716ca748c data/minecraft/tags/blocks/mineable/axe.json
-aa1455f74d106d8636e039dcd11b9f364f603234 data/minecraft/tags/blocks/mineable/pickaxe.json
-acc52727279f24a6209e4fd41825c55ebf8db795 data/minecraft/tags/blocks/needs_iron_tool.json
-a392c38fde2e886f438ad7289b3cdec3ad7875f6 data/minecraft/tags/blocks/needs_stone_tool.json
+b9b84c453e69464bbde1c3e928f9195e42104d06 data/minecraft/tags/blocks/mineable/pickaxe.json
+6bb4f3252166223dc19ecc5996f9ba2209169a0c data/minecraft/tags/blocks/needs_iron_tool.json
+69e4ba1267e904246287f8ef4bd63b79b2ce4e1f data/minecraft/tags/blocks/needs_stone_tool.json
 189ad22331d159102eee28a57ebe9bfee7ff8a46 data/minecraft/tags/game_events/vibrations.json
 189ad22331d159102eee28a57ebe9bfee7ff8a46 data/minecraft/tags/game_events/warden_can_listen.json

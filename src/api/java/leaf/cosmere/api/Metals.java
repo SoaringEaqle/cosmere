@@ -1,5 +1,5 @@
 /*
- * File updated ~ 8 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.api;
@@ -264,16 +264,16 @@ public class Metals
 		{
 			switch (this)
 			{
-				case ALUMINUM:
-				case CADMIUM:
-				case CHROMIUM:
-					//case IRON: // covered by minecraft
-				case NICKEL:
+				//case IRON: // covered by minecraft
+				case TIN:
 					//case COPPER: // covered by minecraft
 				case ZINC:
-				case SILVER:
-				case TIN:
+				case ALUMINUM:
+				case CHROMIUM:
 					//case GOLD: // covered by minecraft
+				case CADMIUM:
+				case NICKEL:
+				case SILVER:
 				case LEAD:
 					return true;
 				default:
@@ -307,7 +307,7 @@ public class Metals
 			{
 				case IRON:
 				case GOLD:
-				//case COPPER:
+					//case COPPER:
 					return false;
 				default:
 					return true;

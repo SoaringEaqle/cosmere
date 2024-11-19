@@ -1,0 +1,29 @@
+{
+  "type": "cosmere:ore",
+  "config": {
+    "oreVeinType": {
+      "type": "cadmium",
+      "index": 2
+    },
+    "targets": [
+      {
+        "state": {
+          "Name": "cosmere:cadmium_ore"
+        },
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:stone_ore_replaceables"
+        }
+      },
+      {
+        "state": {
+          "Name": "cosmere:deepslate_cadmium_ore"
+        },
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:deepslate_ore_replaceables"
+        }
+      }
+    ]
+  }
+}
