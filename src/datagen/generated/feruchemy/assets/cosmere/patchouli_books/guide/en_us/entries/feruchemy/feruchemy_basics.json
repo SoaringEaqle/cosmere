@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "If you entered this world with a feruchemical ability, you're called a $(6)ferring$(). Depending on what kind of metal you have access to, a metalmind of the corresponding metal will let you store and tap attributes.",
+      "text": "The art requires storing an attribute in a piece of metal. Depending on what kind of metal you have access to, a metalmind of the corresponding metal will let you store and tap different attributes.",
       "title": "feruchemy:copper_bracelet_metalmind"
     },
     {
