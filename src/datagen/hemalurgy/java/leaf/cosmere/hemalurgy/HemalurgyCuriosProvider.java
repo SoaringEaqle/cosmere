@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy;
@@ -74,7 +74,8 @@ public class HemalurgyCuriosProvider extends CuriosDataProvider
 				.addCosmetic(true);
 
 		this.createEntities("hemalurgists")
-				.addEntities(EntityType.PLAYER, EntityType.ARMOR_STAND) // todo inquisitors
+				.addPlayer()
+				.addEntities(EntityType.ARMOR_STAND) // todo inquisitors
 				.addSlots("eyes", "linchpin", "physical", "mental", "spiritual", "temporal");
 	}
 }

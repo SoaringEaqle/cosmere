@@ -1,4 +1,4 @@
-// 1.20.1	2024-10-09T13:22:13.1347657	Item Models: cosmere
+// 1.20.1	2024-11-04T18:26:44.070954	Item Models: cosmere
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/aluminum_ingot.json
 8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/aluminum_nugget.json
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/atium_ingot.json
@@ -16,7 +16,6 @@ c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/cadmium_ingo
 8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/cadmium_nugget.json
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/chromium_ingot.json
 8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/chromium_nugget.json
-c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/copper_ingot.json
 8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/copper_nugget.json
 8325615b8496c2a0f9e32fa5abb910345fecab73 assets/cosmere/models/item/duralumin_blend.json
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/duralumin_ingot.json

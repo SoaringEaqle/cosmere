@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy;
@@ -39,7 +39,8 @@ public class FeruchemyCuriosProvider extends CuriosDataProvider
 				.dropRule(ICurio.DropRule.ALWAYS_KEEP);
 
 		this.createEntities("feruchemists")
-				.addEntities(EntityType.PLAYER, EntityType.ARMOR_STAND) // todo inquisitors
+				.addPlayer()
+				.addEntities(EntityType.ARMOR_STAND) // todo inquisitors
 				.addSlots("necklace", "bracelet", "ring");
 	}
 }

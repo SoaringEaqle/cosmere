@@ -1,0 +1,31 @@
+{
+  "feature": "cosmere:ore_aluminum_medium",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": {
+        "type": "cosmere:configurable_constant",
+        "oreVeinType": {
+          "type": "aluminum",
+          "index": 1
+        }
+      }
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "cosmere:configurable",
+        "oreVeinType": {
+          "type": "aluminum",
+          "index": 1
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

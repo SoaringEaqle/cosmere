@@ -1,5 +1,5 @@
 /*
- * File updated ~ 9 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.tag;
@@ -15,6 +15,7 @@ import leaf.cosmere.common.registry.BlocksRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import leaf.cosmere.common.resource.ore.OreBlockType;
+import leaf.cosmere.common.resource.ore.OreType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BiomeTags;
@@ -24,7 +25,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -64,7 +67,7 @@ public class CosmereTagProvider extends BaseTagProvider
 		for (Metals.MetalType metalType : Metals.MetalType.values())
 		{
 
-			if (metalType.hasMaterialItem())
+			if (metalType.hasMaterialItem() && metalType != Metals.MetalType.COPPER)
 			{
 				MetalIngotItem ingotItem = ItemsRegistry.METAL_INGOTS.get(metalType).asItem();
 
@@ -93,6 +96,19 @@ public class CosmereTagProvider extends BaseTagProvider
 
 			}
 
+			// copper needs a nugget
+			if (metalType == Metals.MetalType.COPPER)
+			{
+				//tell the nuggets that our nugget tags are part of them
+				final TagKey<Item> metalNuggetTag = metalType.getMetalNuggetTag();
+				getItemBuilder(Tags.Items.NUGGETS).add(metalNuggetTag);
+
+				// tell the Nugget that our Nuggets are related
+				Item nuggetItem = ItemsRegistry.METAL_NUGGETS.get(metalType).asItem();
+
+				addToTag(metalNuggetTag, nuggetItem);
+			}
+
 			if (metalType.hasOre())
 			{
 				Item item = ItemsRegistry.METAL_RAW_ORE.get(metalType).asItem();
@@ -117,22 +133,9 @@ public class CosmereTagProvider extends BaseTagProvider
 
 		for (Metals.MetalType metalType : Metals.MetalType.values())
 		{
-			if (!metalType.hasMaterialItem())
+			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
 				continue;
-			}
-
-			if (metalType.hasOre())
-			{
-				final OreBlockType oreBlockType = BlocksRegistry.METAL_ORE.get(metalType);
-
-				final TagKey<Block> oreBlockTag = CosmereTags.Blocks.METAL_ORE_BLOCK_TAGS.get(metalType);
-				addToTag(oreBlockTag, oreBlockType.stone(), oreBlockType.deepslate());
-
-				addToTag(BlockTags.NEEDS_STONE_TOOL, oreBlockType.stone());
-				addToTag(BlockTags.NEEDS_IRON_TOOL, oreBlockType.deepslate());
-
-				addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, oreBlockType.stone(), oreBlockType.deepslate());
 			}
 
 			//put metal type tag on block
@@ -144,6 +147,20 @@ public class CosmereTagProvider extends BaseTagProvider
 
 			//put beacon tag on block
 			getBlockBuilder(BlockTags.BEACON_BASE_BLOCKS).add(metalBlockTag);
+		}
+
+		for (OreType oreType : OreType.values())
+		{
+			final Metals.MetalType metalType = oreType.getMetalType();
+			final OreBlockType oreBlockType = BlocksRegistry.METAL_ORE.get(oreType);
+
+			final TagKey<Block> oreBlockTag = CosmereTags.Blocks.METAL_ORE_BLOCK_TAGS.get(metalType);
+			addToTag(oreBlockTag, oreBlockType.stone(), oreBlockType.deepslate());
+
+			addToTag(BlockTags.NEEDS_STONE_TOOL, oreBlockType.stone());
+			addToTag(BlockTags.NEEDS_IRON_TOOL, oreBlockType.deepslate());
+
+			addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, oreBlockType.stone(), oreBlockType.deepslate());
 		}
 	}
 
@@ -170,7 +187,7 @@ public class CosmereTagProvider extends BaseTagProvider
 
 		for (Metals.MetalType metalType : Metals.MetalType.values())
 		{
-			if (!metalType.hasMaterialItem())
+			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
 				continue;
 			}
@@ -234,7 +251,76 @@ public class CosmereTagProvider extends BaseTagProvider
 			blockTagBuilder.add(storageBlockTag);
 		}
 
+		addCopperBlockVariations(itemTagBuilder, blockTagBuilder);
+
 		//entities
 		entityTagBuilder.add(EntityType.IRON_GOLEM);
+	}
+
+	private void addCopperBlockVariations(IntrinsicCosmereTagBuilder<Item> itemTagBuilder, IntrinsicCosmereTagBuilder<Block> blockTagBuilder)
+	{
+		itemTagBuilder.add(Items.EXPOSED_COPPER);
+		itemTagBuilder.add(Items.EXPOSED_CUT_COPPER);
+		itemTagBuilder.add(Items.EXPOSED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.EXPOSED_CUT_COPPER_STAIRS);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_COPPER);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_EXPOSED_CUT_COPPER_STAIRS);
+
+		itemTagBuilder.add(Items.WEATHERED_COPPER);
+		itemTagBuilder.add(Items.WEATHERED_CUT_COPPER);
+		itemTagBuilder.add(Items.WEATHERED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WEATHERED_CUT_COPPER_STAIRS);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_COPPER);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_WEATHERED_CUT_COPPER_STAIRS);
+
+		itemTagBuilder.add(Items.OXIDIZED_COPPER);
+		itemTagBuilder.add(Items.OXIDIZED_CUT_COPPER);
+		itemTagBuilder.add(Items.OXIDIZED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.OXIDIZED_CUT_COPPER_STAIRS);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_COPPER);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
+
+		itemTagBuilder.add(Items.WAXED_COPPER_BLOCK);
+		itemTagBuilder.add(Items.WAXED_CUT_COPPER);
+		itemTagBuilder.add(Items.WAXED_CUT_COPPER_SLAB);
+		itemTagBuilder.add(Items.WAXED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.EXPOSED_COPPER);
+		blockTagBuilder.add(Blocks.EXPOSED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.EXPOSED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.EXPOSED_CUT_COPPER_STAIRS);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_EXPOSED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.WEATHERED_COPPER);
+		blockTagBuilder.add(Blocks.WEATHERED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WEATHERED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WEATHERED_CUT_COPPER_STAIRS);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_WEATHERED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.OXIDIZED_COPPER);
+		blockTagBuilder.add(Blocks.OXIDIZED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.OXIDIZED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.OXIDIZED_CUT_COPPER_STAIRS);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
+
+		blockTagBuilder.add(Blocks.WAXED_COPPER_BLOCK);
+		blockTagBuilder.add(Blocks.WAXED_CUT_COPPER);
+		blockTagBuilder.add(Blocks.WAXED_CUT_COPPER_SLAB);
+		blockTagBuilder.add(Blocks.WAXED_CUT_COPPER_STAIRS);
 	}
 }

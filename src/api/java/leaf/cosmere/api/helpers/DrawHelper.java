@@ -38,7 +38,7 @@ public class DrawHelper
 {
 
 	//Draw our allomancy lines
-	public static void drawLinesFromPoint(PoseStack poseStack, Vec3 originPoint, float range, Color color, List<Vec3> lineEndPositions, Vec3i highlightVector)
+	public static void drawLinesFromPoint(PoseStack poseStack, Vec3 originPoint, float range, Color color, List<Vec3> lineEndPositions, Vec3 highlightVector)
 	{
 		poseStack.pushPose();
 
@@ -62,7 +62,7 @@ public class DrawHelper
 
 			if (highlightVector != null)
 			{
-				if (new Vec3(endPos.x - 0.5, endPos.y - 0.5, endPos.z - 0.5).equals(highlightVector) || endPos.equals(highlightVector))
+				if (endPos.equals(highlightVector))
 				{
 					finalColor = Color.decode("#66b2ff");
 				}
@@ -169,7 +169,7 @@ public class DrawHelper
 				.endVertex();
 	}
 
-	public static void drawBlocksAtPoint(PoseStack poseStack, Color color, List<BlockPos> blockPosList, Vec3i highlightVector, ArrayList<BlockPos> targetedClusterBlockList)
+	public static void drawBlocksAtPoint(PoseStack poseStack, Color color, List<BlockPos> blockPosList, Vec3 highlightVector, ArrayList<BlockPos> targetedClusterBlockList)
 	{
 		poseStack.pushPose();
 
@@ -193,11 +193,11 @@ public class DrawHelper
 			Color finalColor = color;
 			if (highlightVector != null)
 			{
-				if (new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()).equals(highlightVector))
+				if (targetedClusterBlockList.contains(blockPos))
 				{
 					finalColor = Color.decode("#66b2ff");
 				}
-				else if (targetedClusterBlockList.contains(blockPos))
+				else if (blockPos.getCenter().equals(highlightVector))
 				{
 					finalColor = Color.decode("#66b2ff");
 				}
