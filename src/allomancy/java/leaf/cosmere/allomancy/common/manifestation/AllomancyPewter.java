@@ -62,7 +62,7 @@ public class AllomancyPewter extends AllomancyManifestation
 
 		AllomancySpiritwebSubmodule asm = AllomancySpiritwebSubmodule.getSubmodule(data);
 		float delayedDamage = asm.getPewterDelayedDamage();
-		data.getLiving().hurt(AllomancyDamageTypesRegistry.damageSource(data.getLiving().level(), AllomancyDamageTypesRegistry.PEWTER_DELAYED_DAMAGE), delayedDamage);
+		data.getLiving().hurt(AllomancyDamageTypesRegistry.PEWTER_DELAYED_DAMAGE.source(data.getLiving().level()), delayedDamage);
 		asm.setPewterDelayedDamage(0);
 
 	}

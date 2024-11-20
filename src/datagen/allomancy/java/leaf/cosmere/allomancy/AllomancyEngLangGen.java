@@ -184,8 +184,8 @@ public class AllomancyEngLangGen extends LanguageProvider
 	private void addDamageSources()
 	{
 		//Damage Sources
-		add("death.attack.pewter_delayed_damage", "%1$s stopped burning pewter and succumbed to their wounds");
-		add("death.attack.pewter_delayed_damage.player", "%1$s stopped burning pewter while fighting %2$s and succumbed to their wounds");
+		add("death.attack.allomancy.pewter_delayed_damage", "%1$s stopped burning pewter and succumbed to their wounds");
+		add("death.attack.allomancy.pewter_delayed_damage.player", "%1$s stopped burning pewter while fighting %2$s and succumbed to their wounds");
 	}
 
 	private void addMobEffects()
