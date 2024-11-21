@@ -5,9 +5,6 @@
 package leaf.cosmere.common.cap.entity;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.font.GlyphInfo;
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import leaf.cosmere.api.CosmereAPI;
@@ -16,7 +13,6 @@ import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
-import leaf.cosmere.api.helpers.DrawHelper;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
@@ -26,11 +22,8 @@ import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
 import leaf.cosmere.common.registry.ManifestationRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -38,9 +31,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
@@ -48,7 +38,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -57,11 +46,9 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
@@ -517,9 +504,9 @@ public class SpiritwebCapability implements ISpiritweb
 		}
 
 		Minecraft mc = Minecraft.getInstance();
-		int startX = 10;
-		int startY = 20;
-		int size = 40;
+		int startX = CosmereConfigs.CLIENT_CONFIG.hudXCoordinate.get();
+		int startY = CosmereConfigs.CLIENT_CONFIG.hudYCoordinate.get();
+		int size = CosmereConfigs.CLIENT_CONFIG.hudSize.get();
 
 		String stringToDraw = I18n.get(selectedManifestation.getTextComponent().getString());
 		int xOffset = -5;
