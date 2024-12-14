@@ -48,7 +48,8 @@ public class CoinPouchItem extends ProjectileWeaponItem
 {
 	public static final Predicate<ItemStack> SUPPORTED_PROJECTILES = (itemStack) ->
 	{
-		final boolean isNugget = itemStack.is(Tags.Items.NUGGETS);
+		// todo: fix copper nugget tagging 
+		final boolean isNugget = itemStack.is(Tags.Items.NUGGETS) || itemStack.getItem() == ItemsRegistry.METAL_NUGGETS.get(Metals.MetalType.COPPER).asItem();  // don't know why copper nuggets aren't tagged
 		final boolean containsMetal = itemStack.is(CosmereTags.Items.CONTAINS_METAL);
 		final boolean isUncommonMetal = (itemStack.getItem() instanceof IHasMetalType metalType) && metalType.getMetalType().getRarity() != Rarity.COMMON;
 		return isNugget && containsMetal && !isUncommonMetal;
