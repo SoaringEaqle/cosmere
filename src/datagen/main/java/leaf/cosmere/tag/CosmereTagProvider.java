@@ -69,19 +69,23 @@ public class CosmereTagProvider extends BaseTagProvider
 		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 
-			if (metalType.hasMaterialItem() && metalType != Metals.MetalType.COPPER)
+			if (metalType.hasMaterialItem())
 			{
-				MetalIngotItem ingotItem = ItemsRegistry.METAL_INGOTS.get(metalType).asItem();
+				// copper only needs nugget, don't tag ingot
+				if (metalType != Metals.MetalType.COPPER)
+				{
+					MetalIngotItem ingotItem = ItemsRegistry.METAL_INGOTS.get(metalType).asItem();
 
-				//don't need to tell the tag what each individual item is if they're tagged correctly
-				//add(Tags.Items.INGOTS, ingotItem);
+					//don't need to tell the tag what each individual item is if they're tagged correctly
+					//add(Tags.Items.INGOTS, ingotItem);
 
-				// tell our ingots what their tags are.
-				final TagKey<Item> metalIngotTag = metalType.getMetalIngotTag();
-				addToTag(metalIngotTag, ingotItem);
+					// tell our ingots what their tags are.
+					final TagKey<Item> metalIngotTag = metalType.getMetalIngotTag();
+					addToTag(metalIngotTag, ingotItem);
 
-				//tell the ingots that our ingot tags are part of them
-				getItemBuilder(Tags.Items.INGOTS).add(metalIngotTag);
+					//tell the ingots that our ingot tags are part of them
+					getItemBuilder(Tags.Items.INGOTS).add(metalIngotTag);
+				}
 
 				//tell the nuggets that our nugget tags are part of them
 				final TagKey<Item> metalNuggetTag = metalType.getMetalNuggetTag();
@@ -94,20 +98,6 @@ public class CosmereTagProvider extends BaseTagProvider
 				//add(Tags.Items.NUGGETS, nuggetItem);
 
 				// tell our nuggets what their tags are.
-				addToTag(metalNuggetTag, nuggetItem);
-
-			}
-
-			// copper needs a nugget
-			if (metalType == Metals.MetalType.COPPER)
-			{
-				//tell the nuggets that our nugget tags are part of them
-				final TagKey<Item> metalNuggetTag = metalType.getMetalNuggetTag();
-				getItemBuilder(Tags.Items.NUGGETS).add(metalNuggetTag);
-
-				// tell the Nugget that our Nuggets are related
-				Item nuggetItem = ItemsRegistry.METAL_NUGGETS.get(metalType).asItem();
-
 				addToTag(metalNuggetTag, nuggetItem);
 			}
 
