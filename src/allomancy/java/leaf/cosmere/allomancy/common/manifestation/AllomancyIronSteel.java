@@ -298,7 +298,8 @@ public class AllomancyIronSteel extends AllomancyManifestation
 					//move small things
 					if (targetEntity instanceof ItemEntity itemEntity)
 					{
-						if (dataLiving instanceof Player player)
+						// pick up item if pulling
+						if (dataLiving instanceof Player player && !isPush)
 						{
 							itemEntity.playerTouch(player);
 						}
