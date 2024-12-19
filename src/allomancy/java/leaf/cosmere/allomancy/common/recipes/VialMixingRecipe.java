@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.recipes;
@@ -75,6 +75,15 @@ public class VialMixingRecipe extends CustomRecipe
 				//but multiple nuggets allowed
 				hasNugget = true;
 				nuggetTotal++;
+			}
+			else if (stack.isEmpty())
+			{
+				//ignore empty slots
+			}
+			else
+			{
+				//if its not a vial, bottle, or nugget, then its not a valid recipe
+				return false;
 			}
 		}
 
