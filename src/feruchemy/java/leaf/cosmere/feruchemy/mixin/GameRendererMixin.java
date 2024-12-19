@@ -1,5 +1,5 @@
 /*
- * File updated ~ 9 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.mixin;
@@ -29,9 +29,8 @@ public class GameRendererMixin
 	private void getZoomedFov(Camera activeRenderInfoIn, float partialTicks, boolean useFOVSetting, CallbackInfoReturnable<Double> info)
 	{
 		double fov = info.getReturnValue();
-		Player player = (Player) Minecraft.getInstance().getCameraEntity();
 
-		if (player == null)
+		if (!(Minecraft.getInstance().getCameraEntity() instanceof Player player))
 		{
 			return;
 		}
@@ -57,9 +56,7 @@ public class GameRendererMixin
 	)
 	private void getRenderDistance(CallbackInfoReturnable<Float> info)
 	{
-		Player player = (Player) Minecraft.getInstance().getCameraEntity();
-
-		if (player == null)
+		if (!(Minecraft.getInstance().getCameraEntity() instanceof Player player))
 		{
 			return;
 		}

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 21 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.mixin;
@@ -32,7 +32,11 @@ public class EntityMixin
 			return;
 		}
 
-		Player clientPlayer = (Player) Minecraft.getInstance().getCameraEntity();
+		if (!(Minecraft.getInstance().getCameraEntity() instanceof Player clientPlayer))
+		{
+			return;
+		}
+
 		LivingEntity target = (LivingEntity) e;
 
 		SpiritwebCapability.get(clientPlayer).ifPresent(playerSpiritweb ->
