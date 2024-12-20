@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.registries;
@@ -30,9 +30,19 @@ public class SurgebindingCreativeTabs
 									{
 										CreativeTabDeferredRegister.addToDisplay(SurgebindingItems.ITEMS, output);
 										//CreativeTabDeferredRegister.addToDisplay(AllomancyBlocks.BLOCKS, output);
+										addFilled(output);
 									})
 			);
 
+	private static void addFilled(CreativeModeTab.Output output)
+	{
+		for (var gemstone : EnumUtils.GEMSTONE_TYPES)
+		{
+			SurgebindingItems.GEMSTONE_CHIPS.get(gemstone).get().addFilled(output);
+			SurgebindingItems.GEMSTONE_MARKS.get(gemstone).get().addFilled(output);
+			SurgebindingItems.GEMSTONE_BROAMS.get(gemstone).get().addFilled(output);
+		}
+	}
 
 	private static void addToExistingTabs(BuildCreativeModeTabContentsEvent event)
 	{
