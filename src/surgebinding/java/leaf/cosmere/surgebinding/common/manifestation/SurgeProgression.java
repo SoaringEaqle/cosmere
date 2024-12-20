@@ -92,7 +92,7 @@ public class SurgeProgression extends SurgebindingManifestation
 						else
 						{
 							final int affordableAge = (int) ((float) submodule.getStormlight() / (float) (stormlightAgeUpCostMultiplier)) * ageUpAmount;
-							if (submodule.adjustStormlight(-submodule.getStormlight(), true))
+							if (affordableAge > 0 && submodule.adjustStormlight(-submodule.getStormlight(), true))
 							{
 								ageUp(ageableMob, affordableAge);
 							}
