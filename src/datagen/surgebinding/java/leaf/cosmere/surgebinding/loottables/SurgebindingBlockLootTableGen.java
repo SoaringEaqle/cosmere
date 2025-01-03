@@ -28,6 +28,6 @@ public class SurgebindingBlockLootTableGen extends BaseBlockLootTables
 		}
 
 		//then make the rest drop themselves.
-		dropSelf(BlocksRegistry.BLOCKS.getAllBlocks());
+		dropSelf(SurgebindingBlocks.BLOCKS.getAllBlocks());
 	}
 }

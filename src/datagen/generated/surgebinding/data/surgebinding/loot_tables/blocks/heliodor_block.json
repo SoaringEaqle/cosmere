@@ -11,12 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cosmere:deepslate_aluminum_ore"
+          "name": "surgebinding:heliodor_block"
         }
       ],
       "name": "main",
       "rolls": 1.0
     }
   ],
-  "random_sequence": "cosmere:blocks/deepslate_aluminum_ore"
+  "random_sequence": "surgebinding:blocks/heliodor_block"
 }

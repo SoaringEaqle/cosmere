@@ -11,12 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cosmere:cadmium_ore"
+          "name": "surgebinding:rockbud_variant"
         }
       ],
       "name": "main",
       "rolls": 1.0
     }
   ],
-  "random_sequence": "cosmere:blocks/cadmium_ore"
+  "random_sequence": "surgebinding:blocks/rockbud_variant"
 }

@@ -11,12 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cosmere:tin_block"
+          "name": "surgebinding:prickletac"
         }
       ],
       "name": "main",
       "rolls": 1.0
     }
   ],
-  "random_sequence": "cosmere:blocks/tin_block"
+  "random_sequence": "surgebinding:blocks/prickletac"
 }

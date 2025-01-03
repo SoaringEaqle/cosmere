@@ -11,12 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cosmere:lead_block"
+          "name": "surgebinding:emerald_block"
         }
       ],
       "name": "main",
       "rolls": 1.0
     }
   ],
-  "random_sequence": "cosmere:blocks/lead_block"
+  "random_sequence": "surgebinding:blocks/emerald_block"
 }

@@ -11,12 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cosmere:nickel_ore"
+          "name": "surgebinding:garnet_block"
         }
       ],
       "name": "main",
       "rolls": 1.0
     }
   ],
-  "random_sequence": "cosmere:blocks/nickel_ore"
+  "random_sequence": "surgebinding:blocks/garnet_block"
 }

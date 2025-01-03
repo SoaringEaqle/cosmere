@@ -11,12 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cosmere:deepslate_lead_ore"
+          "name": "surgebinding:zircon_block"
         }
       ],
       "name": "main",
       "rolls": 1.0
     }
   ],
-  "random_sequence": "cosmere:blocks/deepslate_lead_ore"
+  "random_sequence": "surgebinding:blocks/zircon_block"
 }
