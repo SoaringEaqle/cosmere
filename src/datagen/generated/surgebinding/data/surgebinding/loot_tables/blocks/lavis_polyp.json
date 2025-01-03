@@ -11,12 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cosmere:deepslate_silver_ore"
+          "name": "surgebinding:lavis_polyp"
         }
       ],
       "name": "main",
       "rolls": 1.0
     }
   ],
-  "random_sequence": "cosmere:blocks/deepslate_silver_ore"
+  "random_sequence": "surgebinding:blocks/lavis_polyp"
 }
