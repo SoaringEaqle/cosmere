@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding;
@@ -23,7 +23,7 @@ public class SurgebindingRecipeGen extends BaseRecipeProvider implements ICondit
 {
 	public SurgebindingRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, Surgebinding.MODID);
 	}
 
 	@Override

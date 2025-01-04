@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.tag;
@@ -10,6 +10,7 @@ import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.blocks.MetalBlock;
+import leaf.cosmere.common.blocks.MetalOreBlock;
 import leaf.cosmere.common.items.MetalIngotItem;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
 import leaf.cosmere.common.registry.BlocksRegistry;
@@ -147,12 +148,17 @@ public class CosmereTagProvider extends BaseTagProvider
 			final OreBlockType oreBlockType = BlocksRegistry.METAL_ORE.get(oreType);
 
 			final TagKey<Block> oreBlockTag = CosmereTags.Blocks.METAL_ORE_BLOCK_TAGS.get(metalType);
-			addToTag(oreBlockTag, oreBlockType.stone(), oreBlockType.deepslate());
+			final BlockRegistryObject<MetalOreBlock, BlockItem> stone = oreBlockType.stone();
+			final BlockRegistryObject<MetalOreBlock, BlockItem> deepslate = oreBlockType.deepslate();
+			addToTag(oreBlockTag, stone, deepslate);
 
-			addToTag(BlockTags.NEEDS_STONE_TOOL, oreBlockType.stone());
-			addToTag(BlockTags.NEEDS_IRON_TOOL, oreBlockType.deepslate());
+			hasHarvestData(stone.getBlock());
+			hasHarvestData(deepslate.getBlock());
 
-			addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, oreBlockType.stone(), oreBlockType.deepslate());
+			addToTag(BlockTags.NEEDS_STONE_TOOL, stone);
+			addToTag(BlockTags.NEEDS_IRON_TOOL, deepslate);
+
+			addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, stone, deepslate);
 		}
 	}
 

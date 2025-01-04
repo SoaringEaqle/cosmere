@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy;
@@ -26,7 +26,7 @@ public class HemalurgyRecipeGen extends BaseRecipeProvider implements ICondition
 {
 	public HemalurgyRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, Hemalurgy.MODID);
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.aondor;
@@ -18,7 +18,7 @@ public class AonDorRecipeGen extends BaseRecipeProvider implements IConditionBui
 {
 	public AonDorRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, AonDor.MODID);
 	}
 
 	@Override
