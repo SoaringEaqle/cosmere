@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "surgebinding:diamond_broam"
+              "surgebinding:emerald_broam"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cosmere:conversions/diamond_block_deconstruct"
+        "recipe": "surgebinding:conversions/emerald_block_deconstruct"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "cosmere:conversions/diamond_block_deconstruct"
+      "surgebinding:conversions/emerald_block_deconstruct"
     ]
   },
   "sends_telemetry_event": false

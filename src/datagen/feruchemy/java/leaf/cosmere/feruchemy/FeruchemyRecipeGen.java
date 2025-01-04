@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy;
@@ -25,7 +25,7 @@ public class FeruchemyRecipeGen extends BaseRecipeProvider implements ICondition
 {
 	public FeruchemyRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, Feruchemy.MODID);
 	}
 
 	@Override

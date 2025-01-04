@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "surgebinding:garnet_broam"
+              "surgebinding:ruby_broam"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cosmere:conversions/garnet_block_deconstruct"
+        "recipe": "surgebinding:conversions/ruby_block_deconstruct"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "cosmere:conversions/garnet_block_deconstruct"
+      "surgebinding:conversions/ruby_block_deconstruct"
     ]
   },
   "sends_telemetry_event": false

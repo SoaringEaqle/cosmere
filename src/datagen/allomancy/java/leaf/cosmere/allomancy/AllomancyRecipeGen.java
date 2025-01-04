@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.allomancy;
@@ -22,7 +22,7 @@ public class AllomancyRecipeGen extends BaseRecipeProvider implements ICondition
 {
 	public AllomancyRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, Allomancy.MODID);
 	}
 
 	@Override

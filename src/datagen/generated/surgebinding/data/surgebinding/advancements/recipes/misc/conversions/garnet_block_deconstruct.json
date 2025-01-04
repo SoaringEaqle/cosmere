@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "surgebinding:emerald_broam"
+              "surgebinding:garnet_broam"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cosmere:conversions/emerald_block_deconstruct"
+        "recipe": "surgebinding:conversions/garnet_block_deconstruct"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "cosmere:conversions/emerald_block_deconstruct"
+      "surgebinding:conversions/garnet_block_deconstruct"
     ]
   },
   "sends_telemetry_event": false
