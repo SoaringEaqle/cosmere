@@ -6,6 +6,7 @@ package leaf.cosmere.allomancy.common.manifestation;
 
 import leaf.cosmere.allomancy.client.metalScanning.IronSteelLinesThread;
 import leaf.cosmere.allomancy.common.Allomancy;
+import leaf.cosmere.allomancy.common.config.AllomancyConfigs;
 import leaf.cosmere.allomancy.common.entities.CoinProjectile;
 import leaf.cosmere.allomancy.common.items.CoinPouchItem;
 import leaf.cosmere.api.CosmereAPI;
@@ -25,6 +26,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -625,6 +627,22 @@ public class AllomancyIronSteel extends AllomancyManifestation
 				}
 			}
 		}
+	}
+
+	@Override
+	public int getRange(ISpiritweb data)
+	{
+		if (!isActive(data))
+		{
+			return 0;
+		}
+
+		//get allomantic strength
+		double allomanticStrength = getStrength(data, false);
+
+		//no range if compounding.
+		final double potentialRange = Math.max(getMode(data), 0) * allomanticStrength;
+		return Mth.floor(potentialRange * AllomancyConfigs.SERVER.IRON_STEEL_RANGE.get());
 	}
 }
 
