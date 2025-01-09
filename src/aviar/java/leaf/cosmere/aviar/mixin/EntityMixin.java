@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 12 - 2024 ~ Leaf
+ * File updated ~ 9 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.aviar.mixin;
@@ -34,7 +34,7 @@ public class EntityMixin
 			return;
 		}
 
-		if (isServerSide || isInanimateEntity || cir.getReturnValue() || clientPlayer == null)
+		if (isServerSide || isInanimateEntity || cir.getReturnValue())
 		{
 			return;
 		}

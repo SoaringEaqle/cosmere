@@ -1,5 +1,5 @@
 /*
- * File updated ~ 8 - 1 - 2025 ~ Leaf
+ * File updated ~ 9 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.common.eventHandlers;
@@ -301,7 +301,7 @@ public class EntityEventHandler
 			//increase damage taken
 			final float minDetermination = 3f;//can we detect this properly? not really
 			final float percentageOfMinDetermination = Math.abs(total) / minDetermination;
-			float damageIncrease = 1 + Mth.lerp(percentageOfMinDetermination, 0, 0.25f);
+			float damageIncrease = Mth.lerp(percentageOfMinDetermination, 1, 1.25f);
 			event.setAmount(event.getAmount() * damageIncrease);
 		}
 	}
