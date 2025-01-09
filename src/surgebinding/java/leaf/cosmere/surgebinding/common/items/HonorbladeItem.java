@@ -1,5 +1,5 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 10 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.items;
@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 public class HonorbladeItem extends ShardbladeItem
 {
-	Roshar.Gemstone gemstone;
+	public final Roshar.Gemstone gemstone;
 	private final int attackDamageIn;
 	private final float attackSpeedIn;
 
@@ -59,11 +60,17 @@ public class HonorbladeItem extends ShardbladeItem
 		}
 
 		return switch (equipmentSlot)
-				{
-					case MAINHAND, OFFHAND -> this.attributeModifiers;
-					default -> super.getAttributeModifiers(equipmentSlot, stack);
-				};
+		{
+			case MAINHAND, OFFHAND -> this.attributeModifiers;
+			default -> super.getAttributeModifiers(equipmentSlot, stack);
+		};
 
 	}
 
+
+	public boolean canSummonDismiss(Player player)
+	{
+		//honorblades can always be dismissed
+		return true;
+	}
 }
