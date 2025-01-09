@@ -1,5 +1,5 @@
 /*
- * File updated ~ 4 - 1 - 2025 ~ Leaf
+ * File updated ~ 10 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.tag;
@@ -13,6 +13,7 @@ import leaf.cosmere.common.blocks.MetalBlock;
 import leaf.cosmere.common.blocks.MetalOreBlock;
 import leaf.cosmere.common.items.MetalIngotItem;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
+import leaf.cosmere.common.registration.impl.ItemRegistryObject;
 import leaf.cosmere.common.registry.BlocksRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
@@ -70,36 +71,43 @@ public class CosmereTagProvider extends BaseTagProvider
 		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 
-			if (metalType.hasMaterialItem())
+			//if (metalType.hasMaterialItem())
 			{
 				// copper only needs nugget, don't tag ingot
-				if (metalType != Metals.MetalType.COPPER)
+				//if (metalType != Metals.MetalType.COPPER)
 				{
-					MetalIngotItem ingotItem = ItemsRegistry.METAL_INGOTS.get(metalType).asItem();
+					final ItemRegistryObject<MetalIngotItem> ingotRegObj = ItemsRegistry.METAL_INGOTS.get(metalType);
+					if (ingotRegObj != null)
+					{
+						MetalIngotItem ingotItem = ingotRegObj.asItem();
 
-					//don't need to tell the tag what each individual item is if they're tagged correctly
-					//add(Tags.Items.INGOTS, ingotItem);
+						//don't need to tell the tag what each individual item is if they're tagged correctly
+						//add(Tags.Items.INGOTS, ingotItem);
 
-					// tell our ingots what their tags are.
-					final TagKey<Item> metalIngotTag = metalType.getMetalIngotTag();
-					addToTag(metalIngotTag, ingotItem);
+						// tell our ingots what their tags are.
+						final TagKey<Item> metalIngotTag = metalType.getMetalIngotTag();
+						addToTag(metalIngotTag, ingotItem);
 
-					//tell the ingots that our ingot tags are part of them
-					getItemBuilder(Tags.Items.INGOTS).add(metalIngotTag);
+						//tell the ingots that our ingot tags are part of them
+						getItemBuilder(Tags.Items.INGOTS).add(metalIngotTag);
+					}
 				}
 
 				//tell the nuggets that our nugget tags are part of them
 				final TagKey<Item> metalNuggetTag = metalType.getMetalNuggetTag();
 				getItemBuilder(Tags.Items.NUGGETS).add(metalNuggetTag);
 
-				// tell the Nugget that our Nuggets are related
-				Item nuggetItem = ItemsRegistry.METAL_NUGGETS.get(metalType).asItem();
+				final ItemRegistryObject<Item> nugRegObj = ItemsRegistry.METAL_NUGGETS.get(metalType);
+				if (nugRegObj != null)
+				{// tell the Nugget that our Nuggets are related
+					Item nuggetItem = nugRegObj.asItem();
 
-				//don't need to tell the tag what each individual item is if they're tagged correctly
-				//add(Tags.Items.NUGGETS, nuggetItem);
+					//don't need to tell the tag what each individual item is if they're tagged correctly
+					//add(Tags.Items.NUGGETS, nuggetItem);
 
-				// tell our nuggets what their tags are.
-				addToTag(metalNuggetTag, nuggetItem);
+					// tell our nuggets what their tags are.
+					addToTag(metalNuggetTag, nuggetItem);
+				}
 			}
 
 			if (metalType.hasOre())
