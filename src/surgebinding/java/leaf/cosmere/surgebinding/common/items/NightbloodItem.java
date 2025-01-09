@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2022 ~ Leaf
+ * File updated ~ 10 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.items;
@@ -12,6 +12,9 @@ public class NightbloodItem extends ShardbladeItem
 	public NightbloodItem(Tier tier, int attackDamageIn, float attackSpeedIn, Properties builderIn)
 	{
 		super(tier, attackDamageIn, attackSpeedIn, builderIn);
+
+		//todo spoilers!
+		//todo check a config for whether nightblood has talked to the other shardblades?e
 	}
 
 
