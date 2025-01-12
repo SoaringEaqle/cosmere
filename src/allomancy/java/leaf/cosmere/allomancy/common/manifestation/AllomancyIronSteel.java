@@ -158,21 +158,21 @@ public class AllomancyIronSteel extends AllomancyManifestation
 			Entity entityHitResult = null;
 
 			Vec3 closestMetalObjectVec3 = IronSteelLinesThread.getInstance().getClosestMetalObject();
-			Vec3i closestMetalObject = null;
+			BlockPos closestMetalObject = null;
 			if (closestMetalObjectVec3 != null)
 			{
-				closestMetalObject = new Vec3i((int) closestMetalObjectVec3.x(), (int) closestMetalObjectVec3.y(), (int) closestMetalObjectVec3.z());
+				closestMetalObject = BlockPos.containing(closestMetalObjectVec3);
 			}
 
 			if (closestMetalObject != null)
 			{
-				BlockState blockAtPos = level.getBlockState(new BlockPos(closestMetalObject));
+				BlockState blockAtPos = level.getBlockState(closestMetalObject);
 
 				if (blockAtPos.isAir())
 				{
 					try
 					{
-						AABB aabb = new AABB(new BlockPos(closestMetalObject));
+						AABB aabb = new AABB(closestMetalObject);
 						Entity firstMetalEntity = null;
 						for (Entity ent : level.getEntities(player, aabb, potentialEntityHit -> !potentialEntityHit.isSpectator()))
 						{
@@ -203,7 +203,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 				}
 				else
 				{
-					blocks.add(new BlockPos(closestMetalObject));
+					blocks.add(closestMetalObject);
 
 					if (blocks.size() > 5)
 					{
@@ -216,12 +216,12 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		else
 		{
 			//clear list
-			if (blocks.size() > 0)
+			if (!blocks.isEmpty())
 			{
 				blocks.clear();
 				hasChanged = true;
 			}
-			if (entities.size() > 0)
+			if (!entities.isEmpty())
 			{
 				entities.clear();
 				hasChanged = true;
@@ -342,11 +342,11 @@ public class AllomancyIronSteel extends AllomancyManifestation
 
 	private void moveEntityTowards(Entity entity, BlockPos toMoveTo)
 	{
-		Vec3 blockCenter = Vec3.atCenterOf(toMoveTo);
+		Vec3 blockCenter = toMoveTo.getCenter();
 
 		Vec3 direction = VectorHelper.getDirection(
 				blockCenter,
-				Vec3.atCenterOf(entity.blockPosition()),//use entity block position, so we can do things like hover directly over a block more easily
+				entity.blockPosition().getCenter(),//use entity block position, so we can do things like hover directly over a block more easily
 				(isPush ? -1f : 2f));
 
 		//todo, clean up all the unnecessary calculations once we find what feels good at run time

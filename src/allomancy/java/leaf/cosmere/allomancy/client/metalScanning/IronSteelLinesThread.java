@@ -267,9 +267,9 @@ public class IronSteelLinesThread implements Runnable
 	{
 		boolean isObscured;
 		Vec3 currVec = player.getEyePosition();
-		currVec = currVec.add(-0.75D, 0D, 0D);
+		currVec = currVec.add(-1D, 0D, 0D);
 		Vec3 endPos = blockPos.getCenter();
-		endPos = endPos.add(-0.75D, 0D, 0D);
+		endPos = endPos.add(-1D, 0D, 0D);
 		Vec3 endFloorVec = new Vec3(Math.floor(endPos.x), Math.floor(endPos.y), Math.floor(endPos.z));
 		double resistance = 0.0F;
 
