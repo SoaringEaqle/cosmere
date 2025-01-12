@@ -1,20 +1,25 @@
 /*
- * File updated ~ 26 - 10 - 2022 ~ Leaf
+ * File updated ~ 12 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.eventHandlers;
 
+import leaf.cosmere.api.ISpiritwebSubmodule;
+import leaf.cosmere.api.Manifestations;
+import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.surgebinding.common.Surgebinding;
+import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeGravitation;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Surgebinding.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class SurgebindingEventsHandler
+public class SurgebindingForgeEventsHandler
 {
 /*
 	//todo fix roshar not respecting sleep ??
@@ -70,4 +75,17 @@ public class SurgebindingEventsHandler
 		SurgeGravitation.onLivingAttackEvent(event);
 	}
 
+
+	@SubscribeEvent
+	public static void onServerChatEvent(ServerChatEvent event)
+	{
+		SpiritwebCapability.get(event.getPlayer()).ifPresent(spiritweb ->
+		{
+			final ISpiritwebSubmodule submodule = spiritweb.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
+			if (submodule instanceof SurgebindingSpiritwebSubmodule surgebinding)
+			{
+				surgebinding.onChatMessageReceived((SpiritwebCapability) spiritweb, event);
+			}
+		});
+	}
 }

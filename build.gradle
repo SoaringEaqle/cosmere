@@ -746,6 +746,7 @@ void setGenericCurseArtifactData(UploadArtifact artifact, String changelog, Stri
 	artifact.changelogType = 'text'
 	artifact.releaseType = "${release_type}"
 	artifact.addModLoader("Forge")
+	artifact.addModLoader("NeoForge")
 }
 
 void uploadSecondaryCurseProject(TaskPublishCurseForge task, long projectId, String changelog, TaskProvider<Jar> sourceSetJar, String release_type)
@@ -811,6 +812,7 @@ if (System.getenv("MODRINTH_API_TOKEN") != null || project.hasProperty('modrinth
 		projectId = "SEABTDiK"
 		versionNumber = "${full_mod_version}"
 		versionType = "${release_type}"
+		loaders.addAll("forge", "neoforge")
 		gameVersions = ["1.20.1"] // Must be an array, even with only one version
 		changelog = changeLogResolver.call()
 		uploadFile = jar
