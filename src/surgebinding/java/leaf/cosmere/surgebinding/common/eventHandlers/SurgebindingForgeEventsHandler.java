@@ -1,5 +1,5 @@
 /*
- * File updated ~ 12 - 1 - 2025 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.eventHandlers;
@@ -84,7 +84,7 @@ public class SurgebindingForgeEventsHandler
 			final ISpiritwebSubmodule submodule = spiritweb.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
 			if (submodule instanceof SurgebindingSpiritwebSubmodule surgebinding)
 			{
-				surgebinding.onChatMessageReceived((SpiritwebCapability) spiritweb, event);
+				surgebinding.onChatMessageReceived(event);
 			}
 		});
 	}

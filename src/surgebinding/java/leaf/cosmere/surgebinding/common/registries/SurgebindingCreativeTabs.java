@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 12 - 2024 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.registries;
@@ -23,7 +23,7 @@ public class SurgebindingCreativeTabs
 	public static final CreativeTabRegistryObject ITEMS =
 			CREATIVE_TABS.registerMain(
 					Component.translatable("tabs." + Surgebinding.MODID + ".items"),
-					SurgebindingItems.HONORBLADES.get(Roshar.Gemstone.SMOKESTONE),
+					SurgebindingItems.HONORBLADES.get(Roshar.RadiantOrder.SKYBREAKER),
 					builder ->
 							builder.withSearchBar()//Allow our tabs to be searchable for convenience purposes
 									.displayItems((displayParameters, output) ->
@@ -76,7 +76,7 @@ public class SurgebindingCreativeTabs
 		}
 		else if (tabKey == CreativeModeTabs.COMBAT)
 		{
-			for (var gemstone : EnumUtils.GEMSTONE_TYPES)
+			for (var gemstone : EnumUtils.RADIANT_ORDERS)
 			{
 				CreativeTabDeferredRegister.addToDisplay(event, SurgebindingItems.HONORBLADES.get(gemstone));
 			}
