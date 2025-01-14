@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.registries;
@@ -43,12 +43,12 @@ public class SurgebindingItems
 	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_BOOTS = ITEMS.register("shardplate_boots", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.BOOTS, PropTypes.Items.SHARDBLADE.get()));
 
 
-	public static final Map<Roshar.Gemstone, ItemRegistryObject<HonorbladeItem>> HONORBLADES =
-			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
+	public static final Map<Roshar.RadiantOrder, ItemRegistryObject<HonorbladeItem>> HONORBLADES =
+			Arrays.stream(EnumUtils.RADIANT_ORDERS)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
-									type.getAssociatedOrder() + "_honorblade",
+									type.getName() + "_honorblade",
 									() -> new HonorbladeItem(type, SHARDBLADE_ITEM_TIER, 24, -2.4F, PropTypes.Items.SHARDBLADE.get())
 							)));
 

@@ -1,8 +1,8 @@
 /*
- * File updated ~ 13 - 5 - 2024 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
-package leaf.cosmere.surgebinding.common.entity;
+package leaf.cosmere.surgebinding.common.entity.spren;
 
 import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
 import net.minecraft.nbt.CompoundTag;

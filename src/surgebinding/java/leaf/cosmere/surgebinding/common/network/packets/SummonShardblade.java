@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 1 - 2025 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.network.packets;
@@ -105,16 +105,16 @@ public class SummonShardblade implements ICosmerePacket
 
 	private static void UpdateIntrinsicPowers(HonorbladeItem honorbladeItem, LivingEntity livingEntity, boolean isStoringHonorblade)
 	{
-		final Roshar.Gemstone gemstone = honorbladeItem.gemstone;
-		UUID uuid = UUID.fromString(gemstone.getName());
-		Attribute firstSurge = SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(gemstone.getFirstSurge()).getAttribute();
-		Attribute secondSurge = SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(gemstone.getSecondSurge()).getAttribute();
+		final Roshar.RadiantOrder radiantOrder = honorbladeItem.radiantOrder;
+		UUID uuid = UUID.fromString(radiantOrder.getName());
+		Attribute firstSurge = SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getFirstSurge()).getAttribute();
+		Attribute secondSurge = SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getSecondSurge()).getAttribute();
 
 		if (isStoringHonorblade)
 		{
 			//then add the power to the spiritweb
-			livingEntity.getAttribute(firstSurge).addPermanentModifier(new AttributeModifier(uuid, gemstone.getAssociatedOrder() + "PrimaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
-			livingEntity.getAttribute(secondSurge).addPermanentModifier(new AttributeModifier(uuid, gemstone.getAssociatedOrder() + "SecondaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
+			livingEntity.getAttribute(firstSurge).addPermanentModifier(new AttributeModifier(uuid, radiantOrder.getName() + "PrimaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
+			livingEntity.getAttribute(secondSurge).addPermanentModifier(new AttributeModifier(uuid, radiantOrder.getName() + "SecondaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
 		}
 		else
 		{

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.api;
@@ -13,6 +13,7 @@ public class EnumUtils
 	public static final Metals.MetalType[] METAL_TYPES = Metals.MetalType.values();
 
 	//roshar
+	public static final Roshar.RadiantOrder[] RADIANT_ORDERS = Roshar.RadiantOrder.values();
 	public static final Roshar.Gemstone[] GEMSTONE_TYPES = Roshar.Gemstone.values();
 	public static final Roshar.GemSize[] GEM_SIZES = Roshar.GemSize.values();
 	public static final Roshar.Surges[] SURGES = Roshar.Surges.values();

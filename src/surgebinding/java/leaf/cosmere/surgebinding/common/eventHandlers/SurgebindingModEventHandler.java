@@ -1,5 +1,5 @@
 /*
- * File updated ~ 12 - 1 - 2025 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.eventHandlers;
@@ -8,7 +8,8 @@ import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.entity.Chull;
-import leaf.cosmere.surgebinding.common.entity.Cryptic;
+import leaf.cosmere.surgebinding.common.entity.spren.Cryptic;
+import leaf.cosmere.surgebinding.common.entity.spren.Honorspren;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingAttributes;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingEntityTypes;
 import net.minecraft.world.entity.EntityType;
@@ -37,5 +38,6 @@ public class SurgebindingModEventHandler
 	{
 		event.put(SurgebindingEntityTypes.CHULL.get(), Chull.createAttributes().build());
 		event.put(SurgebindingEntityTypes.CRYPTIC.get(), Cryptic.createAttributes().build());
+		event.put(SurgebindingEntityTypes.HONORSPREN.get(), Honorspren.createAttributes().build());
 	}
 }

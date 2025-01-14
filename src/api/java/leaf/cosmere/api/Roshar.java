@@ -1,5 +1,5 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.api;
@@ -23,11 +23,11 @@ public class Roshar
 		public float getChargeModifier()
 		{
 			return switch (this)
-					{
-						case BROAM -> 1f;
-						case MARK -> 0.5f;
-						case CHIP -> 0.1f;
-					};
+			{
+				case BROAM -> 1f;
+				case MARK -> 0.5f;
+				case CHIP -> 0.1f;
+			};
 		}
 	}
 
@@ -109,78 +109,21 @@ public class Roshar
 		}
 
 
-		public String getAssociatedOrder()
+		public RadiantOrder getAssociatedOrder()
 		{
 			return switch (this)
-					{
-						case SAPPHIRE -> "windrunner";
-						case SMOKESTONE -> "skybreaker";
-						case RUBY -> "dustbringer";
-						case DIAMOND -> "edgedancer";
-						case EMERALD -> "truthwatcher";
-						case GARNET -> "lightweaver";
-						case ZIRCON -> "elsecaller";
-						case AMETHYST -> "willshaper";
-						case TOPAZ -> "stoneward";
-						case HELIODOR -> "bondsmith";
-					};
-		}
-
-
-		public Surges getFirstSurge()
-		{
-			switch (this)
 			{
-				default:
-				case SAPPHIRE://Adhesion & Gravitation
-					return Surges.ADHESION;
-				case SMOKESTONE://Gravitation & Division
-					return Surges.GRAVITATION;
-				case RUBY://Division & Abrasion
-					return Surges.DIVISION;
-				case DIAMOND://Abrasion & Progression
-					return Surges.ABRASION;
-				case EMERALD://Progression & Illumination
-					return Surges.PROGRESSION;
-				case GARNET://Illumination & Transformation
-					return Surges.ILLUMINATION;
-				case ZIRCON://	Transformation & Transportation
-					return Surges.TRANSFORMATION;
-				case AMETHYST://Transportation & Cohesion
-					return Surges.TRANSPORTATION;
-				case TOPAZ://Cohesion & Tension
-					return Surges.COHESION;
-				case HELIODOR://Tension & Adhesion
-					return Surges.TENSION;
-			}
-		}
-
-		public Surges getSecondSurge()
-		{
-			switch (this)
-			{
-				default:
-				case SAPPHIRE://Adhesion & Gravitation
-					return Surges.GRAVITATION;
-				case SMOKESTONE://Gravitation & Division
-					return Surges.DIVISION;
-				case RUBY://Division & Abrasion
-					return Surges.ABRASION;
-				case DIAMOND://Abrasion & Progression
-					return Surges.PROGRESSION;
-				case EMERALD://Progression & Illumination
-					return Surges.ILLUMINATION;
-				case GARNET://Illumination & Transformation
-					return Surges.TRANSFORMATION;
-				case ZIRCON://Transformation & Transportation
-					return Surges.TRANSPORTATION;
-				case AMETHYST://Transportation & Cohesion
-					return Surges.COHESION;
-				case TOPAZ://Cohesion & Tension
-					return Surges.TENSION;
-				case HELIODOR://Tension & Adhesion
-					return Surges.ADHESION;
-			}
+				case SAPPHIRE -> RadiantOrder.WINDRUNNER;
+				case SMOKESTONE -> RadiantOrder.SKYBREAKER;
+				case RUBY -> RadiantOrder.DUSTBRINGER;
+				case DIAMOND -> RadiantOrder.EDGEDANCER;
+				case EMERALD -> RadiantOrder.TRUTHWATCHER;
+				case GARNET -> RadiantOrder.LIGHTWEAVER;
+				case ZIRCON -> RadiantOrder.ELSECALLER;
+				case AMETHYST -> RadiantOrder.WILLSHAPER;
+				case TOPAZ -> RadiantOrder.STONEWARD;
+				case HELIODOR -> RadiantOrder.BONDSMITH;
+			};
 		}
 
 		public int getColorValue()
@@ -191,18 +134,18 @@ public class Roshar
 		public Color getColor()
 		{
 			return switch (this)
-					{
-						case SAPPHIRE -> GemColours.SAPPHIRE;
-						case SMOKESTONE -> GemColours.SMOKESTONE;
-						case RUBY -> GemColours.RUBY;
-						case DIAMOND -> GemColours.DIAMOND;
-						case EMERALD -> GemColours.EMERALD;
-						case GARNET -> GemColours.GARNET;
-						case ZIRCON -> GemColours.ZIRCON;
-						case AMETHYST -> GemColours.AMETHYST;
-						case TOPAZ -> GemColours.TOPAZ;
-						case HELIODOR -> GemColours.HELIODOR;
-					};
+			{
+				case SAPPHIRE -> GemColours.SAPPHIRE;
+				case SMOKESTONE -> GemColours.SMOKESTONE;
+				case RUBY -> GemColours.RUBY;
+				case DIAMOND -> GemColours.DIAMOND;
+				case EMERALD -> GemColours.EMERALD;
+				case GARNET -> GemColours.GARNET;
+				case ZIRCON -> GemColours.ZIRCON;
+				case AMETHYST -> GemColours.AMETHYST;
+				case TOPAZ -> GemColours.TOPAZ;
+				case HELIODOR -> GemColours.HELIODOR;
+			};
 		}
 
 
@@ -256,5 +199,111 @@ public class Roshar
 		public static final Color AMETHYST = Color.decode("#c975e4");
 		public static final Color TOPAZ = Color.decode("#e3681a");
 		public static final Color HELIODOR = Color.decode("#f3dd25");
+	}
+
+
+	public enum RadiantOrder
+	{
+		WINDRUNNER(Gemstone.SAPPHIRE),
+		SKYBREAKER(Gemstone.SMOKESTONE),
+		DUSTBRINGER(Gemstone.RUBY),
+		EDGEDANCER(Gemstone.DIAMOND),
+		TRUTHWATCHER(Gemstone.EMERALD),
+		LIGHTWEAVER(Gemstone.GARNET),
+		ELSECALLER(Gemstone.ZIRCON),
+		WILLSHAPER(Gemstone.AMETHYST),
+		STONEWARD(Gemstone.TOPAZ),
+		BONDSMITH(Gemstone.HELIODOR);
+
+
+		private final Gemstone gemstone;
+
+		RadiantOrder(Gemstone gemstone)
+		{
+			this.gemstone = gemstone;
+		}
+
+		public static Optional<RadiantOrder> valueOf(int value)
+		{
+			return Arrays.stream(EnumUtils.RADIANT_ORDERS)
+					.filter(order -> order.getID() == value)
+					.findFirst();
+		}
+
+		public int getID()
+		{
+			return gemstone.getID();
+		}
+
+		public String getName()
+		{
+			return name().toLowerCase(Locale.ROOT);
+		}
+
+		public Surges getFirstSurge()
+		{
+			switch (this)
+			{
+				default:
+				case WINDRUNNER://Adhesion & Gravitation
+					return Surges.ADHESION;
+				case SKYBREAKER://Gravitation & Division
+					return Surges.GRAVITATION;
+				case DUSTBRINGER://Division & Abrasion
+					return Surges.DIVISION;
+				case EDGEDANCER://Abrasion & Progression
+					return Surges.ABRASION;
+				case TRUTHWATCHER://Progression & Illumination
+					return Surges.PROGRESSION;
+				case LIGHTWEAVER://Illumination & Transformation
+					return Surges.ILLUMINATION;
+				case ELSECALLER://	Transformation & Transportation
+					return Surges.TRANSFORMATION;
+				case WILLSHAPER://Transportation & Cohesion
+					return Surges.TRANSPORTATION;
+				case STONEWARD://Cohesion & Tension
+					return Surges.COHESION;
+				case BONDSMITH://Tension & Adhesion
+					return Surges.TENSION;
+			}
+		}
+
+		public Surges getSecondSurge()
+		{
+			switch (this)
+			{
+				default:
+				case WINDRUNNER://Adhesion & Gravitation
+					return Surges.GRAVITATION;
+				case SKYBREAKER://Gravitation & Division
+					return Surges.DIVISION;
+				case DUSTBRINGER://Division & Abrasion
+					return Surges.ABRASION;
+				case EDGEDANCER://Abrasion & Progression
+					return Surges.PROGRESSION;
+				case TRUTHWATCHER://Progression & Illumination
+					return Surges.ILLUMINATION;
+				case LIGHTWEAVER://Illumination & Transformation
+					return Surges.TRANSFORMATION;
+				case ELSECALLER://Transformation & Transportation
+					return Surges.TRANSPORTATION;
+				case WILLSHAPER://Transportation & Cohesion
+					return Surges.COHESION;
+				case STONEWARD://Cohesion & Tension
+					return Surges.TENSION;
+				case BONDSMITH://Tension & Adhesion
+					return Surges.ADHESION;
+			}
+		}
+
+		public int getColorValue()
+		{
+			return getColor().getRGB();
+		}
+
+		public Color getColor()
+		{
+			return gemstone.getColor();
+		}
 	}
 }
