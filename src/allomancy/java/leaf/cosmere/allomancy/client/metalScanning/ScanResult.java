@@ -4,14 +4,14 @@
 
 package leaf.cosmere.allomancy.client.metalScanning;
 
+import leaf.cosmere.api.CosmereAPI;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*
  * Largely based on Scannable, so we can use their concept of block clusters
@@ -57,51 +57,16 @@ public final class ScanResult
 	{
 		BlockScanResult root = null;
 
-		//all the blocks directly touching this one
-		final BlockPos east = pos.east();
-		root = tryAddToCluster(clusters, pos, east, root);
-		final BlockPos west = pos.west();
-		root = tryAddToCluster(clusters, pos, west, root);
-		final BlockPos north = pos.north();
-		root = tryAddToCluster(clusters, pos, north, root);
-		final BlockPos south = pos.south();
-		root = tryAddToCluster(clusters, pos, south, root);
-		root = tryAddToCluster(clusters, pos, pos.above(), root);
-		root = tryAddToCluster(clusters, pos, pos.below(), root);
+		List<BlockPos> directions = getNeighbors(pos);
 
-		//center slice
-		root = tryAddToCluster(clusters, pos, north.above(), root);
-		root = tryAddToCluster(clusters, pos, north.below(), root);
-		root = tryAddToCluster(clusters, pos, south.above(), root);
-		root = tryAddToCluster(clusters, pos, south.below(), root);
-
-		//west slice
-		root = tryAddToCluster(clusters, pos, east.above(), root);
-		root = tryAddToCluster(clusters, pos, east.below(), root);
-		final BlockPos eastNorth = east.north();
-		root = tryAddToCluster(clusters, pos, eastNorth, root);
-		root = tryAddToCluster(clusters, pos, eastNorth.above(), root);
-		root = tryAddToCluster(clusters, pos, eastNorth.below(), root);
-		final BlockPos eastSouth = east.south();
-		root = tryAddToCluster(clusters, pos, eastSouth, root);
-		root = tryAddToCluster(clusters, pos, eastSouth.above(), root);
-		root = tryAddToCluster(clusters, pos, eastSouth.below(), root);
-
-		//east slice
-		root = tryAddToCluster(clusters, pos, west.above(), root);
-		root = tryAddToCluster(clusters, pos, west.below(), root);
-		final BlockPos westNorth = west.north();
-		root = tryAddToCluster(clusters, pos, westNorth, root);
-		root = tryAddToCluster(clusters, pos, westNorth.above(), root);
-		root = tryAddToCluster(clusters, pos, westNorth.below(), root);
-		final BlockPos westSouth = east.south();
-		root = tryAddToCluster(clusters, pos, westSouth, root);
-		root = tryAddToCluster(clusters, pos, westSouth.above(), root);
-		root = tryAddToCluster(clusters, pos, westSouth.below(), root);
-
-		if (root != null)
+		for (BlockPos direction : directions)
 		{
-			if (pos.getCenter().equals(currentClosestMetalObject))
+			root = tryAddToCluster(clusters, pos, direction, root);
+		}
+
+		if (root != null && currentClosestMetalObject != null)
+		{
+			if (targetedCluster != root && root.getBlocks().contains(BlockPos.containing(currentClosestMetalObject)))
 			{
 				targetedCluster = root;
 				hasTargetedCluster = true;
@@ -132,6 +97,29 @@ public final class ScanResult
 		}
 
 		return root;
+	}
+
+	private static List<BlockPos> getNeighbors(BlockPos start)
+	{
+		List<BlockPos> neighbors = new ArrayList<>();
+
+		for (int x = -1; x <= 1; x++)
+		{
+			for (int y = -1; y <= 1; y++)
+			{
+				for (int z = -1; z <= 1; z++)
+				{
+					// Skip the start block
+					if (x == 0 && y == 0 && z == 0)
+					{
+						continue;
+					}
+					neighbors.add(start.offset(x, y, z));
+				}
+			}
+		}
+
+		return neighbors;
 	}
 
 	public Vec3 finalizeClusters()
