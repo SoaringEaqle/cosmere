@@ -15,6 +15,8 @@ public class AllomancyServerConfig implements ICosmereConfig
 
 	public final ForgeConfigSpec.IntValue GOD_METAL_EAT_STRENGTH_MINIMUM;
 	public final ForgeConfigSpec.DoubleValue IRON_STEEL_RANGE;
+	public final ForgeConfigSpec.DoubleValue PUSH_PULL_WEIGHT;
+	public final ForgeConfigSpec.DoubleValue MAX_PUSH_PULL_WEIGHT;
 
 	// Boost amount for Duralumin and Nicrosil
 	//public final ForgeConfigSpec.DoubleValue boostAmount;
@@ -31,6 +33,9 @@ public class AllomancyServerConfig implements ICosmereConfig
 
 		// max 10 might seem low, but the scanning thread chugs so hard at 10 that it's unusable and I doubt anyone will try it except for fun >> Gerbagel
 		IRON_STEEL_RANGE = builder.comment("Multiplier for iron and steel range. At base strength (9) the range is 9 while burning and 18 while flaring").defineInRange("ironSteelRange", 1.0D, 0D, 10.0D);
+
+		PUSH_PULL_WEIGHT = builder.comment("Push/pull weight adjustment per block.").defineInRange("pushPullWeight", 0.05D, 0.01D, 100.0D);
+		MAX_PUSH_PULL_WEIGHT = builder.comment("Maximum pull/push weight adjustment. At 1.0 (default), push/pull power maxes out at 2 times (20 blocks)").defineInRange("maxPushPullWeight", 1.0D, 0D, 999999.0D);
 
 		builder.pop();
 		configSpec = builder.build();
