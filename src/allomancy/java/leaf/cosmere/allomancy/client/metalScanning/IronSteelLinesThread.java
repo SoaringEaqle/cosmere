@@ -104,6 +104,15 @@ public class IronSteelLinesThread implements Runnable
 		}
 	}
 
+	public int getWeight()
+	{
+		if (scanResult.hasTargetedCluster)
+		{
+			return scanResult.targetedCluster.getBlocks().size();
+		}
+		return 1;
+	}
+
 	public void releaseScanResult()
 	{
 		lock.unlock();

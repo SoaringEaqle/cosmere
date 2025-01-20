@@ -20,7 +20,6 @@ import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.network.packets.SyncPushPullMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
@@ -238,6 +237,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 					.resultOrPartial(CosmereAPI.logger::error)
 					.ifPresent(inbt1 -> nbt.put(isPush ? "pushBlocks" : "pullBlocks", inbt1));
 			nbt.putIntArray(isPush ? "pushEntities" : "pullEntities", entities);
+			nbt.putInt("weight", IronSteelLinesThread.getInstance().getWeight());
 			Allomancy.packetHandler().sendToServer(new SyncPushPullMessage(nbt));
 		}
 	}
@@ -288,6 +288,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 	private void pushpullEntities(SpiritwebCapability data)
 	{
 		List<Integer> entities = isPush ? data.pushEntities : data.pullEntities;
+		int weight = data.pushPullWeight;
 		for (int i = entities.size() - 1; i >= 0; i--)
 		{
 			int entityID = entities.get(i);
@@ -307,14 +308,14 @@ public class AllomancyIronSteel extends AllomancyManifestation
 						}
 						else
 						{
-							moveEntityTowards(itemEntity, dataLiving.blockPosition());
+							moveEntityTowards(itemEntity, dataLiving.blockPosition(), weight);
 						}
 					}
 					//affect both entities
 					else if (targetEntity instanceof LivingEntity livingEntity)
 					{
-						moveEntityTowards(livingEntity, dataLiving.blockPosition());
-						moveEntityTowards(dataLiving, livingEntity.blockPosition());
+						moveEntityTowards(livingEntity, dataLiving.blockPosition(), weight);
+						moveEntityTowards(dataLiving, livingEntity.blockPosition(), weight);
 						dataLiving.hurtMarked = true;
 					}
 					//affect entity who is doing the push/pull
@@ -322,7 +323,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 					{
 						if (isPush)
 						{
-							moveEntityTowards(dataLiving, targetEntity.blockPosition());
+							moveEntityTowards(dataLiving, targetEntity.blockPosition(), weight);
 						}
 						//if not push, then check if we should pull coin projectiles back to player
 						else if (dataLiving instanceof Player player && targetEntity instanceof CoinProjectile coinProjectile)
@@ -340,14 +341,14 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		}
 	}
 
-	private void moveEntityTowards(Entity entity, BlockPos toMoveTo)
+	private void moveEntityTowards(Entity entity, BlockPos toMoveTo, int weight)
 	{
 		Vec3 blockCenter = toMoveTo.getCenter();
 
 		Vec3 direction = VectorHelper.getDirection(
 				blockCenter,
 				entity.blockPosition().getCenter(),//use entity block position, so we can do things like hover directly over a block more easily
-				(isPush ? -1f : 2f));
+				(isPush ? -1f: 2f));
 
 		//todo, clean up all the unnecessary calculations once we find what feels good at run time
 		Vec3 normalize = direction.normalize();
@@ -355,10 +356,13 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		double shortenFactor = isPush ? 0.2 : 0.4;
 		Vec3 add = entity.getDeltaMovement().add(normalize.multiply(shortenFactor, shortenFactor, shortenFactor));
 
+		// cannot have flat multiplier; can get ridiculous
+		double adjustedWeight = 1d + Math.min(AllomancyConfigs.SERVER.MAX_PUSH_PULL_WEIGHT.get(), (weight-1) * AllomancyConfigs.SERVER.PUSH_PULL_WEIGHT.get());
+
 		//get flung off rides
 		entity.stopRiding();
 		//don't let the motion go crazy large
-		entity.setDeltaMovement(VectorHelper.ClampMagnitude(add, 1));
+		entity.setDeltaMovement(VectorHelper.ClampMagnitude(add, 1).multiply(adjustedWeight, adjustedWeight, adjustedWeight));
 		//hurt marked true means it will tell clients that they are moving.
 		entity.hurtMarked = true;
 
@@ -375,6 +379,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 	private void pushpullBlocks(SpiritwebCapability data)
 	{
 		List<BlockPos> blocks = isPush ? data.pushBlocks : data.pullBlocks;
+		int weight = data.pushPullWeight;
 		int blockListCount = blocks.size();
 
 		if (blockListCount == 0)
@@ -396,7 +401,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 			double maxDistance = getRange(data);
 			if (blockPos.closerThan(living.blockPosition(), maxDistance))
 			{
-				moveEntityTowards(living, blockPos);
+				moveEntityTowards(living, blockPos, weight);
 			}
 			else
 			{

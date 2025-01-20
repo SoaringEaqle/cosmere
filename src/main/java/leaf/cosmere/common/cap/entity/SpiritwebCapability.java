@@ -82,6 +82,7 @@ public class SpiritwebCapability implements ISpiritweb
 
 	public List<BlockPos> pullBlocks = new ArrayList<>(4);
 	public List<Integer> pullEntities = new ArrayList<>(4);
+	public int pushPullWeight = 1;
 	private CompoundTag nbt;
 
 	private final Map<UUID, CosmereEffectInstance> activeEffects = Maps.newHashMap();
