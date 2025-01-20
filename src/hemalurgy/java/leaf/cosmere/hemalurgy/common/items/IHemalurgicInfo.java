@@ -13,6 +13,7 @@ import leaf.cosmere.api.text.TextHelper;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.hemalurgy.common.config.HemalurgyConfigs;
+import leaf.cosmere.hemalurgy.common.registries.HemalurgyAttributes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -248,6 +249,18 @@ public interface IHemalurgicInfo
 	default Multimap<Attribute, AttributeModifier> getHemalurgicAttributes(Multimap<Attribute, AttributeModifier> attributeModifiers, ItemStack stack, Metals.MetalType metalType)
 	{
 		UUID hemalurgicIdentity = getHemalurgicIdentity(stack);
+
+		if (hemalurgicIdentity != null)
+		{
+			// no matter what, spike reduces spiritweb integrity. Fixed value? Dynamic based on spike?
+			attributeModifiers.put(HemalurgyAttributes.SPIRITWEB_INTEGRITY.getAttribute(),
+					new AttributeModifier(
+							hemalurgicIdentity,
+							"Spiritweb Integrity",
+							-1,
+							AttributeModifier.Operation.ADDITION
+					));
+		}
 
 		if (metalType == Metals.MetalType.ALUMINUM)
 		{
