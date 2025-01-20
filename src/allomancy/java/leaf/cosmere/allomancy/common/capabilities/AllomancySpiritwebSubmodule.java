@@ -251,11 +251,11 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 				{
 					if (scanResult.hasTargetedCluster)
 					{
-						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, closestMetalObject, scanResult.targetedCluster.getBlocks());
+						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, range, closestMetalObject, scanResult.targetedCluster.getBlocks());
 					}
 					else
 					{
-						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, closestMetalObject, new ArrayList<>());
+						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, range, closestMetalObject, new ArrayList<>());
 					}
 				}
 
