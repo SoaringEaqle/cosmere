@@ -13,7 +13,7 @@ import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.core.particles.*;
+import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +25,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 
 public class AllomancyTin extends AllomancyManifestation
 {
@@ -45,7 +47,7 @@ public class AllomancyTin extends AllomancyManifestation
 	public void onModeChange(ISpiritweb data, int lastMode) {
 		super.onModeChange(data, lastMode);
 
-		if (data.getLiving().level.isClientSide())
+		if (data.getLiving().level().isClientSide())
 		{
 			int mode = getMode(data);
 
@@ -79,7 +81,7 @@ public class AllomancyTin extends AllomancyManifestation
 		}
 
 		// show particles from sound origins towards player burning tin
-        if (living.level.isClientSide() && living instanceof LocalPlayer)
+        if (living.level().isClientSide() && living instanceof LocalPlayer)
 		{
 			soundPosMap.entrySet().removeIf(entry -> entry.getValue() <= 0);
 
@@ -94,7 +96,7 @@ public class AllomancyTin extends AllomancyManifestation
 				if (soundPosMap.get(v) > 18)
 				{
 					VibrationParticleOption vib = new VibrationParticleOption(playerSource, 10);
-					living.level.addParticle(vib, v.x, v.y, v.z, 1D, 1D, 1D);
+					living.level().addParticle(vib, v.x, v.y, v.z, 1D, 1D, 1D);
 				}
 
 				soundPosMap.put(v, soundPosMap.get(v)-1);

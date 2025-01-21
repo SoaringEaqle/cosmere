@@ -1,13 +1,14 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy;
 
 import leaf.cosmere.api.CosmereAPI;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
-import leaf.cosmere.api.helpers.ResourceLocationHelper;
+import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.providers.IAttributeProvider;
 import leaf.cosmere.api.providers.ICosmereEffectProvider;
@@ -46,6 +47,7 @@ public class FeruchemyEngLangGen extends LanguageProvider
 		addManifestations();
 		addAttributes();
 		addPatchouli();
+		addCreativeTabs();
 		addTooltips();
 		addDamageSources();
 		addMobEffects();
@@ -63,7 +65,7 @@ public class FeruchemyEngLangGen extends LanguageProvider
 		//Items and Blocks
 		for (Item item : ForgeRegistries.ITEMS.getValues())
 		{
-			final ResourceLocation registryName = ResourceLocationHelper.get(item);
+			final ResourceLocation registryName = RegistryHelper.get(item);
 			if (registryName.getNamespace().contentEquals(Feruchemy.MODID))
 			{
 				String localisedString = StringHelper.fixCapitalisation(registryName.getPath());
@@ -138,7 +140,7 @@ public class FeruchemyEngLangGen extends LanguageProvider
 		}
 
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasAssociatedManifestation())
 			{
@@ -167,7 +169,7 @@ public class FeruchemyEngLangGen extends LanguageProvider
 	private void addPatchouli()
 	{
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			final String name = metalType.getName();
 			final String ferringName = metalType.getFerringName();
@@ -178,6 +180,13 @@ public class FeruchemyEngLangGen extends LanguageProvider
 
 			add(feruchemyGuide, StringHelper.fixCapitalisation(f));
 		}
+	}
+
+	private void addCreativeTabs()
+	{
+		//ItemGroups/Tabs
+		add("tabs.feruchemy.items", "Feruchemy");
+
 	}
 
 	private void addTooltips()

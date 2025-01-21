@@ -1,5 +1,5 @@
 /*
- * File updated ~ 27 - 2 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.manifestation;
@@ -32,6 +32,7 @@ public class SurgeProgression extends SurgebindingManifestation
 	{
 		super(surge);
 	}
+
 	private static final HashMap<Block, Block> progressionBlockMap = new HashMap<>();
 
 
@@ -61,7 +62,7 @@ public class SurgeProgression extends SurgebindingManifestation
 						else
 						{
 							final int affordableHealth = submodule.getStormlight() / stormlightHealingCostMultiplier;
-							if (submodule.adjustStormlight(-submodule.getStormlight(), true))
+							if (affordableHealth > 0 && submodule.adjustStormlight(-submodule.getStormlight(), true))
 							{
 								heal(eventTarget, eventTargetHealth + affordableHealth);
 							}
@@ -71,7 +72,7 @@ public class SurgeProgression extends SurgebindingManifestation
 			}
 		}
 
-		if (event.getTarget() instanceof AgeableMob ageableMob && ageableMob.getLevel() instanceof ServerLevel)
+		if (event.getTarget() instanceof AgeableMob ageableMob && ageableMob.level() instanceof ServerLevel)
 		{
 			if (ageableMob.isBaby())
 			{
@@ -79,7 +80,7 @@ public class SurgeProgression extends SurgebindingManifestation
 				{
 					if (iSpiritweb.hasManifestation(SurgebindingManifestations.SURGEBINDING_POWERS.get(Roshar.Surges.PROGRESSION).get()))
 					{
-						int ageUpAmount = (int) Math.floor(-(ageableMob.getAge()/20D) * 0.1);       // get age in seconds, then 10% of that
+						int ageUpAmount = (int) Math.floor(-(ageableMob.getAge() / 20D) * 0.1);       // get age in seconds, then 10% of that
 						SpiritwebCapability playerSpiritweb = (SpiritwebCapability) iSpiritweb;
 						SurgebindingSpiritwebSubmodule submodule = (SurgebindingSpiritwebSubmodule) playerSpiritweb.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
 
@@ -91,7 +92,7 @@ public class SurgeProgression extends SurgebindingManifestation
 						else
 						{
 							final int affordableAge = (int) ((float) submodule.getStormlight() / (float) (stormlightAgeUpCostMultiplier)) * ageUpAmount;
-							if (submodule.adjustStormlight(-submodule.getStormlight(), true))
+							if (affordableAge > 0 && submodule.adjustStormlight(-submodule.getStormlight(), true))
 							{
 								ageUp(ageableMob, affordableAge);
 							}
@@ -112,7 +113,7 @@ public class SurgeProgression extends SurgebindingManifestation
 			double ySpeed = livingEntity.getRandom().nextGaussian() * 0.02D;
 			double zSpeed = livingEntity.getRandom().nextGaussian() * 0.02D;
 
-			livingEntity.level.addParticle(ParticleTypes.HAPPY_VILLAGER,
+			livingEntity.level().addParticle(ParticleTypes.HAPPY_VILLAGER,
 					livingEntity.getX(1.0D) - xSpeed * 10.0D,
 					livingEntity.getRandomY() - ySpeed * 10.0D,
 					livingEntity.getRandomZ(1.0D) - zSpeed * 10.0D,
@@ -143,7 +144,7 @@ public class SurgeProgression extends SurgebindingManifestation
 			double ySpeed = ageableMob.getRandom().nextGaussian() * 0.02D;
 			double zSpeed = ageableMob.getRandom().nextGaussian() * 0.02D;
 
-			ageableMob.level.addParticle(ParticleTypes.HAPPY_VILLAGER,
+			ageableMob.level().addParticle(ParticleTypes.HAPPY_VILLAGER,
 					ageableMob.getX(1.0D) - xSpeed * 10.0D,
 					ageableMob.getRandomY() - ySpeed * 10.0D,
 					ageableMob.getRandomZ(1.0D) - zSpeed * 10.0D,

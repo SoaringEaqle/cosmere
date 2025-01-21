@@ -5,6 +5,7 @@
 package leaf.cosmere.allomancy.common.manifestation;
 
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
+import leaf.cosmere.allomancy.common.registries.AllomancyDamageTypesRegistry;
 import leaf.cosmere.allomancy.common.registries.AllomancyEffects;
 import leaf.cosmere.allomancy.common.registries.AllomancyManifestations;
 import leaf.cosmere.api.Manifestations;
@@ -12,15 +13,12 @@ import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.EffectsHelper;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 //Increases Physical Abilities
 public class AllomancyPewter extends AllomancyManifestation
 {
-	public static final DamageSource PEWTER_DELAYED_DAMAGE = (new DamageSource("pewter_delayed_damage")).bypassArmor().bypassMagic();
-
 	public AllomancyPewter(Metals.MetalType metalType)
 	{
 		super(metalType);
@@ -54,7 +52,7 @@ public class AllomancyPewter extends AllomancyManifestation
 	{
 		super.onModeChange(data, lastMode);
 
-		if (data.getLiving().level.isClientSide || data.getMode(this) > 0)
+		if (data.getLiving().level().isClientSide || data.getMode(this) > 0)
 		{
 			return;
 		}
@@ -64,7 +62,7 @@ public class AllomancyPewter extends AllomancyManifestation
 
 		AllomancySpiritwebSubmodule asm = AllomancySpiritwebSubmodule.getSubmodule(data);
 		float delayedDamage = asm.getPewterDelayedDamage();
-		data.getLiving().hurt(PEWTER_DELAYED_DAMAGE, delayedDamage);
+		data.getLiving().hurt(AllomancyDamageTypesRegistry.PEWTER_DELAYED_DAMAGE.source(data.getLiving().level()), delayedDamage);
 		asm.setPewterDelayedDamage(0);
 
 	}

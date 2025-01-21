@@ -1,10 +1,9 @@
 /*
- * File updated ~ 11 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.api;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -52,44 +51,50 @@ public class CosmereTags
 		public static final TagKey<Item> METAL_SPIKE = makeItem("cosmere", "spike");
 
 		public static final Map<Metals.MetalType, TagKey<Item>> METAL_RAW_TAGS =
-				Arrays.stream(Metals.MetalType.values())
+				Arrays.stream(EnumUtils.METAL_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeItemTag("raw_materials/" + type.getName())));
 
+		public static final Map<Metals.MetalType, TagKey<Item>> METAL_ORE_TAGS =
+				Arrays.stream(EnumUtils.METAL_TYPES)
+						.collect(Collectors.toMap(
+								Function.identity(),
+								type -> forgeItemTag("ores/" + type.getName())));
+
 		public static final Map<Metals.MetalType, TagKey<Item>> METAL_DUST_TAGS =
-				Arrays.stream(Metals.MetalType.values())
+				Arrays.stream(EnumUtils.METAL_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeItemTag("dusts/" + type.getName())));
 
 		public static final Map<Metals.MetalType, TagKey<Item>> METAL_NUGGET_TAGS =
-				Arrays.stream(Metals.MetalType.values())
+				Arrays.stream(EnumUtils.METAL_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeItemTag("nuggets/" + type.getName())));
 
 		public static final Map<Metals.MetalType, TagKey<Item>> METAL_INGOT_TAGS =
-				Arrays.stream(Metals.MetalType.values())
+				Arrays.stream(EnumUtils.METAL_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeItemTag("ingots/" + type.getName())));
 
 		public static final Map<Metals.MetalType, TagKey<Item>> METAL_BLOCK_ITEM_TAGS =
-				Arrays.stream(Metals.MetalType.values())
+				Arrays.stream(EnumUtils.METAL_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeItemTag("storage_blocks/" + type.getName())));
 
 		public static final Map<Roshar.Gemstone, TagKey<Item>> GEM_BLOCK_ITEM_TAGS =
-				Arrays.stream(Roshar.Gemstone.values())
+				Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeItemTag("storage_blocks/" + type.getName())));
 
 
 		public static final Map<Roshar.Gemstone, TagKey<Item>> GEM_TAGS =
-				Arrays.stream(Roshar.Gemstone.values())
+				Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeItemTag("gems/" + type.getName())));
@@ -121,26 +126,26 @@ public class CosmereTags
 		public static final TagKey<Block> CONTAINS_METAL = makeBlock("cosmere", "contains_metal");
 
 		public static final Map<Metals.MetalType, TagKey<Block>> METAL_ORE_BLOCK_TAGS =
-				Arrays.stream(Metals.MetalType.values())
+				Arrays.stream(EnumUtils.METAL_TYPES)
 						//.filter(Metals.MetalType::hasOre)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeTag("ores/" + type.getName())));
 
 		public static final Map<Metals.MetalType, TagKey<Block>> METAL_BLOCK_TAGS =
-				Arrays.stream(Metals.MetalType.values())
+				Arrays.stream(EnumUtils.METAL_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeTag("storage_blocks/" + type.getName())));
 
 		public static final Map<Roshar.Gemstone, TagKey<Block>> GEM_ORE_BLOCK_TAGS =
-				Arrays.stream(Roshar.Gemstone.values())
+				Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeTag("ores/" + type.getName())));
 
 		public static final Map<Roshar.Gemstone, TagKey<Block>> GEM_BLOCK_TAGS =
-				Arrays.stream(Roshar.Gemstone.values())
+				Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 						.collect(Collectors.toMap(
 								Function.identity(),
 								type -> forgeTag("storage_blocks/" + type.getName())));
@@ -169,6 +174,8 @@ public class CosmereTags
 		//todo move to surgebinding module
 		public static final TagKey<Biome> IS_ROSHAR = create(new ResourceLocation("surgebinding", "is_roshar"));
 		public static final TagKey<Biome> IS_SHADESMAR = create(new ResourceLocation(CosmereAPI.COSMERE_MODID, "is_shadesmar"));
+
+		public static final TagKey<Biome> SPAWN_ORES = create(new ResourceLocation(CosmereAPI.COSMERE_MODID, "spawn_ores"));
 
 		private static TagKey<Biome> create(ResourceLocation resourceLocation)
 		{

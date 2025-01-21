@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "helmet",
+  "key": {
+    "X": {
+      "tag": "forge:ingots/malatium"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "X X"
+  ],
+  "result": {
+    "item": "cosmeretools:malatium_helmet"
+  },
+  "show_notification": true
+}

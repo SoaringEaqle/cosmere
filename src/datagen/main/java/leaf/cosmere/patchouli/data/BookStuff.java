@@ -1,5 +1,5 @@
 /*
- * File updated ~ 2 - 3 - 2024 ~ Leaf
+ * File updated ~ 11 - 10 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.patchouli.data;
@@ -418,10 +418,16 @@ public class BookStuff
 	{
 		public String[] entries;
 
-		public RelationsPage(String text, String[] entries)
+		public RelationsPage(String text, String... entries)
 		{
 			super("relations", text);
 			this.entries = entries;
+		}
+
+		public RelationsPage(String text, String entry)
+		{
+			super("relations", text);
+			this.entries = new String[]{entry};
 		}
 
 		public RelationsPage(String text, String title, String[] entries)

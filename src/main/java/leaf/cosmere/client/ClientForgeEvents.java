@@ -4,6 +4,8 @@
 
 package leaf.cosmere.client;
 
+import leaf.cosmere.api.Activator;
+import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.client.gui.SpiritwebMenu;
 import leaf.cosmere.common.Cosmere;
@@ -12,6 +14,8 @@ import leaf.cosmere.common.fog.FogManager;
 import leaf.cosmere.common.network.packets.ChangeManifestationModeMessage;
 import leaf.cosmere.common.network.packets.ChangeSelectedManifestationMessage;
 import leaf.cosmere.common.network.packets.DeactivateManifestationsMessage;
+import leaf.cosmere.common.network.packets.SetSelectedManifestationMessage;
+import leaf.cosmere.common.registration.impl.ManifestationRegistryObject;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -27,6 +31,8 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import javax.swing.text.JTextComponent;
 
 @Mod.EventBusSubscriber(modid = Cosmere.MODID, value = Dist.CLIENT)
 public class ClientForgeEvents
@@ -68,16 +74,8 @@ public class ClientForgeEvents
 			Manifestation selected = spiritweb.getSelectedManifestation();
 			if (isKeyPressed(event, Keybindings.MANIFESTATIONS_DEACTIVATE))
 			{
-				//if crouching, only turn off.
-				if (Screen.hasShiftDown())
-				{
-					Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
-				}
-				//otherwise do a normal toggle
-				else
-				{
-					//todo decide if there is an activation state?
-				}
+				// just deactivate
+				Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
 			}
 
 			//check keybinds with modifiers first?
@@ -109,6 +107,57 @@ public class ClientForgeEvents
 					modifier = 1;
 				}
 				Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected, modeIncreasePressed ? modifier : -modifier));
+			}
+
+			for(Activator activator: Keybindings.activators){
+				if (isKeyPressed(event, activator.getKeyMapping())){
+					Manifestation manifestation = activator.getManifestation();
+					Cosmere.packetHandler().sendToServer(new SetSelectedManifestationMessage(manifestation));
+					selected = manifestation;
+
+					int modifier = -selected.getMode(spiritweb);
+
+					if (!selected.isActive(spiritweb)) {
+                        if(activator.getCategory().equals("feruchemy")){
+							if (Screen.hasShiftDown() && Screen.hasControlDown())
+                            {
+                                modifier -= 5;
+                            }
+                            else if (Screen.hasControlDown())
+                            {
+                                modifier -= 1;
+                            }
+                            else if (Screen.hasShiftDown())
+                            {
+                                modifier += 5;
+                            }
+                            else {
+                                modifier += 1;
+                            }
+                            Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+                        }
+                        else {
+                            if (Screen.hasShiftDown() && Screen.hasControlDown())
+                            {
+                                modifier -= 2;
+                            }
+                            else if (Screen.hasControlDown())
+                            {
+                                modifier -= 1;
+                            }
+                            else if (Screen.hasShiftDown())
+                            {
+                                modifier += 2;
+                            }
+                            else {
+                                modifier += 1;
+                            }
+                            Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+                        }
+                    } else {
+                        Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+                    }
+                }
 			}
 		});
 	}

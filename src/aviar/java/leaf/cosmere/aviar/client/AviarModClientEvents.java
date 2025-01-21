@@ -1,15 +1,17 @@
 /*
- * File updated ~ 20 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.aviar.client;
 
 import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.aviar.client.render.AviarRenderers;
 import leaf.cosmere.aviar.client.render.layers.AviarOnShoulderLayer;
 import leaf.cosmere.aviar.common.Aviar;
+import leaf.cosmere.aviar.common.registries.AviarEntityTypes;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.ParrotRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -23,19 +25,15 @@ public class AviarModClientEvents
 	@SubscribeEvent
 	public static void init(final FMLClientSetupEvent event)
 	{
-		AviarRenderers.register();
+		//register the parrot as a normal rendering mob entity
+		EntityRenderers.register(AviarEntityTypes.AVIAR_ENTITY.get(), ParrotRenderer::new);
 		CosmereAPI.logger.info("Cosmere Aviar mod client setup complete!");
-	}
-
-	@SubscribeEvent
-	public static void registerLayers(final EntityRenderersEvent.RegisterLayerDefinitions evt)
-	{
-		//evt.registerLayerDefinition(AviarLayerDefinitions.AVIAR, ParrotModel::createBodyLayer);
 	}
 
 	@SubscribeEvent
 	public static void addLayers(EntityRenderersEvent.AddLayers evt)
 	{
+		//add parrot layers to the player model
 		addPlayerLayer(evt, "default");
 		addPlayerLayer(evt, "slim");
 	}

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.aviar;
@@ -18,7 +18,7 @@ public class AviarRecipeGen extends BaseRecipeProvider implements IConditionBuil
 {
 	public AviarRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, Aviar.MODID);
 	}
 
 	@Override

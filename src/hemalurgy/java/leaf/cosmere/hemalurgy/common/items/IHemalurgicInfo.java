@@ -1,14 +1,11 @@
 /*
- * File updated ~ 5 - 8 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy.common.items;
 
 import com.google.common.collect.Multimap;
-import leaf.cosmere.api.Constants;
-import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.Metals;
+import leaf.cosmere.api.*;
 import leaf.cosmere.api.helpers.CompoundNBTHelper;
 import leaf.cosmere.api.helpers.StackNBTHelper;
 import leaf.cosmere.api.manifestation.Manifestation;
@@ -184,7 +181,7 @@ public interface IHemalurgicInfo
 		switch (spikeMetalType)
 		{
 			case LERASIUM:
-				for (Metals.MetalType metalType : Metals.MetalType.values())
+				for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 				{
 					//all **attribute** metals EXCEPT lerasium
 					switch (metalType)
@@ -429,7 +426,7 @@ public interface IHemalurgicInfo
 		tooltip.add(TextHelper.createTranslatedText(Constants.Strings.CONTAINED_POWERS_FOUND));
 
 		//iterate through all metals, because lerasium spikes steal all attributes
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			//all **attribute** metals EXCEPT lerasium
 			switch (metalType)

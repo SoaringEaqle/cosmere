@@ -14,7 +14,9 @@
           "name": "cosmere:metalworking_table"
         }
       ],
+      "name": "main",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "cosmere:blocks/metalworking_table"
 }

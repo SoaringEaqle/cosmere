@@ -1,10 +1,11 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.common.compat.jei;
 
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.text.TextHelper;
 import leaf.cosmere.feruchemy.common.registries.FeruchemyItems;
@@ -27,7 +28,7 @@ public class FeruchemyJEICompat implements IModPlugin
 	@Override
 	public void registerRecipes(IRecipeRegistration reg)
 	{
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasFeruchemicalEffect())
 			{

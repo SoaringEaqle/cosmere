@@ -14,7 +14,9 @@
           "name": "cosmere:tin_block"
         }
       ],
+      "name": "main",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "cosmere:blocks/tin_block"
 }

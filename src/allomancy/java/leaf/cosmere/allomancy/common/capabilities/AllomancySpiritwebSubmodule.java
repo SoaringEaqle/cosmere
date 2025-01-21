@@ -1,5 +1,5 @@
 /*
- * File updated ~ 15 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.capabilities;
@@ -13,6 +13,7 @@ import leaf.cosmere.allomancy.common.items.MetalVialItem;
 import leaf.cosmere.allomancy.common.manifestation.*;
 import leaf.cosmere.allomancy.common.registries.AllomancyItems;
 import leaf.cosmere.allomancy.common.registries.AllomancyManifestations;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
@@ -46,7 +47,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 
 	//metals ingested
 	public final Map<Metals.MetalType, Integer> METALS_INGESTED =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.collect(Collectors.toMap(Function.identity(), type -> 0));
 
 	private float pewterDelayedDamage = 0;
@@ -124,7 +125,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 		if (spiritweb.getLiving().tickCount % 1200 == 0)
 		{
 			//metals can't stay in your system forever, y'know?
-			for (Metals.MetalType metalType : Metals.MetalType.values())
+			for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 			{
 				Integer metalIngestAmount = METALS_INGESTED.get(metalType);
 				if (metalIngestAmount > 0)
@@ -158,7 +159,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 			ingestedMetals = CompoundNBTHelper.getOrCreate(moduleTag, INGESTED_KEY);
 		}
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			final String metalKey = metalType.getName();
 			if (ingestedMetals.contains(metalKey))
@@ -183,7 +184,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 
 		//replace old ingested tag with new one
 		final CompoundTag ingestedMetals = new CompoundTag();
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			final Integer ingestedMetalAmount = METALS_INGESTED.get(metalType);
 			if (ingestedMetalAmount > 0)
@@ -219,7 +220,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 		AllomancyIronSteel steelAllomancy = (AllomancyIronSteel) AllomancyManifestations.ALLOMANCY_POWERS.get(Metals.MetalType.STEEL).get();
 		AllomancyTin tinAllomancy = (AllomancyTin) AllomancyManifestations.ALLOMANCY_POWERS.get(Metals.MetalType.TIN).get();
 
-		PoseStack viewModelStack = new PoseStack();
+		PoseStack viewModelStack = event.getPoseStack();
 
 		//if user has iron or steel manifestation
 		if (spiritweb.hasManifestation(ironAllomancy) || spiritweb.hasManifestation(steelAllomancy))
@@ -237,8 +238,6 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 
 				Vec3 originPoint = spiritweb.getLiving().getLightProbePosition(Minecraft.getInstance().getFrameTime()).add(0, -1, 0);
 
-				viewModelStack.last().pose().load(event.getPoseStack().last().pose());
-
 				final Boolean drawMetalLines = AllomancyConfigs.CLIENT.drawMetalLines.get();
 				if (drawMetalLines && !scanResult.foundEntities.isEmpty())
 				{
@@ -250,13 +249,13 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 				}
 				if (AllomancyConfigs.CLIENT.drawMetalBoxes.get() && !scanResult.foundBlocks.isEmpty())
 				{
-					if (scanResult.hasTargetedCluster && scanResult.targetedCluster.getPosition().equals(closestMetalObject))
+					if (scanResult.hasTargetedCluster)
 					{
-						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, closestMetalObject, scanResult.targetedCluster.getBlocks());
+						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, range, closestMetalObject, scanResult.targetedCluster.getBlocks());
 					}
 					else
 					{
-						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, closestMetalObject, new ArrayList<>());
+						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, range, closestMetalObject, new ArrayList<>());
 					}
 				}
 
@@ -268,7 +267,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 
 		if (spiritweb.hasManifestation(tinAllomancy))
 		{
-			viewModelStack.last().pose().load(event.getPoseStack().last().pose());
+			viewModelStack.last().pose().get(event.getPoseStack().last().pose());   // not sure that get() is right here
 
 			Minecraft.getInstance().getProfiler().push("cosmere-getDrawSoundIndicator");
 			DrawHelper.drawSquareAtPoint(viewModelStack, Color.WHITE, AllomancyTin.getTinSoundList(), spiritweb.getLiving().getEyePosition());
@@ -280,7 +279,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 	@OnlyIn(Dist.CLIENT)
 	public void collectMenuInfo(List<String> m_infoText)
 	{
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			int value = METALS_INGESTED.get(metalType);
 

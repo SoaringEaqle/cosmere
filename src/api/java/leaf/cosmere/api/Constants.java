@@ -1,5 +1,5 @@
 /*
- * File updated ~ 2 - 11 - 2023 ~ Leaf
+ * File updated ~ 9 - 10 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.api;
@@ -78,6 +78,11 @@ public class Constants
 	public static class Strings
 	{
 		public static final String KEYS_CATEGORY = "keys.cosmere.main";
+
+		//keybind builder
+		public static final String KEY_ALLOMANCY = "key.cosmere.allomancy.";
+		public static final String KEY_FERUCHEMY = "key.cosmere.feruchemy.";
+		public static final String KEY_STORMLIGHT = "key.cosmere.stormlight.";
 
 		public static final String KEY_MANIFESTATION_MODE_INCREASE = "key.cosmere.powers.mode.increase";
 		public static final String KEY_MANIFESTATION_MODE_DECREASE = "key.cosmere.powers.mode.decrease";

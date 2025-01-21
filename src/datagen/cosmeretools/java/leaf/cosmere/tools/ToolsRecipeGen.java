@@ -1,11 +1,12 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.tools;
 
 import leaf.cosmere.BaseRecipeProvider;
 import leaf.cosmere.api.CosmereTags;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.tools.common.CosmereTools;
 import leaf.cosmere.tools.common.registries.ToolsItems;
@@ -21,7 +22,7 @@ public class ToolsRecipeGen extends BaseRecipeProvider implements IConditionBuil
 {
 	public ToolsRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, CosmereTools.MODID);
 	}
 
 	@Override
@@ -34,11 +35,11 @@ public class ToolsRecipeGen extends BaseRecipeProvider implements IConditionBuil
 	protected void addRecipes(Consumer<FinishedRecipe> consumer)
 	{
 
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (!metalType.hasMaterialItem())
 			{
-				return;
+				continue;
 			}
 
 			addPickaxeRecipe(consumer, ToolsItems.METAL_PICKAXES.get(metalType), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType));

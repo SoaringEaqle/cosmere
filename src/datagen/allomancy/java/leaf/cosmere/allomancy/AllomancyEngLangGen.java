@@ -1,5 +1,5 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy;
@@ -10,9 +10,10 @@ import leaf.cosmere.allomancy.common.registries.AllomancyAttributes;
 import leaf.cosmere.allomancy.common.registries.AllomancyEffects;
 import leaf.cosmere.allomancy.common.registries.AllomancyEntityTypes;
 import leaf.cosmere.allomancy.common.registries.AllomancyManifestations;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
-import leaf.cosmere.api.helpers.ResourceLocationHelper;
+import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IAttributeProvider;
 import leaf.cosmere.api.providers.ICosmereEffectProvider;
 import leaf.cosmere.api.providers.IEntityTypeProvider;
@@ -50,7 +51,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 		addAttributes();
 		addPatchouli();
 		addTooltips();
-		addItemGroups();
+		addCreativeTabs();
 		addDamageSources();
 		addMobEffects();
 		addCurioIdentifiers();
@@ -67,7 +68,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 		//Items and Blocks
 		for (Item item : ForgeRegistries.ITEMS.getValues())
 		{
-			final ResourceLocation registryName = ResourceLocationHelper.get(item);
+			final ResourceLocation registryName = RegistryHelper.get(item);
 			if (registryName.getNamespace().contentEquals(Allomancy.MODID))
 			{
 				String localisedString = StringHelper.fixCapitalisation(registryName.getPath());
@@ -129,7 +130,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 
 
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			if (metalType.hasAssociatedManifestation())
 			{
@@ -158,7 +159,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 	private void addPatchouli()
 	{
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			final String name = metalType.getName();
 			final String mistingName = metalType.getMistingName();
@@ -174,16 +175,17 @@ public class AllomancyEngLangGen extends LanguageProvider
 		add("tooltip.cosmere.metals.contained", "Contained Metals:");
 	}
 
-	private void addItemGroups()
+	private void addCreativeTabs()
 	{
 		//ItemGroups/Tabs
+		add("tabs.allomancy.items", "Allomancy");
 	}
 
 	private void addDamageSources()
 	{
 		//Damage Sources
-		add("death.attack.pewter_delayed_damage", "%1$s stopped burning pewter and succumbed to their wounds");
-		add("death.attack.pewter_delayed_damage.player", "%1$s stopped burning pewter while fighting %2$s and succumbed to their wounds");
+		add("death.attack.allomancy.pewter_delayed_damage", "%1$s stopped burning pewter and succumbed to their wounds");
+		add("death.attack.allomancy.pewter_delayed_damage.player", "%1$s stopped burning pewter while fighting %2$s and succumbed to their wounds");
 	}
 
 	private void addMobEffects()
@@ -226,7 +228,7 @@ public class AllomancyEngLangGen extends LanguageProvider
 	private void addStats()
 	{
 		//stats
-		Arrays.stream(Metals.MetalType.values())
+		Arrays.stream(EnumUtils.METAL_TYPES)
 				.filter(Metals.MetalType::hasAssociatedManifestation).forEach(metalType ->
 						add(
 								"stat.minecraft.time_since_started_burning_" + metalType.getName(),

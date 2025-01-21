@@ -11,6 +11,10 @@ public class CosmereClientConfig implements ICosmereConfig
 {
 	private final ForgeConfigSpec configSpec;
 	public final ForgeConfigSpec.BooleanValue disableItemTinting;
+	public final ForgeConfigSpec.BooleanValue disableSelectedManifestationHud;
+	public final ForgeConfigSpec.IntValue hudXCoordinate;
+	public final ForgeConfigSpec.IntValue hudYCoordinate;
+	public final ForgeConfigSpec.IntValue hudSize;
 
 
 	CosmereClientConfig()
@@ -19,6 +23,12 @@ public class CosmereClientConfig implements ICosmereConfig
 		builder.comment("Client Config. This config only exists on the client").push("cosmere");
 
 		disableItemTinting = builder.comment("Lets you disable item and block tinting for metal items and blocks").define("disableItemTinting", false);
+
+		disableSelectedManifestationHud = builder.comment("Disables the HUD for selected power").define("disableSelectedManifestationHud", false);
+
+		hudXCoordinate = builder.comment("X coordinate for the HUD").defineInRange("hudXCoordinate", 10, 0, Integer.MAX_VALUE);
+		hudYCoordinate = builder.comment("Y coordinate for the HUD").defineInRange("hudYCoordinate", 20, 0, Integer.MAX_VALUE);
+		hudSize = builder.comment("Size of the icon in the HUD; both width and height").defineInRange("hudSize", 40, 0, Integer.MAX_VALUE);
 
 		builder.pop();
 		configSpec = builder.build();

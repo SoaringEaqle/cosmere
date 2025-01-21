@@ -1,15 +1,16 @@
 /*
- * File updated ~ 24 - 4 - 2021 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.sandmastery.common.blocks;
 
 //import leaf.cosmere.allomancy.common.registries.AllomancyEffects;
 
-import leaf.cosmere.sandmastery.common.registries.SandmasteryBlocksRegistry;
-import leaf.cosmere.sandmastery.common.utils.MiscHelper;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.common.blocks.BaseFallingBlock;
 import leaf.cosmere.common.properties.PropTypes;
+import leaf.cosmere.sandmastery.common.registries.SandmasteryBlocks;
+import leaf.cosmere.sandmastery.common.utils.MiscHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -38,23 +39,30 @@ public class TaldainBlackSandBlock extends BaseFallingBlock
 	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
 	{
 		if (!pLevel.isAreaLoaded(pPos, 3))
+		{
 			return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
+		}
 
 		boolean nearbyInvestiture = MiscHelper.checkIfNearbyInvestiture(pLevel, pPos, false);
 		boolean offTaldain = !MiscHelper.onTaldain(pLevel);
 		boolean canSeeSky = pLevel.canSeeSky(pPos.above());
-		if (offTaldain && !nearbyInvestiture) return;
+		if (offTaldain && !nearbyInvestiture)
+		{
+			return;
+		}
 		if (!canSeeSky && !nearbyInvestiture)
+		{
 			return; // Can't see the taldanian sky nor can I find any investiture, can't charge from it
+		}
 
-		pLevel.setBlockAndUpdate(pPos, SandmasteryBlocksRegistry.TALDAIN_WHITE_SAND.getBlock().defaultBlockState());
+		pLevel.setBlockAndUpdate(pPos, SandmasteryBlocks.TALDAIN_WHITE_SAND.getBlock().defaultBlockState());
 
 		for (int i = 0; i < 4; ++i)
 		{
 			BlockPos blockpos = pPos.offset(pRandom.nextInt(3) - 1, pRandom.nextInt(3) - 1, pRandom.nextInt(3) - 1);
 			if (pLevel.getBlockState(blockpos).is(Blocks.SAND))
 			{
-				pLevel.setBlockAndUpdate(blockpos, SandmasteryBlocksRegistry.TALDAIN_WHITE_SAND.getBlock().defaultBlockState());
+				pLevel.setBlockAndUpdate(blockpos, SandmasteryBlocks.TALDAIN_WHITE_SAND.getBlock().defaultBlockState());
 			}
 		}
 	}
@@ -63,7 +71,7 @@ public class TaldainBlackSandBlock extends BaseFallingBlock
 	{
 		boolean touching = false;
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.mutable();
-		for (Direction direction : Direction.values())
+		for (Direction direction : EnumUtils.DIRECTIONS)
 		{
 			BlockState blockstate = pLevel.getBlockState(blockpos$mutableblockpos);
 			if (direction != Direction.DOWN || state.canBeHydrated(pLevel, pPos, blockstate.getFluidState(), blockpos$mutableblockpos))
@@ -84,7 +92,7 @@ public class TaldainBlackSandBlock extends BaseFallingBlock
 	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos)
 	{
 		return touchesLiquid(pLevel, pCurrentPos, pState) ?
-				this.defaultBlockState() :
-				super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+		       this.defaultBlockState() :
+		       super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
 	}
 }

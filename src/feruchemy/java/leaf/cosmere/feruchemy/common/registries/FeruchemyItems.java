@@ -1,10 +1,11 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.common.registries;
 
 import leaf.cosmere.api.Constants.RegNameStubs;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registration.impl.ItemDeferredRegister;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
@@ -13,7 +14,6 @@ import leaf.cosmere.feruchemy.common.items.BandsOfMourningItem;
 import leaf.cosmere.feruchemy.common.items.BraceletMetalmindItem;
 import leaf.cosmere.feruchemy.common.items.NecklaceMetalmindItem;
 import leaf.cosmere.feruchemy.common.items.RingMetalmindItem;
-import net.minecraft.world.item.Item;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -25,10 +25,10 @@ public class FeruchemyItems
 	public static final ItemDeferredRegister ITEMS = new ItemDeferredRegister(Feruchemy.MODID);
 
 
-	public static final ItemRegistryObject<Item> BANDS_OF_MOURNING = ITEMS.register("bands_of_mourning", BandsOfMourningItem::new);
+	public static final ItemRegistryObject<BandsOfMourningItem> BANDS_OF_MOURNING = ITEMS.register("bands_of_mourning", BandsOfMourningItem::new);
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<RingMetalmindItem>> METAL_RINGS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasFeruchemicalEffect)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -38,7 +38,7 @@ public class FeruchemyItems
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<BraceletMetalmindItem>> METAL_BRACELETS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasFeruchemicalEffect)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -48,7 +48,7 @@ public class FeruchemyItems
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<NecklaceMetalmindItem>> METAL_NECKLACES =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasFeruchemicalEffect)
 					.collect(Collectors.toMap(
 							Function.identity(),

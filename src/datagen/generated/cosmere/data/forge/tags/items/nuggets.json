@@ -1,5 +1,6 @@
 {
   "values": [
+    "#forge:nuggets/iron",
     "#forge:nuggets/steel",
     "#forge:nuggets/tin",
     "#forge:nuggets/pewter",
@@ -13,6 +14,7 @@
     "#forge:nuggets/nicrosil",
     "#forge:nuggets/cadmium",
     "#forge:nuggets/bendalloy",
+    "#forge:nuggets/gold",
     "#forge:nuggets/electrum",
     "#forge:nuggets/atium",
     "#forge:nuggets/lerasium",

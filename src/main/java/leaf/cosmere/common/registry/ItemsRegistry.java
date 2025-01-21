@@ -1,13 +1,11 @@
 /*
- * File updated ~ 24 - 4 - 2021 ~ Leaf
- * Special thank you to SizableShrimp from the Forge Project discord!
- * Java isn't my first programming language, so I didn't know you could collect and set up items like this!
- * Makes setting up items for metals a breeze~
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.common.registry;
 
 import leaf.cosmere.api.Constants.RegNameStubs;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.items.GuideItem;
@@ -36,7 +34,7 @@ public class ItemsRegistry
 
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_RAW_ORE =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasOre)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -46,7 +44,7 @@ public class ItemsRegistry
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_RAW_BLEND =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::isAlloy)
 					.collect(Collectors.toMap(
 							Function.identity(),
@@ -56,8 +54,8 @@ public class ItemsRegistry
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_NUGGETS =
-			Arrays.stream(Metals.MetalType.values())
-					.filter(Metals.MetalType::hasMaterialItem)
+			Arrays.stream(EnumUtils.METAL_TYPES)
+					.filter(type -> type.hasMaterialItem() || type == Metals.MetalType.COPPER)      // I'm sorry for this Leaf :( >> Gerbagel
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -66,8 +64,8 @@ public class ItemsRegistry
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<MetalIngotItem>> METAL_INGOTS =
-			Arrays.stream(Metals.MetalType.values())
-					.filter(Metals.MetalType::hasMaterialItem)
+			Arrays.stream(EnumUtils.METAL_TYPES)
+					.filter(type -> type.hasMaterialItem() && type != Metals.MetalType.COPPER)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(

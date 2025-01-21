@@ -1,11 +1,12 @@
 /*
- * File updated ~ 10 - 6 - 2023 ~ Leaf
+ * File updated ~ 10 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.entity;
 
 import leaf.cosmere.surgebinding.common.registries.SurgebindingEntityTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -53,5 +54,19 @@ public class Chull extends AbstractChestedHorse
 		AbstractHorse abstracthorse = entitytype.create(pLevel);
 		this.setOffspringAttributes(pOtherParent, abstracthorse);
 		return abstracthorse;
+	}
+
+	@Override
+	protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit)
+	{
+		super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
+
+		//chull chests??
+
+		//gems?
+
+		//this.getAge()
+
+		//todo baby chulls drop chips, adults drop marks
 	}
 }

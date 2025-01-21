@@ -1,5 +1,5 @@
 /*
- * File updated ~ 24 - 4 - 2021 ~ Leaf
+ * File updated ~ 11 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.common.items;
@@ -110,10 +110,7 @@ public class GuideItem extends Item
 		}
 		else if (playerIn instanceof ServerPlayer player)
 		{
-
-			//UseItemSuccessTrigger.INSTANCE.trigger(player, stack, player.getServerWorld(), player.getPosX(), player.getPosY(), player.getPosZ());
-
-			PatchouliAPI.get().openBookGUI((ServerPlayer) playerIn, ItemsRegistry.GUIDE.getRegistryName());
+			PatchouliAPI.get().openBookGUI(player, ItemsRegistry.GUIDE.getRegistryName());
 		}
 
 		return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);

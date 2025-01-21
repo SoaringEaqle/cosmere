@@ -1,11 +1,12 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
-import leaf.cosmere.api.helpers.ResourceLocationHelper;
+import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IAttributeProvider;
 import leaf.cosmere.api.providers.IEntityTypeProvider;
 import leaf.cosmere.api.providers.IItemProvider;
@@ -46,7 +47,7 @@ public class EngLangGen extends LanguageProvider
 		addCommands();
 		addKeybindings();
 		addStats();
-
+		addCreativeTabs();
 	}
 
 
@@ -56,7 +57,7 @@ public class EngLangGen extends LanguageProvider
 		for (IItemProvider item : ItemsRegistry.ITEMS.getAllItems())
 		{
 			final Item currentItem = item.asItem();
-			final ResourceLocation registryName = ResourceLocationHelper.get(currentItem);
+			final ResourceLocation registryName = RegistryHelper.get(currentItem);
 			if (registryName.getNamespace().contentEquals(Cosmere.MODID))
 			{
 				String localisedString = StringHelper.fixCapitalisation(registryName.getPath());
@@ -75,28 +76,30 @@ public class EngLangGen extends LanguageProvider
 		for (IItemProvider item : BlocksRegistry.BLOCKS.getAllBlocks())
 		{
 			final Item currentItem = item.asItem();
-			final ResourceLocation registryName = ResourceLocationHelper.get(currentItem);
+			final ResourceLocation registryName = RegistryHelper.get(currentItem);
 			String localisedString = StringHelper.fixCapitalisation(registryName.getPath());
 			add(currentItem.getDescriptionId(), localisedString);
 		}
 
 
 		//work through each metal and generate localisation for related things.
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
-			//if a vanilla metal, like iron/gold
-			if (!metalType.hasMaterialItem())
+			//if a vanilla metal, like iron/gold/copper
+			if (!metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
 			{
 				final String name = metalType.getName();
 				//add(item.getDescriptionId(), localisedString);
-				final String n = name + "_nugget";
+				if (metalType != Metals.MetalType.COPPER)       // copper specifically has no vanilla nugget, and so we have already made this key
+				{
+					final String n = name + "_nugget";
+					add("item.cosmere." + n, StringHelper.fixCapitalisation(n));
+				}
 				final String i = name + "_ingot";
 				final String b = name + "_block";
-				add("item.cosmere." + n, StringHelper.fixCapitalisation(n));
 				add("item.cosmere." + i, StringHelper.fixCapitalisation(i));
 				add("item.cosmere." + b, StringHelper.fixCapitalisation(b));
 			}
-
 		}
 	}
 
@@ -140,6 +143,13 @@ public class EngLangGen extends LanguageProvider
 	{
 		//ARS Arcanum
 		add("cosmere.landing", "The Cosmere is filled with many fantastical things. I have left my findings written within this book.");
+	}
+
+	private void addCreativeTabs()
+	{
+		//ItemGroups/Tabs
+		//CreativeTabsRegistry.ITEMS.get().getDisplayName()
+		add("tabs.cosmere.items", "Cosmere");
 	}
 
 	private void addTooltips()

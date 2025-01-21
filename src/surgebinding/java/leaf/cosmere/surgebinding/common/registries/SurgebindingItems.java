@@ -1,10 +1,11 @@
 /*
- * File updated ~ 19 - 10 - 2022 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.registries;
 
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.common.properties.PropTypes;
 import leaf.cosmere.common.registration.impl.ItemDeferredRegister;
@@ -13,7 +14,7 @@ import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.items.*;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardbladeItemTier;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import java.util.Arrays;
@@ -36,24 +37,24 @@ public class SurgebindingItems
 	public static final ItemRegistryObject<ShardbladeItem> TEST_BLADE = ITEMS.register("test_blade", () -> new ShardbladeItem(SHARDBLADE_ITEM_TIER, 10, -2.4F, PropTypes.Items.SHARDBLADE.get()));
 	public static final ItemRegistryObject<ShardbladeItem> MASTER_SWORD = ITEMS.register("master_sword", () -> new ShardbladeItem(SHARDBLADE_ITEM_TIER, 10, -2.4F, PropTypes.Items.SHARDBLADE.get()));
 
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_HELMET = ITEMS.register("shardplate_helmet", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, EquipmentSlot.HEAD, PropTypes.Items.SHARDBLADE.get()));
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_CHEST = ITEMS.register("shardplate_chest", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, EquipmentSlot.CHEST, PropTypes.Items.SHARDBLADE.get()));
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_LEGGINGS = ITEMS.register("shardplate_leggings", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, EquipmentSlot.LEGS, PropTypes.Items.SHARDBLADE.get()));
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_BOOTS = ITEMS.register("shardplate_boots", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, EquipmentSlot.FEET, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_HELMET = ITEMS.register("shardplate_helmet", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.HELMET, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_CHEST = ITEMS.register("shardplate_chest", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.CHESTPLATE, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_LEGGINGS = ITEMS.register("shardplate_leggings", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.LEGGINGS, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_BOOTS = ITEMS.register("shardplate_boots", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.BOOTS, PropTypes.Items.SHARDBLADE.get()));
 
 
-	public static final Map<Roshar.Gemstone, ItemRegistryObject<HonorbladeItem>> HONORBLADES =
-			Arrays.stream(Roshar.Gemstone.values())
+	public static final Map<Roshar.RadiantOrder, ItemRegistryObject<HonorbladeItem>> HONORBLADES =
+			Arrays.stream(EnumUtils.RADIANT_ORDERS)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
-									type.getAssociatedOrder() + "_honorblade",
+									type.getName() + "_honorblade",
 									() -> new HonorbladeItem(type, SHARDBLADE_ITEM_TIER, 24, -2.4F, PropTypes.Items.SHARDBLADE.get())
 							)));
 
 
 	public static final Map<Roshar.Gemstone, ItemRegistryObject<GemstoneItem>> GEMSTONE_CHIPS =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -63,7 +64,7 @@ public class SurgebindingItems
 
 
 	public static final Map<Roshar.Gemstone, ItemRegistryObject<GemstoneItem>> GEMSTONE_MARKS =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -73,7 +74,7 @@ public class SurgebindingItems
 
 
 	public static final Map<Roshar.Gemstone, ItemRegistryObject<GemstoneItem>> GEMSTONE_BROAMS =
-			Arrays.stream(Roshar.Gemstone.values())
+			Arrays.stream(EnumUtils.GEMSTONE_TYPES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(

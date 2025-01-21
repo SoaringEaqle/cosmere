@@ -1,9 +1,10 @@
 /*
- * File updated ~ 7 - 10 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.common.eventHandlers;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.eventHandlers.ModBusEventHandler;
 import leaf.cosmere.feruchemy.common.Feruchemy;
@@ -25,7 +26,7 @@ public class FeruchemyModBusEventHandler
 	{
 		for (EntityType entityType : ModBusEventHandler.ENTITIES_THAT_CAN_HAVE_POWERS)
 		{
-			for (Metals.MetalType metalType : Metals.MetalType.values())
+			for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 			{
 				if (metalType.hasAssociatedManifestation() && FeruchemyAttributes.FERUCHEMY_ATTRIBUTES.containsKey(metalType))
 				{
