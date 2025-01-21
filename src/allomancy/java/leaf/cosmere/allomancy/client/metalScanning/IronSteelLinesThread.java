@@ -4,6 +4,7 @@
 
 package leaf.cosmere.allomancy.client.metalScanning;
 
+import leaf.cosmere.allomancy.common.manifestation.AllomancyIronSteel;
 import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.CosmereTags;
 import leaf.cosmere.api.IHasMetalType;
@@ -12,6 +13,7 @@ import leaf.cosmere.api.helpers.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -30,7 +32,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static leaf.cosmere.allomancy.common.manifestation.AllomancyIronSteel.*;
+import static leaf.cosmere.allomancy.common.manifestation.AllomancyIronSteel.containsMetal;
+import static leaf.cosmere.allomancy.common.manifestation.AllomancyIronSteel.entityContainsMetal;
 
 public class IronSteelLinesThread implements Runnable
 {
@@ -101,6 +104,15 @@ public class IronSteelLinesThread implements Runnable
 		}
 	}
 
+	public int getWeight()
+	{
+		if (scanResult.hasTargetedCluster)
+		{
+			return scanResult.targetedCluster.getBlocks().size();
+		}
+		return 1;
+	}
+
 	public void releaseScanResult()
 	{
 		lock.unlock();
@@ -118,8 +130,8 @@ public class IronSteelLinesThread implements Runnable
 			return null;
 		}
 
-		// return copy
-		return new Vec3(closestMetalObjectInLookVector.x, closestMetalObjectInLookVector.y, closestMetalObjectInLookVector.z);
+		// return copy adjusted for center
+		return new Vec3(closestMetalObjectInLookVector.x(), closestMetalObjectInLookVector.y(), closestMetalObjectInLookVector.z());
 	}
 
 	public void start()
@@ -151,6 +163,16 @@ public class IronSteelLinesThread implements Runnable
 		closestMetalObjectInLookVector = vector;
 	}
 
+	private Vec3i toVec3i(Vec3 vector)
+	{
+		if (vector == null)
+		{
+			return null;
+		}
+
+		return new Vec3i((int) vector.x(), (int) vector.y(), (int) vector.z());
+	}
+
 	// this should be threaded to avoid lag spikes on the render thread when flaring metals
 	@Override
 	@OnlyIn(Dist.CLIENT)
@@ -173,7 +195,7 @@ public class IronSteelLinesThread implements Runnable
 					BlockPos.withinManhattanStream(playerEntity.blockPosition(), scanRange, scanRange, scanRange)
 							.filter(blockPos ->
 							{
-								Block block = playerEntity.level.getBlockState(blockPos).getBlock();
+								Block block = playerEntity.level().getBlockState(blockPos).getBlock();
 								final boolean validMetalBlock = block instanceof IHasMetalType iHasMetalType && iHasMetalType.getMetalType() != Metals.MetalType.ALUMINUM;
 								boolean isGood = validMetalBlock || containsMetal(block);
 
@@ -254,7 +276,9 @@ public class IronSteelLinesThread implements Runnable
 	{
 		boolean isObscured;
 		Vec3 currVec = player.getEyePosition();
-		Vec3 endPos = new Vec3(blockPos.getX() + 0.5F, blockPos.getY() + 0.5F, blockPos.getZ() + 0.5F);
+		currVec = currVec.add(-1D, 0D, 0D);
+		Vec3 endPos = blockPos.getCenter();
+		endPos = endPos.add(-1D, 0D, 0D);
 		Vec3 endFloorVec = new Vec3(Math.floor(endPos.x), Math.floor(endPos.y), Math.floor(endPos.z));
 		double resistance = 0.0F;
 
@@ -262,7 +286,7 @@ public class IronSteelLinesThread implements Runnable
 		int loopTimes = (int) Math.ceil(currVec.distanceTo(endPos));
 		for (int i = 0; i < loopTimes; i++)
 		{
-			BlockState bState = Objects.requireNonNull(level.getBlockState(new BlockPos(currVec)));
+			BlockState bState = Objects.requireNonNull(level.getBlockState(new BlockPos(toVec3i(currVec))));
 			Vec3 currFloorVec = new Vec3(Math.floor(currVec.x), Math.floor(currVec.y), Math.floor(currVec.z));
 
 			if (currFloorVec.equals(endFloorVec) || resistance >= 1.0F)
@@ -270,7 +294,7 @@ public class IronSteelLinesThread implements Runnable
 				break;
 			}
 
-			Block currBlock = level.getBlockState(new BlockPos(currVec)).getBlock();
+			Block currBlock = bState.getBlock();
 
 			if (bState.is(aluminumOre)
 					|| bState.is(aluminumStorage)
@@ -283,8 +307,7 @@ public class IronSteelLinesThread implements Runnable
 			}
 			else
 			{
-				resistance += (materialResistanceMap.containsKey(bState.getMaterial()))
-				              ? materialResistanceMap.get(bState.getMaterial()) : 0.0F;
+				resistance += AllomancyIronSteel.getResistance(bState);
 			}
 
 			double distance = currVec.distanceTo(endPos);
@@ -301,13 +324,15 @@ public class IronSteelLinesThread implements Runnable
 		try
 		{
 			Vec3 currVec = player.getEyePosition();
-			Vec3 endPos = new Vec3(entity.getX(), entity.getY(), entity.getZ());
+			currVec = currVec.add(-0.75D, 0D, 0D);
+			Vec3 endPos = entity.position();
+			endPos = endPos.add(-0.75D, 0D, 0D);
 
 			// linear interpolation to see if the entity is obscured by blocks
 			int loopTimes = (int) Math.ceil(currVec.distanceTo(endPos));
 			for (int i = 0; i < loopTimes; i++)
 			{
-				BlockState bState = Objects.requireNonNull(level.getBlockState(new BlockPos(currVec)));
+				BlockState bState = Objects.requireNonNull(level.getBlockState(new BlockPos(toVec3i(currVec))));
 
 				final boolean pastEntity = (player.getEyePosition().distanceTo(currVec) >= player.getEyePosition().distanceTo(endPos));
 
@@ -316,7 +341,7 @@ public class IronSteelLinesThread implements Runnable
 					break;
 				}
 
-				Block currBlock = level.getBlockState(new BlockPos(currVec)).getBlock();
+				Block currBlock = level.getBlockState(new BlockPos(toVec3i(currVec))).getBlock();
 
 				if (bState.is(aluminumOre) || bState.is(aluminumStorage) || bState.is(aluminumSheet) || bState.is(aluminumWire) || (currBlock instanceof IHasMetalType iHasMetalType && iHasMetalType.getMetalType() == Metals.MetalType.DURALUMIN))
 				{
@@ -325,8 +350,7 @@ public class IronSteelLinesThread implements Runnable
 				}
 				else
 				{
-					resistance += (materialResistanceMap.containsKey(bState.getMaterial()))
-					              ? materialResistanceMap.get(bState.getMaterial()) : 0.0F;
+					resistance += AllomancyIronSteel.getResistance(bState);
 				}
 
 				double distance = currVec.distanceTo(endPos);
@@ -353,17 +377,17 @@ public class IronSteelLinesThread implements Runnable
 	private Vec3 compareVectors(BlockPos blockPos, Player player, Vec3 currentClosestMetalObject)
 	{
 		Vec3 lookVector = player.getLookAngle();
-		Vec3 vectorToPos = new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5).subtract(player.getEyePosition());
+		Vec3 vectorToPos = blockPos.getCenter().subtract(player.getEyePosition());
 		Vec3 playerPos = player.getEyePosition();
 		vectorToPos = vectorToPos.normalize();
 
-		double dynamicTolerance = tolerance / playerPos.distanceTo(new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+		double dynamicTolerance = tolerance / playerPos.distanceTo(blockPos.getCenter());
 
 		if (vectorToPos.distanceTo(lookVector) < dynamicTolerance)
 		{
 			if (currentClosestMetalObject == null)
 			{
-				return new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+				return blockPos.getCenter();
 			}
 
 			Vec3 currentVector = currentClosestMetalObject.subtract(player.getEyePosition());
@@ -375,7 +399,7 @@ public class IronSteelLinesThread implements Runnable
 			}
 			else
 			{
-				return new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+				return blockPos.getCenter();
 			}
 		}
 

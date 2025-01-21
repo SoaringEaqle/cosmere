@@ -6,7 +6,8 @@
   "refmap": "mixins.cosmere.surgebinding.refmap.json",
   "mixins": [
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "RaidMixin"
   ],
   "client": [
     "LocalPlayerMixin"

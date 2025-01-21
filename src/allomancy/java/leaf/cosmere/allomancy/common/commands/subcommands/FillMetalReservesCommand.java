@@ -1,5 +1,5 @@
 /*
- * File updated ~ 13 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.commands.subcommands;
@@ -9,6 +9,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.manifestation.Manifestation;
@@ -43,7 +44,7 @@ public class FillMetalReservesCommand extends ModCommand
 			{
 				AllomancySpiritwebSubmodule asm = AllomancySpiritwebSubmodule.getSubmodule(spiritweb);
 
-				for (Metals.MetalType metalType : Metals.MetalType.values())
+				for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 				{
 					//I know it's not feruchemy, but it's the same list of metals
 					if (metalType.hasFeruchemicalEffect())

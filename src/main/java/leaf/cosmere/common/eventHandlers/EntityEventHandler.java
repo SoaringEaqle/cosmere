@@ -1,5 +1,5 @@
 /*
- * File updated ~ 21 - 11 - 2023 ~ Leaf
+ * File updated ~ 9 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.common.eventHandlers;
@@ -85,7 +85,7 @@ public class EntityEventHandler
 					String command = "/cosmere choose_metalborn_powers ";
 					MutableComponent instructionComponent = Component.literal("To choose powers, use ");
 					instructionComponent.append(Component.literal("§6§n/cosmere choose_metalborn_powers [allomancy] [feruchemy]")
-													.setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command))));
+							.setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command))));
 
 					player.sendSystemMessage(instructionComponent);
 				}
@@ -283,33 +283,26 @@ public class EntityEventHandler
 			return;
 		}
 
-		//inverted determination
-		int total = -(int) EntityHelper.getAttributeValue(event.getEntity(), AttributesRegistry.DETERMINATION.getAttribute());
+		float total = (float) EntityHelper.getAttributeValue(event.getEntity(), AttributesRegistry.DETERMINATION.getAttribute());
 
-		//take less damage when tapping
-		//always reduce damage by something
-		//always increase damage by something
-		final int i = Math.abs(total);
-		//never able to reduce by 100%
-		// 76% ish max? eg tap10 / 13 = 0.76
-		//store 3 is the max so never able to increase damage to self by more than 23%?
-		// 23% ish max? eg store3 / 13 = 0.23
-		final float v = i / 13f;
-		// leaving 24%
-		// 1 - 0.76 = 0.24
-		// So we add 76% extra damage
-		// 1 + 0.23 = 1.23
-		final float v1 = total > 0 ? (1 + v) : (1 - v);
+		//ignore if no determination changes, players default to 0
+		//should we todo config this?
+		if (total > 0.1)
+		{
+			final float maxDetermination = 23.125f;//can we detect this properly? not really
+			final float percentageOfMaxDetermination = total / maxDetermination;
 
-		//eg 7 damage at tap 10 would be:
-		// 7 * 0.24 = 1.68 damage remaining
-		//eg 7 damage at store 3 would be:
-		// 7 * 1.23 = 8.61
-
-		//basically never let them have more than 80% damage reduction
-		//but also why not let them increase taking damage, that's fine.
-		final float clampedPercentage = Mth.clamp(v1, 0.2f, 2);
-		event.setAmount(event.getAmount() * clampedPercentage);//todo convert to config
+			//increase damage reduction
+			float damageReduction = 1 - Mth.lerp(percentageOfMaxDetermination, 0, 0.80f);
+			event.setAmount(event.getAmount() * damageReduction);
+		}
+		else if (total < -0.1)
+		{
+			//increase damage taken
+			final float minDetermination = 3f;//can we detect this properly? not really
+			final float percentageOfMinDetermination = Math.abs(total) / minDetermination;
+			float damageIncrease = Mth.lerp(percentageOfMinDetermination, 1, 1.25f);
+			event.setAmount(event.getAmount() * damageIncrease);
+		}
 	}
-
 }

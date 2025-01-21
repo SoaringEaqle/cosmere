@@ -1,5 +1,5 @@
 /*
- * File updated ~ 1 - 5 - 2024 ~ Leaf
+ * File updated ~ 9 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.aviar.mixin;
@@ -28,8 +28,13 @@ public class EntityMixin
 
 		final boolean isServerSide = !(e.level().isClientSide);
 		final boolean isInanimateEntity = !(e instanceof LivingEntity);
-		Player clientPlayer = (Player) Minecraft.getInstance().player;
-		if (isServerSide || isInanimateEntity || cir.getReturnValue() || clientPlayer == null)
+
+		if (!(Minecraft.getInstance().getCameraEntity() instanceof Player clientPlayer))
+		{
+			return;
+		}
+
+		if (isServerSide || isInanimateEntity || cir.getReturnValue())
 		{
 			return;
 		}

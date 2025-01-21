@@ -1,5 +1,5 @@
 /*
- * File updated ~ 21 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.mixin;
@@ -25,14 +25,18 @@ public class EntityMixin
 	{
 		Entity e = (Entity) (Object) this;
 
-		final boolean isServerSide = !(e.level.isClientSide);
+		final boolean isServerSide = !(e.level().isClientSide);
 		final boolean isInanimateEntity = !(e instanceof LivingEntity);
 		if (isServerSide || isInanimateEntity || cir.getReturnValue())
 		{
 			return;
 		}
 
-		Player clientPlayer = (Player) Minecraft.getInstance().getCameraEntity();
+		if (!(Minecraft.getInstance().getCameraEntity() instanceof Player clientPlayer))
+		{
+			return;
+		}
+
 		LivingEntity target = (LivingEntity) e;
 
 		SpiritwebCapability.get(clientPlayer).ifPresent(playerSpiritweb ->

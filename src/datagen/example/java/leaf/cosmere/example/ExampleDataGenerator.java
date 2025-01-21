@@ -1,10 +1,9 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 8 - 10 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.example;
 
-import leaf.cosmere.example.advancements.ExampleAdvancementGen;
 import leaf.cosmere.example.common.Example;
 import leaf.cosmere.example.loottables.ExampleLootTableGen;
 import leaf.cosmere.example.patchouli.ExamplePatchouliGen;
@@ -23,16 +22,15 @@ public class ExampleDataGenerator
 	public static void gatherData(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
-		PackOutput output = generator.getPackOutput();
+		PackOutput packOutput = generator.getPackOutput();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-		generator.addProvider(true, new ExampleEngLangGen(output));
-		generator.addProvider(true, new ExampleTagProvider(generator, existingFileHelper));
-		generator.addProvider(true, new ExampleLootTableGen(generator));
-		generator.addProvider(true, new ExampleItemModelsGen(generator, existingFileHelper));
-		generator.addProvider(true, new ExampleRecipeGen(output, existingFileHelper));
-		generator.addProvider(true, new ExamplePatchouliGen(generator));
-		generator.addProvider(true, new ExampleAdvancementGen(generator));
+		generator.addProvider(true, new ExampleEngLangGen(packOutput));
+		generator.addProvider(true, new ExampleTagProvider(packOutput, event.getLookupProvider(), existingFileHelper));
+		generator.addProvider(true, new ExampleLootTableGen(packOutput));
+		generator.addProvider(true, new ExampleItemModelsGen(packOutput, existingFileHelper));
+		generator.addProvider(true, new ExampleRecipeGen(packOutput, existingFileHelper));
+		generator.addProvider(true, new ExamplePatchouliGen(packOutput));
 	}
 
 }

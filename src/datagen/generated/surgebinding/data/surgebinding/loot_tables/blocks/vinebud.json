@@ -14,7 +14,9 @@
           "name": "surgebinding:vinebud"
         }
       ],
+      "name": "main",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "surgebinding:blocks/vinebud"
 }

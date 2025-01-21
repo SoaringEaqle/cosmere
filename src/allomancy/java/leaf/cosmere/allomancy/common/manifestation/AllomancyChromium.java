@@ -1,10 +1,11 @@
 /*
- * File updated ~ 7 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.manifestation;
 
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
@@ -32,7 +33,7 @@ public class AllomancyChromium extends AllomancyManifestation
 			int range = getRange(data);
 
 			LivingEntity living = data.getLiving();
-			Level world = living.level;
+			Level world = living.level();
 			boolean isActiveTick = isActiveTick(data);
 			if (!world.isClientSide && isActiveTick)
 			{
@@ -93,7 +94,7 @@ public class AllomancyChromium extends AllomancyManifestation
 						if (entity != null)
 						{
 							AllomancySpiritwebSubmodule allo = (AllomancySpiritwebSubmodule) targetSpiritweb.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY);
-							for (Metals.MetalType metalType : Metals.MetalType.values())
+							for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 							{
 								float drainAmount = allo.getIngestedMetal(metalType) * 0.1f;
 								allo.adjustIngestedMetal(metalType, (int) -drainAmount, true);

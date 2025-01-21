@@ -4,6 +4,7 @@
 
 package leaf.cosmere.surgebinding.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.common.registration.impl.AttributeDeferredRegister;
 import leaf.cosmere.common.registration.impl.AttributeRegistryObject;
@@ -20,7 +21,7 @@ public class SurgebindingAttributes
 	public static final AttributeDeferredRegister ATTRIBUTES = new AttributeDeferredRegister(Surgebinding.MODID);
 
 	public static final Map<Roshar.Surges, AttributeRegistryObject<Attribute>> SURGEBINDING_ATTRIBUTES =
-			Arrays.stream(Roshar.Surges.values())
+			Arrays.stream(EnumUtils.SURGES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							surge ->

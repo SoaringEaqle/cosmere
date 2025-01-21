@@ -14,7 +14,9 @@
           "name": "cosmere:zinc_block"
         }
       ],
+      "name": "main",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "cosmere:blocks/zinc_block"
 }

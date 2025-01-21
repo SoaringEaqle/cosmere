@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
+import net.minecraft.core.Vec3i;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -61,7 +62,7 @@ public class DrawHelper
 
 			if (highlightVector != null)
 			{
-				if (new Vec3(endPos.x - 0.5, endPos.y - 0.5, endPos.z - 0.5).equals(highlightVector) || endPos.equals(highlightVector))
+				if (endPos.equals(highlightVector))
 				{
 					finalColor = Color.decode("#66b2ff");
 				}
@@ -168,7 +169,7 @@ public class DrawHelper
 				.endVertex();
 	}
 
-	public static void drawBlocksAtPoint(PoseStack poseStack, Color color, List<BlockPos> blockPosList, Vec3 highlightVector, ArrayList<BlockPos> targetedClusterBlockList)
+	public static void drawBlocksAtPoint(PoseStack poseStack, Color color, List<BlockPos> blockPosList, float range, Vec3 highlightVector, ArrayList<BlockPos> targetedClusterBlockList)
 	{
 		poseStack.pushPose();
 
@@ -192,17 +193,19 @@ public class DrawHelper
 			Color finalColor = color;
 			if (highlightVector != null)
 			{
-				if (new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()).equals(highlightVector))
+				if (targetedClusterBlockList.contains(blockPos))
 				{
 					finalColor = Color.decode("#66b2ff");
 				}
-				else if (targetedClusterBlockList.contains(blockPos))
+				else if (blockPos.getCenter().equals(highlightVector))
 				{
 					finalColor = Color.decode("#66b2ff");
 				}
 			}
 
-			renderColoredBlock(poseStack, bufferIn, finalColor, blockPos);
+			float alphaPercent = (float) Math.max(0f, (1.0f - (view.distanceTo(blockPos.getCenter()) / range)));
+
+			renderColoredBlock(poseStack, bufferIn, finalColor, alphaPercent, blockPos);
 		}
 
 		//we are meant to end batches... but if I don't, then the boxes draw over other boxes.
@@ -212,7 +215,7 @@ public class DrawHelper
 	}
 
 
-	protected static void renderColoredBlock(PoseStack poseStack, VertexConsumer builder, Color color, BlockPos pos)
+	protected static void renderColoredBlock(PoseStack poseStack, VertexConsumer builder, Color color, float alphaPercent, BlockPos pos)
 	{
 		renderBoxSolid(
 				poseStack,
@@ -221,7 +224,7 @@ public class DrawHelper
 				color.getRed() / 255f,
 				color.getGreen() / 255f,
 				color.getBlue() / 255f,
-				0.15f);
+				0.15f * alphaPercent);
 	}
 
 	protected static void renderBoxSolid(PoseStack poseStack, VertexConsumer builder, BlockPos pos, float r, float g, float b, float alpha)

@@ -14,7 +14,9 @@
           "name": "cosmere:chromium_block"
         }
       ],
+      "name": "main",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "cosmere:blocks/chromium_block"
 }

@@ -24,15 +24,16 @@ body:
       label: Minecraft version
       description: What version of Minecraft are you using?
       options:
-        - 1.19.2 (Latest)
+        - 1.20.1 (Latest)
+        - 1.19.2
         - 1.19.0 or 1.19.1 (No longer being developed)
         - 1.18.x or earlier (No longer being developed)
     validations:
       required: true
   - type: input
     attributes:
-      label: Forge version
-      description: What version of Forge are you using?
+      label: Modloader version
+      description: What version of Neo or Forge are you using?
       placeholder: e.g. 43.1.3
     validations:
       required: true

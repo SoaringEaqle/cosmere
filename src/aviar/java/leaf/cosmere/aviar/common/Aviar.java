@@ -1,5 +1,5 @@
 /*
- * File updated ~ 19 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.aviar.common;
@@ -8,11 +8,11 @@ import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.IModModule;
 import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Version;
-import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.config.CosmereModConfig;
 import leaf.cosmere.aviar.common.capabilities.AviarSpiritwebSubmodule;
 import leaf.cosmere.aviar.common.config.AviarConfigs;
 import leaf.cosmere.aviar.common.registries.*;
+import leaf.cosmere.common.Cosmere;
+import leaf.cosmere.common.config.CosmereModConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -57,6 +57,7 @@ public class Aviar implements IModModule
 		AviarMenuTypes.MENU_TYPES.register(modBus);
 		AviarRecipes.SPECIAL_RECIPES.register(modBus);
 		AviarStats.STATS.register(modBus);
+		AviarCreativeTabs.CREATIVE_TABS.register(modBus);
 
 		versionNumber = new Version(ModLoadingContext.get().getActiveContainer());
 	}

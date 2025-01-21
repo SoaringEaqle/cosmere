@@ -1,9 +1,10 @@
 /*
- * File updated ~ 4 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.registration.impl.ManifestationDeferredRegister;
 import leaf.cosmere.common.registration.impl.ManifestationRegistryObject;
@@ -22,7 +23,7 @@ public class FeruchemyManifestations
 
 	// Feruchemy powers
 	public static final Map<Metals.MetalType, ManifestationRegistryObject<FeruchemyManifestation>> FERUCHEMY_POWERS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasAssociatedManifestation)
 					.collect(Collectors.toMap(
 							Function.identity(),

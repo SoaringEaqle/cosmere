@@ -1,5 +1,5 @@
 /*
- * File updated ~ 19 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.common;
@@ -13,7 +13,6 @@ import leaf.cosmere.common.config.CosmereModConfig;
 import leaf.cosmere.common.eventHandlers.ColorHandler;
 import leaf.cosmere.common.network.NetworkPacketHandler;
 import leaf.cosmere.common.registry.*;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -21,8 +20,8 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.HashMap;
@@ -48,8 +47,8 @@ public class Cosmere
 		CosmereConfigs.registerConfigs(ModLoadingContext.get());
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-		modBus.addListener(this::commonSetup);
-		modBus.addListener(this::loadComplete);
+		modBus.addListener(this::onCommonSetup);
+		modBus.addListener(this::onClientSetup);
 		modBus.addListener(this::onAddCaps);
 		modBus.addListener(this::onConfigLoad);
 		modBus.addListener(this::onConfigReload);
@@ -72,9 +71,12 @@ public class Cosmere
 		GameEventRegistry.GAME_EVENTS.register(modBus);
 		ArgumentTypeRegistry.ARGUMENT_TYPE_INFOS.register(modBus);
 
+		CreativeTabsRegistry.CREATIVE_TABS.register(modBus);
 		BiomeRegistry.BIOMES.register(modBus);
-		FeatureRegistry.CONFIGURED_FEATURES.register(modBus);
-		FeatureRegistry.PLACED_FEATURES.register(modBus);
+		LootModifiersRegistry.LOOT_MODIFIERS.register(modBus);
+		FeatureRegistry.FEATURES.register(modBus);
+		IntProviderTypesRegistry.INT_PROVIDER_TYPES.register(modBus);
+		HeightProviderTypesRegistry.HEIGHT_PROVIDER_TYPES.register(modBus);
 
 		DimensionRegistry.register();
 
@@ -149,7 +151,7 @@ public class Cosmere
 		return spiritwebSubmoduleMap;
 	}
 
-	private void commonSetup(FMLCommonSetupEvent event)
+	private void onCommonSetup(FMLCommonSetupEvent event)
 	{
 		//Initialization notification
 		CosmereAPI.logger.info("Cosmere Version {} initializing...", versionNumber);
@@ -180,12 +182,8 @@ public class Cosmere
 		capabilitiesEvent.register(SpiritwebCapability.class);
 	}
 
-	private void loadComplete(FMLLoadCompleteEvent event)
+	private void onClientSetup(FMLClientSetupEvent event)
 	{
-		event.enqueueWork(() ->
-		{
-			ColorHandler.init();
-
-		});
+		event.enqueueWork(ColorHandler::init);
 	}
 }

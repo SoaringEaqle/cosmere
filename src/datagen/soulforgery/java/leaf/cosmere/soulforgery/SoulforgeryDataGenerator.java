@@ -1,10 +1,9 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 8 - 10 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.soulforgery;
 
-import leaf.cosmere.soulforgery.advancements.SoulforgeryAdvancementGen;
 import leaf.cosmere.soulforgery.common.Soulforgery;
 import leaf.cosmere.soulforgery.loottables.SoulforgeryLootTableGen;
 import leaf.cosmere.soulforgery.patchouli.SoulforgeryPatchouliGen;
@@ -23,16 +22,15 @@ public class SoulforgeryDataGenerator
 	public static void gatherData(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
-		PackOutput output = generator.getPackOutput();
+		PackOutput packOutput = generator.getPackOutput();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-		generator.addProvider(true, new SoulforgeryEngLangGen(output));
-		generator.addProvider(true, new SoulforgeryTagProvider(generator, existingFileHelper));
-		generator.addProvider(true, new SoulforgeryLootTableGen(generator));
-		generator.addProvider(true, new SoulforgeryItemModelsGen(generator, existingFileHelper));
-		generator.addProvider(true, new SoulforgeryRecipeGen(output, existingFileHelper));
-		generator.addProvider(true, new SoulforgeryPatchouliGen(generator));
-		generator.addProvider(true, new SoulforgeryAdvancementGen(generator));
+		generator.addProvider(true, new SoulforgeryEngLangGen(packOutput));
+		generator.addProvider(true, new SoulforgeryTagProvider(packOutput, event.getLookupProvider(), existingFileHelper));
+		generator.addProvider(true, new SoulforgeryLootTableGen(packOutput));
+		generator.addProvider(true, new SoulforgeryItemModelsGen(packOutput, existingFileHelper));
+		generator.addProvider(true, new SoulforgeryRecipeGen(packOutput, existingFileHelper));
+		generator.addProvider(true, new SoulforgeryPatchouliGen(packOutput));
 	}
 
 }

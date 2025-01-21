@@ -1,5 +1,5 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.recipes;
@@ -8,6 +8,7 @@ import leaf.cosmere.allomancy.common.Allomancy;
 import leaf.cosmere.allomancy.common.items.MetalVialItem;
 import leaf.cosmere.allomancy.common.registries.AllomancyItems;
 import leaf.cosmere.allomancy.common.registries.AllomancyRecipes;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +17,10 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 
@@ -72,6 +76,15 @@ public class VialMixingRecipe extends CustomRecipe
 				hasNugget = true;
 				nuggetTotal++;
 			}
+			else if (stack.isEmpty())
+			{
+				//ignore empty slots
+			}
+			else
+			{
+				//if its not a vial, bottle, or nugget, then its not a valid recipe
+				return false;
+			}
 		}
 
 		if (vialStack == null)
@@ -98,7 +111,7 @@ public class VialMixingRecipe extends CustomRecipe
 
 	private Optional<TagKey<Item>> testForViableNugget(ItemStack stack)
 	{
-		for (Metals.MetalType value : Metals.MetalType.values())
+		for (Metals.MetalType value : EnumUtils.METAL_TYPES)
 		{
 			TagKey<Item> metalNuggetTag = value.getMetalNuggetTag();
 			if (stack.is(metalNuggetTag))
@@ -127,7 +140,7 @@ public class VialMixingRecipe extends CustomRecipe
 
 			if (stackInSlot.is(Tags.Items.NUGGETS))
 			{
-				for (Metals.MetalType metalType : Metals.MetalType.values())
+				for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 				{
 					if (stackInSlot.is(metalType.getMetalNuggetTag()))
 					{
@@ -160,16 +173,8 @@ public class VialMixingRecipe extends CustomRecipe
 	@Override
 	public @Nonnull RecipeSerializer<?> getSerializer()
 	{
-		return AllomancyRecipes.VIAL_RECIPE_SERIALIZER.get();
+		return AllomancyRecipes.VIAL_MIX.get();
 	}
 
-
-	public static class Serializer extends SimpleCraftingRecipeSerializer<VialMixingRecipe>
-	{
-		public Serializer()
-		{
-			super(VialMixingRecipe::new);
-		}
-	}
 
 }

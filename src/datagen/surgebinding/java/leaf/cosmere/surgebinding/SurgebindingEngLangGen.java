@@ -1,11 +1,11 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 10 - 10 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding;
 
 import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.helpers.ResourceLocationHelper;
+import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.providers.IAttributeProvider;
 import leaf.cosmere.api.providers.IEntityTypeProvider;
@@ -42,6 +42,7 @@ public class SurgebindingEngLangGen extends LanguageProvider
 		addManifestations();
 		addAttributes();
 		addPatchouli();
+		addCreativeTabs();
 		addTooltips();
 		addDamageSources();
 		addMobEffects();
@@ -59,7 +60,7 @@ public class SurgebindingEngLangGen extends LanguageProvider
 		//Items and Blocks
 		for (Item item : ForgeRegistries.ITEMS.getValues())
 		{
-			final ResourceLocation registryName = ResourceLocationHelper.get(item);
+			final ResourceLocation registryName = RegistryHelper.get(item);
 			if (registryName.getNamespace().contentEquals(Surgebinding.MODID))
 			{
 				String localisedString = StringHelper.fixCapitalisation(registryName.getPath());
@@ -134,6 +135,14 @@ public class SurgebindingEngLangGen extends LanguageProvider
 	private void addPatchouli()
 	{
 		//todo surgebinding patchouli localisation
+	}
+
+
+	private void addCreativeTabs()
+	{
+		//ItemGroups/Tabs
+		add("tabs.surgebinding.items", "Surgebinding");
+
 	}
 
 	private void addTooltips()

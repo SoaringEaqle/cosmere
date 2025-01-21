@@ -5,6 +5,7 @@
 package leaf.cosmere.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import leaf.cosmere.api.Activator;
 import leaf.cosmere.client.settings.KeyConflictContext;
 import leaf.cosmere.common.Cosmere;
 import net.minecraft.client.KeyMapping;
@@ -16,11 +17,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
+
 import static leaf.cosmere.api.Constants.Strings.*;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Cosmere.MODID, bus = Bus.MOD)
 public class Keybindings
 {
+
+	public static ArrayList<Activator> activators = new ArrayList<leaf.cosmere.api.Activator>();
 
 	public static KeyMapping MANIFESTATION_MENU;
 	public static KeyMapping MANIFESTATIONS_DEACTIVATE;
@@ -51,4 +56,6 @@ public class Keybindings
 	{
 		return new KeyMapping(description, KeyConflictContext.DEFAULT, keyModifier, InputConstants.Type.KEYSYM.getOrCreate(keyCode), category);
 	}
+
+
 }

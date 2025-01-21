@@ -1,10 +1,11 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy;
 
 import leaf.cosmere.BaseRecipeProvider;
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.feruchemy.common.Feruchemy;
 import leaf.cosmere.feruchemy.common.registries.FeruchemyItems;
@@ -24,7 +25,7 @@ public class FeruchemyRecipeGen extends BaseRecipeProvider implements ICondition
 {
 	public FeruchemyRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, Feruchemy.MODID);
 	}
 
 	@Override
@@ -36,7 +37,7 @@ public class FeruchemyRecipeGen extends BaseRecipeProvider implements ICondition
 	@Override
 	protected void addRecipes(Consumer<FinishedRecipe> consumer)
 	{
-		for (Metals.MetalType metalType : Metals.MetalType.values())
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 			addBasicMetalmindRecipes(consumer, metalType);
 		}

@@ -1,9 +1,10 @@
 /*
- * File updated ~ 29 - 10 - 2023 ~ Leaf
+ * File updated ~ 20 - 11 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy.common.registries;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.common.registration.impl.CosmereEffectDeferredRegister;
@@ -24,7 +25,7 @@ public class FeruchemyEffects
 	public static final CosmereEffectDeferredRegister EFFECTS = new CosmereEffectDeferredRegister(Feruchemy.MODID);
 
 	public static final Map<Metals.MetalType, CosmereEffectRegistryObject<CosmereEffect>> TAPPING_EFFECTS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasFeruchemicalEffect)
 					.collect(Collectors.toMap(
 									Function.identity(),
@@ -35,7 +36,7 @@ public class FeruchemyEffects
 					);
 
 	public static final Map<Metals.MetalType, CosmereEffectRegistryObject<CosmereEffect>> STORING_EFFECTS =
-			Arrays.stream(Metals.MetalType.values())
+			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(Metals.MetalType::hasFeruchemicalEffect)
 					.collect(Collectors.toMap(
 									Function.identity(),
