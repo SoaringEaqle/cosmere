@@ -65,8 +65,12 @@ public class AllomancyZinc extends AllomancyManifestation
 	{
 		int mode = getMode(data);
 		String uuid = data.getLiving().getStringUUID();
-
-		boolean isSingleTarget = playerThreadMap.get(data.getLiving().getStringUUID()).isSingleTarget;
+		AllomancyZinc.ZincThread playerThread = playerThreadMap.get(data.getLiving().getStringUUID());
+		boolean isSingleTarget = false;
+		if (playerThread != null)
+		{
+			isSingleTarget = playerThread.isSingleTarget;
+		}
 
 		// data processing
 		{
