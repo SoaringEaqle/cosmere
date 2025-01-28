@@ -56,6 +56,4 @@ public class Keybindings
 	{
 		return new KeyMapping(description, KeyConflictContext.DEFAULT, keyModifier, InputConstants.Type.KEYSYM.getOrCreate(keyCode), category);
 	}
-
-
 }

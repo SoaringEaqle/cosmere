@@ -100,6 +100,32 @@ public class Constants
 		public static final String KEY_ALLOMANCY_SOOTHE = "key.cosmere.allomancy.soothe";
 		public static final String KEY_ALLOMANCY_RIOT = "key.cosmere.allomancy.riot";
 
+		public static final String KEY_ALLOMANCY_IRON = "key.cosmere.allomancy.iron";
+		public static final String KEY_ALLOMANCY_STEEL = "key.cosmere.allomancy.steel";
+		public static final String KEY_ALLOMANCY_TIN = "key.cosmere.allomancy.tin";
+		public static final String KEY_ALLOMANCY_PEWTER = "key.cosmere.allomancy.pewter";
+		public static final String KEY_ALLOMANCY_ZINC = "key.cosmere.allomancy.zinc";
+		public static final String KEY_ALLOMANCY_BRASS = "key.cosmere.allomancy.brass";
+		public static final String KEY_ALLOMANCY_COPPER = "key.cosmere.allomancy.copper";
+		public static final String KEY_ALLOMANCY_BRONZE = "key.cosmere.allomancy.bronze";
+		public static final String KEY_ALLOMANCY_CADMIUM = "key.cosmere.allomancy.cadmium";
+		public static final String KEY_ALLOMANCY_BENDALLOY = "key.cosmere.allomancy.bendalloy";
+		public static final String KEY_ALLOMANCY_GOLD = "key.cosmere.allomancy.gold";
+		public static final String KEY_ALLOMANCY_ELECTRUM = "key.cosmere.allomancy.electrum";
+		public static final String KEY_ALLOMANCY_ALUMINUM = "key.cosmere.allomancy.aluminum";
+		public static final String KEY_ALLOMANCY_DURRALUMIN = "key.cosmere.allomancy.duralumin";
+		public static final String KEY_ALLOMANCY_CHROMIUM = "key.cosmere.allomancy.chromium";
+		public static final String KEY_ALLOMANCY_NICROSIL = "key.cosmere.allomancy.nicrosil";
+		public static final String KEY_ALLOMANCY_ATIUM = "key.cosmere.allomancy.atium";
+		public static final String KEY_ALLOMANCY_MALATIUM = "key.cosmere.allomancy.malatium";
+
+		//keybind builder
+		public static final String KEY_MAIN = "key.cosmere.";
+
+		public static final String KEY_ALLOMANCY = "allomancy.";
+		public static final String KEY_FERUCHEMY = "feruchemy.";
+		public static final String KEY_STORMLIGHT = "stormlight.";
+
 		public static final String KEY_SHARDBLADE = "key.cosmere.stormlight.shardblade";
 		public static final String TOOLTIP_ITEM_INFO = "tooltip.item.info.";
 		public static final String CONTAINED_POWERS_FOUND = "tooltip.cosmere.power.found";
