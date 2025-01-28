@@ -40,7 +40,7 @@ public class AllomancyBrass extends AllomancyManifestation
 		{
 			if (isActiveTick(data))
 			{
-				boolean isSingleTarget = AllomancyKeybindings.ALLOMANCY_SOOTHE.isDown() || (Keybindings.MANIFESTATION_USE_ACTIVE.isDown() && data.getSelectedManifestation().equals(getManifestation()));
+				boolean isSingleTarget = (AllomancyKeybindings.ALLOMANCY_SOOTHE.isDown() || (Keybindings.MANIFESTATION_USE_ACTIVE.isDown()) && data.getSelectedManifestation().equals(getManifestation()));
 				int singleTargetEntityId = 0;
 
 				if (isSingleTarget)
@@ -65,7 +65,12 @@ public class AllomancyBrass extends AllomancyManifestation
 	{
 		int mode = getMode(data);
 		String uuid = data.getLiving().getStringUUID();
-		boolean isSingleTarget = playerThreadMap.get(data.getLiving().getStringUUID()).isSingleTarget;
+		AllomancyBrass.BrassThread playerThread = playerThreadMap.get(data.getLiving().getStringUUID());
+		boolean isSingleTarget = false;
+		if (playerThread != null)
+		{
+			isSingleTarget = playerThread.isSingleTarget;
+		}
 
 		// data processing
 		{
