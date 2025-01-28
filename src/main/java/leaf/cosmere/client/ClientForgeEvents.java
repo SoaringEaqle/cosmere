@@ -32,8 +32,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import javax.swing.text.JTextComponent;
-
 @Mod.EventBusSubscriber(modid = Cosmere.MODID, value = Dist.CLIENT)
 public class ClientForgeEvents
 {
@@ -74,8 +72,16 @@ public class ClientForgeEvents
 			Manifestation selected = spiritweb.getSelectedManifestation();
 			if (isKeyPressed(event, Keybindings.MANIFESTATIONS_DEACTIVATE))
 			{
-				// just deactivate
-				Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
+				//if crouching, only turn off.
+				if (Screen.hasShiftDown())
+				{
+					Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
+				}
+				//otherwise do a normal toggle
+				else
+				{
+					//todo decide if there is an activation state?
+				}
 			}
 
 			//check keybinds with modifiers first?
