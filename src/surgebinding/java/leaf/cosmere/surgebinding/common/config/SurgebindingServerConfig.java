@@ -1,5 +1,5 @@
 /*
- * File updated ~ 12 - 1 - 2025 ~ Leaf
+ * File updated ~ 4 - 2 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.config;
@@ -22,6 +22,7 @@ public class SurgebindingServerConfig implements ICosmereConfig
 	public final ForgeConfigSpec.IntValue PROGRESSION_BONEMEAL_COST;
 	public final ForgeConfigSpec.IntValue PROGRESSION_HEAL_COST;
 	public final ForgeConfigSpec.IntValue PROGRESSION_AGE_UP_COST;
+	public final ForgeConfigSpec.BooleanValue NIGHTBLOOD_SPOILERS;
 
 
 	//public final ForgeConfigSpec.ConfigValue<List<? extends String>> FIRST_IDEALS;
@@ -43,6 +44,8 @@ public class SurgebindingServerConfig implements ICosmereConfig
 		PROGRESSION_BONEMEAL_COST = builder.comment("How many points of stormlight to trigger the bonemeal effect").defineInRange("progressionBonemealStormlightCost", 20, 1, 1000);
 		PROGRESSION_HEAL_COST = builder.comment("How many points of stormlight per half a heart healed").defineInRange("progressionHealStormlightCost", 20, 1, 1000);
 		PROGRESSION_AGE_UP_COST = builder.comment("How many points of stormlight per age up on a baby mob").defineInRange("progressionAgeUpCost", 50, 1, 1000);
+
+		NIGHTBLOOD_SPOILERS = builder.comment("Enable this to allow Nightblood to have certain feature, which is spoilers for WindAndTruth").define("nightbloodSpoilers", true);
 
 		final Predicate<Object> elementValidator = o -> o instanceof String;
 
