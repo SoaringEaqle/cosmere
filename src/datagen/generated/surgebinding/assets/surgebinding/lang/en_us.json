@@ -107,5 +107,6 @@
   "manifestation.surgebinding.transformation.description": "Needs description",
   "manifestation.surgebinding.transportation": "Transportation",
   "manifestation.surgebinding.transportation.description": "Needs description",
-  "tabs.surgebinding.items": "Surgebinding"
+  "tabs.surgebinding.items": "Surgebinding",
+  "keys.surgebinding.main": "Surgebinding"
 }
