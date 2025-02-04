@@ -6,6 +6,7 @@ package leaf.cosmere.surgebinding.common.capabilities;
 
 import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Manifestations;
+import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.helpers.EffectsHelper;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.surgebinding.common.capabilities.ideals.IdealsManager;
@@ -14,6 +15,7 @@ import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingDimensions;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,10 +32,59 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 	private int stormlightStored = 0;
 
+	private Roshar.RadiantOrder heraldOrder = null;
+
 	//a little ew, I'd rather this in an enum utils, but it's the only place that needs it
 	public static final ShardplateArmorMaterial[] ARMOR_MATERIALS = ShardplateArmorMaterial.values();
 	IdealsManager idealsManager = new IdealsManager();
 	private ISpiritweb spiritweb;
+
+	public static SurgebindingSpiritwebSubmodule getSubmodule(ISpiritweb data)
+	{
+		return (SurgebindingSpiritwebSubmodule) data.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
+	}
+
+	public boolean isHerald()
+	{
+		return heraldOrder != null;
+	}
+
+	public boolean isOathed()
+	{
+		//boolean anySurges = SurgebindingManifestations.SURGEBINDING_POWERS.values().stream().anyMatch((manifestation -> spiritweb.hasManifestation(manifestation.getManifestation())));
+		return idealsManager.getOrder() != null;
+	}
+
+	@Override
+	public void deserialize(ISpiritweb spiritweb)
+	{
+		this.spiritweb = spiritweb;
+		final CompoundTag compoundTag = spiritweb.getCompoundTag();
+		stormlightStored = compoundTag.getInt("stored_stormlight");
+		idealsManager.deserialize(spiritweb);
+
+		this.heraldOrder = compoundTag.contains("herald")
+		                   ? Roshar.RadiantOrder.valueOf(compoundTag.getInt("herald")).orElse(null)
+		                   : null;
+	}
+
+	@Override
+	public void serialize(ISpiritweb spiritweb)
+	{
+		final CompoundTag compoundTag = spiritweb.getCompoundTag();
+
+		compoundTag.putInt("stored_stormlight", stormlightStored);
+		idealsManager.serialize(spiritweb);
+
+		if (heraldOrder != null)
+		{
+			compoundTag.putInt("herald", heraldOrder.getID());
+		}
+		else if (compoundTag.contains("herald"))
+		{
+			compoundTag.remove("herald");
+		}
+	}
 
 
 	@Override
@@ -42,11 +93,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		final LivingEntity livingEntity = spiritweb.getLiving();
 		final boolean surgebindingActiveTick = (livingEntity.tickCount + Manifestations.ManifestationTypes.SURGEBINDING.getID()) % 20 == 0;
 
-		//boolean anySurges = SurgebindingManifestations.SURGEBINDING_POWERS.values().stream().anyMatch((manifestation -> spiritweb.hasManifestation(manifestation.getManifestation())));
-		boolean isOathed = idealsManager.getOrder() != null;
-
 		//tick stormlight
-		if (isOathed)
+		if (isOathed())
 		{
 			if (livingEntity.level().isThundering()
 					&& livingEntity.level().dimension().equals(SurgebindingDimensions.ROSHAR_DIM_KEY)
@@ -147,24 +195,6 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		}
 	}
 
-	@Override
-	public void deserialize(ISpiritweb spiritweb)
-	{
-		this.spiritweb = spiritweb;
-		final CompoundTag spiritwebCompoundTag = spiritweb.getCompoundTag();
-		stormlightStored = spiritwebCompoundTag.getInt("stored_stormlight");
-		idealsManager.deserialize(spiritweb);
-	}
-
-	@Override
-	public void serialize(ISpiritweb spiritweb)
-	{
-		final CompoundTag compoundTag = spiritweb.getCompoundTag();
-
-		compoundTag.putInt("stored_stormlight", stormlightStored);
-		idealsManager.serialize(spiritweb);
-	}
-
 	public int getStormlight()
 	{
 		return stormlightStored;
@@ -179,7 +209,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		{
 			if (doAdjust)
 			{
-				stormlightStored = newSLValue;
+				stormlightStored = Mth.clamp(newSLValue, 0, SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get());
 			}
 
 			return true;
@@ -188,8 +218,18 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		return false;
 	}
 
+	public void setStormlight(int amount)
+	{
+		stormlightStored = Mth.clamp(amount, 0, SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get());
+	}
+
 	public void onChatMessageReceived(ServerChatEvent event)
 	{
 		idealsManager.onChatMessageReceived(event);
+	}
+
+	public void setHerald(Roshar.RadiantOrder order)
+	{
+		heraldOrder = order;
 	}
 }
