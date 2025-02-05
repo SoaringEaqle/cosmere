@@ -1,5 +1,5 @@
 /*
- * File updated ~ 14 - 1 - 2025 ~ Leaf
+ * File updated ~ 4 - 2 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.eventHandlers;
@@ -9,9 +9,11 @@ import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
+import leaf.cosmere.surgebinding.common.commands.SurgebindingCommands;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeGravitation;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -49,6 +51,12 @@ public class SurgebindingForgeEventsHandler
 		}
 
 		SurgeProgression.onBlockInteract(event);
+	}
+
+	@SubscribeEvent
+	public static void registerCommands(RegisterCommandsEvent event)
+	{
+		SurgebindingCommands.register(event.getDispatcher());
 	}
 
 	@SubscribeEvent

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 2 - 11 - 2022 ~ Leaf
+ * File updated ~ 4 - 2 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.client;
@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import org.lwjgl.glfw.GLFW;
 
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,12 +29,17 @@ import java.util.stream.Collectors;
 import static leaf.cosmere.api.Constants.Strings.*;
 import static leaf.cosmere.surgebinding.common.registries.SurgebindingManifestations.SURGEBINDING_POWERS;
 
+import static leaf.cosmere.api.Constants.Strings.KEY_BREATHE_STORMLIGHT;
+import static leaf.cosmere.api.Constants.Strings.KEY_SHARDBLADE;
+
+
 // Really only has its own file to more nicely reference keybindings.
 // Otherwise, could have lived in mod client events
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Surgebinding.MODID, bus = Bus.MOD)
 public class SurgebindingKeybindings
 {
 	public static KeyMapping SHARDBLADE;
+	public static KeyMapping BREATHE_STORMLIGHT;
 
 	public static final Map<Roshar.Surges,KeyMapping> SURGEBINDING_POWER =
 			Arrays.stream(EnumUtils.SURGES)
@@ -46,6 +52,7 @@ public class SurgebindingKeybindings
 	@SubscribeEvent
 	public static void register(RegisterKeyMappingsEvent event)
 	{
+
 		event.register(SHARDBLADE = new KeyMapping(KEY_SHARDBLADE, GLFW.GLFW_KEY_X, KEYS_CATEGORY));
 
 		for (Roshar.Surges surge: SURGEBINDING_POWER.keySet()){
@@ -56,6 +63,10 @@ public class SurgebindingKeybindings
 			entry.setCategory("surgebinding");
 			Keybindings.activators.add(entry);
 		}
+
+		event.register(SHARDBLADE = new KeyMapping(KEY_SHARDBLADE, GLFW.GLFW_KEY_X, "keys.surgebinding.main"));
+		event.register(BREATHE_STORMLIGHT = new KeyMapping(KEY_BREATHE_STORMLIGHT, GLFW.GLFW_KEY_Z, "keys.surgebinding.main"));
+
 	}
 
 }

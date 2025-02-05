@@ -1,5 +1,5 @@
 /*
- * File updated ~ 14 - 1 - 2025 ~ Leaf
+ * File updated ~ 4 - 2 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.items;
@@ -21,8 +21,6 @@ import java.util.UUID;
 public class HonorbladeItem extends ShardbladeItem
 {
 	public final Roshar.RadiantOrder radiantOrder;
-	private final int attackDamageIn;
-	private final float attackSpeedIn;
 
 	/**
 	 * Modifiers applied when the item is in the mainhand of a user. copied from sword item
@@ -38,8 +36,6 @@ public class HonorbladeItem extends ShardbladeItem
 	{
 		super(tier, attackDamageIn, attackSpeedIn, builderIn);
 		this.radiantOrder = gemstone;
-		this.attackDamageIn = attackDamageIn;
-		this.attackSpeedIn = attackSpeedIn;
 	}
 
 
@@ -52,7 +48,7 @@ public class HonorbladeItem extends ShardbladeItem
 		if (attributeModifiers == null)
 		{
 			ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamageIn, AttributeModifier.Operation.ADDITION));
+			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
 			builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeedIn, AttributeModifier.Operation.ADDITION));
 			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getFirstSurge()).getAttribute(), new AttributeModifier(PRIMARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 5, AttributeModifier.Operation.ADDITION));
 			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getSecondSurge()).getAttribute(), new AttributeModifier(SECONDARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 5, AttributeModifier.Operation.ADDITION));
