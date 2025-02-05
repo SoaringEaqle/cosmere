@@ -1,11 +1,12 @@
 /*
- * File updated ~ 17 - 11 - 2023 ~ Leaf
+ * File updated ~ 4 - 2 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.client;
 
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.surgebinding.common.Surgebinding;
+import leaf.cosmere.surgebinding.common.network.packets.BreatheStormlight;
 import leaf.cosmere.surgebinding.common.network.packets.SummonShardblade;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -34,6 +35,11 @@ public class SurgebindingForgeClientEvents
 			if (isKeyPressed(event, SurgebindingKeybindings.SHARDBLADE))
 			{
 				Surgebinding.packetHandler().sendToServer(new SummonShardblade());
+			}
+
+			if (isKeyPressed(event, SurgebindingKeybindings.BREATHE_STORMLIGHT))
+			{
+				Surgebinding.packetHandler().sendToServer(new BreatheStormlight());
 			}
 		});
 	}
