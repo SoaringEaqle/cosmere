@@ -1,5 +1,5 @@
 /*
- * File updated ~ 14 - 1 - 2025 ~ Leaf
+ * File updated ~ 6 - 2 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.registries;
@@ -35,6 +35,7 @@ public class SurgebindingItems
 
 	public static final ItemRegistryObject<ShardbladeItem> NIGHTBLOOD = ITEMS.register("nightblood", () -> new NightbloodItem(SHARDBLADE_ITEM_TIER, 24, -2.4F, PropTypes.Items.SHARDBLADE.get()));
 	public static final ItemRegistryObject<ShardbladeItem> TEST_BLADE = ITEMS.register("test_blade", () -> new ShardbladeItem(SHARDBLADE_ITEM_TIER, 10, -2.4F, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<ShardbladeItem> SHARDBLADE = ITEMS.register("shardblade", () -> new ShardbladeDynamicItem(SHARDBLADE_ITEM_TIER, 24, -2.4F, PropTypes.Items.SHARDBLADE.get()));
 	public static final ItemRegistryObject<ShardbladeItem> MASTER_SWORD = ITEMS.register("master_sword", () -> new ShardbladeItem(SHARDBLADE_ITEM_TIER, 10, -2.4F, PropTypes.Items.SHARDBLADE.get()));
 
 	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_HELMET = ITEMS.register("shardplate_helmet", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.HELMET, PropTypes.Items.SHARDBLADE.get()));
