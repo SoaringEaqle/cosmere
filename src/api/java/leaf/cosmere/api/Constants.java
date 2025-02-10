@@ -79,6 +79,11 @@ public class Constants
 	{
 		public static final String KEYS_CATEGORY = "keys.cosmere.main";
 
+		//keybind builder
+		public static final String KEY_ALLOMANCY = "key.cosmere.allomancy.";
+		public static final String KEY_FERUCHEMY = "key.cosmere.feruchemy.";
+		public static final String KEY_STORMLIGHT = "key.cosmere.stormlight.";
+
 		public static final String KEY_MANIFESTATION_MODE_INCREASE = "key.cosmere.powers.mode.increase";
 		public static final String KEY_MANIFESTATION_MODE_DECREASE = "key.cosmere.powers.mode.decrease";
 
