@@ -210,7 +210,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 		int availableSpace = maxPlayerStormlight - stormlightStored;
 
-		if (availableSpace < amountDrawn) {
+		if (availableSpace < amountDrawn)
+		{
 			amountDrawn = availableSpace;
 		}
 
@@ -239,7 +240,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 			{
 				stormlightStored += drawSpeed;
 			}
-			else {
+			else
+			{
 				stormlightStored += maxPlayerStormlight - stormlightStored;
 			}
 		}
