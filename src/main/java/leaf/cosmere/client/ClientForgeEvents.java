@@ -5,9 +5,7 @@
 package leaf.cosmere.client;
 
 import leaf.cosmere.api.Activator;
-import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.manifestation.Manifestation;
-import leaf.cosmere.client.gui.SpiritwebMenu;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.fog.FogManager;
@@ -15,7 +13,6 @@ import leaf.cosmere.common.network.packets.ChangeManifestationModeMessage;
 import leaf.cosmere.common.network.packets.ChangeSelectedManifestationMessage;
 import leaf.cosmere.common.network.packets.DeactivateManifestationsMessage;
 import leaf.cosmere.common.network.packets.SetSelectedManifestationMessage;
-import leaf.cosmere.common.registration.impl.ManifestationRegistryObject;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -25,9 +22,10 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -107,16 +105,20 @@ public class ClientForgeEvents
 				Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected, modeIncreasePressed ? modifier : -modifier));
 			}
 
-			for(Activator activator: Keybindings.activators){
-				if (isKeyPressed(event, activator.getKeyMapping())){
+			for (Activator activator : Keybindings.activators)
+			{
+				if (isKeyPressed(event, activator.getKeyMapping()))
+				{
 					Manifestation manifestation = activator.getManifestation();
 					Cosmere.packetHandler().sendToServer(new SetSelectedManifestationMessage(manifestation));
 					selected = manifestation;
 
 					int modifier = -selected.getMode(spiritweb);
 
-					if (!selected.isActive(spiritweb)) {
-                        if(activator.getCategory().equals("feruchemy")){
+					if (!selected.isActive(spiritweb))
+					{
+						if (activator.getCategory().equals("feruchemy"))
+						{
 							if (Screen.hasShiftDown() && Screen.hasControlDown())
                             {
                                 modifier -= 5;
@@ -134,7 +136,8 @@ public class ClientForgeEvents
                             }
                             Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
                         }
-                        else {
+						else
+						{
                             if (Screen.hasShiftDown() && Screen.hasControlDown())
                             {
                                 modifier -= 2;
@@ -147,12 +150,15 @@ public class ClientForgeEvents
                             {
                                 modifier += 2;
                             }
-                            else {
+                            else
+                            {
                                 modifier += 1;
                             }
                             Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
                         }
-                    } else {
+					}
+					else
+					{
                         Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
                     }
                 }

@@ -9,7 +9,6 @@ import leaf.cosmere.allomancy.common.registries.AllomancyManifestations;
 import leaf.cosmere.api.Constants;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.text.StringHelper;
-import leaf.cosmere.client.Keybindings;
 import leaf.cosmere.common.registration.impl.ManifestationRegistryObject;
 import leaf.cosmere.patchouli.data.BookStuff;
 import leaf.cosmere.patchouli.data.PatchouliTextFormat;
