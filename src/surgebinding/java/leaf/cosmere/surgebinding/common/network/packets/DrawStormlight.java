@@ -4,22 +4,14 @@
 
 package leaf.cosmere.surgebinding.common.network.packets;
 
-import com.google.common.collect.Iterables;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.charge.IChargeable;
-import leaf.cosmere.common.charge.ItemChargeHelper;
 import leaf.cosmere.common.network.ICosmerePacket;
 import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
-import leaf.cosmere.surgebinding.common.items.GemstoneItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-
-import java.util.List;
-import java.util.function.Predicate;
 
 public class DrawStormlight implements ICosmerePacket
 {
