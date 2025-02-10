@@ -9,30 +9,44 @@ import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.helpers.EffectsHelper;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
+import leaf.cosmere.common.items.CapWrapper;
 import leaf.cosmere.surgebinding.common.capabilities.ideals.IdealsManager;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
+import leaf.cosmere.surgebinding.common.items.GemstoneItem;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingDimensions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.items.wrapper.PlayerInvWrapper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 {
 
 	//stormlight stored
-
 	private int stormlightStored = 0;
 
 	private Roshar.RadiantOrder heraldOrder = null;
+
+	//Since I'm referencing it so often. For readability if nothing else
+	int maxPlayerStormlight = SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get();
+
+	//Somewhat temporary value. How fast stormlight is drawn in/breathed out. Maybe make this a config value?
+	int drawSpeed = SurgebindingConfigs.SERVER.PLAYER_DRAW_SPEED.get();
 
 	//a little ew, I'd rather this in an enum utils, but it's the only place that needs it
 	public static final ShardplateArmorMaterial[] ARMOR_MATERIALS = ShardplateArmorMaterial.values();
@@ -96,15 +110,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		//tick stormlight
 		if (isOathed())
 		{
-			if (livingEntity.level().isThundering()
-					&& livingEntity.level().dimension().equals(SurgebindingDimensions.ROSHAR_DIM_KEY)
-					&& livingEntity.level().isRainingAt(livingEntity.blockPosition()))
-			{
-				//if player has max of 1000, it will take just under a minute to spend?
-				//in the books, it's almost instantly full
-				final int maxPlayerStormlight = SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get();
-				stormlightStored = maxPlayerStormlight;
-			}
+
+			//Moved the highstorm check into it's own method that's called by draw stormlight, so the player can choose to draw in stormlight from a highstorm.
 
 			if (stormlightStored > 0 && surgebindingActiveTick)
 			{
@@ -187,6 +194,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 						//todo oathed radiant shardplate stormlight cost
 						//todo deadplate stormlight cost
+						//Didn't deadplate draw reallyy quickly from Kaladin when he was using the 'gauntlet' in the duel?
 						stormlightStored--;
 						break;
 					}
@@ -194,6 +202,182 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 			}
 		}
 	}
+
+
+	private void drawGem(ItemStack item, int amountDrawn) {
+		GemstoneItem gemstoneItem = (GemstoneItem) item.getItem();
+
+		int availableSpace = maxPlayerStormlight - stormlightStored;
+
+		if (availableSpace < amountDrawn) {
+			amountDrawn = availableSpace;
+		}
+
+		if (gemstoneItem.getCharge(item) >= amountDrawn) {
+			gemstoneItem.adjustCharge(item, -amountDrawn);
+			stormlightStored += amountDrawn;
+		}
+		else
+		{
+			stormlightStored += gemstoneItem.getCharge(item);
+			gemstoneItem.setCharge(item, 0);
+		}
+	}
+
+	//Called by DrawStormlight packet.
+	public void drawStormlight() {
+
+		final LivingEntity entity = spiritweb.getLiving();
+
+
+		if (isInHighstorm(entity))
+		{
+			if (maxPlayerStormlight - stormlightStored >= drawSpeed) {
+				stormlightStored += drawSpeed;
+			}
+			else {
+				stormlightStored += maxPlayerStormlight - stormlightStored;
+			}
+		}
+		else if (entity instanceof Player player)
+		{
+
+			ItemStack item = entity.getItemInHand(InteractionHand.MAIN_HAND);
+
+			if (item.getItem() instanceof GemstoneItem gemstoneItem && gemstoneItem.getCharge(item) != 0) {
+				drawGem(item, drawSpeed);
+			}
+			else
+			{
+				List<ItemStack> invItems = getGemItems(player);
+
+				List<ItemStack> chargedGems = invItems.stream()
+						.filter(gem -> ((GemstoneItem) gem.getItem()).getCharge(gem) > 0)
+						.toList();
+
+				int gemAmount = chargedGems.size();
+
+				if (!chargedGems.isEmpty()) {
+
+					int draw = drawSpeed / gemAmount;
+
+					for (ItemStack gem : chargedGems) {
+
+						drawGem(gem, draw);
+
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+
+	private void breatheGem(ItemStack item, int amountDrawn) {
+		GemstoneItem gemstoneItem = (GemstoneItem) item.getItem();
+
+		int availableSpace = gemstoneItem.getMaxCharge(item) - gemstoneItem.getCharge(item);
+
+		if (availableSpace < amountDrawn) {
+			amountDrawn = availableSpace;
+		}
+
+		if (stormlightStored >= amountDrawn) {
+			gemstoneItem.adjustCharge(item, amountDrawn);
+			adjustStormlight(-amountDrawn, true);
+		}
+		else
+		{
+			gemstoneItem.adjustCharge(item, stormlightStored);
+			stormlightStored = 0;
+		}
+	}
+
+	//Called by BreatheStormlight packet.
+	public void breatheStormlight() {
+
+		final LivingEntity entity = spiritweb.getLiving();
+
+		if (entity instanceof Player player)
+		{
+
+			ItemStack handItem = player.getItemInHand(InteractionHand.MAIN_HAND);
+
+			//If the hand item is a gemstone focus on that one.
+			if (handItem.getItem() instanceof GemstoneItem gemstoneItem)
+			{
+				breatheGem(handItem, drawSpeed);
+			}
+			//Otherwise affect all gemstoneItems in inventory.
+			else
+			{
+				List<ItemStack> invItems = getGemItems(player);
+
+				//Get gems that are not fully charged.
+				List<ItemStack> unchargedGems = invItems.stream()
+						.filter(gem ->
+						{
+							GemstoneItem gemstoneItem = (GemstoneItem) gem.getItem();
+							return (gemstoneItem.getMaxCharge(gem) - gemstoneItem.getCharge(gem)) > 0;
+						}).toList();
+
+				//If there are none, just breathe out into air.
+				if (unchargedGems.isEmpty())
+				{
+					adjustStormlight(-drawSpeed, true);
+				}
+				else
+				{
+					int breatheAmount = drawSpeed / unchargedGems.size();
+
+					//For every gem that is not fully charged.
+					for (ItemStack gem : unchargedGems)
+					{
+						breatheGem(gem, breatheAmount);
+					}
+				}
+
+			}
+
+		}
+	}
+
+	//TODO Replace with proper method once highstorms have been added.
+	public static boolean isInHighstorm(LivingEntity entity) {
+		if (entity.level().isThundering()
+				&& entity.level().dimension().equals(SurgebindingDimensions.ROSHAR_DIM_KEY)
+				&& entity.level().isRainingAt(entity.blockPosition()))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static List<ItemStack> getGemItems(Player player)
+	{
+		if (player == null)
+		{
+			return Collections.emptyList();
+		}
+
+		Container acc = new CapWrapper(new PlayerInvWrapper(player.getInventory()));
+
+		List<ItemStack> toReturn = new ArrayList<>(acc.getContainerSize());
+
+		for (int slot = 0; slot < acc.getContainerSize(); slot++)
+		{
+			ItemStack stackInSlot = acc.getItem(slot);
+
+			if (!stackInSlot.isEmpty() && stackInSlot.getItem() instanceof GemstoneItem)
+			{
+				toReturn.add(stackInSlot);
+			}
+		}
+		return toReturn;
+	}
+
 
 	public int getStormlight()
 	{
@@ -209,7 +393,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		{
 			if (doAdjust)
 			{
-				stormlightStored = Mth.clamp(newSLValue, 0, SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get());
+				stormlightStored = Mth.clamp(newSLValue, 0, maxPlayerStormlight);
 			}
 
 			return true;
@@ -220,7 +404,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 	public void setStormlight(int amount)
 	{
-		stormlightStored = Mth.clamp(amount, 0, SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get());
+		stormlightStored = Mth.clamp(amount, 0, maxPlayerStormlight);
 	}
 
 	public void onChatMessageReceived(ServerChatEvent event)

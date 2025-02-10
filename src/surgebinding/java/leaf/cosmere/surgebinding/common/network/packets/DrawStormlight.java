@@ -21,21 +21,15 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class BreatheStormlight implements ICosmerePacket
+public class DrawStormlight implements ICosmerePacket
 {
-	public static final Predicate<ItemStack> SUPPORTED = (itemStack) ->
-	{
-		return (itemStack.getItem() instanceof GemstoneItem gemstoneItem)
-				//&& containsMetal
-				//&& !isUncommonMetal
-				;
-	};
 
-	public BreatheStormlight()
+
+	public DrawStormlight()
 	{
 	}
 
-	public BreatheStormlight(FriendlyByteBuf buffer)
+	public DrawStormlight(FriendlyByteBuf buffer)
 	{
 	}
 
@@ -50,12 +44,14 @@ public class BreatheStormlight implements ICosmerePacket
 
 			if (ssm != null)
 			{
-				if (ssm.getStormlight() != 0)
+				if (ssm.isHerald())
 				{
-					if (ssm.isOathed() || ssm.isHerald())
-					{
-						ssm.breatheStormlight();
-					}
+					//heralds had a direct line to honor's investiture
+					ssm.setStormlight(SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get());
+				}
+				else if (ssm.isOathed())
+				{
+					ssm.drawStormlight();
 				}
 			}
 
