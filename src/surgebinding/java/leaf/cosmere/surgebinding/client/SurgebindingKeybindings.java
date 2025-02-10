@@ -26,21 +26,21 @@ import java.util.stream.Collectors;
 import static leaf.cosmere.api.Constants.Strings.*;
 import static leaf.cosmere.surgebinding.common.registries.SurgebindingManifestations.SURGEBINDING_POWERS;
 
-
 // Really only has its own file to more nicely reference keybindings.
 // Otherwise, could have lived in mod client events
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Surgebinding.MODID, bus = Bus.MOD)
 public class SurgebindingKeybindings
 {
 	public static KeyMapping SHARDBLADE;
-	public static KeyMapping BREATHE_STORMLIGHT;
+	public static KeyMapping REQUEST_STORMLIGHT;
+	public static KeyMapping DISPATCH_STORMLIGHT;
 
-	public static final Map<Roshar.Surges,KeyMapping> SURGEBINDING_POWER =
+	public static final Map<Roshar.Surges, KeyMapping> SURGEBINDING_POWER =
 			Arrays.stream(EnumUtils.SURGES)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							surge ->
-									new KeyMapping(KEY_STORMLIGHT + surge.getName(),GLFW.GLFW_KEY_UNKNOWN,KEYS_CATEGORY)
+									new KeyMapping(KEY_STORMLIGHT + surge.getName(), GLFW.GLFW_KEY_UNKNOWN, KEYS_CATEGORY)
 					));
 
 	@SubscribeEvent
@@ -49,7 +49,7 @@ public class SurgebindingKeybindings
 
 		event.register(SHARDBLADE = new KeyMapping(KEY_SHARDBLADE, GLFW.GLFW_KEY_X, KEYS_CATEGORY));
 
-		for (Roshar.Surges surge: SURGEBINDING_POWER.keySet())
+		for (Roshar.Surges surge : SURGEBINDING_POWER.keySet())
 		{
 			KeyMapping key = SURGEBINDING_POWER.get(surge);
 			SurgebindingManifestation manifest = (SurgebindingManifestation) SURGEBINDING_POWERS.get(surge).getManifestation();
@@ -60,7 +60,8 @@ public class SurgebindingKeybindings
 		}
 
 		event.register(SHARDBLADE = new KeyMapping(KEY_SHARDBLADE, GLFW.GLFW_KEY_X, "keys.surgebinding.main"));
-		event.register(BREATHE_STORMLIGHT = new KeyMapping(KEY_BREATHE_STORMLIGHT, GLFW.GLFW_KEY_Z, "keys.surgebinding.main"));
+		event.register(REQUEST_STORMLIGHT = new KeyMapping(KEY_REQUEST_STORMLIGHT, GLFW.GLFW_KEY_Z, "keys.surgebinding.main"));
+		event.register(DISPATCH_STORMLIGHT = new KeyMapping(KEY_DISPATCH_STORMLIGHT, GLFW.GLFW_KEY_Y, "keys.surgebinding.main"));
 
 	}
 
