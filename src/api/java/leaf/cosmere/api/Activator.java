@@ -3,7 +3,8 @@ package leaf.cosmere.api;
 import leaf.cosmere.api.manifestation.Manifestation;
 import net.minecraft.client.KeyMapping;
 
-public class Activator {
+public class Activator
+{
 
         public KeyMapping keyMapping;
         public Manifestation manifest;
@@ -11,21 +12,24 @@ public class Activator {
         public String category;
         public String keyName;
 
-        public Activator(KeyMapping key, Manifestation manifestation){
+	public Activator(KeyMapping key, Manifestation manifestation)
+	{
             keyMapping = key;
             manifest = manifestation;
 
         }
 
-        public void setCategory(String category){
+	public void setCategory(String category)
+	{
             this.category = category;
             name = manifest.getName();
 
         }
 
-    public KeyMapping getKeyMapping() {
-        return keyMapping;
-    }
+	public KeyMapping getKeyMapping()
+	{
+		return keyMapping;
+	}
     public Manifestation getManifestation() {return manifest;}
 
     public String getCategory() {return category;}

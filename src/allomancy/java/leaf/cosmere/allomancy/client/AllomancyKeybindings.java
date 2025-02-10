@@ -54,7 +54,8 @@ public class AllomancyKeybindings
 
 	
 
-		for (Metals.MetalType metalType: ALLOMANCY_POWER.keySet()){
+		for (Metals.MetalType metalType: ALLOMANCY_POWER.keySet())
+		{
 			KeyMapping key = ALLOMANCY_POWER.get(metalType);
 			AllomancyManifestation manifest = ALLOMANCY_POWERS.get(metalType).getManifestation();
 			event.register(key);
