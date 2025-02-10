@@ -18,6 +18,7 @@ public class SurgebindingServerConfig implements ICosmereConfig
 
 	public final ForgeConfigSpec.IntValue MAX_SHARDBLADES;
 	public final ForgeConfigSpec.IntValue PLAYER_MAX_STORMLIGHT;
+	public final ForgeConfigSpec.IntValue PLAYER_DRAW_SPEED;
 	public final ForgeConfigSpec.IntValue STORMLIGHT_DRAIN_RATE;
 	public final ForgeConfigSpec.IntValue PROGRESSION_BONEMEAL_COST;
 	public final ForgeConfigSpec.IntValue PROGRESSION_HEAL_COST;
@@ -40,6 +41,7 @@ public class SurgebindingServerConfig implements ICosmereConfig
 
 		MAX_SHARDBLADES = builder.comment("How many shardblades total that the user can bond").defineInRange("shardbladeBondAmount", 10, 0, 20);
 		PLAYER_MAX_STORMLIGHT = builder.comment("How much stormlight can a player hold at once").defineInRange("playerMaxStormlight", 5000, 100, 20000);
+		PLAYER_DRAW_SPEED = builder.comment("How fast a player draws in or breathes out stormlight using keybinds.").defineInRange("playerDrawSpeed", 150, 5, 20000);
 		STORMLIGHT_DRAIN_RATE = builder.comment("How many points of stormlight drain per second").defineInRange("stormlightDrainRate", 5, 1, 100);
 		PROGRESSION_BONEMEAL_COST = builder.comment("How many points of stormlight to trigger the bonemeal effect").defineInRange("progressionBonemealStormlightCost", 20, 1, 1000);
 		PROGRESSION_HEAL_COST = builder.comment("How many points of stormlight per half a heart healed").defineInRange("progressionHealStormlightCost", 20, 1, 1000);

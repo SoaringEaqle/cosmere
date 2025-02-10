@@ -6,7 +6,8 @@ package leaf.cosmere.surgebinding.client;
 
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.surgebinding.common.Surgebinding;
-import leaf.cosmere.surgebinding.common.network.packets.BreatheStormlight;
+import leaf.cosmere.surgebinding.common.network.packets.DispatchStormlight;
+import leaf.cosmere.surgebinding.common.network.packets.RequestStormlight;
 import leaf.cosmere.surgebinding.common.network.packets.SummonShardblade;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -37,9 +38,13 @@ public class SurgebindingForgeClientEvents
 				Surgebinding.packetHandler().sendToServer(new SummonShardblade());
 			}
 
-			if (isKeyPressed(event, SurgebindingKeybindings.BREATHE_STORMLIGHT))
+			if (isKeyPressed(event, SurgebindingKeybindings.DISPATCH_STORMLIGHT))
 			{
-				Surgebinding.packetHandler().sendToServer(new BreatheStormlight());
+				Surgebinding.packetHandler().sendToServer(new DispatchStormlight());
+			}
+			if (isKeyPressed(event, SurgebindingKeybindings.REQUEST_STORMLIGHT))
+			{
+				Surgebinding.packetHandler().sendToServer(new RequestStormlight());
 			}
 		});
 	}
@@ -48,6 +53,5 @@ public class SurgebindingForgeClientEvents
 	{
 		return event.getKey() == keyBinding.getKey().getValue() && keyBinding.consumeClick();
 	}
-
 
 }
