@@ -101,7 +101,7 @@ public class Constants
 		public static final String KEY_ALLOMANCY_RIOT = "key.cosmere.allomancy.riot";
 
 		public static final String KEY_SHARDBLADE = "key.cosmere.stormlight.shardblade";
-        public static final String KEY_REQUEST_STORMLIGHT = "key.cosmere.stormlight.request_stormlight";
+		public static final String KEY_REQUEST_STORMLIGHT = "key.cosmere.stormlight.request_stormlight";
 		public static final String KEY_DISPATCH_STORMLIGHT = "key.cosmere.stormlight.dispatch_stormlight";
 		public static final String TOOLTIP_ITEM_INFO = "tooltip.item.info.";
 		public static final String CONTAINED_POWERS_FOUND = "tooltip.cosmere.power.found";
