@@ -306,7 +306,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 			ItemStack handItem = player.getItemInHand(InteractionHand.MAIN_HAND);
 
 			//If the hand item is a gemstone focus on that one.
-			if (handItem.getItem() instanceof GemstoneItem gemstoneItem)
+			if (handItem.getItem() instanceof GemstoneItem)
 			{
 				breatheGem(handItem, drawSpeed);
 			}
@@ -346,13 +346,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 	//TODO Replace with proper method once highstorms have been added.
 	public static boolean isInHighstorm(LivingEntity entity) {
-		if (entity.level().isThundering()
+		return entity.level().isThundering()
 				&& entity.level().dimension().equals(SurgebindingDimensions.ROSHAR_DIM_KEY)
-				&& entity.level().isRainingAt(entity.blockPosition()))
-		{
-			return true;
-		}
-		return false;
+				&& entity.level().isRainingAt(entity.blockPosition());
 	}
 
 	public static List<ItemStack> getGemItems(Player player)

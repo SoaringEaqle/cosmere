@@ -106,7 +106,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 			}
 		}
 
-		//brass allomancy
+		//zinc allomancy
 		{
 			AllomancyZinc zinc = (AllomancyZinc) AllomancyManifestations.ALLOMANCY_POWERS.get(Metals.MetalType.ZINC).get();
 			final boolean zincActive = zinc.isActive(spiritweb);
@@ -132,6 +132,8 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 				{
 					//todo decide how and when we poison the user for eating large amounts of metal, that sure ain't safe champ.
 					//even if the user is immune to metal poisoning, it's still not safe to eat a bunch of metal.
+					//IIRC, it's safe until you start to digest it, that's why Kelsier recommends Vin burns off all her metals before sleeping. -Rose
+					//^^ To that effect, maybe have a counter that increments up when you have a metal ingested and increments slightly slower down over time when burning or faster when empty. When it's too high the player gets worse and worse? -Rose
 
 					//todo, decide what's appropriate for reducing ingested metal amounts
 					METALS_INGESTED.put(metalType, metalIngestAmount - 1);
