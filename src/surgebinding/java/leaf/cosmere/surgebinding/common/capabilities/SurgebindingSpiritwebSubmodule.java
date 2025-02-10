@@ -204,7 +204,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	}
 
 
-	private void drawGem(ItemStack item, int amountDrawn) {
+	private void requestGemStormlight(ItemStack item, int amountDrawn)
+	{
 		GemstoneItem gemstoneItem = (GemstoneItem) item.getItem();
 
 		int availableSpace = maxPlayerStormlight - stormlightStored;
@@ -213,7 +214,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 			amountDrawn = availableSpace;
 		}
 
-		if (gemstoneItem.getCharge(item) >= amountDrawn) {
+		if (gemstoneItem.getCharge(item) >= amountDrawn)
+		{
 			gemstoneItem.adjustCharge(item, -amountDrawn);
 			stormlightStored += amountDrawn;
 		}
@@ -224,15 +226,17 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		}
 	}
 
-	//Called by DrawStormlight packet.
-	public void drawStormlight() {
+	//Called by RequestStormlight packet.
+	public void requestStormlight()
+	{
 
 		final LivingEntity entity = spiritweb.getLiving();
 
 
 		if (isInHighstorm(entity))
 		{
-			if (maxPlayerStormlight - stormlightStored >= drawSpeed) {
+			if (maxPlayerStormlight - stormlightStored >= drawSpeed)
+			{
 				stormlightStored += drawSpeed;
 			}
 			else {
@@ -244,8 +248,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 			ItemStack item = entity.getItemInHand(InteractionHand.MAIN_HAND);
 
-			if (item.getItem() instanceof GemstoneItem gemstoneItem && gemstoneItem.getCharge(item) != 0) {
-				drawGem(item, drawSpeed);
+			if (item.getItem() instanceof GemstoneItem gemstoneItem && gemstoneItem.getCharge(item) != 0)
+			{
+				requestGemStormlight(item, drawSpeed);
 			}
 			else
 			{
@@ -257,13 +262,15 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 				int gemAmount = chargedGems.size();
 
-				if (!chargedGems.isEmpty()) {
+				if (!chargedGems.isEmpty())
+				{
 
-					int draw = drawSpeed / gemAmount;
+					int requestAmount = drawSpeed / gemAmount;
 
-					for (ItemStack gem : chargedGems) {
+					for (ItemStack gem : chargedGems)
+					{
 
-						drawGem(gem, draw);
+						requestGemStormlight(gem, requestAmount);
 
 					}
 				}
@@ -275,16 +282,19 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	}
 
 
-	private void breatheGem(ItemStack item, int amountDrawn) {
+	private void dispatchGemStormlight(ItemStack item, int amountDrawn)
+	{
 		GemstoneItem gemstoneItem = (GemstoneItem) item.getItem();
 
 		int availableSpace = gemstoneItem.getMaxCharge(item) - gemstoneItem.getCharge(item);
 
-		if (availableSpace < amountDrawn) {
+		if (availableSpace < amountDrawn)
+		{
 			amountDrawn = availableSpace;
 		}
 
-		if (stormlightStored >= amountDrawn) {
+		if (stormlightStored >= amountDrawn)
+		{
 			gemstoneItem.adjustCharge(item, amountDrawn);
 			adjustStormlight(-amountDrawn, true);
 		}
@@ -295,8 +305,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		}
 	}
 
-	//Called by BreatheStormlight packet.
-	public void breatheStormlight() {
+	//Called by DispatchStormlight packet.
+	public void dispatchStormlight()
+	{
 
 		final LivingEntity entity = spiritweb.getLiving();
 
@@ -308,7 +319,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 			//If the hand item is a gemstone focus on that one.
 			if (handItem.getItem() instanceof GemstoneItem)
 			{
-				breatheGem(handItem, drawSpeed);
+				dispatchGemStormlight(handItem, drawSpeed);
 			}
 			//Otherwise affect all gemstoneItems in inventory.
 			else
@@ -330,12 +341,12 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 				}
 				else
 				{
-					int breatheAmount = drawSpeed / unchargedGems.size();
+					int dispatchAmount = drawSpeed / unchargedGems.size();
 
 					//For every gem that is not fully charged.
 					for (ItemStack gem : unchargedGems)
 					{
-						breatheGem(gem, breatheAmount);
+						dispatchGemStormlight(gem, dispatchAmount);
 					}
 				}
 
@@ -345,7 +356,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	}
 
 	//TODO Replace with proper method once highstorms have been added.
-	public static boolean isInHighstorm(LivingEntity entity) {
+	public static boolean isInHighstorm(LivingEntity entity)
+	{
 		return entity.level().isThundering()
 				&& entity.level().dimension().equals(SurgebindingDimensions.ROSHAR_DIM_KEY)
 				&& entity.level().isRainingAt(entity.blockPosition());

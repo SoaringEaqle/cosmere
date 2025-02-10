@@ -32,8 +32,8 @@ import static leaf.cosmere.surgebinding.common.registries.SurgebindingManifestat
 public class SurgebindingKeybindings
 {
 	public static KeyMapping SHARDBLADE;
-	public static KeyMapping DRAW_STORMLIGHT;
-	public static KeyMapping BREATHE_STORMLIGHT;
+	public static KeyMapping REQUEST_STORMLIGHT;
+	public static KeyMapping DISPATCH_STORMLIGHT;
 
 	public static final Map<Roshar.Surges,KeyMapping> SURGEBINDING_POWER =
 			Arrays.stream(EnumUtils.SURGES)
@@ -60,8 +60,8 @@ public class SurgebindingKeybindings
 		}
 
 		event.register(SHARDBLADE = new KeyMapping(KEY_SHARDBLADE, GLFW.GLFW_KEY_X, "keys.surgebinding.main"));
-        event.register(DRAW_STORMLIGHT = new KeyMapping(KEY_DRAW_STORMLIGHT, GLFW.GLFW_KEY_Z, "keys.surgebinding.main"));
-		event.register(BREATHE_STORMLIGHT = new KeyMapping(KEY_BREATHE_STORMLIGHT, GLFW.GLFW_KEY_Y, "keys.surgebinding.main"));
+        event.register(REQUEST_STORMLIGHT = new KeyMapping(KEY_REQUEST_STORMLIGHT, GLFW.GLFW_KEY_Z, "keys.surgebinding.main"));
+		event.register(DISPATCH_STORMLIGHT = new KeyMapping(KEY_DISPATCH_STORMLIGHT, GLFW.GLFW_KEY_Y, "keys.surgebinding.main"));
 
 	}
 

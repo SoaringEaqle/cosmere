@@ -7,19 +7,21 @@ package leaf.cosmere.surgebinding.common.network.packets;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.network.ICosmerePacket;
 import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
+import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
-public class BreatheStormlight implements ICosmerePacket
+public class RequestStormlight implements ICosmerePacket
 {
 
-	public BreatheStormlight()
+
+	public RequestStormlight()
 	{
 	}
 
-	public BreatheStormlight(FriendlyByteBuf buffer)
+	public RequestStormlight(FriendlyByteBuf buffer)
 	{
 	}
 
@@ -34,12 +36,14 @@ public class BreatheStormlight implements ICosmerePacket
 
 			if (ssm != null)
 			{
-				if (ssm.getStormlight() != 0)
+				if (ssm.isHerald())
 				{
-					if (ssm.isOathed() || ssm.isHerald())
-					{
-						ssm.breatheStormlight();
-					}
+					//heralds had a direct line to honor's investiture
+					ssm.setStormlight(SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get());
+				}
+				else if (ssm.isOathed())
+				{
+					ssm.requestStormlight();
 				}
 			}
 
