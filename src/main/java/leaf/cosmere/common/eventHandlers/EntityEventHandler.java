@@ -37,6 +37,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -162,16 +163,36 @@ public class EntityEventHandler
 		final Metals.MetalType allomancyMetal = Metals.MetalType.valueOf(allomancyPowerID).get();
 		final Metals.MetalType feruchemyMetal = Metals.MetalType.valueOf(feruchemyPowerID).get();
 
+		final boolean allomancyLoaded = ModList.get().isLoaded("allomancy");
+		final boolean feruchemyLoaded = ModList.get().isLoaded("feruchemy");
+
 		//if not twinborn, pick one power
 		boolean isAllomancy = MathHelper.randomBool();
 
 		if (isFullPowersFromOneType)
 		{
 			//ooh full powers
-			final Manifestations.ManifestationTypes manifestationType =
-					isAllomancy
-					? Manifestations.ManifestationTypes.ALLOMANCY
-					: Manifestations.ManifestationTypes.FERUCHEMY;
+
+			final Manifestations.ManifestationTypes manifestationType;
+			if (allomancyLoaded && feruchemyLoaded)
+			{
+				manifestationType = isAllomancy
+									? Manifestations.ManifestationTypes.ALLOMANCY
+									: Manifestations.ManifestationTypes.FERUCHEMY;
+			}
+			else if (allomancyLoaded)
+			{
+				manifestationType = Manifestations.ManifestationTypes.ALLOMANCY;
+			}
+			else if (feruchemyLoaded)
+			{
+				manifestationType = Manifestations.ManifestationTypes.FERUCHEMY;
+			}
+			else
+			{
+				// ...why are we here?
+				return;
+			}
 
 
 			CosmereAPI.logger.info("Entity {} has full powers! {}", spiritwebCapability.getLiving().getName().getString(), manifestationType);
@@ -195,27 +216,55 @@ public class EntityEventHandler
 			final Manifestation feruchemyPower = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(feruchemyMetal.getID());
 			if (isTwinborn)
 			{
-				spiritwebCapability.giveManifestation(allomancyPower, 9);
-				spiritwebCapability.giveManifestation(feruchemyPower, 9);
-
-				if (spiritwebCapability.getLiving() instanceof Player player)
+				if (allomancyLoaded)
 				{
-					spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY).GiveStartingItem(player, allomancyPower);
-					spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.FERUCHEMY).GiveStartingItem(player, feruchemyPower);
+					spiritwebCapability.giveManifestation(allomancyPower, 9);
+					if (spiritwebCapability.getLiving() instanceof Player player)
+					{
+						spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY).GiveStartingItem(player, allomancyPower);
+					}
+					CosmereAPI.logger.info(
+							"Entity {} has been granted allomantic {}!",
+							spiritwebCapability.getLiving().getName().getString(),
+							allomancyMetal);
 				}
+				if (feruchemyLoaded)
+				{
+					spiritwebCapability.giveManifestation(feruchemyPower, 9);
 
-				CosmereAPI.logger.info(
-						"Entity {} has been granted allomantic {} and feruchemical {}!",
+					if (spiritwebCapability.getLiving() instanceof Player player)
+					{
+						spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.FERUCHEMY).GiveStartingItem(player, feruchemyPower);
+					}
+					CosmereAPI.logger.info(
+						"Entity {} has been granted feruchemical {}!",
 						spiritwebCapability.getLiving().getName().getString(),
-						allomancyMetal,
 						feruchemyMetal);
+				}
 			}
 			else
 			{
-				Manifestation manifestation =
+				Manifestation manifestation;
+				if (allomancyLoaded && feruchemyLoaded)
+				{
+					manifestation =
 						isAllomancy
 						? allomancyPower
 						: feruchemyPower;
+				}
+				else if (allomancyLoaded)
+				{
+					manifestation = allomancyPower;
+				}
+				else if (feruchemyLoaded)
+				{
+					manifestation = feruchemyPower;
+				}
+				else
+				{
+					// again, why are we here?
+					return;
+				}
 
 				spiritwebCapability.giveManifestation(manifestation, 9);
 				CosmereAPI.logger.info("Entity {} has been granted {}, with metal {}!",
