@@ -19,7 +19,7 @@ public class CosmereServerConfig implements ICosmereConfig
 	public final ForgeConfigSpec.IntValue RAIDER_POWERS_CHANCE;
 	public final ForgeConfigSpec.IntValue MOB_POWERS_CHANCE;
 	public final ForgeConfigSpec.DoubleValue EMOTIONAL_POWERS_SINGLE_TARGET_RANGE_MULTIPLIER;
-	public final ForgeConfigSpec.BooleanValue ALLOW_METALBORN_CHOICE;
+	public final ForgeConfigSpec.EnumValue<PowerGeneration> POWER_GENERATION;
 
 
 	CosmereServerConfig()
@@ -38,7 +38,7 @@ public class CosmereServerConfig implements ICosmereConfig
 
 		EMOTIONAL_POWERS_SINGLE_TARGET_RANGE_MULTIPLIER = builder.comment("Multiplier for emotional allomancy range when singe-targeting").defineInRange("emotionalAllomancySingleTargetRange", 1.5D, 1D, 123456D);
 
-		ALLOW_METALBORN_CHOICE = builder.comment("Allow players to choose allomantic and feruchemical abilities for themselves using commands").define("allowMetalbornChoice", false);
+		POWER_GENERATION = builder.comment("Power generation method. RANDOM assigns random powers on spawn, PICK allows players to choose allomantic and feruchemical abilities, and NONE assigns nothing").defineEnum("powerGeneration", PowerGeneration.RANDOM);
 
 		builder.pop();
 		configSpec = builder.build();
@@ -72,5 +72,13 @@ public class CosmereServerConfig implements ICosmereConfig
 		FULLBORN_POWERS_CHANCE.clearCache();
 		TWINBORN_POWERS_CHANCE.clearCache();
 		EMOTIONAL_POWERS_SINGLE_TARGET_RANGE_MULTIPLIER.clearCache();
+	}
+
+	public enum PowerGeneration
+	{
+		NONE,
+		RANDOM,
+		PICK
+		// todo: ORIGINS later
 	}
 }

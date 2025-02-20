@@ -14,6 +14,7 @@ import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.config.CosmereConfigs;
+import leaf.cosmere.common.config.CosmereServerConfig;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -72,7 +73,12 @@ public class EntityEventHandler
 			if (eventEntity instanceof Player)
 			{
 				//todo choose based on planet? eg scadrial gets twinborn, roshar gets surgebinding etc?
-				if (!CosmereConfigs.SERVER_CONFIG.ALLOW_METALBORN_CHOICE.get())
+				if (CosmereConfigs.SERVER_CONFIG.POWER_GENERATION.get() == CosmereServerConfig.PowerGeneration.NONE)
+				{
+					// no powers
+					spiritweb.setHasBeenInitialized();
+				}
+				else if (CosmereConfigs.SERVER_CONFIG.POWER_GENERATION.get() == CosmereServerConfig.PowerGeneration.RANDOM)
 				{
 					//give random power
 					giveEntityStartingManifestation(livingEntity, spiritweb);
