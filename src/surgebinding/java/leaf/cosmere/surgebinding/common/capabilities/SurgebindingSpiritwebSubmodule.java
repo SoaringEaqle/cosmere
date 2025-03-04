@@ -1,5 +1,5 @@
 /*
- * File updated ~ 7 - 2 - 2025 ~ Leaf
+ * File updated ~ 5 - 3 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.capabilities;
@@ -199,6 +199,13 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 				}
 			}
 		}
+	}
+
+	@Override
+	public void drainInvestiture(ISpiritweb data, double strength)
+	{
+		//todo drain based on strength
+		stormlightStored = (int) (stormlightStored * 0.1f);
 	}
 
 
