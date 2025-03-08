@@ -1,5 +1,5 @@
 /*
- * File updated ~ 30 - 7 - 2023 ~ Leaf
+ * File updated ~ 9 - 3 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.common.config;
@@ -22,7 +22,7 @@ public class CosmereClientConfig implements ICosmereConfig
 		ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 		builder.comment("Client Config. This config only exists on the client").push("cosmere");
 
-		disableItemTinting = builder.comment("Lets you disable item and block tinting for metal items and blocks").define("disableItemTinting", false);
+		disableItemTinting = builder.comment("Lets you disable cosmere item and block tinting for metal items and blocks").define("disableItemTinting", false);
 
 		disableSelectedManifestationHud = builder.comment("Disables the HUD for selected power").define("disableSelectedManifestationHud", false);
 

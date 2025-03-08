@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "cosmere:block/ore_block"
+      "model": "cosmere:block/nickel_ore"
     }
   }
 }

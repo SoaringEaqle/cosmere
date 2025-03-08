@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "cosmere:block/metal_block"
+      "model": "cosmere:block/electrum_block"
     }
   }
 }
