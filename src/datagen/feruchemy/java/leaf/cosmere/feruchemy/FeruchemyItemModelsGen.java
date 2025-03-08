@@ -1,14 +1,12 @@
 /*
- * File updated ~ 8 - 10 - 2024 ~ Leaf
+ * File updated ~ 9 - 3 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.feruchemy;
 
 import leaf.cosmere.api.providers.IItemProvider;
+import leaf.cosmere.common.items.ChargeableMetalCurioItem;
 import leaf.cosmere.feruchemy.common.Feruchemy;
-import leaf.cosmere.feruchemy.common.items.BraceletMetalmindItem;
-import leaf.cosmere.feruchemy.common.items.NecklaceMetalmindItem;
-import leaf.cosmere.feruchemy.common.items.RingMetalmindItem;
 import leaf.cosmere.feruchemy.common.registries.FeruchemyItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.BlockItem;
@@ -39,21 +37,29 @@ public class FeruchemyItemModelsGen extends ItemModelProvider
 			{
 				continue;
 			}
-			else if (item instanceof BraceletMetalmindItem)
+			else if (item instanceof ChargeableMetalCurioItem)
 			{
-				simpleItem(path, "metal_bracelet");
+				//because I'm lazy and don't wanna rename all the textures
+				//doesn't really need to be that explicit in naming anyway
+				//basically just remove _metalmind from the end if it exists
+				simpleItem(path, path.replace("_metalmind", ""));
 				continue;
 			}
-			else if (item instanceof RingMetalmindItem)
-			{
-				simpleItem(path, "metal_ring");
-				continue;
-			}
-			else if (item instanceof NecklaceMetalmindItem)
-			{
-				simpleItem(path, "metal_necklace");
-				continue;
-			}
+			//else if (item instanceof BraceletMetalmindItem)
+			//{
+			//	simpleItem(path, "metal_bracelet");
+			//	continue;
+			//}
+			//else if (item instanceof RingMetalmindItem)
+			//{
+			//	simpleItem(path, "metal_ring");
+			//	continue;
+			//}
+			//else if (item instanceof NecklaceMetalmindItem)
+			//{
+			//	simpleItem(path, "metal_necklace");
+			//	continue;
+			//}
 
 			//else normal item texture rules apply
 			simpleItem(path, path);
