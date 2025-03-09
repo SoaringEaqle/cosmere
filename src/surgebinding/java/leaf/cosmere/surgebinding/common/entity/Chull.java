@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 1 - 2025 ~ Leaf
+ * File updated ~ 9 - 3 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.entity;
@@ -68,5 +68,11 @@ public class Chull extends AbstractChestedHorse
 		//this.getAge()
 
 		//todo baby chulls drop chips, adults drop marks
+	}
+
+	@Override
+	public double getPassengersRidingOffset()
+	{
+		return ((this.getBbHeight() / 2f) - 0.75d);
 	}
 }
