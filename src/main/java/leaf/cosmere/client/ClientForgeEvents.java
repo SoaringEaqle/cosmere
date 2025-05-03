@@ -1,9 +1,11 @@
 /*
  * File updated ~ 12 - 11 - 2023 ~ Leaf
+ * File updated ~ 5 - 2 - 2025 ~ SoaringEaqle
  */
 
 package leaf.cosmere.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import leaf.cosmere.api.Activator;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.common.Cosmere;
@@ -114,48 +116,14 @@ public class ClientForgeEvents
 					selected = manifestation;
 
 					int modifier = -selected.getMode(spiritweb);
-
+					//if active turn off
 					if (!selected.isActive(spiritweb))
 					{
-						if (activator.getCategory().equals("feruchemy"))
-						{
-							if (Screen.hasShiftDown() && Screen.hasControlDown())
-                            {
-                                modifier -= 5;
-                            }
-                            else if (Screen.hasControlDown())
-                            {
-                                modifier -= 1;
-                            }
-                            else if (Screen.hasShiftDown())
-                            {
-                                modifier += 5;
-                            }
-                            else {
-                                modifier += 1;
-                            }
-                            Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
-                        }
-						else
-						{
-                            if (Screen.hasShiftDown() && Screen.hasControlDown())
-                            {
-                                modifier -= 2;
-                            }
-                            else if (Screen.hasControlDown())
-                            {
-                                modifier -= 1;
-                            }
-                            else if (Screen.hasShiftDown())
-                            {
-                                modifier += 2;
-                            }
-                            else
-                            {
-                                modifier += 1;
-                            }
-                            Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
-                        }
+						//if inactive and feruchemic ability tap 5
+						//else level one
+						modifier += activator.getCategory().equals("feruchemy")? -5: 1;
+						Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+
 					}
 					else
 					{
@@ -163,12 +131,47 @@ public class ClientForgeEvents
                     }
                 }
 			}
+
+			//PowerSaveActivator/Saver
+			if(!(isKeyHeld(Keybindings.ACTIVATE_POWER_SAVE) || isKeyHeld(Keybindings.SAVE_POWER_SAVE)))
+            {
+                return;
+            }
+
+			for (PowerSaveState.PowerSaves powerSave: PowerSaveState.PowerSaves.values())
+			{
+				if(isKeyPressed(event, Keybindings.getKey(powerSave.getNum())))
+				{
+					//boolean trying = (isKeyHeld(Keybindings.ACTIVATE_POWER_SAVE)||
+					//				isKeyHeld(Keybindings.SAVE_POWER_SAVE)) ?
+					//				true : false;
+
+					if(isKeyHeld(Keybindings.ACTIVATE_POWER_SAVE))
+					{
+						powerSave.activate();
+					}
+					else if(isKeyHeld(Keybindings.SAVE_POWER_SAVE))
+					{
+						powerSave.addManifestations(spiritweb.getManifestations(false,true));
+					}
+				}
+			}
+
 		});
 	}
 
 	private static boolean isKeyPressed(InputEvent.Key event, KeyMapping keyBinding)
 	{
 		return event.getKey() == keyBinding.getKey().getValue() && keyBinding.consumeClick();
+	}
+
+	private static boolean isKeyHeld(KeyMapping keyBinding)
+	{
+		InputConstants.Key key = keyBinding.getKey();
+		return InputConstants.isKeyDown(Minecraft.getInstance()
+				.getWindow()
+				.getWindow(),
+				key.getValue());
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

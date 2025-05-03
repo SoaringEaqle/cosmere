@@ -1,5 +1,6 @@
 /*
  * File updated ~ 19 - 11 - 2023 ~ Leaf
+ * File updated ~ 2 - 5 - 2025 ~ SoaringEaqle
  */
 
 package leaf.cosmere.common.cap.entity;
@@ -876,6 +877,38 @@ public class SpiritwebCapability implements ISpiritweb
 			}
 		}
 
+		return list;
+	}
+
+	@Override
+	public HashMap<Manifestation, Integer> getManifestations()
+	{
+		return getManifestations(false, false);
+	}
+
+	@Override
+	public HashMap<Manifestation, Integer> getManifestations(boolean ignoreTemporaryPower, boolean ignoreInactivePower)
+	{
+		HashMap<Manifestation, Integer> list = new HashMap<>();
+		for(Manifestation manifestation: CosmereAPI.manifestationRegistry())
+		{
+			if (manifestation == ManifestationRegistry.NONE.getManifestation())
+			{
+				continue;
+			}
+			if (hasManifestation(manifestation, ignoreTemporaryPower))
+			{
+				if(!ignoreInactivePower)
+				{
+					list.put(manifestation,MANIFESTATIONS_MODE.get(manifestation));
+				}
+				else if((MANIFESTATIONS_MODE.get(manifestation)) != null && MANIFESTATIONS_MODE.get(manifestation) != 0)
+				{
+					list.put(manifestation,MANIFESTATIONS_MODE.get(manifestation));
+				}
+
+			}
+		}
 		return list;
 	}
 
