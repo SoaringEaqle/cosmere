@@ -1,5 +1,6 @@
 /*
  * File updated ~ 4 - 2 - 2025 ~ Leaf
+ * File updated ~ 2 - 5 - 2025 ~ SoaringEaqle
  */
 
 package leaf.cosmere.api;
@@ -83,6 +84,9 @@ public class Constants
 		public static final String KEY_ALLOMANCY = "key.cosmere.allomancy.";
 		public static final String KEY_FERUCHEMY = "key.cosmere.feruchemy.";
 		public static final String KEY_STORMLIGHT = "key.cosmere.stormlight.";
+
+		public static final String KEY_ACTIVATE = "key.cosmere.powers.activate";
+		public static final String KEY_SAVE_ACTIVATOR = "key.cosmere.powers.save";
 
 		public static final String KEY_MANIFESTATION_MODE_INCREASE = "key.cosmere.powers.mode.increase";
 		public static final String KEY_MANIFESTATION_MODE_DECREASE = "key.cosmere.powers.mode.decrease";
