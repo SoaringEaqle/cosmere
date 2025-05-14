@@ -7,16 +7,14 @@ package leaf.cosmere.common.cap.entity;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.IHasMetalType;
-import leaf.cosmere.api.ISpiritwebSubmodule;
-import leaf.cosmere.api.Manifestations;
+import leaf.cosmere.api.*;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.config.CosmereConfigs;
+import leaf.cosmere.common.investiture.Investiture;
 import leaf.cosmere.common.network.packets.SyncPlayerSpiritwebMessage;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
@@ -88,6 +86,8 @@ public class SpiritwebCapability implements ISpiritweb
 	private final Map<UUID, CosmereEffectInstance> activeEffects = Maps.newHashMap();
 
 	private final Map<Manifestations.ManifestationTypes, ISpiritwebSubmodule> spiritwebSubmodules;
+
+	private ArrayList<Investiture> investitures = new ArrayList<Investiture>();
 
 
 	public SpiritwebCapability(LivingEntity ent)
@@ -336,6 +336,7 @@ public class SpiritwebCapability implements ISpiritweb
 	{
 		return this.activeEffects.entrySet();
 	}
+
 
 	//get the sum total strength of all matching effects in list of effects affecting target
 	@Override
@@ -990,5 +991,43 @@ public class SpiritwebCapability implements ISpiritweb
 		{
 			Cosmere.packetHandler().sendTo(new SyncPlayerSpiritwebMessage(this.livingEntity.getId(), nbt), serverPlayerEntity);
 		}
+	}
+
+	@Override
+	public ArrayList<Investiture> avaliableInvestitures(Manifestation manifest)
+	{
+		ArrayList<Investiture> availables = new ArrayList<>();
+		for(Investiture invest: investitures)
+		{
+			if(invest.isUsable(manifest))
+			{
+				availables.add(invest);
+			}
+		}
+		return availables;
+	}
+
+	@Override
+	public void addInvestiture(Investiture invest)
+	{
+		investitures.add(invest);
+	}
+
+	@Override
+	public Investiture findInvestiture(ArrayList<Manifestation> appManifest)
+	{
+		for(Investiture invest: investitures)
+		{
+			if(invest.getApplicableManifestations().equals(appManifest))
+			{
+				return invest;
+			}
+		}
+		return new Investiture( this, 0, appManifest);
+	}
+
+	public Investiture findInvestiture(ArrayList<Manifestation> appManifest, int beu)
+	{
+		return new Investiture( this, 0, appManifest);
 	}
 }

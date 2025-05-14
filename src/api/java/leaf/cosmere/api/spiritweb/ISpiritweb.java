@@ -5,6 +5,8 @@
 package leaf.cosmere.api.spiritweb;
 
 import leaf.cosmere.api.ISpiritwebSubmodule;
+import leaf.cosmere.api.Investiture;
+import leaf.cosmere.api.Investiture.IInvestiture;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
@@ -18,10 +20,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public interface ISpiritweb extends INBTSerializable<CompoundTag>
 {
@@ -97,4 +96,16 @@ public interface ISpiritweb extends INBTSerializable<CompoundTag>
 	boolean hasEffect(CosmereEffect effect);
 
 	Set<Map.Entry<UUID, CosmereEffectInstance>> getEffects();
+
+
+
+	public ArrayList<IInvestiture> avaliableInvestitures(Manifestation manifest);
+
+	public void addInvestiture(IInvestiture invest);
+
+	public IInvestiture findInvestiture(ArrayList<Manifestation> appManifest);
+
+	public IInvestiture findInvestiture(ArrayList<Manifestation> appManifest, int beu);
+
+
 }

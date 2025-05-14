@@ -5,6 +5,7 @@
 package leaf.cosmere.api.manifestation;
 
 import leaf.cosmere.api.CosmereAPI;
+import leaf.cosmere.api.Investiture;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.providers.IManifestationProvider;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
@@ -14,9 +15,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import java.util.ArrayList;
+
 public class Manifestation implements IManifestationProvider
 {
 	final protected Manifestations.ManifestationTypes manifestationType;
+
+
 
 	public Manifestation()
 	{
@@ -135,5 +140,60 @@ public class Manifestation implements IManifestationProvider
 	{
 		return ForgeRegistries.ATTRIBUTES.getValue(getRegistryName());
 	}
+
+
+
+	public int drawInvestiture(ISpiritweb data, int beu)
+	{
+		ArrayList<Investiture> invests = data.avaliableInvestitures(this);
+		int sum = 0;
+		for(Investiture investiture: invests)
+		{
+			sum += investiture.getBEU();
+		}
+		if((sum < this.minInvestitureDraw(data)))
+		{
+			return 0;
+		}
+		int drawn = 0;
+		if(sum > this.maxInvestitureDraw(data))
+		{
+			beu = this.maxInvestitureDraw(data);
+			sum = this.maxInvestitureDraw(data);
+
+		}
+		while(beu > 0)
+		{
+			//priority filter
+			// 1 highest, 5 lowest
+			for(int i = 1; i <= 5; i++)
+			{
+				for (Investiture investiture: invests)
+				{
+					if(investiture.getPriority() == i)
+					{
+						beu = investiture.removeBEU(beu);
+						drawn = sum - beu;
+					}
+				}
+			}
+
+
+		}
+		return drawn;
+
+	}
+
+	public int maxInvestitureDraw(ISpiritweb data)
+	{
+		return 0;
+	}
+
+	public int minInvestitureDraw(ISpiritweb data)
+	{
+		return 0;
+	}
+
+
 
 }
