@@ -88,6 +88,7 @@ public class SpiritwebCapability implements ISpiritweb
 	private final Map<Manifestations.ManifestationTypes, ISpiritwebSubmodule> spiritwebSubmodules;
 
 	private ArrayList<Investiture> investitures = new ArrayList<Investiture>();
+	private ArrayList<SpiritwebInvestiture> swInvests = new ArrayList<>();
 
 
 	public SpiritwebCapability(LivingEntity ent)
@@ -1008,13 +1009,24 @@ public class SpiritwebCapability implements ISpiritweb
 	}
 
 	@Override
-	public void addInvestiture(Investiture invest)
+	public void addInvestiture(IInvestiture invest)
 	{
-		investitures.add(invest);
+		if(invest instanceof SpiritwebInvestiture swInvest) 
+		{
+			for(SpiritwebInvestiture investiture: swInvests)
+			{
+				swInvest.merge(investiture);
+			}
+			swInvests.add(swInvest);
+		}
+		else if(invest instanceof Investiture iInvest)
+		{
+			investitures.add(iInvest);
+		}
 	}
 
 	@Override
-	public Investiture findInvestiture(ArrayList<Manifestation> appManifest)
+	public Investiture findInvestiture(Manifestation[] appManifest)
 	{
 		for(Investiture invest: investitures)
 		{
@@ -1023,11 +1035,11 @@ public class SpiritwebCapability implements ISpiritweb
 				return invest;
 			}
 		}
-		return new Investiture( this, 0, appManifest);
+		return null;
 	}
 
-	public Investiture findInvestiture(ArrayList<Manifestation> appManifest, int beu)
+	public Investiture findInvestiture(Manifestation[] appManifest, int beu)
 	{
-		return new Investiture( this, 0, appManifest);
+		
 	}
 }

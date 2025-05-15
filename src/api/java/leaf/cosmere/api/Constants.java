@@ -137,5 +137,7 @@ public class Constants
 
 		public static final MutableComponent POWER_ACTIVE = Component.translatable(Strings.POWER_ACTIVE);
 		public static final MutableComponent POWER_INACTIVE = Component.translatable(Strings.POWER_INACTIVE);
+		
 	}
+	
 }

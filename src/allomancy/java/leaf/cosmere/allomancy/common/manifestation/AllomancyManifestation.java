@@ -25,7 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public class AllomancyManifestation extends Manifestation implements IHasMetalType
+public class AllomancyManifestation extends Manifestation implements IHasMetalType, IInvestitureSource
 {
 	private final Metals.MetalType metalType;
 
@@ -260,4 +260,44 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		final int mode = Math.max(getMode(data), 0);
 		return Mth.floor(allomanticStrength * mode);
 	}
+	
+	@Override
+	public int maxInvestitureDraw(ISpiritweb data)
+	{
+		return (10 * getStrength(data,false)) + minInvestitureDraw(data)
+	}
+	
+	@Override
+	public int minInvestitureDraw(ISpiritweb data)
+	{
+		if(isFlaring(data))
+		{
+			return 30;
+		}
+		return 15;
+	}
+	
+	private final ResourceLocation allomancyRL = new ResourceLocation("allomancy", getRegistryName().getPath());
+	private final Manifestation allomancy = CosmereAPI.manifestationRegistry().getValue(allomancyRL);
+	
+	private final ResourceLocation feruchemyRL = new ResourceLocation("feruchemy", getRegistryName().getPath());
+	private final Manifestation feruchemy = CosmereAPI.manifestationRegistry().getValue(feruchemyRL);
+	
+	public final Manifestation[] appManifestComp = {allomancy, feruchemy};
+	public final Manifestation[] appManifest = {allomancy};
+	
+	
+	
+	public Investiture newInvest(ISpiritweb data)
+	{
+		Investiture sub = new Investiture(data, isFlaring(data)? 30 : 15, appManifestComp);
+		sub.setPriority(5);
+		return sub;
+	}
+	
+	public int addPerTick = 0;
+	
+	public int addTotal = 30;
+	
+	public void failFill();
 }

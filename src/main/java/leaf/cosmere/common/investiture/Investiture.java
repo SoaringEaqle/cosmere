@@ -10,7 +10,7 @@ public class Investiture implements IInvestiture
 {
 
 	private final ISpiritweb spiritweb;
-	private ArrayList<Manifestation> applicableManifestations;
+	private Manifestation[] applicableManifestations;
 	private int priority = 1;
 	private int beu;
 
@@ -19,13 +19,13 @@ public class Investiture implements IInvestiture
 
 	public Investiture(ISpiritweb web,
 	                   int beu,
-	                   ArrayList<Manifestation> applicableManifestations)
+	                   Manifestation[] applicableManifestations)
 	{
 
 		this.beu = beu;
 		this.applicableManifestations = applicableManifestations;
 		spiritweb = web;
-		spiritweb.addInvestiture((IInvestiture) this);
+		spiritweb.addInvestiture(this);
 	}
 
 	public Investiture(ISpiritweb web,
@@ -71,7 +71,7 @@ public class Investiture implements IInvestiture
 		this.priority = priority;
 	}
 
-	public ArrayList<Manifestation> getApplicableManifestations()
+	public Manifestation[] getApplicableManifestations()
 	{
 		return applicableManifestations;
 	}
@@ -96,12 +96,17 @@ public class Investiture implements IInvestiture
 	public void merge(Investiture other)
 	{
 		if(this.getPriority() == other.getPriority()
-			&& this.getApplicableManifestations().equals(other.getApplicableManifestations())
+			&& this.getApplicableManifestations()==(other.getApplicableManifestations())
 			&& this.getSpiritweb().equals(other.getSpiritweb()))
 		{
 			this.beu += other.getBEU();
-			other.setBEU(0);
+			other.close;
 		}
+	}
+	
+	protected void close()
+	{
+		this = null;
 	}
 
 }
