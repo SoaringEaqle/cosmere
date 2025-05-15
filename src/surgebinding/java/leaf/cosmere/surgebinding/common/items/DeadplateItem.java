@@ -7,6 +7,7 @@ package leaf.cosmere.surgebinding.common.items;
 import leaf.cosmere.client.render.CosmereRenderers;
 import leaf.cosmere.surgebinding.client.render.renderer.ArmorRenderer;
 import leaf.cosmere.surgebinding.common.Surgebinding;
+import leaf.cosmere.surgebinding.common.capabilities.DynamicShardplateData;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 import javax.annotation.Nonnull;
@@ -24,9 +28,12 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class ShardplateItem extends ArmorItem
+public class DeadplateItem extends ArmorItem
 {
-	public ShardplateItem(ShardplateArmorMaterial material, ArmorItem.Type pType, Properties properties)
+	public static final Capability<DynamicShardplateData> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
+	{
+	});
+	public DeadplateItem(ShardplateArmorMaterial material, ArmorItem.Type pType, Properties properties)
 	{
 		super(material, pType, properties);
 	}
@@ -58,12 +65,11 @@ public class ShardplateItem extends ArmorItem
 					final boolean isFeet = equipmentSlot == EquipmentSlot.FEET;
 
 					var model = armorRenderer.model;
-					model.hat.visible = false;
-					model.head.visible = isHead;
+					model.mHead.visible = isHead;
 
-					model.body.visible = isChest;
+					model.mBody.visible = isChest;
 					//chestplate is done separately because pants have to set body visible for some reason
-					model.Chestplate.visible = isChest;
+					model.body1.visible = isChest;
 					model.rightArm.visible = isChest;
 					model.leftArm.visible = isChest;
 
@@ -73,10 +79,10 @@ public class ShardplateItem extends ArmorItem
 
 					//then set the actual child legs/boots visibility.
 					//kinda janky but it works
-					model.LeftLeg.visible = isLegs;
-					model.RightLeg.visible = isLegs;
-					model.LeftBoot.visible = isFeet;
-					model.RightBoot.visible = isFeet;
+					model.right_legs.visible = isLegs;
+					model.left_legs.visible = isLegs;
+					model.left_boot1.visible = isFeet;
+					model.right_boot1.visible = isFeet;
 
 					return model;
 				}

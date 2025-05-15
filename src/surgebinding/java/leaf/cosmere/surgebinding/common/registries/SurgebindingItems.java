@@ -38,10 +38,10 @@ public class SurgebindingItems
 	public static final ItemRegistryObject<ShardbladeItem> SHARDBLADE = ITEMS.register("shardblade", () -> new ShardbladeDynamicItem(SHARDBLADE_ITEM_TIER, 24, -2.4F, PropTypes.Items.SHARDBLADE.get()));
 	public static final ItemRegistryObject<ShardbladeItem> MASTER_SWORD = ITEMS.register("master_sword", () -> new ShardbladeItem(SHARDBLADE_ITEM_TIER, 10, -2.4F, PropTypes.Items.SHARDBLADE.get()));
 
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_HELMET = ITEMS.register("shardplate_helmet", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.HELMET, PropTypes.Items.SHARDBLADE.get()));
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_CHEST = ITEMS.register("shardplate_chest", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.CHESTPLATE, PropTypes.Items.SHARDBLADE.get()));
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_LEGGINGS = ITEMS.register("shardplate_leggings", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.LEGGINGS, PropTypes.Items.SHARDBLADE.get()));
-	public static final ItemRegistryObject<ShardplateItem> SHARDPLATE_BOOTS = ITEMS.register("shardplate_boots", () -> new ShardplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.BOOTS, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<DeadplateItem> SHARDPLATE_HELMET = ITEMS.register("shardplate_helmet", () -> new DeadplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.HELMET, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<DeadplateItem> SHARDPLATE_CHEST = ITEMS.register("shardplate_chest", () -> new DeadplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.CHESTPLATE, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<DeadplateItem> SHARDPLATE_LEGGINGS = ITEMS.register("shardplate_leggings", () -> new DeadplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.LEGGINGS, PropTypes.Items.SHARDBLADE.get()));
+	public static final ItemRegistryObject<DeadplateItem> SHARDPLATE_BOOTS = ITEMS.register("shardplate_boots", () -> new DeadplateItem(ShardplateArmorMaterial.DEADPLATE, ArmorItem.Type.BOOTS, PropTypes.Items.SHARDBLADE.get()));
 
 
 	public static final Map<Roshar.RadiantOrder, ItemRegistryObject<HonorbladeItem>> HONORBLADES =

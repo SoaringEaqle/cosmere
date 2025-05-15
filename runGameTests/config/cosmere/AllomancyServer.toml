@@ -1,0 +1,16 @@
+
+#Allomancy Config. This config is synced between server and client.
+[allomancy]
+	#When the user eats a lerasium nugget, what should their strength in allomancy be set to
+	#Range: 1 ~ 32
+	godMetalMinimumStrength = 16
+	#Multiplier for iron and steel range. At base strength (9) the range is 9 while burning and 18 while flaring
+	#Range: 0.0 ~ 10.0
+	ironSteelRange = 1.0
+	#Push/pull weight adjustment per block.
+	#Range: 0.01 ~ 100.0
+	pushPullWeight = 0.05
+	#Maximum pull/push weight adjustment. At 1.0 (default), push/pull power maxes out at 2 times (20 blocks)
+	#Range: 0.0 ~ 999999.0
+	maxPushPullWeight = 1.0
+

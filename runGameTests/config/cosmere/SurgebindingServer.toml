@@ -1,0 +1,31 @@
+
+#Surgebinding Config. This config is synced between server and client.
+[surgebinding]
+	#How many shardblades total that the user can bond
+	#Range: 0 ~ 20
+	shardbladeBondAmount = 10
+	#How much stormlight can a player hold at once
+	#Range: 100 ~ 20000
+	playerMaxStormlight = 5000
+	#How fast a player draws in or breathes out stormlight using keybinds.
+	#Range: 5 ~ 20000
+	playerDrawSpeed = 150
+	#How many points of stormlight drain per second
+	#Range: 1 ~ 100
+	stormlightDrainRate = 5
+	#How many points of stormlight to trigger the bonemeal effect
+	#Range: 1 ~ 1000
+	progressionBonemealStormlightCost = 20
+	#How many points of stormlight per half a heart healed
+	#Range: 1 ~ 1000
+	progressionHealStormlightCost = 20
+	#How many points of stormlight per age up on a baby mob
+	#Range: 1 ~ 1000
+	progressionAgeUpCost = 50
+	#Enable this to allow Nightblood to have certain feature, which is spoilers for WindAndTruth
+	nightbloodSpoilers = true
+	second_ideals = ["I will protect those who cannot protect themselves.", "I will put the law before all else.", "I will seek self-mastery", "I will remember those who have been forgotten", "I will seek the truth", "notyetimplemented", "I will reach my potential", "I will seek freedom for those in bondage.", "I will stand when others fall.", "I will unite instead of divide."]
+	third_ideals = ["I will protect even those I hate, so long as it is right.", "notyetimplemented", "I will strive to create rather than destroy", "I will listen to those who have been ignored.", "notyetimplemented", "notyetimplemented", "I will achieve my goals, no matter the cost", "notyetimplemented", "I will be the foundation on which others can build.", "I will take responsibility for what I have done. If I must fall, I will rise each time a better"]
+	fourth_ideals = ["I accept that there will be those I cannot protect.", "notyetimplemented", "I will accept that destruction is sometimes necessary", "notyetimplemented", "notyetimplemented", "notyetimplemented", "I will accept that some goals are unobtainable", "notyetimplemented", "notyetimplemented", "notyetimplemented"]
+	fifth_ideals = ["I will protect myself, so that I may continue to protect others. ", "I am the law", "notyetimplemented", "notyetimplemented", "notyetimplemented", "notyetimplemented", "notyetimplemented", "notyetimplemented", "notyetimplemented", "notyetimplemented"]
+

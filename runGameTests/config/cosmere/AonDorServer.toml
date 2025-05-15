@@ -1,0 +1,7 @@
+
+#AonDor Config. This config is synced between server and client.
+[AonDor]
+	#AonDor.
+	#Range: 0 ~ 100
+	aondor = 0
+

@@ -1,0 +1,7 @@
+
+#Tools Config. This config is synced between server and client.
+[Tools]
+	#Tools.
+	#Range: 0 ~ 100
+	tools = 0
+

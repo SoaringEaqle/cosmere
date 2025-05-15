@@ -1,0 +1,7 @@
+
+#Awakening Config. This config is synced between server and client.
+[Awakening]
+	#Awakening.
+	#Range: 0 ~ 100
+	awakening = 0
+

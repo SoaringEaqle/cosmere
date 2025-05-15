@@ -1,0 +1,7 @@
+
+#Soulforgery Config. This config is synced between server and client.
+[Soulforgery]
+	#Soulforgery.
+	#Range: 0 ~ 100
+	soulforgery = 0
+

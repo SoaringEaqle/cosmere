@@ -1,0 +1,16 @@
+
+#Hemalurgy Config. This config is synced between server and client.
+[hemalurgy]
+	#What tick count should be used to check spiritweb integrity? There are 20 ticks in a second.
+	#Range: 20 ~ 1234567890
+	integrityCheckTick = 999
+	#What is the maximum strength a lerasatium spike can hold.
+	#Range: 1 ~ 20
+	lerasatiumMaxSpikeStrength = 5
+	#What is the maximum strength a chromium spike can hold.
+	#Range: 1 ~ 5
+	chromiumMaxSpikeStrength = 3
+	#What is the maximum strength all other power spikes can hold.
+	#Range: 1 ~ 20
+	powerMaxSpikeStrength = 7
+

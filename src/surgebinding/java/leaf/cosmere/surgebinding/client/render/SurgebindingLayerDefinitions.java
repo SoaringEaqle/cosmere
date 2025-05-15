@@ -22,7 +22,7 @@ public class SurgebindingLayerDefinitions
 	public static void register(EntityRenderersEvent.RegisterLayerDefinitions evt)
 	{
 		//shardplate
-		evt.registerLayerDefinition(SurgebindingLayerDefinitions.SHARDPLATE, ShardplateModel::createBodyLayer);
+		evt.registerLayerDefinition(SurgebindingLayerDefinitions.SHARDPLATE, DynamicShardplateModel::createBodyLayer);
 		evt.registerLayerDefinition(SurgebindingLayerDefinitions.CHULL, ChullModel::createBodyLayer);
 		evt.registerLayerDefinition(SurgebindingLayerDefinitions.CRYPTIC, CrypticModel::createBodyLayer);
 		evt.registerLayerDefinition(SurgebindingLayerDefinitions.HONORSPREN, HonorsprenModel::createBodyLayer);

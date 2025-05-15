@@ -6,6 +6,7 @@ package leaf.cosmere.surgebinding.client.render.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import leaf.cosmere.surgebinding.client.render.SurgebindingLayerDefinitions;
+import leaf.cosmere.surgebinding.client.render.model.DynamicShardplateModel;
 import leaf.cosmere.surgebinding.client.render.model.ShardplateModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -16,17 +17,18 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.spongepowered.asm.mixin.Dynamic;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 public class ArmorRenderer implements ICurioRenderer
 {
-	public ShardplateModel model;
+	public DynamicShardplateModel model;
 
 	public ArmorRenderer()
 	{
 		final ModelPart modelPart = Minecraft.getInstance().getEntityModels().bakeLayer(SurgebindingLayerDefinitions.SHARDPLATE);
-		model = new ShardplateModel(modelPart);
+		model = new DynamicShardplateModel(modelPart);
 	}
 
 	@Override

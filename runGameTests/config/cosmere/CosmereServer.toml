@@ -1,0 +1,26 @@
+
+#Cosmere Server Config. This config is synced between server and client.
+[cosmere]
+	#What is the max value for chargeables? This value is modified based on the object
+	#Range: 1000 ~ 1000000
+	chargeableMaxValue = 18000
+	#Can sculk and Warden hear people using powers if the user isn't copper clouded
+	sculkHearsKineticInvestiture = true
+	#1 in how many mobs should have powers?
+	#Range: 1 ~ 123456
+	mobPowerChance = 16
+	#1 in how many Raiders should have powers?
+	#Range: 1 ~ 123456
+	raiderPowerChance = 64
+	#1 in how many should powered individuals should have full powers of one type
+	#Range: 1 ~ 123456
+	fullPowersChance = 16
+	#If not full born, 1 in how many powered mobs should be twinborn? Players are twinborn as a minimum.
+	#Range: 1 ~ 123456
+	twinbornPowersChance = 16
+	#Multiplier for emotional allomancy range when singe-targeting
+	#Range: 1.0 ~ 123456.0
+	emotionalAllomancySingleTargetRange = 1.5
+	#Allow players to choose allomantic and feruchemical abilities for themselves using commands
+	allowMetalbornChoice = false
+

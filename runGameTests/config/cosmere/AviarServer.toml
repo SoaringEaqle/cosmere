@@ -1,0 +1,7 @@
+
+#Aviar Config. This config is synced between server and client.
+[aviar]
+	#How far away the player the tamed aviar can be and still get a bonus
+	#Range: 1.0 ~ 20.0
+	aviar_bonus_range = 15.0
+

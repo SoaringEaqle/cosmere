@@ -1,0 +1,569 @@
+[23Mar2025 19:31:58.132] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgegametestserveruserdev, --gameDir, ., --fml.forgeVersion, 47.3.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mixin.config, cosmere.mixins.json, --mixin.config, allomancy.mixins.json, --mixin.config, feruchemy.mixins.json, --mixin.config, hemalurgy.mixins.json, --mixin.config, surgebinding.mixins.json, --mixin.config, sandmastery.mixins.json, --mixin.config, aviar.mixins.json, --mixin.config, awakening.mixins.json, --mixin.config, aondor.mixins.json, --mixin.config, soulforgery.mixins.json, --mixin.config, cosmeretools.mixins.json]
+[23Mar2025 19:31:58.134] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.10 by Oracle Corporation; OS Mac OS X arch aarch64 version 15.3.1
+[23Mar2025 19:31:58.179] [main/WARN] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/fml.toml is not correct. Correcting
+[23Mar2025 19:31:58.180] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
+[23Mar2025 19:31:58.180] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSquir] was corrected from null to false
+[23Mar2025 19:31:58.181] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowShowCPU] was corrected from null to false
+[23Mar2025 19:31:58.190] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgegametestserveruserdev
+[23Mar2025 19:31:58.216] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/Users/Camden/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23121!/ Service=ModLauncher Env=SERVER
+[23Mar2025 19:31:58.423] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /Users/Camden/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.3.0/d7ebc62120f202109e300e084ca1a31a7b946a62/javafmllanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[23Mar2025 19:31:58.423] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /Users/Camden/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.3.0/1bf3e845ea0ce750096da8c71c8364b188ab74d4/lowcodelanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[23Mar2025 19:31:58.424] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /Users/Camden/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.3.0/6093682e943ddccbabf70539319d7f2fe64db2e7/mclanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[23Mar2025 19:31:58.425] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /Users/Camden/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.3.0/3b6be96aba3e323f3c918e8ef6a96312d82d76ad/fmlcore-1.20.1-47.3.0.jar is missing mods.toml file
+[23Mar2025 19:31:58.474] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[23Mar2025 19:31:59.388] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
+[23Mar2025 19:31:59.403] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgegametestserveruserdev' with arguments [--gameDir, .]
+[23Mar2025 19:31:59.419] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.refmap.json' for cosmere.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.420] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.allomancy.refmap.json' for allomancy.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.420] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.feruchemy.refmap.json' for feruchemy.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.421] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.hemalurgy.refmap.json' for hemalurgy.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.422] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.surgebinding.refmap.json' for surgebinding.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.422] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.sandmastery.refmap.json' for sandmastery.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.423] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.aviar.refmap.json' for aviar.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.424] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.awakening.refmap.json' for awakening.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.424] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.aondor.refmap.json' for aondor.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.425] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.soulforgery.refmap.json' for soulforgery.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.425] [main/WARN] [mixin/]: Reference map 'mixins.cosmere.cosmeretools.refmap.json' for cosmeretools.mixins.json could not be read. If this is a development environment you can ignore this message
+[23Mar2025 19:31:59.621] [main/INFO] [mixin/]: Remapping refMap jade.refmap.json using /Users/Camden/Documents/GitHub/cosmere /build/createSrgToMcp/output.srg
+[23Mar2025 19:31:59.622] [main/INFO] [mixin/]: Remapping refMap curios.refmap.json using /Users/Camden/Documents/GitHub/cosmere /build/createSrgToMcp/output.srg
+[23Mar2025 19:31:59.623] [main/INFO] [mixin/]: Remapping refMap patchouli.refmap.json using /Users/Camden/Documents/GitHub/cosmere /build/createSrgToMcp/output.srg
+[23Mar2025 19:32:02.875] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.3.0, for MC 1.20.1 with MCP 20230612.114412
+[23Mar2025 19:32:02.875] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.3.0 Initialized
+[23Mar2025 19:32:02.936] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Registering surgebinding dimensions
+[23Mar2025 19:32:02.943] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Registering cosmere dimensions
+[23Mar2025 19:32:02.945] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Patchouli detected, cosmere can use it's guide item.
+[23Mar2025 19:32:02.958] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Registering sandmastery dimensions
+[23Mar2025 19:32:03.132] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/curios-common.toml is not correct. Correcting
+[23Mar2025 19:32:03.133] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key slots was corrected from null to its default, []. 
+[23Mar2025 19:32:03.134] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere Version 0.7.1 initializing...
+[23Mar2025 19:32:03.135] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Tools module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.135] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Surgebinding module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.135] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Allomancy module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.142] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Feruchemy module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.142] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Aviar module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.142] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Soulforgery module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.142] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Example module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.142] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: AonDor module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.143] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Awakening module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.143] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Hemalurgy module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.143] [modloading-worker-0/INFO] [leaf.cosmere.api.CosmereAPI/]: Cosmere: Sand Mastery module Version 0.7.1 initializing...
+[23Mar2025 19:32:03.216] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[23Mar2025 19:32:03.325] [modloading-worker-0/INFO] [Jade/]: Start loading plugin at snownee.jade.addon.vanilla.VanillaPlugin
+[23Mar2025 19:32:03.387] [modloading-worker-0/INFO] [Jade/]: Start loading plugin at snownee.jade.addon.universal.UniversalPlugin
+[23Mar2025 19:32:03.396] [modloading-worker-0/INFO] [Jade/]: Start loading plugin at snownee.jade.addon.core.CorePlugin
+[23Mar2025 19:32:03.397] [modloading-worker-0/INFO] [Jade/]: Start loading plugin at leaf.cosmere.allomancy.common.compat.hwyla.HwylaCompat
+[23Mar2025 19:32:03.708] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.3.0 Target: 47.4.0
+[23Mar2025 19:32:04.080] [main/ERROR] [net.minecraft.server.dedicated.Settings/]: Failed to load properties from file: server.properties
+java.nio.file.NoSuchFileException: server.properties
+	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
+	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:218) ~[?:?]
+	at java.nio.file.Files.newByteChannel(Files.java:380) ~[?:?]
+	at java.nio.file.Files.newByteChannel(Files.java:432) ~[?:?]
+	at java.nio.file.spi.FileSystemProvider.newInputStream(FileSystemProvider.java:422) ~[?:?]
+	at java.nio.file.Files.newInputStream(Files.java:160) ~[?:?]
+	at net.minecraft.server.dedicated.Settings.loadFromFile(Settings.java:36) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
+	at net.minecraft.server.dedicated.DedicatedServerProperties.fromFile(DedicatedServerProperties.java:137) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
+	at net.minecraft.server.dedicated.DedicatedServerSettings.<init>(DedicatedServerSettings.java:12) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
+	at net.minecraft.server.Main.main(Main.java:126) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
+	at net.minecraftforge.gametest.GameTestMain.main(GameTestMain.java:16) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?]
+	at net.minecraftforge.fml.loading.targets.ForgeGametestUserdevLaunchHandler.devService(ForgeGametestUserdevLaunchHandler.java:16) ~[fmlloader-1.20.1-47.3.0.jar:?]
+	at net.minecraftforge.fml.loading.targets.CommonDevLaunchHandler.lambda$makeService$7(CommonDevLaunchHandler.java:135) ~[fmlloader-1.20.1-47.3.0.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) ~[modlauncher-10.0.9.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) ~[modlauncher-10.0.9.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) ~[modlauncher-10.0.9.jar:?]
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:108) ~[modlauncher-10.0.9.jar:?]
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:78) ~[modlauncher-10.0.9.jar:?]
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) ~[modlauncher-10.0.9.jar:?]
+	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) ~[modlauncher-10.0.9.jar:?]
+	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141) ~[bootstraplauncher-1.1.2.jar:?]
+[23Mar2025 19:32:04.102] [main/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[23Mar2025 19:32:04.124] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/Users/Camden/Documents/GitHub/cosmere%20/build/fg_cache/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar%23184!/assets/.mcassetsroot' uses unexpected schema
+[23Mar2025 19:32:04.124] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/Users/Camden/Documents/GitHub/cosmere%20/build/fg_cache/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar%23184!/data/.mcassetsroot' uses unexpected schema
+[23Mar2025 19:32:05.047] [main/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
+[23Mar2025 19:32:05.095] [main/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1745 advancements
+[23Mar2025 19:32:05.100] [main/INFO] [top.theillusivec4.curios.Curios/]: Loaded 16 curio slots
+[23Mar2025 19:32:05.103] [main/INFO] [top.theillusivec4.curios.Curios/]: Loaded 2 curio entities
+[23Mar2025 19:32:05.421] [main/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [surgebinding, sandmastery, hemalurgy, cosmeretools, feruchemy, allomancy, cosmere]
+[23Mar2025 19:32:05.436] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/jei-server.toml is not correct. Correcting
+[23Mar2025 19:32:05.436] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cheat mode was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.436] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cheat mode.enableCheatModeForOp was corrected from null to its default, true. 
+[23Mar2025 19:32:05.436] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cheat mode.enableCheatModeForCreative was corrected from null to its default, true. 
+[23Mar2025 19:32:05.436] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cheat mode.enableCheatModeForGive was corrected from null to its default, false. 
+[23Mar2025 19:32:05.446] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/ToolsServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.446] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Tools was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.446] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Tools.tools was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.447] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/SurgebindingServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.447] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.447] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.shardbladeBondAmount was corrected from null to its default, 10. 
+[23Mar2025 19:32:05.447] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.playerMaxStormlight was corrected from null to its default, 5000. 
+[23Mar2025 19:32:05.447] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.playerDrawSpeed was corrected from null to its default, 150. 
+[23Mar2025 19:32:05.447] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.stormlightDrainRate was corrected from null to its default, 5. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.progressionBonemealStormlightCost was corrected from null to its default, 20. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.progressionHealStormlightCost was corrected from null to its default, 20. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.progressionAgeUpCost was corrected from null to its default, 50. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.nightbloodSpoilers was corrected from null to its default, true. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.second_ideals was corrected from null to its default, [I will protect those who cannot protect themselves., I will put the law before all else., I will seek self-mastery, I will remember those who have been forgotten, I will seek the truth, notyetimplemented, I will reach my potential, I will seek freedom for those in bondage., I will stand when others fall., I will unite instead of divide.]. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.third_ideals was corrected from null to its default, [I will protect even those I hate, so long as it is right., notyetimplemented, I will strive to create rather than destroy, I will listen to those who have been ignored., notyetimplemented, notyetimplemented, I will achieve my goals, no matter the cost, notyetimplemented, I will be the foundation on which others can build., I will take responsibility for what I have done. If I must fall, I will rise each time a better]. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.fourth_ideals was corrected from null to its default, [I accept that there will be those I cannot protect., notyetimplemented, I will accept that destruction is sometimes necessary, notyetimplemented, notyetimplemented, notyetimplemented, I will accept that some goals are unobtainable, notyetimplemented, notyetimplemented, notyetimplemented]. 
+[23Mar2025 19:32:05.448] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key surgebinding.fifth_ideals was corrected from null to its default, [I will protect myself, so that I may continue to protect others. , I am the law, notyetimplemented, notyetimplemented, notyetimplemented, notyetimplemented, notyetimplemented, notyetimplemented, notyetimplemented, notyetimplemented]. 
+[23Mar2025 19:32:05.449] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/FeruchemyServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.449] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key feruchemy was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.449] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key feruchemy.bendalloySaturationMultiplier was corrected from null to its default, 2. 
+[23Mar2025 19:32:05.449] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key feruchemy.goldTapCostMultiplier was corrected from null to its default, 2. 
+[23Mar2025 19:32:05.449] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key feruchemy.godMetalMinimumStrength was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.449] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key feruchemy.fullFeruchemistStartingMetalmindCount was corrected from null to its default, 3. 
+[23Mar2025 19:32:05.449] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key feruchemy.fullFeruchemistStartingMetalmindFillAmount was corrected from null to its default, 0.6667. 
+[23Mar2025 19:32:05.450] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/AviarServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.450] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key aviar was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.450] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key aviar.aviar_bonus_range was corrected from null to its default, 15.0. 
+[23Mar2025 19:32:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/AllomancyServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key allomancy was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key allomancy.godMetalMinimumStrength was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key allomancy.ironSteelRange was corrected from null to its default, 1.0. 
+[23Mar2025 19:32:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key allomancy.pushPullWeight was corrected from null to its default, 0.05. 
+[23Mar2025 19:32:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key allomancy.maxPushPullWeight was corrected from null to its default, 1.0. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/CosmereServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.chargeableMaxValue was corrected from null to its default, 18000. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.sculkHearsKineticInvestiture was corrected from null to its default, true. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.mobPowerChance was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.raiderPowerChance was corrected from null to its default, 64. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.fullPowersChance was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.twinbornPowersChance was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.emotionalAllomancySingleTargetRange was corrected from null to its default, 1.5. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key cosmere.allowMetalbornChoice was corrected from null to its default, false. 
+[23Mar2025 19:32:05.452] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/world.toml is not correct. Correcting
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.perChunk was corrected from null to its default, 14. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.maxVeinSize was corrected from null to its default, 4. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.minInclusive.value was corrected from null to its default, -20. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.small.maxInclusive.value was corrected from null to its default, 94. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.perChunk was corrected from null to its default, 12. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.maxVeinSize was corrected from null to its default, 7. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.minInclusive.value was corrected from null to its default, -32. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.medium.maxInclusive.value was corrected from null to its default, 72. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.perChunk was corrected from null to its default, 20. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.maxVeinSize was corrected from null to its default, 6. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.shape was corrected from null to its default, UNIFORM. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.minInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.maxInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.tin.abundant.maxInclusive.value was corrected from null to its default, 32. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.perChunk was corrected from null to its default, 65. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.maxVeinSize was corrected from null to its default, 7. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.minInclusive.value was corrected from null to its default, 72. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.plateau was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.maxInclusive.type was corrected from null to its default, BELOW_TOP. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.upper.maxInclusive.value was corrected from null to its default, -24. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.perChunk was corrected from null to its default, 6. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.maxVeinSize was corrected from null to its default, 9. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.minInclusive.value was corrected from null to its default, -32. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.middle.maxInclusive.value was corrected from null to its default, 56. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.perChunk was corrected from null to its default, 10. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.maxVeinSize was corrected from null to its default, 10. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.discardChanceOnAirExposure was corrected from null to its default, 0.20000000298023224. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.minInclusive.value was corrected from null to its default, -80. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.455] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.zinc.deep.maxInclusive.value was corrected from null to its default, -32. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.perChunk was corrected from null to its default, 4. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.maxVeinSize was corrected from null to its default, 4. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.minInclusive.value was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.small.maxInclusive.value was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.perChunk was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.maxVeinSize was corrected from null to its default, 4. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.shape was corrected from null to its default, UNIFORM. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.minInclusive.value was corrected from null to its default, -60. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.medium.maxInclusive.value was corrected from null to its default, -50. 
+[23Mar2025 19:32:05.456] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.perChunk was corrected from null to its default, 13. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.maxVeinSize was corrected from null to its default, 9. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.discardChanceOnAirExposure was corrected from null to its default, 0.75. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.minInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.plateau was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.maxInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.aluminum.buried.maxInclusive.value was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.perChunk was corrected from null to its default, 4. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.maxVeinSize was corrected from null to its default, 6. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.discardChanceOnAirExposure was corrected from null to its default, 0.10000000149011612. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.minInclusive.value was corrected from null to its default, -40. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.457] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.rare.maxInclusive.value was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.perChunk was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.maxVeinSize was corrected from null to its default, 9. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.discardChanceOnAirExposure was corrected from null to its default, 0.25. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.minInclusive.value was corrected from null to its default, -24. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.normal.maxInclusive.value was corrected from null to its default, 64. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.perChunk was corrected from null to its default, 5. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.maxVeinSize was corrected from null to its default, 10. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.discardChanceOnAirExposure was corrected from null to its default, 0.30000001192092896. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.minInclusive.value was corrected from null to its default, -80. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.chromium.deep.maxInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.458] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.perChunk was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.maxVeinSize was corrected from null to its default, 9. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.discardChanceOnAirExposure was corrected from null to its default, 0.25. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.minInclusive.value was corrected from null to its default, -24. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.normal.maxInclusive.value was corrected from null to its default, 64. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.perChunk was corrected from null to its default, 15. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.maxVeinSize was corrected from null to its default, 7. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.shape was corrected from null to its default, UNIFORM. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.minInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.abundant.maxInclusive.value was corrected from null to its default, -32. 
+[23Mar2025 19:32:05.459] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.perChunk was corrected from null to its default, 6. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.maxVeinSize was corrected from null to its default, 5. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.discardChanceOnAirExposure was corrected from null to its default, 0.20000000298023224. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.minInclusive.value was corrected from null to its default, -96. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.cadmium.deep.maxInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.perChunk was corrected from null to its default, 65. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.maxVeinSize was corrected from null to its default, 7. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.minInclusive.value was corrected from null to its default, 80. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.plateau was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.upper.maxInclusive.value was corrected from null to its default, 384. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.460] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.perChunk was corrected from null to its default, 6. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.maxVeinSize was corrected from null to its default, 9. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.minInclusive.value was corrected from null to its default, -32. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.middle.maxInclusive.value was corrected from null to its default, 56. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.perChunk was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.maxVeinSize was corrected from null to its default, 4. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.shape was corrected from null to its default, UNIFORM. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.minInclusive.value was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.nickel.small.maxInclusive.value was corrected from null to its default, 64. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.461] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.perChunk was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.maxVeinSize was corrected from null to its default, 9. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.discardChanceOnAirExposure was corrected from null to its default, 0.25. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.minInclusive.value was corrected from null to its default, -24. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.normal.maxInclusive.value was corrected from null to its default, 64. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.perChunk was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.maxVeinSize was corrected from null to its default, 7. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.discardChanceOnAirExposure was corrected from null to its default, 0.0. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.shape was corrected from null to its default, UNIFORM. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.minInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.abundant.maxInclusive.value was corrected from null to its default, 16. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.462] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.perChunk was corrected from null to its default, 12. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.maxVeinSize was corrected from null to its default, 10. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.discardChanceOnAirExposure was corrected from null to its default, 0.10000000149011612. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.minInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.minInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.silver.rich.maxInclusive.value was corrected from null to its default, -32. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.perChunk was corrected from null to its default, 8. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.maxVeinSize was corrected from null to its default, 9. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.discardChanceOnAirExposure was corrected from null to its default, 0.25. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.minInclusive.value was corrected from null to its default, -24. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.463] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.normal.maxInclusive.value was corrected from null to its default, 64. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.perChunk was corrected from null to its default, 15. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.maxVeinSize was corrected from null to its default, 7. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.discardChanceOnAirExposure was corrected from null to its default, 0.10000000149011612. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.shape was corrected from null to its default, UNIFORM. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.minInclusive.value was corrected from null to its default, -64. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.abundant.maxInclusive.value was corrected from null to its default, -32. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.shouldGenerate was corrected from null to its default, true. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.perChunk was corrected from null to its default, 10. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.maxVeinSize was corrected from null to its default, 6. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.discardChanceOnAirExposure was corrected from null to its default, 0.30000001192092896. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.shape was corrected from null to its default, TRAPEZOID. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.minInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.minInclusive.type was corrected from null to its default, ABOVE_BOTTOM. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.minInclusive.value was corrected from null to its default, -80. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.plateau was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.maxInclusive was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.maxInclusive.type was corrected from null to its default, ABSOLUTE. 
+[23Mar2025 19:32:05.464] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key world_generation.lead.deep.maxInclusive.value was corrected from null to its default, -48. 
+[23Mar2025 19:32:05.469] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/curios-server.toml is not correct. Correcting
+[23Mar2025 19:32:05.469] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key keepCurios was corrected from null to its default, DEFAULT. 
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.enableLegacyMenu was corrected from null to its default, false. 
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental.minimumColumns was corrected from null to its default, 1. 
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental.maxSlotsPerPage was corrected from null to its default, 48. 
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/SoulforgeryServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Soulforgery was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.470] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Soulforgery.soulforgery was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.471] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/ExampleServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.471] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Example was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.471] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Example.example was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.472] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/HemalurgyServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.472] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key hemalurgy was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.472] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key hemalurgy.integrityCheckTick was corrected from null to its default, 999. 
+[23Mar2025 19:32:05.472] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key hemalurgy.lerasatiumMaxSpikeStrength was corrected from null to its default, 5. 
+[23Mar2025 19:32:05.472] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key hemalurgy.chromiumMaxSpikeStrength was corrected from null to its default, 3. 
+[23Mar2025 19:32:05.472] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key hemalurgy.powerMaxSpikeStrength was corrected from null to its default, 7. 
+[23Mar2025 19:32:05.472] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/AonDorServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.473] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key AonDor was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.473] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key AonDor.aondor was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.473] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/AwakeningServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.473] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Awakening was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.473] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Awakening.awakening was corrected from null to its default, 0. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/SandmasteryServer.toml is not correct. Correcting
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.projectileCooldown was corrected from null to its default, 100. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.hydrationCostMultiploer was corrected from null to its default, 1.5. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.chargeCostMultiplier was corrected from null to its default, 2. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.startingHydration was corrected from null to its default, 10000. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.maxHydration was corrected from null to its default, 10000. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.overmasteryDuration was corrected from null to its default, 120. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.dehydrationThreshold was corrected from null to its default, 0.01. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.qidoOnFirstLogin was corrected from null to its default, false. 
+[23Mar2025 19:32:05.474] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key sandmastery.qidoMaxFill was corrected from null to its default, 10000. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/forge-server.toml is not correct. Correcting
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server was corrected from null to its default, SimpleCommentedConfig:{}. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.removeErroringBlockEntities was corrected from null to its default, false. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.removeErroringEntities was corrected from null to its default, false. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.fullBoundingBoxLadders was corrected from null to its default, false. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.zombieBaseSummonChance was corrected from null to its default, 0.1. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.zombieBabyChance was corrected from null to its default, 0.05. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.permissionHandler was corrected from null to its default, forge:default_handler. 
+[23Mar2025 19:32:05.475] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.advertiseDedicatedServerToLan was corrected from null to its default, true. 
+[23Mar2025 19:32:08.195] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[23Mar2025 19:32:08.717] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Mar2025 19:32:08.718] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Mar2025 19:32:09.203] [Worker-Main-5/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Mar2025 19:32:09.700] [Worker-Main-6/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 1%
+[23Mar2025 19:32:10.196] [Worker-Main-5/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 2%
+[23Mar2025 19:32:10.696] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 4%
+[23Mar2025 19:32:11.197] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 6%
+[23Mar2025 19:32:11.698] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 9%
+[23Mar2025 19:32:12.199] [Worker-Main-5/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 12%
+[23Mar2025 19:32:12.699] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 16%
+[23Mar2025 19:32:13.195] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 22%
+[23Mar2025 19:32:13.696] [Worker-Main-4/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 25%
+[23Mar2025 19:32:14.194] [Worker-Main-7/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 31%
+[23Mar2025 19:32:14.695] [Worker-Main-5/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 35%
+[23Mar2025 19:32:15.195] [Worker-Main-6/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 40%
+[23Mar2025 19:32:15.475] [Thread-1/WARN] [net.minecraftforge.fml.config.ConfigFileTypeHandler/CONFIG]: Configuration file /Users/Camden/Documents/GitHub/cosmere /runGameTests/config/cosmere/SandmasteryServer.toml is not correct. Correcting
+[23Mar2025 19:32:15.699] [Worker-Main-5/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 44%
+[23Mar2025 19:32:16.203] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 49%
+[23Mar2025 19:32:16.695] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 55%
+[23Mar2025 19:32:17.199] [Worker-Main-7/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 59%
+[23Mar2025 19:32:17.700] [Worker-Main-7/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 64%
+[23Mar2025 19:32:18.202] [Worker-Main-6/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 70%
+[23Mar2025 19:32:18.700] [Worker-Main-4/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 74%
+[23Mar2025 19:32:19.196] [Worker-Main-4/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 80%
+[23Mar2025 19:32:19.696] [Worker-Main-5/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 85%
+[23Mar2025 19:32:20.193] [Worker-Main-5/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 90%
+[23Mar2025 19:32:20.695] [Worker-Main-6/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 96%
+[23Mar2025 19:32:20.897] [Server thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 12705 ms
+[23Mar2025 19:32:20.899] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: Started game test server
+[23Mar2025 19:32:20.915] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
+[23Mar2025 19:32:20.916] [Server thread/INFO] [patchouli/]: Sending reload packet to clients
+[23Mar2025 19:32:21.025] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: 0 tests are now running!
+[23Mar2025 19:32:21.026] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: []
+[23Mar2025 19:32:21.026] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: ========= 0 GAME TESTS COMPLETE ======================
+[23Mar2025 19:32:21.026] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: All 0 required tests passed :)
+[23Mar2025 19:32:21.026] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: ====================================================
+[23Mar2025 19:32:21.029] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[23Mar2025 19:32:21.029] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[23Mar2025 19:32:21.029] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[23Mar2025 19:32:23.275] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[23Mar2025 19:32:23.597] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/sandmastery:dayside
+[23Mar2025 19:32:23.598] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/cosmere:shadesmar
+[23Mar2025 19:32:23.598] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[23Mar2025 19:32:23.599] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[23Mar2025 19:32:23.599] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/surgebinding:roshar
+[23Mar2025 19:32:23.613] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[23Mar2025 19:32:23.613] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (dayside): All chunks are saved
+[23Mar2025 19:32:23.613] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (shadesmar): All chunks are saved
+[23Mar2025 19:32:23.613] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[23Mar2025 19:32:23.613] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[23Mar2025 19:32:23.613] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (roshar): All chunks are saved
+[23Mar2025 19:32:23.613] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[23Mar2025 19:32:23.938] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: Game test server shutting down

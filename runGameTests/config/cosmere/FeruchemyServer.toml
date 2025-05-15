@@ -1,0 +1,19 @@
+
+#Feruchemy Config. This config is synced between server and client.
+[feruchemy]
+	#The cost multiplier for when player is full and needs to start doing saturation
+	#Range: > 1
+	bendalloySaturationMultiplier = 2
+	#Healing cost multiplier for tapping
+	#Range: > 1
+	goldTapCostMultiplier = 2
+	#When the user eats a lerasatium nugget, what should their strength in feruchemy be set to
+	#Range: 1 ~ 32
+	godMetalMinimumStrength = 16
+	#How many metalminds should a full feruchemist start with?
+	#Range: 0 ~ 16
+	fullFeruchemistStartingMetalmindCount = 3
+	#What is the max amount a starting metalmind can be filled with attribute? The value is randomised, with this set as the max.
+	#Range: 0.0 ~ 1.0
+	fullFeruchemistStartingMetalmindFillAmount = 0.6667
+

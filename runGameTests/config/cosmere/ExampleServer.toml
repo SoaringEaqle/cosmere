@@ -1,0 +1,7 @@
+
+#Example Config. This config is synced between server and client.
+[Example]
+	#Example.
+	#Range: 0 ~ 100
+	example = 0
+
