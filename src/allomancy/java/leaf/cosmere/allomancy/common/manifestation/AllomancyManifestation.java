@@ -7,14 +7,12 @@ package leaf.cosmere.allomancy.common.manifestation;
 import leaf.cosmere.allomancy.client.AllomancyKeybindings;
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
 import leaf.cosmere.allomancy.common.registries.AllomancyStats;
-import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.IHasMetalType;
-import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.Metals;
+import leaf.cosmere.api.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.charge.MetalmindChargeHelper;
+import leaf.cosmere.common.investiture.Investiture;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -264,7 +262,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	@Override
 	public int maxInvestitureDraw(ISpiritweb data)
 	{
-		return (10 * getStrength(data,false)) + minInvestitureDraw(data)
+		return (int) ((10 * getStrength(data,false)) + minInvestitureDraw(data));
 	}
 	
 	@Override
@@ -294,10 +292,5 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		sub.setPriority(5);
 		return sub;
 	}
-	
-	public int addPerTick = 0;
-	
-	public int addTotal = 30;
-	
-	public void failFill();
+
 }

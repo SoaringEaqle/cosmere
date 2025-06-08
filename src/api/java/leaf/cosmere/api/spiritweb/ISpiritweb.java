@@ -5,7 +5,6 @@
 package leaf.cosmere.api.spiritweb;
 
 import leaf.cosmere.api.ISpiritwebSubmodule;
-import leaf.cosmere.api.Investiture;
 import leaf.cosmere.api.Investiture.IInvestiture;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
@@ -103,9 +102,6 @@ public interface ISpiritweb extends INBTSerializable<CompoundTag>
 
 	public void addInvestiture(IInvestiture invest);
 
-	public IInvestiture findInvestiture(ArrayList<Manifestation> appManifest);
-
-	public IInvestiture findInvestiture(ArrayList<Manifestation> appManifest, int beu);
-
+	public IInvestiture findInvestiture(Manifestation[] appManifest);
 
 }

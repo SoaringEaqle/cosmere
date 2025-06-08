@@ -1,16 +1,17 @@
 package leaf.cosmere.api.Investiture;
 
+import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
+
 public interface IInvestiture
 {
-	public int getBEU();
+	int getBEU();
 
-	public void setBEU(int beu);
+	void setBEU(int beu);
 	
-	public Manifestation[] getApplicableManifestations();
+	Manifestation[] getApplicableManifestations();
 	
 
-	public ISpiritweb getSpiritweb();
-	
-	protected void close();
+	ISpiritweb getSpiritweb();
 
 }

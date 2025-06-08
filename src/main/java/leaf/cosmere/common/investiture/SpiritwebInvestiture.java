@@ -1,6 +1,8 @@
 package leaf.cosmere.common.investiture;
 
 import leaf.cosmere.api.Investiture.IInvestiture;
+import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 
 public class SpiritwebInvestiture implements IInvestiture
 {
@@ -13,7 +15,7 @@ public class SpiritwebInvestiture implements IInvestiture
 	public SpiritwebInvestiture(ISpiritweb web, Manifestation[] appManifest)
 	{
 		this.beu = 9 * 15;
-		this.applicableManifestations = applicableManifestations;
+		this.appManfestations = appManifest;
 		spiritweb = web;
 		spiritweb.addInvestiture(this);
 
@@ -22,7 +24,7 @@ public class SpiritwebInvestiture implements IInvestiture
 	public SpiritwebInvestiture(ISpiritweb web, int beu, Manifestation[] appManifest)
 	{
 		this.beu = beu;
-		this.applicableManifestations = applicableManifestations;
+		this.appManfestations = appManifest;
 		spiritweb = web;
 		spiritweb.addInvestiture(this);
 	}
@@ -34,14 +36,16 @@ public class SpiritwebInvestiture implements IInvestiture
 	{
 		this.beu = beu;
 	}
-	public Manifestation[] getApplicableManifestations();
+	public Manifestation[] getApplicableManifestations()
 	{
-		return appManifestations;
+		return appManfestations;
 	}
 	
 
-	public ISpiritweb getSpiritweb();
-	{return spiritweb;}
+	public ISpiritweb getSpiritweb()
+	{
+		return spiritweb;
+	}
 	
 	public int getStrength()
 	{
@@ -59,13 +63,10 @@ public class SpiritwebInvestiture implements IInvestiture
 			&& this.getSpiritweb().equals(other.getSpiritweb()))
 		{
 			this.beu += other.getBEU();
-			other.close();
+			//other.close();
 		}
 	}
 	
-	protected void close()
-	{
-		this = null;
-	}
+	//public void close() {this = null;}
 
 }

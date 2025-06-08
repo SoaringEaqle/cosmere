@@ -64,6 +64,11 @@ public class Investiture implements IInvestiture
 		}
 	}
 
+	public void addBEU(int add)
+	{
+		beu += add;
+	}
+
 	public int getPriority(){return priority;}
 
 	public void setPriority(int priority)
@@ -100,13 +105,10 @@ public class Investiture implements IInvestiture
 			&& this.getSpiritweb().equals(other.getSpiritweb()))
 		{
 			this.beu += other.getBEU();
-			other.close;
+			//other.close;
 		}
 	}
 	
-	protected void close()
-	{
-		this = null;
-	}
+	//protected void close() {this = null;}
 
 }

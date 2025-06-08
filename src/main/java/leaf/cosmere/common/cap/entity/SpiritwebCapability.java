@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import leaf.cosmere.api.*;
+import leaf.cosmere.api.Investiture.IInvestiture;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
 import leaf.cosmere.api.manifestation.Manifestation;
@@ -15,6 +16,7 @@ import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.config.CosmereConfigs;
 import leaf.cosmere.common.investiture.Investiture;
+import leaf.cosmere.common.investiture.SpiritwebInvestiture;
 import leaf.cosmere.common.network.packets.SyncPlayerSpiritwebMessage;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
@@ -995,9 +997,9 @@ public class SpiritwebCapability implements ISpiritweb
 	}
 
 	@Override
-	public ArrayList<Investiture> avaliableInvestitures(Manifestation manifest)
+	public ArrayList<IInvestiture> avaliableInvestitures(Manifestation manifest)
 	{
-		ArrayList<Investiture> availables = new ArrayList<>();
+		ArrayList<IInvestiture> availables = new ArrayList<>();
 		for(Investiture invest: investitures)
 		{
 			if(invest.isUsable(manifest))
@@ -1011,7 +1013,7 @@ public class SpiritwebCapability implements ISpiritweb
 	@Override
 	public void addInvestiture(IInvestiture invest)
 	{
-		if(invest instanceof SpiritwebInvestiture swInvest) 
+		if(invest instanceof SpiritwebInvestiture swInvest)
 		{
 			for(SpiritwebInvestiture investiture: swInvests)
 			{
@@ -1038,8 +1040,4 @@ public class SpiritwebCapability implements ISpiritweb
 		return null;
 	}
 
-	public Investiture findInvestiture(Manifestation[] appManifest, int beu)
-	{
-		
-	}
 }
