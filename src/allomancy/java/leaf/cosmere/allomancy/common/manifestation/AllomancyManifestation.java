@@ -10,9 +10,10 @@ import leaf.cosmere.allomancy.common.registries.AllomancyStats;
 import leaf.cosmere.api.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
+import leaf.cosmere.api.investiture.InvestitureContainer;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.charge.MetalmindChargeHelper;
-import leaf.cosmere.common.investiture.Investiture;
+import leaf.cosmere.api.investiture.Investiture;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -162,6 +163,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		LivingEntity livingEntity = data.getLiving();
 		boolean isActiveTick = isActiveTick(data);
 		allo.adjustIngestedMetal(metalType, -cost, isActiveTick);
+		newInvest((InvestitureContainer) data);
 
 		if (isActiveTick && livingEntity instanceof ServerPlayer serverPlayer)
 		{
@@ -171,6 +173,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		//if burning normally, do allomancy
 		if (mode > 0)
 		{
+			//todo: rewrite all applyEffectTick() methods to pull from investiture sources.
 			applyEffectTick(data);
 			return true;
 		}
@@ -260,35 +263,29 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 	
 	@Override
-	public int maxInvestitureDraw(ISpiritweb data)
+	public int maxInvestitureDraw(InvestitureContainer data)
 	{
-		return (int) ((10 * getStrength(data,false)) + minInvestitureDraw(data));
+		return (int) ((10 * getStrength((SpiritwebCapability)data,false)) + 15);
 	}
 	
 	@Override
-	public int minInvestitureDraw(ISpiritweb data)
+	public int minInvestitureDraw(InvestitureContainer data)
 	{
-		if(isFlaring(data))
+		if(isFlaring((SpiritwebCapability)data))
 		{
 			return 30;
 		}
 		return 15;
 	}
 	
-	private final ResourceLocation allomancyRL = new ResourceLocation("allomancy", getRegistryName().getPath());
-	private final Manifestation allomancy = CosmereAPI.manifestationRegistry().getValue(allomancyRL);
+
+	public final Manifestation[] appManifestComp = Manifestations.manifestArrayBuilder.getAllMetal(this.getMetalType());
 	
-	private final ResourceLocation feruchemyRL = new ResourceLocation("feruchemy", getRegistryName().getPath());
-	private final Manifestation feruchemy = CosmereAPI.manifestationRegistry().getValue(feruchemyRL);
+
 	
-	public final Manifestation[] appManifestComp = {allomancy, feruchemy};
-	public final Manifestation[] appManifest = {allomancy};
-	
-	
-	
-	public Investiture newInvest(ISpiritweb data)
+	public Investiture newInvest(InvestitureContainer data)
 	{
-		Investiture sub = new Investiture(data, isFlaring(data)? 30 : 15, appManifestComp);
+		Investiture sub = new Investiture(data, isFlaring((ISpiritweb) data)? 30 : 15, appManifestComp);
 		sub.setPriority(5);
 		return sub;
 	}

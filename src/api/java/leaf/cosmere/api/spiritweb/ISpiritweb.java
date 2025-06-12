@@ -5,7 +5,6 @@
 package leaf.cosmere.api.spiritweb;
 
 import leaf.cosmere.api.ISpiritwebSubmodule;
-import leaf.cosmere.api.Investiture.IInvestiture;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
@@ -95,13 +94,5 @@ public interface ISpiritweb extends INBTSerializable<CompoundTag>
 	boolean hasEffect(CosmereEffect effect);
 
 	Set<Map.Entry<UUID, CosmereEffectInstance>> getEffects();
-
-
-
-	public ArrayList<IInvestiture> avaliableInvestitures(Manifestation manifest);
-
-	public void addInvestiture(IInvestiture invest);
-
-	public IInvestiture findInvestiture(Manifestation[] appManifest);
 
 }

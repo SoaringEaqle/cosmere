@@ -1,7 +1,7 @@
 package leaf.cosmere.common;
 
-import leaf.cosmere.api.spiritweb.ISpiritweb;
-import leaf.cosmere.common.investiture.Investiture;
+import leaf.cosmere.api.investiture.Investiture;
+import leaf.cosmere.api.investiture.InvestitureContainer;
 
 public class InvestTranfer
 	//Used when changing the location of investiture, ex. when moving investiture from a gem to a spiritweb.
@@ -10,7 +10,7 @@ public class InvestTranfer
 	int rate;
 	Investiture invest2;
 
-	public InvestTranfer(Investiture invest, int rate, int newDecay, ISpiritweb toGo)
+	public InvestTranfer(Investiture invest, int rate, int newDecay, InvestitureContainer toGo)
 	{
 		this.invest1 = invest;
 		this.rate = rate;
@@ -30,5 +30,18 @@ public class InvestTranfer
 			invest1.removeBEU(rate);
 		}
 	}
+
+	public void clean()
+	{
+		if(invest1.getBEU() == 0)
+		{
+			invest1 = null;
+		}
+		if(invest2.getBEU() == 0)
+		{
+			invest2 = null;
+		}
+	}
+
 
 }

@@ -1,43 +1,43 @@
-package leaf.cosmere.common.investiture;
+package leaf.cosmere.api.investiture;
 
-import leaf.cosmere.api.Investiture.IInvestiture;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
-
-import java.util.ArrayList;
 
 public class Investiture implements IInvestiture
 {
 
-	private final ISpiritweb spiritweb;
+	private final InvestitureContainer container;
 	private Manifestation[] applicableManifestations;
 	private int priority = 1;
 	private int beu;
+	private int decayRate;
 
 
+	public Investiture(InvestitureContainer container,
+	                   int beu,
+	                   Manifestation[] applicableManifestations,
+	                   int decayRate)
+	{
 
+		this.beu = beu;
+		this.applicableManifestations = applicableManifestations;
+		this.container = container;
+		this.container.addInvestiture(this);
+		this.decayRate = decayRate;
+	}
 
-	public Investiture(ISpiritweb web,
+	public Investiture(InvestitureContainer container,
 	                   int beu,
 	                   Manifestation[] applicableManifestations)
 	{
 
 		this.beu = beu;
 		this.applicableManifestations = applicableManifestations;
-		spiritweb = web;
-		spiritweb.addInvestiture(this);
+		this.container = container;
+		this.container.addInvestiture(this);
+		this.decayRate = 0;
 	}
 
-	public Investiture(ISpiritweb web,
-	                   int beu,
-	                   String manifest)
-	{
-
-		this.beu = beu;
-		this.applicableManifestations = applicableManifestations;
-		spiritweb = web;
-		spiritweb.addInvestiture(this);
-	}
 
 	public int getBEU()
 	{
@@ -81,9 +81,24 @@ public class Investiture implements IInvestiture
 		return applicableManifestations;
 	}
 
+	public InvestitureContainer getContainer()
+	{
+		return container;
+	}
+
 	public ISpiritweb getSpiritweb()
 	{
-		return spiritweb;
+		return (ISpiritweb) container;
+	}
+
+	public int getDecayRate()
+	{
+		return decayRate;
+	}
+
+	public void setDecayRate(int decayRate)
+	{
+		this.decayRate = decayRate;
 	}
 
 	public boolean isUsable(Manifestation manifest1)
@@ -102,7 +117,7 @@ public class Investiture implements IInvestiture
 	{
 		if(this.getPriority() == other.getPriority()
 			&& this.getApplicableManifestations()==(other.getApplicableManifestations())
-			&& this.getSpiritweb().equals(other.getSpiritweb()))
+			&& this.getContainer().equals(other.getContainer()))
 		{
 			this.beu += other.getBEU();
 			//other.close;
@@ -111,4 +126,13 @@ public class Investiture implements IInvestiture
 	
 	//protected void close() {this = null;}
 
+	public void decay()
+	{
+		beu -= decayRate;
+	}
+
+	public void reattach()
+	{
+		container.addInvestiture(this);
+	}
 }

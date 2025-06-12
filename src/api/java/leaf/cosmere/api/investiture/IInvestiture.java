@@ -1,7 +1,6 @@
-package leaf.cosmere.api.Investiture;
+package leaf.cosmere.api.investiture;
 
 import leaf.cosmere.api.manifestation.Manifestation;
-import leaf.cosmere.api.spiritweb.ISpiritweb;
 
 public interface IInvestiture
 {
@@ -12,6 +11,6 @@ public interface IInvestiture
 	Manifestation[] getApplicableManifestations();
 	
 
-	ISpiritweb getSpiritweb();
+	InvestitureContainer getContainer();
 
 }

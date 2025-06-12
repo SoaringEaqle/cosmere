@@ -8,15 +8,13 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import leaf.cosmere.api.*;
-import leaf.cosmere.api.Investiture.IInvestiture;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
 import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.investiture.InvestitureContainer;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.config.CosmereConfigs;
-import leaf.cosmere.common.investiture.Investiture;
-import leaf.cosmere.common.investiture.SpiritwebInvestiture;
 import leaf.cosmere.common.network.packets.SyncPlayerSpiritwebMessage;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
@@ -59,7 +57,7 @@ import java.util.List;
     https://coppermind.net/wiki/Ars_Arcanum#The_Alloy_of_Law
  */
 
-public class SpiritwebCapability implements ISpiritweb
+public class SpiritwebCapability extends InvestitureContainer implements ISpiritweb
 {
 	//Injection
 	public static final Capability<ISpiritweb> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
@@ -89,8 +87,8 @@ public class SpiritwebCapability implements ISpiritweb
 
 	private final Map<Manifestations.ManifestationTypes, ISpiritwebSubmodule> spiritwebSubmodules;
 
-	private ArrayList<Investiture> investitures = new ArrayList<Investiture>();
-	private ArrayList<SpiritwebInvestiture> swInvests = new ArrayList<>();
+
+
 
 
 	public SpiritwebCapability(LivingEntity ent)
@@ -996,48 +994,5 @@ public class SpiritwebCapability implements ISpiritweb
 		}
 	}
 
-	@Override
-	public ArrayList<IInvestiture> avaliableInvestitures(Manifestation manifest)
-	{
-		ArrayList<IInvestiture> availables = new ArrayList<>();
-		for(Investiture invest: investitures)
-		{
-			if(invest.isUsable(manifest))
-			{
-				availables.add(invest);
-			}
-		}
-		return availables;
-	}
-
-	@Override
-	public void addInvestiture(IInvestiture invest)
-	{
-		if(invest instanceof SpiritwebInvestiture swInvest)
-		{
-			for(SpiritwebInvestiture investiture: swInvests)
-			{
-				swInvest.merge(investiture);
-			}
-			swInvests.add(swInvest);
-		}
-		else if(invest instanceof Investiture iInvest)
-		{
-			investitures.add(iInvest);
-		}
-	}
-
-	@Override
-	public Investiture findInvestiture(Manifestation[] appManifest)
-	{
-		for(Investiture invest: investitures)
-		{
-			if(invest.getApplicableManifestations().equals(appManifest))
-			{
-				return invest;
-			}
-		}
-		return null;
-	}
 
 }
