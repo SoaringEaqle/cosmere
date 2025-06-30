@@ -1,6 +1,6 @@
-// 1.20.1	2025-04-30T10:54:20.1947047	Tags: cosmere
+// 1.20.1	2025-01-10T11:20:10.7014372	Tags: cosmere
 7e6f8b5d96792bb9046c5c1d332e4ba04dcade48 data/cosmere/tags/blocks/contains_metal.json
-af8261c6c6c4f45348129424d153185fe0b65a81 data/cosmere/tags/entity_types/contains_metal.json
+29671cfa11d074462c259806e9d60468451e3cdb data/cosmere/tags/entity_types/contains_metal.json
 d0c886fa06555d83e6eb011a2ee98463827788e1 data/cosmere/tags/items/contains_metal.json
 b020f6cdcd2d955793278b2f89a178a1d31e599a data/cosmere/tags/worldgen/biome/spawn_ores.json
 2535fa6b2630ad09c3a98c8df7a89b6de3276819 data/forge/tags/blocks/ores/aluminum.json
