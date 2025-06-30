@@ -1,5 +1,5 @@
 /*
- * File updated ~ 30 - 4 - 2025 ~ Leaf
+ * File updated ~ 17 - 3 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.manifestation;
@@ -348,7 +348,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		Vec3 direction = VectorHelper.getDirection(
 				blockCenter,
 				entity.blockPosition().getCenter(),//use entity block position, so we can do things like hover directly over a block more easily
-				(isPush ? -1f : 2f));
+				(isPush ? -1f: 2f));
 
 		//todo, clean up all the unnecessary calculations once we find what feels good at run time
 		Vec3 normalize = direction.normalize();
@@ -357,7 +357,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		Vec3 add = entity.getDeltaMovement().add(normalize.multiply(shortenFactor, shortenFactor, shortenFactor));
 
 		// cannot have flat multiplier; can get ridiculous
-		double adjustedWeight = 1d + Math.min(AllomancyConfigs.SERVER.MAX_PUSH_PULL_WEIGHT.get(), (weight - 1) * AllomancyConfigs.SERVER.PUSH_PULL_WEIGHT.get());
+		double adjustedWeight = 1d + Math.min(AllomancyConfigs.SERVER.MAX_PUSH_PULL_WEIGHT.get(), (weight-1) * AllomancyConfigs.SERVER.PUSH_PULL_WEIGHT.get());
 
 		//get flung off rides
 		entity.stopRiding();
@@ -415,13 +415,13 @@ public class AllomancyIronSteel extends AllomancyManifestation
 
 	public static boolean entityContainsMetal(Entity entity)
 	{
-		if (containsMetal(entity))
-		{
-			return true;
-		}
-
 		if (entity instanceof LivingEntity livingEntity)
 		{
+			if (containsMetal(entity))
+			{
+				return true;
+			}
+
 			if (containsMetal(livingEntity.getMainHandItem()) || containsMetal(livingEntity.getOffhandItem()))
 			{
 				return true;

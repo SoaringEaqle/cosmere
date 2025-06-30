@@ -1,5 +1,5 @@
 /*
- * File updated ~ 30 - 4 - 2025 ~ Leaf
+ * File updated ~ 10 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.tag;
@@ -261,11 +261,6 @@ public class CosmereTagProvider extends BaseTagProvider
 
 		//entities
 		entityTagBuilder.add(EntityType.IRON_GOLEM);
-		entityTagBuilder.add(EntityType.MINECART);
-		entityTagBuilder.add(EntityType.CHEST_MINECART);
-		entityTagBuilder.add(EntityType.FURNACE_MINECART);
-		entityTagBuilder.add(EntityType.HOPPER_MINECART);
-		entityTagBuilder.add(EntityType.TNT_MINECART);
 	}
 
 	private void addCopperBlockVariations(IntrinsicCosmereTagBuilder<Item> itemTagBuilder, IntrinsicCosmereTagBuilder<Block> blockTagBuilder)
