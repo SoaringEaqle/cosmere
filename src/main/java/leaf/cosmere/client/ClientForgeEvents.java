@@ -74,6 +74,11 @@ public class ClientForgeEvents
 			{
 				// just deactivate
 				Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
+				//if all powers are deactivated, the power save state is off.
+				for(PowerSaveState.PowerSaves save: PowerSaveState.PowerSaves.values())
+				{
+					save.deactivate();
+				}
 			}
 
 			//check keybinds with modifiers first?
@@ -114,8 +119,13 @@ public class ClientForgeEvents
 					Manifestation manifestation = activator.getManifestation();
 					Cosmere.packetHandler().sendToServer(new SetSelectedManifestationMessage(manifestation));
 					selected = manifestation;
-
+					//not changing sandmastery mode because ribbon allotment. no need for the rest. might be implemented later.
+					if (activator.getCategory().equals("sandmastery"))
+					{
+						break;
+					}
 					int modifier = -selected.getMode(spiritweb);
+
 					//if active turn off
 					if (!selected.isActive(spiritweb))
 					{
@@ -142,13 +152,9 @@ public class ClientForgeEvents
 			{
 				if(isKeyPressed(event, Keybindings.getKey(powerSave.getNum())))
 				{
-					//boolean trying = (isKeyHeld(Keybindings.ACTIVATE_POWER_SAVE)||
-					//				isKeyHeld(Keybindings.SAVE_POWER_SAVE)) ?
-					//				true : false;
-
 					if(isKeyHeld(Keybindings.ACTIVATE_POWER_SAVE))
 					{
-						powerSave.activate();
+						powerSave.activate(spiritweb);
 					}
 					else if(isKeyHeld(Keybindings.SAVE_POWER_SAVE))
 					{

@@ -5,6 +5,7 @@
 package leaf.cosmere.client;
 
 import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.network.packets.ChangeManifestationModeMessage;
 
@@ -25,7 +26,7 @@ public class PowerSaveState
 		POWER_SAVE_8(7),
 		POWER_SAVE_9(8);
 
-		private final HashMap<Manifestation, Integer> manifestations = new HashMap<Manifestation, Integer>();
+		private HashMap<Manifestation, Integer> manifestations = new HashMap<Manifestation, Integer>();
 		private boolean isActive;
 		private final int num;
 
@@ -49,26 +50,43 @@ public class PowerSaveState
 			return isActive;
 		}
 
+		public void deactivate()
+		{
+			isActive = false;
+		}
+
 		public boolean hasManifestation(Manifestation manifestation)
 		{
 			return manifestations.containsKey(manifestation);
 		}
 
-		public void activate()
+		public void activate(ISpiritweb spiritweb)
 		{
-			for (Manifestation manifestation : manifestations.keySet())
+			if(isActive)
 			{
-				int modifier = manifestations.get(manifestation);
-				Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(manifestation,
-						isActive ? -modifier : modifier));
+				for (Manifestation manifestation : manifestations.keySet())
+				{
+					int modifier = manifestations.get(manifestation);
+					modifier -= manifestation.getMode(spiritweb);
+					Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(manifestation, modifier));
+				}
 			}
+			else
+			{
+				for (Manifestation manifestation : manifestations.keySet())
+				{
+
+					int modifier = - manifestation.getMode(spiritweb);
+					Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(manifestation, modifier));
+				}
+			}
+
 			isActive = !isActive;
 		}
 
 		public void addManifestations(HashMap<Manifestation,Integer> manifests)
 		{
-			manifestations.clear();
-			manifestations.putAll(manifests);
+			manifestations = manifests;
 		}
 
 
