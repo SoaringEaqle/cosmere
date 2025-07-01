@@ -65,11 +65,10 @@ public class Keybindings
 	{
 		return new KeyMapping(description, KeyConflictContext.DEFAULT, keyModifier, InputConstants.Type.KEYSYM.getOrCreate(keyCode), category);
 	}
-	private static Options gameSettings = Minecraft.getInstance().options;
 
 	public static KeyMapping getKey(int i)
 	{
-		return gameSettings.keyHotbarSlots[i];
+		return Minecraft.getInstance().options.keyHotbarSlots[i];
 	}
 
 }
