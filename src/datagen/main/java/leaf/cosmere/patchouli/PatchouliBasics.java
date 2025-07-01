@@ -19,7 +19,7 @@ public class PatchouliBasics
 
 		BookStuff.Category basicsCategory = new BookStuff.Category("basics",
 				"In this section, I will teach you how to access and use your powers most effectively",
-				"cosmere:tin_nugget");
+				"cosmere:tin_ingot");
 		categories.add(basicsCategory);
 		basicsCategory.sortnum = 10;
 
@@ -48,7 +48,7 @@ public class PatchouliBasics
 			entries.add(investitureBasics);
 		}
 		{       //Single activators entry
-			BookStuff.Entry activatingPowersEntry = new BookStuff.Entry("activating_powers", basicsCategory, "cosmere:copper_ingot");
+			BookStuff.Entry activatingPowersEntry = new BookStuff.Entry("activating_powers", basicsCategory, "cosmere:steel_ingot");
 			activatingPowersEntry.priority = true;
 
 			BookStuff.Page firstPage = new BookStuff.TextPage();
