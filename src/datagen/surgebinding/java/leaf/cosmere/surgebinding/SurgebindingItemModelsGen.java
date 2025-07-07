@@ -7,8 +7,7 @@ package leaf.cosmere.surgebinding;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.surgebinding.common.Surgebinding;
-import leaf.cosmere.surgebinding.common.items.GemstoneItem;
-import leaf.cosmere.surgebinding.common.items.ShardbladeItem;
+import leaf.cosmere.surgebinding.common.items.*;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -75,6 +74,19 @@ public class SurgebindingItemModelsGen extends ItemModelProvider
 				}
 				continue;
 			}
+			else if (item instanceof ShardplateItem)
+			{
+				if (item instanceof DeadplateItem)
+				{
+					simpleItem(path, "shard" + path.substring(4));
+				}
+				else if (item instanceof LivingplateItem)
+				{
+					simpleItem(path, path.substring(path.indexOf("_") + 1));
+				}
+				continue;
+			}
+
 
 			//else normal item texture rules apply
 			simpleItem(path, path);

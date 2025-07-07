@@ -41,9 +41,10 @@ public class ShardbladeItemTier implements Tier
 	}
 
 	@Override
+	//enchantment value changed to 0 because investiture resists investiture.
 	public int getEnchantmentValue()
 	{
-		return 30;
+		return 0;
 	}
 
 	@Override

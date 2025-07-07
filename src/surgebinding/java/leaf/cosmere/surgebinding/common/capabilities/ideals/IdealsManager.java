@@ -6,11 +6,13 @@ package leaf.cosmere.surgebinding.common.capabilities.ideals;
 
 import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.EnumUtils;
+import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.util.TaskQueueManager;
 import leaf.cosmere.surgebinding.common.Surgebinding;
+import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
 import leaf.cosmere.surgebinding.common.capabilities.ideals.order.WindrunnerIdealValidator;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
 import leaf.cosmere.surgebinding.common.config.SurgebindingServerConfig;
@@ -295,6 +297,18 @@ public class IdealsManager
 				}
 
 				//todo spawn particle order glyph at player if higher ideal
+
+				if(ideal == 3)
+				{
+					SurgebindingSpiritwebSubmodule ssm = SurgebindingSpiritwebSubmodule.getSubmodule(spiritweb);
+					ssm.grantBlade();
+				}
+
+				if(ideal == 4)
+				{
+					SurgebindingSpiritwebSubmodule ssm = SurgebindingSpiritwebSubmodule.getSubmodule(spiritweb);
+					ssm.grantPlate(order);
+				}
 
 			};
 

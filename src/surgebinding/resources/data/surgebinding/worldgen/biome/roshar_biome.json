@@ -30,7 +30,14 @@
       }
     ],
     "axolotls": [],
-    "creature": [],
+    "creature": [
+      {
+        "type": "surgebinding:chull",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      }
+    ],
     "misc": [],
     "monster": [
       {

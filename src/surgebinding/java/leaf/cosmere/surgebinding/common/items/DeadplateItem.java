@@ -28,11 +28,9 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class DeadplateItem extends ArmorItem
+public class DeadplateItem extends ShardplateItem
 {
-	public static final Capability<DynamicShardplateData> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
-	{
-	});
+
 	public DeadplateItem(ShardplateArmorMaterial material, ArmorItem.Type pType, Properties properties)
 	{
 		super(material, pType, properties);
@@ -42,52 +40,8 @@ public class DeadplateItem extends ArmorItem
 	@Override
 	public final String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type)
 	{
-		return Surgebinding.MODID + ":" + "textures/models/armor/shardplate.png";
+		return Surgebinding.MODID + ":" + "textures/models/armor/shardplate_base.png";
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	@Override
-	public void initializeClient(Consumer<IClientItemExtensions> consumer)
-	{
-		consumer.accept(new IClientItemExtensions()
-		{
-			@Nullable
-			@Override
-			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original)
-			{
-				Optional<ICurioRenderer> armorModel = CosmereRenderers.getRenderer(itemStack.getItem());
 
-				if (armorModel.isPresent() && armorModel.get() instanceof ArmorRenderer armorRenderer)
-				{
-					final boolean isHead = equipmentSlot == EquipmentSlot.HEAD;
-					final boolean isChest = equipmentSlot == EquipmentSlot.CHEST;
-					final boolean isLegs = equipmentSlot == EquipmentSlot.LEGS;
-					final boolean isFeet = equipmentSlot == EquipmentSlot.FEET;
-
-					var model = armorRenderer.model;
-					model.mHead.visible = isHead;
-
-					model.mBody.visible = isChest;
-					//chestplate is done separately because pants have to set body visible for some reason
-					model.body1.visible = isChest;
-					model.rightArm.visible = isChest;
-					model.leftArm.visible = isChest;
-
-					//set the parts on the base model visible
-					model.rightLeg.visible = true;
-					model.leftLeg.visible = true;
-
-					//then set the actual child legs/boots visibility.
-					//kinda janky but it works
-					model.right_legs.visible = isLegs;
-					model.left_legs.visible = isLegs;
-					model.left_boot1.visible = isFeet;
-					model.right_boot1.visible = isFeet;
-
-					return model;
-				}
-				return null;
-			}
-		});
-	}
 }

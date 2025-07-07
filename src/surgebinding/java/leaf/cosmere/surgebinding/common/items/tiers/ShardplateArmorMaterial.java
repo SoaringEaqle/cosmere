@@ -17,11 +17,12 @@ import java.util.function.Supplier;
 
 public enum ShardplateArmorMaterial implements ArmorMaterial
 {
-	DEADPLATE("deadplate", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () ->
+	//enchantmentValue changed to 0 because investiture resists other investiture.
+	DEADPLATE("deadplate", 33, new int[]{3, 6, 8, 3}, 0, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () ->
 	{
 		return Ingredient.of(Items.DIAMOND);
 	}),
-	LIVINGPLATE("livingplate", 35, new int[]{3, 6, 8, 3}, 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () ->
+	LIVINGPLATE("livingplate", 35, new int[]{3, 6, 8, 3}, 0, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () ->
 	{
 		return Ingredient.of(Items.NETHERITE_INGOT);
 	});

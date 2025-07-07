@@ -5,10 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.capabilities.DynamicShardplateData;
 import leaf.cosmere.surgebinding.common.items.DeadplateItem;
-import net.minecraft.client.animation.AnimationChannel;
-import net.minecraft.client.animation.AnimationDefinition;
-import net.minecraft.client.animation.Keyframe;
-import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -23,57 +19,67 @@ import net.minecraft.world.item.ItemStack;
 public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ResourceLocation TEXTURE = Surgebinding.rl("textures/models.armor/windrunner_shardplat.png");
+	public static final ResourceLocation TEXTURE = Surgebinding.rl("textures/models.armor/shardplate_base.png");
 	public static final int TOTAL_HELMET_IDS = 1;
+	public static final int TOTAL_FACEPLATE_IDS = 4;
 	public static final int TOTAL_ARM_IDS = 1;
+	public static final int TOTAL_PALDRON_IDS = 2;
 	public static final int TOTAL_TORSO_IDS = 1;
 	public static final int TOTAL_LEG_IDS = 1;
 	public static final int TOTAL_KAMA_IDS = 1;
 	public static final int TOTAL_BOOT_IDS = 1;
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "windrunner_shardplate"), "main");
-	public final ModelPart root;
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "shardplate"), "main");
+	private final ModelPart root;
 
-	public final ModelPart mHead;
-	public final ModelPart head1;
-	public final ModelPart faceplate1;
+	private final ModelPart head1;
 
-	public final ModelPart mBody;
-	public final ModelPart body1;
-	public final ModelPart chestplate1;
-	public final ModelPart breastplate1;
-	public final ModelPart right_plate;
-	public final ModelPart left_plate;
+	private final ModelPart faceplate;
+	private final ModelPart faceplate1;
+	private final ModelPart faceplate2;
+	private final ModelPart faceplate3;
+	private final ModelPart faceplate4;
 
-	public final ModelPart left_legs;
-	public final ModelPart left_leg1;
-	public final ModelPart leftleg1;
-	public final ModelPart left_boot1;
-	public final ModelPart leftboot_outside1;
-	public final ModelPart leftboot_tip1;
 
-	public final ModelPart right_legs;
-	public final ModelPart right_leg1;
-	public final ModelPart rightleg1;
-	public final ModelPart right_boot1;
-	public final ModelPart rightboot_outside1;
-	public final ModelPart rightboot_tip1;
+	private final ModelPart body1;
+	private final ModelPart chestplate1;
 
-	public final ModelPart mKama;
-	public final ModelPart kama1;
-	public final ModelPart left_kama1;
-	public final ModelPart left_front_kama1;
-	public final ModelPart right_kama1;
-	public final ModelPart right_front_kama1;
 
-	public final ModelPart arms;
-	public final ModelPart right_arm1;
-	public final ModelPart right_armb1;
-	public final ModelPart right_paldron1;
-	public final ModelPart left_arm1;
-	public final ModelPart left_armb1;
-	public final ModelPart left_paldron1;
-	public final ModelPart hat;
+	private final ModelPart left_leg_top;
+	private final ModelPart leftleg_top1;
+	private final ModelPart left_boot;
+	private final ModelPart left_boot_outside;
+	private final ModelPart leftboot_outside1;
+	private final ModelPart left_boot_tip;
+	private final ModelPart leftboot_tip1;
+
+
+	private final ModelPart right_leg_top;
+	private final ModelPart rightleg_top1;
+	private final ModelPart right_boot;
+	private final ModelPart right_boot_outside;
+	private final ModelPart rightboot_outside1;
+	private final ModelPart right_boot_tip;
+	private final ModelPart rightboot_tip1;
+
+	private final ModelPart kama;
+	private final ModelPart kama1;
+	private final ModelPart left_kama;
+	private final ModelPart left_front_kama;
+	private final ModelPart right_kama;
+	private final ModelPart right_front_kama;
+
+	private final ModelPart right_arm_main;
+	private final ModelPart right_armmain1;
+	private final ModelPart right_paldron;
+	private final ModelPart right_paldron1;
+	private final ModelPart right_paldron2;
+
+	private final ModelPart left_arm_main;
+	private final ModelPart left_armb1;
+	private final ModelPart left_paldron;
+	private final ModelPart left_paldron1;
+	private final ModelPart left_paldron2;
 
 	public DynamicShardplateModel(ModelPart root) {
 
@@ -81,49 +87,59 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 
 		this.root = root.getChild("root");
 
-		this.mHead = this.root.getChild("mHead");
-		this.head1 = this.mHead.getChild("head1");
-		this.faceplate1 = this.head1.getChild("faceplate1");
+		this.head1 = super.head.getChild("head1");
 
-		this.mBody = this.root.getChild("mBody");
-		this.body1 = this.mBody.getChild("body1");
+		this.faceplate = super.head.getChild("faceplate");
+		this.faceplate1 = this.faceplate.getChild("faceplate1");
+		this.faceplate2 = this.faceplate.getChild("faceplate2");
+		this.faceplate3 = this.faceplate.getChild("faceplate3");
+		this.faceplate4 = this.faceplate.getChild("faceplate4");
+
+
+		this.body1 = super.body.getChild("body1");
 		this.chestplate1 = this.body1.getChild("chestplate1");
-		this.breastplate1 = this.body1.getChild("breastplate1");
-		this.right_plate = this.breastplate1.getChild("right_plate");
-		this.left_plate = this.breastplate1.getChild("left_plate");
 
 
-		this.left_legs = this.root.getChild("left_legs");
-		this.left_leg1 = this.left_legs.getChild("left_leg1");
-		this.leftleg1 = this.left_leg1.getChild("leftleg1");
-		this.left_boot1 = this.left_leg1.getChild("left_boot1");
-		this.leftboot_outside1 = this.left_boot1.getChild("leftboot_outside1");
-		this.leftboot_tip1 = this.left_boot1.getChild("leftboot_tip1");
+		this.left_leg_top = super.leftLeg.getChild("left_leg_top");
+		this.leftleg_top1 = this.left_leg_top.getChild("leftleg_top1");
 
-		this.right_legs = this.root.getChild("right_legs");
-		this.right_leg1 = this.right_legs.getChild("right_leg1");
-		this.rightleg1 = this.right_leg1.getChild("rightleg1");
-		this.right_boot1 = this.right_leg1.getChild("right_boot1");
-		this.rightboot_outside1 = this.right_boot1.getChild("rightboot_outside1");
-		this.rightboot_tip1 = this.right_boot1.getChild("rightboot_tip1");
-
-		this.mKama = this.root.getChild("mKama");
-		this.kama1 = this.mKama.getChild("kama1");
-		this.left_kama1 = this.kama1.getChild("left_kama1");
-		this.left_front_kama1 = this.left_kama1.getChild("left_front_kama");
-		this.right_kama1 = this.kama1.getChild("right_kama1");
-		this.right_front_kama1 = this.right_kama1.getChild("right_front_kama1");
-
-		this.arms = this.root.getChild("arms");
-		this.right_arm1 = this.arms.getChild("right_arm1");
-		this.right_armb1 = this.right_arm1.getChild("right_armb1");
-		this.right_paldron1 = this.right_arm1.getChild("right_paldron1");
-		this.left_arm1 = this.arms.getChild("left_arm1");
-		this.left_armb1 = this.left_arm1.getChild("left_armb1");
-		this.left_paldron1 = this.left_arm1.getChild("left_paldron1");
+		this.left_boot = super.leftLeg.getChild("left_boot");
+		this.left_boot_outside = this.left_boot.getChild("left_boot_outside");
+		this.leftboot_outside1 = this.left_boot_outside.getChild("leftboot_outside1");
+		this.left_boot_tip = this.left_boot.getChild("left_boot_tip");
+		this.leftboot_tip1 = this.left_boot_tip.getChild("leftboot_tip1");
 
 
-		this.hat = root.getChild("hat");
+		this.right_leg_top = super.rightLeg.getChild("right_leg_top");
+		this.rightleg_top1 = this.right_leg_top.getChild("rightleg_top1");
+
+		this.right_boot = super.rightLeg.getChild("right_boot");
+		this.right_boot_outside = this.right_boot.getChild("right_boot_outside");
+		this.rightboot_outside1 = this.right_boot_outside.getChild("rightboot_outside1");
+		this.right_boot_tip = this.right_boot.getChild("right_boot_tip");
+		this.rightboot_tip1 = this.right_boot_tip.getChild("rightboot_tip1");
+
+
+		this.kama = this.root.getChild("kama");
+		this.kama1 = this.kama.getChild("kama1");
+		this.left_kama = this.kama1.getChild("left_kama");
+		this.left_front_kama = this.left_kama.getChild("left_front_kama");
+		this.right_kama = this.kama1.getChild("right_kama");
+		this.right_front_kama = this.right_kama.getChild("right_front_kama");
+
+
+		this.right_arm_main = super.rightArm.getChild("right_arm_main");
+		this.right_armmain1 = this.right_arm_main.getChild("right_armmain1");
+		this.right_paldron = super.rightArm.getChild("right_paldron");
+		this.right_paldron1 = this.right_paldron.getChild("right_paldron1");
+		this.right_paldron2 = this.right_paldron.getChild("right_paldron2");
+
+		this.left_arm_main = super.leftArm.getChild("left_arm_main");
+		this.left_armb1 = this.left_arm_main.getChild("left_armb1");
+		this.left_paldron = super.leftArm.getChild("left_paldron");
+		this.left_paldron1 = this.left_paldron.getChild("left_paldron1");
+		this.left_paldron2 = this.left_paldron.getChild("left_paldron2");
+
 	}
 
 	public static LayerDefinition createBodyLayer()
@@ -133,133 +149,181 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 
 		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(5.0F, -0.25F, -3.0F));
 
-		PartDefinition mHead = root.addOrReplaceChild("mHead", CubeListBuilder.create(), PartPose.offset(-5.0F, 0.75F, 3.0F));
+		PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(-5.0F, 0.75F, 3.0F));
 
-		PartDefinition head1 = mHead.addOrReplaceChild("head1", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.75F, -2.0F, 8.0F, 8.0F, 6.0F, new CubeDeformation(0.6F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition head1 = head.addOrReplaceChild("head1", CubeListBuilder.create().texOffs(99, 49).addBox(-4.0F, -8.75F, -2.0F, 8.0F, 8.0F, 6.0F, new CubeDeformation(0.6F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition faceplate1 = head1.addOrReplaceChild("faceplate1", CubeListBuilder.create().texOffs(33, 38).addBox(-4.0F, 1.0F, -0.5F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.6F))
-				.texOffs(64, 30).addBox(-2.0F, 1.0F, -1.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offset(0.0F, -9.75F, -2.5F));
+		PartDefinition faceplate = head.addOrReplaceChild("faceplate", CubeListBuilder.create(), PartPose.offset(0.0F, -3.0F, -2.0F));
 
-		PartDefinition cube_r1 = faceplate1.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(32, 62).mirror().addBox(1.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 9.0F, -0.5F, 0.0F, 0.5672F, 0.0F));
+		PartDefinition faceplate1 = faceplate.addOrReplaceChild("faceplate1", CubeListBuilder.create().texOffs(87, 87).addBox(-4.0F, 1.0F, -0.5F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.6F))
+				.texOffs(96, 77).addBox(-2.0F, 1.0F, -1.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offset(0.0F, -6.75F, -0.5F));
 
-		PartDefinition cube_r2 = faceplate1.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(47, 63).addBox(-5.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offsetAndRotation(5.0F, 9.0F, -0.5F, 0.0F, -0.5672F, 0.0F));
+		PartDefinition cube_r1 = faceplate1.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(96, 67).mirror().addBox(1.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 9.0F, -0.5F, 0.0F, 0.5672F, 0.0F));
 
-		PartDefinition mBody = root.addOrReplaceChild("mBody", CubeListBuilder.create(), PartPose.offset(-5.0F, 0.25F, 3.0F));
+		PartDefinition cube_r2 = faceplate1.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(86, 77).addBox(-5.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offsetAndRotation(5.0F, 9.0F, -0.5F, 0.0F, -0.5672F, 0.0F));
 
-		PartDefinition body1 = mBody.addOrReplaceChild("body1", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition faceplate2 = faceplate.addOrReplaceChild("faceplate2", CubeListBuilder.create().texOffs(108, 85).addBox(-4.0F, 1.0F, -0.5F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.6F))
+				.texOffs(116, 75).addBox(-2.0F, 1.0F, -1.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offset(0.0F, -6.75F, -0.5F));
 
-		PartDefinition chestplate1 = body1.addOrReplaceChild("chestplate1", CubeListBuilder.create().texOffs(24, 14).addBox(-4.0F, 0.75F, -2.5F, 8.0F, 3.0F, 5.0F, new CubeDeformation(0.75F))
-				.texOffs(0, 14).addBox(-4.0F, 3.5F, -2.0F, 8.0F, 8.0F, 4.0F, new CubeDeformation(0.75F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition cube_r3 = faceplate2.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(106, 75).mirror().addBox(1.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 9.0F, -0.5F, 0.0F, 0.5672F, 0.0F));
 
-		PartDefinition breastplate1 = body1.addOrReplaceChild("breastplate1", CubeListBuilder.create().texOffs(4, 18).addBox(-4.0F, -4.0F, 1.0F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.75F)), PartPose.offset(0.0F, 7.5F, -3.0F));
+		PartDefinition cube_r4 = faceplate2.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(116, 65).addBox(-5.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offsetAndRotation(5.0F, 9.0F, -0.5F, 0.0F, -0.5672F, 0.0F));
 
-		PartDefinition right_plate = breastplate1.addOrReplaceChild("right_plate", CubeListBuilder.create().texOffs(30, 19).addBox(1.0F, -3.25F, 0.5F, 3.0F, 3.0F, 0.0F, new CubeDeformation(0.75F)), PartPose.offset(-5.0F, -3.5F, 0.0F));
+		PartDefinition faceplate3 = faceplate.addOrReplaceChild("faceplate3", CubeListBuilder.create().texOffs(87, 117).addBox(-4.0F, 1.0F, -0.5F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.6F))
+				.texOffs(95, 107).addBox(-2.0F, 1.0F, -1.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offset(0.0F, -6.75F, -0.5F));
 
-		PartDefinition left_plate = breastplate1.addOrReplaceChild("left_plate", CubeListBuilder.create().texOffs(24, 28).addBox(-4.0F, -3.25F, 0.5F, 3.0F, 3.0F, 0.0F, new CubeDeformation(0.75F)), PartPose.offset(5.0F, -3.5F, 0.0F));
+		PartDefinition cube_r5 = faceplate3.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(85, 107).mirror().addBox(1.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 9.0F, -0.5F, 0.0F, 0.5672F, 0.0F));
 
-		PartDefinition legs = root.addOrReplaceChild("left_legs", CubeListBuilder.create(), PartPose.offset(-3.1F, 12.25F, 3.0F));
+		PartDefinition cube_r6 = faceplate3.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(95, 97).addBox(-5.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offsetAndRotation(5.0F, 9.0F, -0.5F, 0.0F, -0.5672F, 0.0F));
 
-		PartDefinition left_leg1 = legs.addOrReplaceChild("left_leg1", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition faceplate4 = faceplate.addOrReplaceChild("faceplate4", CubeListBuilder.create().texOffs(108, 117).addBox(-4.0F, 1.0F, -0.5F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.6F))
+				.texOffs(116, 107).addBox(-2.0F, 1.0F, -1.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offset(0.0F, -6.75F, -0.5F));
 
-		PartDefinition leftleg1 = left_leg1.addOrReplaceChild("leftleg1", CubeListBuilder.create().texOffs(16, 37).addBox(0.35F, -11.6F, -2.1F, 4.0F, 9.25F, 4.0F, new CubeDeformation(0.4F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+		PartDefinition cube_r7 = faceplate4.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(116, 97).mirror().addBox(1.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 9.0F, -0.5F, 0.0F, 0.5672F, 0.0F));
 
-		PartDefinition left_boot1 = left_leg1.addOrReplaceChild("left_boot1", CubeListBuilder.create(), PartPose.offset(-1.9F, 12.0F, 0.0F));
+		PartDefinition cube_r8 = faceplate4.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(106, 107).addBox(-5.4F, -8.0F, 0.5F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.6F)), PartPose.offsetAndRotation(5.0F, 9.0F, -0.5F, 0.0F, -0.5672F, 0.0F));
 
-		PartDefinition leftboot_outside1 = left_boot1.addOrReplaceChild("leftboot_outside1", CubeListBuilder.create().texOffs(40, 22).addBox(0.5F, -5.5F, -2.25F, 4.0F, 5.0F, 4.25F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(-5.0F, 0.25F, 3.0F));
 
-		PartDefinition leftboot_tip1 = left_boot1.addOrReplaceChild("leftboot_tip1", CubeListBuilder.create().texOffs(50, 41).addBox(0.75F, -2.5F, -4.75F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition body1 = body.addOrReplaceChild("body1", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition right_leg1 = legs.addOrReplaceChild("right_leg1", CubeListBuilder.create(), PartPose.offset(-3.8F, 0.0F, 0.0F));
+		PartDefinition chestplate1 = body1.addOrReplaceChild("chestplate1", CubeListBuilder.create().texOffs(99, 3).addBox(-4.0F, 0.75F, -2.5F, 8.0F, 3.0F, 5.0F, new CubeDeformation(0.75F))
+				.texOffs(75, 3).addBox(-4.0F, 3.5F, -2.0F, 8.0F, 8.0F, 4.0F, new CubeDeformation(0.75F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition rightleg1 = right_leg1.addOrReplaceChild("rightleg1", CubeListBuilder.create().texOffs(28, 0).addBox(-4.35F, -11.6F, -2.1F, 4.0F, 9.25F, 4.0F, new CubeDeformation(0.4F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+		PartDefinition left_leg = root.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.offset(-3.1F, 12.25F, 3.0F));
 
-		PartDefinition right_boot1 = right_leg1.addOrReplaceChild("right_boot1", CubeListBuilder.create(), PartPose.offset(1.9F, 12.0F, 0.0F));
+		PartDefinition left_leg_top = left_leg.addOrReplaceChild("left_leg_top", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition rightboot_outside1 = right_boot1.addOrReplaceChild("rightboot_outside1", CubeListBuilder.create().texOffs(0, 41).addBox(-4.5F, -5.5F, -2.25F, 4.0F, 5.0F, 4.25F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition leftleg_top1 = left_leg_top.addOrReplaceChild("leftleg_top1", CubeListBuilder.create().texOffs(50, 112).addBox(0.35F, -11.6F, -2.1F, 4.0F, 9.25F, 4.0F, new CubeDeformation(0.4F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
-		PartDefinition rightboot_tip1 = right_boot1.addOrReplaceChild("rightboot_tip1", CubeListBuilder.create().texOffs(50, 37).addBox(-4.05F, -2.5F, -4.75F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition left_boot = left_leg.addOrReplaceChild("left_boot", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition mKama = root.addOrReplaceChild("mKama", CubeListBuilder.create(), PartPose.offset(-5.0F, 14.25F, 1.0F));
+		PartDefinition left_boot_outside = left_boot.addOrReplaceChild("left_boot_outside", CubeListBuilder.create(), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
-		PartDefinition kama1 = mKama.addOrReplaceChild("kama1", CubeListBuilder.create().texOffs(0, 56).mirror().addBox(-4.0F, -2.0F, 3.75F, 8.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition leftboot_outside1 = left_boot_outside.addOrReplaceChild("leftboot_outside1", CubeListBuilder.create().texOffs(64, 105).addBox(0.5F, -5.5F, -2.25F, 4.0F, 5.0F, 4.25F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition left_kama = kama1.addOrReplaceChild("left_kama1", CubeListBuilder.create().texOffs(44, 52).mirror().addBox(0.0F, -2.0F, -5.25F, 1.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 0.0F, 4.0F));
+		PartDefinition left_boot_tip = left_boot.addOrReplaceChild("left_boot_tip", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition left_front_kama = left_kama.addOrReplaceChild("left_front_kama", CubeListBuilder.create().texOffs(54, 52).addBox(-4.0F, -2.0F, -0.75F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -4.5F));
+		PartDefinition leftboot_tip1 = left_boot_tip.addOrReplaceChild("leftboot_tip1", CubeListBuilder.create().texOffs(68, 121).addBox(0.75F, -2.5F, -4.75F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.5F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
-		PartDefinition right_kama = kama1.addOrReplaceChild("right_kama1", CubeListBuilder.create().texOffs(22, 51).addBox(-1.0F, -2.0F, -5.25F, 1.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, 4.0F));
+		PartDefinition right_leg = root.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.offset(-6.9F, 12.25F, 3.0F));
 
-		PartDefinition right_front_kama = right_kama.addOrReplaceChild("right_front_kama1", CubeListBuilder.create().texOffs(37, 52).mirror().addBox(0.0F, -2.0F, -0.75F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, -4.5F));
+		PartDefinition right_leg_top = right_leg.addOrReplaceChild("right_leg_top", CubeListBuilder.create(), PartPose.offset(3.8F, 0.0F, 0.0F));
 
-		PartDefinition arms = root.addOrReplaceChild("arms", CubeListBuilder.create(), PartPose.offset(-5.0F, 7.75F, 0.0F));
+		PartDefinition rightleg_top1 = right_leg_top.addOrReplaceChild("rightleg_top1", CubeListBuilder.create().texOffs(15, 113).addBox(-4.35F, -11.6F, -2.1F, 4.0F, 9.25F, 4.0F, new CubeDeformation(0.4F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
-		PartDefinition right_arm1 = arms.addOrReplaceChild("right_arm1", CubeListBuilder.create(), PartPose.offset(-5.0F, -5.5F, 3.0F));
+		PartDefinition right_boot = right_leg.addOrReplaceChild("right_boot", CubeListBuilder.create(), PartPose.offset(3.8F, 0.0F, 0.0F));
 
-		PartDefinition right_armb1 = right_arm1.addOrReplaceChild("right_armb1", CubeListBuilder.create().texOffs(0, 26).addBox(-1.0689F, -1.7947F, -2.0F, 4.0F, 11.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offset(-2.5625F, 0.5447F, 0.0F));
+		PartDefinition right_boot_outside = right_boot.addOrReplaceChild("right_boot_outside", CubeListBuilder.create(), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
-		PartDefinition right_paldron1 = right_arm1.addOrReplaceChild("right_paldron1", CubeListBuilder.create(), PartPose.offset(-2.5625F, 0.5447F, 0.0F));
+		PartDefinition rightboot_outside1 = right_boot_outside.addOrReplaceChild("rightboot_outside1", CubeListBuilder.create().texOffs(31, 105).addBox(-4.5F, -5.5F, -2.25F, 4.0F, 5.0F, 4.25F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition right_arm_r1 = right_paldron1.addOrReplaceChild("right_arm_r1", CubeListBuilder.create().texOffs(50, 14).addBox(1.1217F, 2.2811F, -2.0F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -2.138F));
+		PartDefinition right_boot_tip = right_boot.addOrReplaceChild("right_boot_tip", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition right_arm_r2 = right_paldron1.addOrReplaceChild("right_arm_r2", CubeListBuilder.create().texOffs(0, 50).addBox(-2.5765F, -1.5268F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.2182F));
+		PartDefinition rightboot_tip1 = right_boot_tip.addOrReplaceChild("rightboot_tip1", CubeListBuilder.create().texOffs(35, 120).addBox(-4.05F, -2.5F, -4.75F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.5F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
-		PartDefinition right_arm_r3 = right_paldron1.addOrReplaceChild("right_arm_r3", CubeListBuilder.create().texOffs(44, 7).addBox(-1.4913F, -2.4945F, -3.0F, 1.0F, 1.0F, 6.0F, new CubeDeformation(0.7F))
-				.texOffs(40, 31).addBox(-3.1984F, -2.9749F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6109F));
+		PartDefinition kama = root.addOrReplaceChild("kama", CubeListBuilder.create(), PartPose.offset(-5.0F, 14.25F, 1.0F));
 
-		PartDefinition left_arm1 = arms.addOrReplaceChild("left_arm1", CubeListBuilder.create(), PartPose.offset(5.0F, -5.5F, 3.0F));
+		PartDefinition kama1 = kama.addOrReplaceChild("kama1", CubeListBuilder.create().texOffs(93, 36).mirror().addBox(-4.0F, -2.0F, 3.75F, 8.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition left_armb1 = left_arm1.addOrReplaceChild("left_armb1", CubeListBuilder.create().texOffs(24, 22).addBox(-2.931F, -1.7947F, -2.0F, 4.0F, 11.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offset(2.5625F, 0.5447F, 0.0F));
+		PartDefinition left_kama = kama1.addOrReplaceChild("left_kama", CubeListBuilder.create().texOffs(107, 36).mirror().addBox(0.0F, -2.0F, -5.25F, 1.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 0.0F, 4.0F));
 
-		PartDefinition left_paldron1 = left_arm1.addOrReplaceChild("left_paldron1", CubeListBuilder.create(), PartPose.offset(2.5625F, 0.7947F, 0.0F));
+		PartDefinition left_front_kama = left_kama.addOrReplaceChild("left_front_kama", CubeListBuilder.create().texOffs(117, 36).addBox(-4.0F, -2.0F, -0.75F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -4.5F));
 
-		PartDefinition left_arm_r1 = left_paldron1.addOrReplaceChild("left_arm_r1", CubeListBuilder.create().texOffs(14, 50).addBox(-4.3325F, 2.4154F, -2.0F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 2.138F));
+		PartDefinition right_kama = kama1.addOrReplaceChild("right_kama", CubeListBuilder.create().texOffs(107, 25).addBox(-1.0F, -2.0F, -5.25F, 1.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, 4.0F));
 
-		PartDefinition left_arm_r2 = left_paldron1.addOrReplaceChild("left_arm_r2", CubeListBuilder.create().texOffs(46, 46).addBox(-0.3694F, -1.7709F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.2182F));
+		PartDefinition right_front_kama = right_kama.addOrReplaceChild("right_front_kama", CubeListBuilder.create().texOffs(117, 25).mirror().addBox(0.0F, -2.0F, -0.75F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, -4.5F));
 
-		PartDefinition left_arm_r3 = left_paldron1.addOrReplaceChild("left_arm_r3", CubeListBuilder.create().texOffs(32, 46).addBox(0.3418F, -3.1797F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F))
-				.texOffs(44, 0).addBox(0.6347F, -2.6993F, -3.0F, 1.0F, 1.0F, 6.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6109F));
+		PartDefinition right_arm = root.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.offset(-10.0F, 2.25F, 3.0F));
 
-		PartDefinition hat = partdefinition.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition right_arm_main = right_arm.addOrReplaceChild("right_arm_main", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition right_armmain1 = right_arm_main.addOrReplaceChild("right_armmain1", CubeListBuilder.create().texOffs(2, 84).addBox(-1.0689F, -1.7947F, -2.0F, 4.0F, 11.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offset(-2.5625F, 0.5447F, 0.0F));
+
+		PartDefinition right_paldron = right_arm.addOrReplaceChild("right_paldron", CubeListBuilder.create(), PartPose.offset(10.0F, 0.0F, 0.0F));
+
+		PartDefinition right_paldron1 = right_paldron.addOrReplaceChild("right_paldron1", CubeListBuilder.create(), PartPose.offset(-12.5625F, 0.5447F, 0.0F));
+
+		PartDefinition right_arm_r1 = right_paldron1.addOrReplaceChild("right_arm_r1", CubeListBuilder.create().texOffs(1, 56).addBox(1.1217F, 2.2811F, -2.0F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -2.138F));
+
+		PartDefinition right_arm_r2 = right_paldron1.addOrReplaceChild("right_arm_r2", CubeListBuilder.create().texOffs(13, 58).addBox(-2.5765F, -1.5268F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.2182F));
+
+		PartDefinition right_arm_r3 = right_paldron1.addOrReplaceChild("right_arm_r3", CubeListBuilder.create().texOffs(10, 65).addBox(-1.4913F, -2.4945F, -3.0F, 1.0F, 1.0F, 6.0F, new CubeDeformation(0.7F))
+				.texOffs(1, 64).addBox(-3.1984F, -2.9749F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.6109F));
+
+		PartDefinition right_paldron2 = right_paldron.addOrReplaceChild("right_paldron2", CubeListBuilder.create().texOffs(33, 93).mirror().addBox(-1.0689F, -3.0447F, -2.0F, 4.0F, 2.0F, 4.0F, new CubeDeformation(1.0F)).mirror(false), PartPose.offset(-12.5625F, 0.7947F, 0.0F));
+
+		PartDefinition left_arm = root.addOrReplaceChild("left_arm", CubeListBuilder.create(), PartPose.offset(0.0F, 2.25F, 3.0F));
+
+		PartDefinition left_arm_main = left_arm.addOrReplaceChild("left_arm_main", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition left_armb1 = left_arm_main.addOrReplaceChild("left_armb1", CubeListBuilder.create().texOffs(64, 85).addBox(-2.931F, -1.7947F, -2.0F, 4.0F, 11.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offset(2.5625F, 0.5447F, 0.0F));
+
+		PartDefinition left_paldron = left_arm.addOrReplaceChild("left_paldron", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition left_paldron1 = left_paldron.addOrReplaceChild("left_paldron1", CubeListBuilder.create(), PartPose.offset(2.5625F, 0.7947F, 0.0F));
+
+		PartDefinition left_arm_r1 = left_paldron1.addOrReplaceChild("left_arm_r1", CubeListBuilder.create().texOffs(54, 54).addBox(-4.3325F, 2.4154F, -2.0F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 2.138F));
+
+		PartDefinition left_arm_r2 = left_paldron1.addOrReplaceChild("left_arm_r2", CubeListBuilder.create().texOffs(54, 63).addBox(-0.3694F, -1.7709F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.2182F));
+
+		PartDefinition left_arm_r3 = left_paldron1.addOrReplaceChild("left_arm_r3", CubeListBuilder.create().texOffs(66, 57).addBox(0.3418F, -3.1797F, -2.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.7F))
+				.texOffs(64, 65).addBox(0.6347F, -2.6993F, -3.0F, 1.0F, 1.0F, 6.0F, new CubeDeformation(0.7F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.6109F));
+
+		PartDefinition left_paldron2 = left_paldron.addOrReplaceChild("left_paldron2", CubeListBuilder.create().texOffs(33, 85).addBox(-2.931F, -3.0447F, -2.0F, 4.0F, 2.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(2.5625F, 0.7947F, 0.0F));
+
+		PartDefinition hat = root.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.offset(-5.0F, 24.25F, 3.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 
+	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
-	public void setup( LivingEntity entity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch)
+	public void setup(ItemStack pStack)
 	{
 			this.root.visible = true;
 
-			//kinda yuck that we can't just have block bench not include these folders in the first place
-			final String helmetGuide = "helmet_guide";
-			final String armGuide = "arm_guide";
-			final String torsoGuide = "torso_guide";
-			final String legGuide = "leg_guide";
-			final String kamaGuide = "kama_guide";
+			super.head.getAllParts().forEach(part -> part.visible = false);
+			this.faceplate.getAllParts().forEach(part -> part.visible = false);
+			super.hat.getAllParts().forEach(part -> part.visible = false);
 
-			this.mHead.getChild(helmetGuide).visible = false;
-			this.arms.getChild(armGuide).visible = false;
-			this.mBody.getChild(torsoGuide).visible = false;
-			this.left_legs.getChild(legGuide).visible = false;
-			this.right_legs.getChild(legGuide).visible = false;
-			this.mKama.getChild(kamaGuide).visible = false;
+			this.right_arm_main.getAllParts().forEach(part -> part.visible = false);
+			this.right_paldron.getAllParts().forEach(part -> part.visible = false);
+			this.left_arm_main.getAllParts().forEach(part -> part.visible = false);
+			this.left_paldron.getAllParts().forEach(part -> part.visible = false);
 
-			this.mHead.getAllParts().forEach(part -> part.visible = false);
-			this.arms.getAllParts().forEach(part -> part.visible = false);
-			this.mBody.getAllParts().forEach(part -> part.visible = false);
-			this.right_legs.getAllParts().forEach(part -> part.visible = false);
-			this.left_legs.getAllParts().forEach(part -> part.visible = false);
-			this.mKama.getAllParts().forEach(part -> part.visible = false);
+			super.body.getAllParts().forEach(part -> part.visible = false);
 
-			this.head.visible = true;
-			this.arms.visible = true;
-			this.body.visible = true;
-			this.left_legs.visible = true;
-			this.right_legs.visible = true;
+			this.right_leg_top.getAllParts().forEach(part -> part.visible = false);
+			this.right_boot.getAllParts().forEach(part -> part.visible = false);
+			this.left_leg_top.getAllParts().forEach(part -> part.visible = false);
+			this.left_boot.getAllParts().forEach(part -> part.visible = false);
+
+			this.kama.getAllParts().forEach(part -> part.visible = false);
+
+
+			super.head.visible = true;
+			this.faceplate.visible = true;
+			super.hat.visible = true;
+
+			super.body.visible = true;
+
+			super.leftArm.visible = true;
+			super.rightArm.visible = true;
+
+			super.leftLeg.visible = true;
+			super.rightLeg.visible = true;
+
 
 			//now we need to get the actual data from the itemstack
 			//and set the correct pieces to be visible
@@ -272,13 +336,37 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 		final DynamicShardplateData data = pStack.getCapability(DeadplateItem.CAPABILITY).resolve().get();
 
 
-		this.mHead.getChild(data.getHeadID()).visible = true;
-		this.arms.getChild(data.getArmsID()).visible = true;
-		this.body.getChild(data.getBodyID()).visible = true;
-		this.left_legs.getChild(data.getLegsID()).visible = true;
-		this.right_legs.getChild(data.getLegsID()).visible = true;
-		this.mKama.getChild(data.getKamaID()).visible = true;
+		super.head.getChild(data.getHeadID()).visible = true;
+		this.faceplate.getChild(data.getFaceplateID()).visible = true;
+		super.body.getChild(data.getBodyID()).visible = true;
+		if(!data.getKamaID().equals("kama0"))
+		{
+			this.kama.getChild(data.getKamaID()).visible = true;
+		}
 
+		this.right_arm_main.getChild(data.getRightArmID()).visible = true;
+		if(!data.getRightPaldronsID().equals("right_paldron0"))
+		{
+			this.right_paldron.getChild(data.getRightPaldronsID()).visible = true;
+		}
+		this.right_leg_top.getChild(data.getRightLegID()).visible = true;
+		this.right_boot_outside.getChild(data.getRightBootOutsideID()).visible = true;
+		this.right_boot_tip.getChild(data.getRightBootTipID()).visible = true;
+
+		this.left_arm_main.getChild(data.getLeftArmID()).visible = true;
+		if(!data.getLeftPaldronsID().equals("left_paldron0"))
+		{
+			this.left_paldron.getChild(data.getLeftPaldronsID()).visible = true;
+		}
+		this.left_leg_top.getChild(data.getLeftLegID()).visible = true;
+		this.left_boot_outside.getChild(data.getLeftBootOutsideID()).visible = true;
+		this.left_boot_tip.getChild(data.getLeftBootTipID()).visible = true;
+
+
+	}
+
+	public void setupAnim(LivingEntity entity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch)
+	{
 		if (entity instanceof ArmorStand)
 		{
 			super.setupAnim(entity, 0, 0, 0, 0, 0);
@@ -287,913 +375,64 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 		{
 			super.setupAnim(entity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 		}
-
-
-
 	}
-	public static final AnimationDefinition DISMISS = AnimationDefinition.Builder.withLength(1f)
-			.addAnimation("head",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(0f, 2f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(0f, 7f, 7f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(0f, 10f, 12f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 10f, 18f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("head",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.degreeVec(-10f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(-32.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-57.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(-90f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("head",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("body",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("chestplate",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(0f, 0f, 6f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(0f, 1f, 13f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(0f, 5f, 22f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 5f, 33f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("chestplate",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.degreeVec(5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(25f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(30f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(60f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("chestplate",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.375f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_arm",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightleg",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-2f, 3f, 5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 9f, 20f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightleg",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.125f, KeyframeAnimations.degreeVec(-12.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-52.26f, -5.94f, -4.58f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(-90f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightleg",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_outside2",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(0f, 1f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-3f, 3f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-4f, 4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-5f, 6f, 9f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(-5f, 9f, 15f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_outside2",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.degreeVec(0f, 0f, -22.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 0f, -35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-22.5f, 0f, -35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(-56.51f, 10.07f, -23.82f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(-67.82f, 3.05f, -13.41f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_outside2",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(-3f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-5f, 0f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.375f, KeyframeAnimations.posVec(-5f, 1f, 3f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-6f, 3f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-6f, 7f, 14f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(-6f, 12f, 19f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 27.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.375f, KeyframeAnimations.degreeVec(22.74f, 65.48f, 24.74f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(42.24f, 76.19f, 45.26f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(81.78f, 38.32f, 90.43f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftleg",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(2f, 3f, 5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 9f, 20f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftleg",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.125f, KeyframeAnimations.degreeVec(-12.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-52.26f, 5.94f, 4.58f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(-90f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftleg",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_outside",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(0f, 1f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(3f, 3f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(4f, 4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(5f, 6f, 9f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(5f, 9f, 15f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_outside",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.degreeVec(0f, 0f, 22.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 0f, 35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-22.5f, 0f, 35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(-56.51f, -10.07f, 23.82f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(-67.82f, -3.05f, 13.41f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_outside",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(3f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(5f, 0f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.375f, KeyframeAnimations.posVec(5f, 1f, 3f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(6f, 3f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(6f, 7f, 14f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(6f, 12f, 19f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, -27.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.375f, KeyframeAnimations.degreeVec(22.74f, -65.48f, -24.74f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(42.24f, -76.19f, -45.26f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(81.78f, -38.32f, -90.43f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_armb",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(0f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-5f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-8f, -4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-9f, -4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(-9f, -4f, 18f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_armb",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0.08333f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 0f, -25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-20f, 0f, -25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(-52.5f, 0f, -25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(-90.08f, 5.14f, 0.48f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_armb",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_paldron",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(-2f, 2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-4f, 4f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-4f, 4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-6f, 2f, 17f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(-7f, 2f, 22f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_paldron",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 0f, -12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(32.5f, 0f, -12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(12.5f, 0f, -12.5f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_paldron",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_armb",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(0f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(5f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(8f, -4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(9f, -4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(9f, -4f, 18f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_armb",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0.08333f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 0f, 25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-20f, 0f, 25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(-52.5f, 0f, 25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(-90.08f, -5.14f, -0.48f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_armb",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_paldron",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.08333f, KeyframeAnimations.posVec(2f, 2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(4f, 4f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(4f, 4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(6f, 2f, 17f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(7f, 2f, 22f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_paldron",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 0f, 12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(32.5f, 0f, 12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(12.5f, 0f, 12.5f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_paldron",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_front_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.20834334f, KeyframeAnimations.degreeVec(0f, 42.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, -62.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("breastplate",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("faceplate",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(-17.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("kama",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0.08343333f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(0f, 0f, 18f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 7f, 23f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(50f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("kama",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.08343333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.2916767f, KeyframeAnimations.degreeVec(0f, 37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.4167667f, KeyframeAnimations.degreeVec(0f, 37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, -50f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.2916767f, KeyframeAnimations.degreeVec(0f, -37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.4167667f, KeyframeAnimations.degreeVec(0f, -37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 50f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_front_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.20834334f, KeyframeAnimations.degreeVec(0f, -42.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 62.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR))).build();
-	public static final AnimationDefinition SUMMON = AnimationDefinition.Builder.withLength(1f)
-			.addAnimation("head",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 10f, 18f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(0f, 10f, 12f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(0f, 7f, 7f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(0f, 2f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("head",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(-90f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-57.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(-32.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.degreeVec(-10f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("head",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("body",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(1f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("chestplate",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 5f, 33f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(0f, 5f, 22f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(0f, 1f, 13f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(0f, 0f, 6f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("chestplate",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(60f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(30f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(25f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.degreeVec(5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("chestplate",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.625f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_arm",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(1f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightleg",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 9f, 20f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-2f, 3f, 5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightleg",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(-90f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-52.26f, -5.94f, -4.58f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.875f, KeyframeAnimations.degreeVec(-12.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightleg",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_outside2",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(-5f, 9f, 15f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-5f, 6f, 9f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-4f, 4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-3f, 3f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(0f, 1f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_outside2",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(-67.82f, 3.05f, -13.41f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(-56.51f, 10.07f, -23.82f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-22.5f, 0f, -35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 0f, -35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.degreeVec(0f, 0f, -22.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_outside2",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(-6f, 12f, 19f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-6f, 7f, 14f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-6f, 3f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.625f, KeyframeAnimations.posVec(-5f, 1f, 3f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-5f, 0f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(-3f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(81.78f, 38.32f, 90.43f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(42.24f, 76.19f, 45.26f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.625f, KeyframeAnimations.degreeVec(22.74f, 65.48f, 24.74f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 27.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("rightboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftleg",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 9f, 20f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(2f, 3f, 5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftleg",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(-90f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-52.26f, 5.94f, 4.58f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.875f, KeyframeAnimations.degreeVec(-12.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftleg",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_outside",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(5f, 9f, 15f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(5f, 6f, 9f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(4f, 4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(3f, 3f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(0f, 1f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_outside",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(-67.82f, -3.05f, 13.41f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(-56.51f, -10.07f, 23.82f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-22.5f, 0f, 35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 0f, 35f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.degreeVec(0f, 0f, 22.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_outside",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(6f, 12f, 19f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(6f, 7f, 14f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(6f, 3f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.625f, KeyframeAnimations.posVec(5f, 1f, 3f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(5f, 0f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(3f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(81.78f, -38.32f, -90.43f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(42.24f, -76.19f, -45.26f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.625f, KeyframeAnimations.degreeVec(22.74f, -65.48f, -24.74f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, -27.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("leftboot_tip",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_armb",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(-9f, -4f, 18f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-9f, -4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-8f, -4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-5f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(0f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_armb",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(-90.08f, 5.14f, 0.48f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(-52.5f, 0f, -25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-20f, 0f, -25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 0f, -25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_armb",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_paldron",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(-7f, 2f, 22f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(-6f, 2f, 17f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(-4f, 4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(-4f, 4f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(-2f, 2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_paldron",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(12.5f, 0f, -12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(32.5f, 0f, -12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 0f, -12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_paldron",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_armb",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(9f, -4f, 18f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(9f, -4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(8f, -4f, 4f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(5f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(0f, -2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_armb",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(-90.08f, -5.14f, -0.48f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(-52.5f, 0f, 25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-20f, 0f, 25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 0f, 25f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_armb",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_paldron",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(7f, 2f, 22f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.posVec(6f, 2f, 17f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(4f, 4f, 8f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.posVec(4f, 4f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.91667f, KeyframeAnimations.posVec(2f, 2f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_paldron",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(12.5f, 0f, 12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.25f, KeyframeAnimations.degreeVec(32.5f, 0f, 12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 0f, 12.5f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_paldron",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_front_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -62.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.7916766f, KeyframeAnimations.degreeVec(0f, 42.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("breastplate",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(1f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("faceplate",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.75f, KeyframeAnimations.degreeVec(-17.5f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("kama",
-					new AnimationChannel(AnimationChannel.Targets.POSITION,
-							new Keyframe(0f, KeyframeAnimations.posVec(0f, 7f, 23f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.posVec(0f, 0f, 18f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.9167666f, KeyframeAnimations.posVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(50f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("kama",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.9167666f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("right_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, -50f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5834333f, KeyframeAnimations.degreeVec(0f, 37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.7083433f, KeyframeAnimations.degreeVec(0f, 37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 50f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5834333f, KeyframeAnimations.degreeVec(0f, -37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.7083433f, KeyframeAnimations.degreeVec(0f, -37.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("left_front_kama",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 62.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.7916766f, KeyframeAnimations.degreeVec(0f, -42.5f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR))).build();
-	public static final AnimationDefinition OPEN_MASK = AnimationDefinition.Builder.withLength(0.79167f)
-			.addAnimation("faceplate",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-70f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("faceplate",
-					new AnimationChannel(AnimationChannel.Targets.SCALE,
-							new Keyframe(0.33333f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
-									AnimationChannel.Interpolations.LINEAR),
-							new Keyframe(0.79167f, KeyframeAnimations.scaleVec(0f, 0f, 0f),
-									AnimationChannel.Interpolations.LINEAR))).build();
 
+	//getters
+	public ModelPart getRoot()
+	{
+		return root;
+	}
+
+	public ModelPart getFaceplate()
+	{
+		return faceplate;
+	}
+
+	public ModelPart getKama()
+	{
+		return kama;
+	}
+
+	public ModelPart getLeft_leg_top()
+	{
+		return left_leg_top;
+	}
+
+	public ModelPart getLeft_boot()
+	{
+		return left_boot;
+	}
+
+	public ModelPart getLeft_arm_main()
+	{
+		return left_arm_main;
+	}
+
+	public ModelPart getLeft_paldron()
+	{
+		return left_paldron;
+	}
+
+	public ModelPart getRight_leg_top()
+	{
+		return right_leg_top;
+	}
+
+	public ModelPart getRight_boot()
+	{
+		return right_boot;
+	}
+
+	public ModelPart getRight_arm_main()
+	{
+		return right_arm_main;
+	}
+
+	public ModelPart getRight_paldron()
+	{
+		return right_paldron;
+	}
 
 }
+
+

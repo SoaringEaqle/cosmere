@@ -22,10 +22,10 @@ public class SurgebindingRenderers
 	public static void register()
 	{
 		final Supplier<ICurioRenderer> shardplate = ArmorRenderer::new;
-		CosmereRenderers.register(SurgebindingItems.SHARDPLATE_HELMET.get(), shardplate);
-		CosmereRenderers.register(SurgebindingItems.SHARDPLATE_CHEST.get(), shardplate);
-		CosmereRenderers.register(SurgebindingItems.SHARDPLATE_LEGGINGS.get(), shardplate);
-		CosmereRenderers.register(SurgebindingItems.SHARDPLATE_BOOTS.get(), shardplate);
+		CosmereRenderers.register(SurgebindingItems.DEADPLATE_HELMET.get(), shardplate);
+		CosmereRenderers.register(SurgebindingItems.DEADPLATE_CHEST.get(), shardplate);
+		CosmereRenderers.register(SurgebindingItems.DEADPLATE_LEGGINGS.get(), shardplate);
+		CosmereRenderers.register(SurgebindingItems.DEADPLATE_BOOTS.get(), shardplate);
 
 		EntityRenderers.register(SurgebindingEntityTypes.CHULL.get(), ChullRenderer::new);
 		EntityRenderers.register(SurgebindingEntityTypes.CRYPTIC.get(), CrypticRenderer::new);

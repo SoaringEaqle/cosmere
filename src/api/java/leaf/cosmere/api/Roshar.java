@@ -305,5 +305,21 @@ public class Roshar
 		{
 			return gemstone.getColor();
 		}
+
+		public Gemstone getGemstone()
+		{
+			return gemstone;
+		}
+
+		public boolean hasBlade()
+		{
+			switch (this)
+			{
+			case BONDSMITH:
+				return false;
+			default:
+				return true;
+			}
+		}
 	}
 }

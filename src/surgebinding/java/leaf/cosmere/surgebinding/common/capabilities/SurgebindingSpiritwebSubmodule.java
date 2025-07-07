@@ -16,6 +16,7 @@ import leaf.cosmere.surgebinding.common.items.GemstoneItem;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingDimensions;
+import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
@@ -52,6 +53,13 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	public static final ShardplateArmorMaterial[] ARMOR_MATERIALS = ShardplateArmorMaterial.values();
 	IdealsManager idealsManager = new IdealsManager();
 	private ISpiritweb spiritweb;
+
+	//These Items specifically represent the living plate and blade bonded to the Radiant. This way, these objects can exist without ever needing be summoned.
+	private ItemStack blade = null;
+	private ItemStack plate_helmet = null;
+	private ItemStack plate_chestplate = null;
+	private ItemStack plate_leggings = null;
+	private ItemStack plate_boots = null;
 
 	public static SurgebindingSpiritwebSubmodule getSubmodule(ISpiritweb data)
 	{
@@ -426,4 +434,19 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	{
 		heraldOrder = order;
 	}
+
+	public void grantBlade()
+	{
+		blade = new ItemStack(SurgebindingItems.SHARDBLADE);
+	}
+
+	public void grantPlate(Roshar.RadiantOrder order)
+	{
+		plate_helmet = new ItemStack(SurgebindingItems.SHARDPLATES.get(order).get(ArmorItem.Type.HELMET));
+		plate_chestplate = new ItemStack(SurgebindingItems.SHARDPLATES.get(order).get(ArmorItem.Type.CHESTPLATE));
+		plate_leggings = new ItemStack(SurgebindingItems.SHARDPLATES.get(order).get(ArmorItem.Type.LEGGINGS));
+		plate_boots = new ItemStack(SurgebindingItems.SHARDPLATES.get(order).get(ArmorItem.Type.BOOTS));
+	}
+
+
 }
