@@ -11,6 +11,7 @@ package leaf.cosmere.surgebinding.client.render.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -19,7 +20,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 
-public class ShardplateModel extends HumanoidModel<LivingEntity>
+public class ShardplateModel extends HumanoidArmorModel<LivingEntity>
 {
 	private final ModelPart root;
 	public final ModelPart Chestplate;
@@ -30,7 +31,7 @@ public class ShardplateModel extends HumanoidModel<LivingEntity>
 
 	public ShardplateModel(ModelPart root)
 	{
-		super(root, RenderType::entityCutoutNoCull);
+		super(root);
 
 		this.root = root;
 

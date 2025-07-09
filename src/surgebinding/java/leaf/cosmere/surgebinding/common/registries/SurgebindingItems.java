@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 public class SurgebindingItems
 {
-	private static final String[] parts = {"helmet","chestplate","leggings","boots"};
 	private SurgebindingItems()
 	{
 	}
@@ -126,4 +125,16 @@ public class SurgebindingItems
 
 	public static final ItemRegistryObject<ForgeSpawnEggItem> CHULL_EGG = ITEMS.registerSpawnEgg(SurgebindingEntityTypes.CHULL, 0x6c482f, 0x8a1a08);
 	public static final ItemRegistryObject<ForgeSpawnEggItem> CRYPTIC_EGG = ITEMS.registerSpawnEgg(SurgebindingEntityTypes.CRYPTIC, 0x272727, 0x4d4d4d);
+
+	public static final Map<Roshar.RadiantOrder, ItemRegistryObject<ShardplateCurioItem>> SHARDPLATE_SUITS =
+			Arrays.stream(EnumUtils.RADIANT_ORDERS)
+					.collect(Collectors.toMap(
+							Function.identity(),
+							order -> ITEMS.register(
+									(order.hasBlade() ? order.getName():"dead") + "_shardplate",
+									() -> (order.hasBlade() ?
+									       new LivingplateCurioItem(PropTypes.Items.SHARDBLADE.get(), order):
+									       new ShardplateCurioItem(PropTypes.Items.SHARDBLADE.get())
+							)
+					)));
 }

@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.Optional;
 
-public class LivingplateItem extends ShardplateItem implements IHasGemType
+public class LivingplateItem extends ShardplateItem
 {
 	public Roshar.RadiantOrder order;
 
@@ -34,13 +34,16 @@ public class LivingplateItem extends ShardplateItem implements IHasGemType
 		return Surgebinding.MODID + ":" + "textures/models/armor/shardplate_base.png";
 	}
 
-	@Override
-	public Roshar.Gemstone getGemType()
-	{
-		return order.getGemstone();
-	}
+
 	public Roshar.RadiantOrder getOrder()
 	{
 		return order;
 	}
+
+	@Override
+	public Color getColour()
+	{
+		return order.getPlateColor();
+	}
+	
 }

@@ -321,5 +321,42 @@ public class Roshar
 				return true;
 			}
 		}
+
+		public Color getPlateColor()
+		{
+			return switch (this)
+			{
+				case WINDRUNNER -> PlateColors.WINDRUNNER;
+				case SKYBREAKER -> PlateColors.SKYBREAKER;
+				case DUSTBRINGER -> PlateColors.DUSTBRINGER;
+				case EDGEDANCER -> PlateColors.EDGEDANCER;
+				case TRUTHWATCHER -> PlateColors.TRUTHWATCHER;
+				case LIGHTWEAVER -> PlateColors.LIGHTWEAVER;
+				case ELSECALLER -> PlateColors.ELSECALLER;
+				case WILLSHAPER -> PlateColors.WILLSHAPER;
+				case STONEWARD -> PlateColors.STONEWARD;
+				case BONDSMITH -> PlateColors.BONDSMITH;
+			};
+		}
+	}
+
+	private static class PlateColors
+	{
+		public static final Color WINDRUNNER = Color.decode("#17008a");
+		public static final Color SKYBREAKER = Color.decode("#c2c2c2");
+		public static final Color DUSTBRINGER = Color.decode("#d13f34");
+		public static final Color EDGEDANCER = Color.decode("#e8e8e8");
+		public static final Color TRUTHWATCHER = Color.decode("#13a113");
+		public static final Color LIGHTWEAVER = Color.decode("#c91842");
+		public static final Color ELSECALLER = Color.decode("#1e6c82");
+		public static final Color WILLSHAPER = Color.decode("#5a0b85");
+		public static final Color STONEWARD = Color.decode("#b57007");
+		public static final Color BONDSMITH = Color.decode("#f3dd25");
+		public static final Color DEADPLATE = Color.decode("#757575");
+	}
+
+	public static Color getDeadplate()
+	{
+		return PlateColors.DEADPLATE;
 	}
 }

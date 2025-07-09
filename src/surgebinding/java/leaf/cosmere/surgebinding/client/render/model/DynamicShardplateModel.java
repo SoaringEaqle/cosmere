@@ -2,24 +2,37 @@ package leaf.cosmere.surgebinding.client.render.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import leaf.cosmere.api.IHasColour;
 import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.capabilities.DynamicShardplateData;
 import leaf.cosmere.surgebinding.common.items.DeadplateItem;
+import leaf.cosmere.surgebinding.common.items.ShardplateItem;
+import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
+import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.ItemStack;
+import top.theillusivec4.curios.api.SlotContext;
 
-public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
+import java.awt.*;
+import java.util.ArrayList;
+
+public class DynamicShardplateModel extends HumanoidArmorModel<LivingEntity> implements IHasColour
 {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ResourceLocation TEXTURE = Surgebinding.rl("textures/models.armor/shardplate_base.png");
+	//public static final ResourceLocation VISOR = Surgebinding.rl("textures/models.armor/SPvisors.png");
 	public static final int TOTAL_HELMET_IDS = 1;
 	public static final int TOTAL_FACEPLATE_IDS = 4;
 	public static final int TOTAL_ARM_IDS = 1;
@@ -30,117 +43,119 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 	public static final int TOTAL_BOOT_IDS = 1;
 
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "shardplate"), "main");
-	private final ModelPart root;
+	public final ModelPart root;
+	public final ModelPart head;
+	public final ModelPart head1;
+	public final ModelPart faceplate;
+	public final ModelPart faceplate1;
+	public final ModelPart faceplate2;
+	public final ModelPart faceplate3;
+	public final ModelPart faceplate4;
+	public final ModelPart body;
+	public final ModelPart body1;
+	public final ModelPart chestplate1;
+	public final ModelPart left_leg;
+	public final ModelPart left_leg_top;
+	public final ModelPart leftleg_top1;
+	public final ModelPart left_boot;
+	public final ModelPart left_boot_outside;
+	public final ModelPart leftboot_outside1;
+	public final ModelPart left_boot_tip;
+	public final ModelPart leftboot_tip1;
+	public final ModelPart right_leg;
+	public final ModelPart right_leg_top;
+	public final ModelPart rightleg_top1;
+	public final ModelPart right_boot;
+	public final ModelPart right_boot_outside;
+	public final ModelPart rightboot_outside1;
+	public final ModelPart right_boot_tip;
+	public final ModelPart rightboot_tip1;
+	public final ModelPart kama;
+	public final ModelPart kama1;
+	public final ModelPart left_kama;
+	public final ModelPart left_front_kama;
+	public final ModelPart right_kama;
+	public final ModelPart right_front_kama;
+	public final ModelPart right_arm;
+	public final ModelPart right_arm_main;
+	public final ModelPart right_armmain1;
+	public final ModelPart right_paldron;
+	public final ModelPart right_paldron1;
+	public final ModelPart right_paldron2;
+	public final ModelPart left_arm;
+	public final ModelPart left_arm_main;
+	public final ModelPart left_armb1;
+	public final ModelPart left_paldron;
+	public final ModelPart left_paldron1;
+	public final ModelPart left_paldron2;
+	public final ModelPart hat;
 
-	private final ModelPart head1;
+	public Color color;
 
-	private final ModelPart faceplate;
-	private final ModelPart faceplate1;
-	private final ModelPart faceplate2;
-	private final ModelPart faceplate3;
-	private final ModelPart faceplate4;
+	public DynamicShardplateModel(ModelPart root, Color color) {
 
-
-	private final ModelPart body1;
-	private final ModelPart chestplate1;
-
-
-	private final ModelPart left_leg_top;
-	private final ModelPart leftleg_top1;
-	private final ModelPart left_boot;
-	private final ModelPart left_boot_outside;
-	private final ModelPart leftboot_outside1;
-	private final ModelPart left_boot_tip;
-	private final ModelPart leftboot_tip1;
-
-
-	private final ModelPart right_leg_top;
-	private final ModelPart rightleg_top1;
-	private final ModelPart right_boot;
-	private final ModelPart right_boot_outside;
-	private final ModelPart rightboot_outside1;
-	private final ModelPart right_boot_tip;
-	private final ModelPart rightboot_tip1;
-
-	private final ModelPart kama;
-	private final ModelPart kama1;
-	private final ModelPart left_kama;
-	private final ModelPart left_front_kama;
-	private final ModelPart right_kama;
-	private final ModelPart right_front_kama;
-
-	private final ModelPart right_arm_main;
-	private final ModelPart right_armmain1;
-	private final ModelPart right_paldron;
-	private final ModelPart right_paldron1;
-	private final ModelPart right_paldron2;
-
-	private final ModelPart left_arm_main;
-	private final ModelPart left_armb1;
-	private final ModelPart left_paldron;
-	private final ModelPart left_paldron1;
-	private final ModelPart left_paldron2;
-
-	public DynamicShardplateModel(ModelPart root) {
-
-		super(root, RenderType::entityCutoutNoCull);
+		super(root.getChild("root"));
 
 		this.root = root.getChild("root");
-
-		this.head1 = super.head.getChild("head1");
-
-		this.faceplate = super.head.getChild("faceplate");
+		
+		this.head = this.root.getChild("head");
+		this.head1 = this.head.getChild("head1");
+		
+		this.faceplate = this.head.getChild("faceplate");
 		this.faceplate1 = this.faceplate.getChild("faceplate1");
 		this.faceplate2 = this.faceplate.getChild("faceplate2");
 		this.faceplate3 = this.faceplate.getChild("faceplate3");
 		this.faceplate4 = this.faceplate.getChild("faceplate4");
-
-
-		this.body1 = super.body.getChild("body1");
+		
+		this.body = this.root.getChild("body");
+		this.body1 = this.body.getChild("body1");
 		this.chestplate1 = this.body1.getChild("chestplate1");
-
-
-		this.left_leg_top = super.leftLeg.getChild("left_leg_top");
+		
+		this.left_leg = this.root.getChild("left_leg");
+		this.left_leg_top = this.left_leg.getChild("left_leg_top");
 		this.leftleg_top1 = this.left_leg_top.getChild("leftleg_top1");
-
-		this.left_boot = super.leftLeg.getChild("left_boot");
+		this.left_boot = this.left_leg.getChild("left_boot");
 		this.left_boot_outside = this.left_boot.getChild("left_boot_outside");
 		this.leftboot_outside1 = this.left_boot_outside.getChild("leftboot_outside1");
 		this.left_boot_tip = this.left_boot.getChild("left_boot_tip");
 		this.leftboot_tip1 = this.left_boot_tip.getChild("leftboot_tip1");
-
-
-		this.right_leg_top = super.rightLeg.getChild("right_leg_top");
+		
+		this.right_leg = this.root.getChild("right_leg");
+		this.right_leg_top = this.right_leg.getChild("right_leg_top");
 		this.rightleg_top1 = this.right_leg_top.getChild("rightleg_top1");
-
-		this.right_boot = super.rightLeg.getChild("right_boot");
+		this.right_boot = this.right_leg.getChild("right_boot");
 		this.right_boot_outside = this.right_boot.getChild("right_boot_outside");
 		this.rightboot_outside1 = this.right_boot_outside.getChild("rightboot_outside1");
 		this.right_boot_tip = this.right_boot.getChild("right_boot_tip");
 		this.rightboot_tip1 = this.right_boot_tip.getChild("rightboot_tip1");
-
-
+		
 		this.kama = this.root.getChild("kama");
 		this.kama1 = this.kama.getChild("kama1");
 		this.left_kama = this.kama1.getChild("left_kama");
 		this.left_front_kama = this.left_kama.getChild("left_front_kama");
 		this.right_kama = this.kama1.getChild("right_kama");
 		this.right_front_kama = this.right_kama.getChild("right_front_kama");
-
-
-		this.right_arm_main = super.rightArm.getChild("right_arm_main");
+		
+		this.right_arm = this.root.getChild("right_arm");
+		this.right_arm_main = this.right_arm.getChild("right_arm_main");
 		this.right_armmain1 = this.right_arm_main.getChild("right_armmain1");
-		this.right_paldron = super.rightArm.getChild("right_paldron");
+		this.right_paldron = this.right_arm.getChild("right_paldron");
 		this.right_paldron1 = this.right_paldron.getChild("right_paldron1");
 		this.right_paldron2 = this.right_paldron.getChild("right_paldron2");
-
-		this.left_arm_main = super.leftArm.getChild("left_arm_main");
+		
+		this.left_arm = this.root.getChild("left_arm");
+		this.left_arm_main = this.left_arm.getChild("left_arm_main");
 		this.left_armb1 = this.left_arm_main.getChild("left_armb1");
-		this.left_paldron = super.leftArm.getChild("left_paldron");
+		this.left_paldron = this.left_arm.getChild("left_paldron");
 		this.left_paldron1 = this.left_paldron.getChild("left_paldron1");
 		this.left_paldron2 = this.left_paldron.getChild("left_paldron2");
+		
+		this.hat = this.root.getChild("hat");
 
+		this.color = color;
 	}
+
+
 
 	public static LayerDefinition createBodyLayer()
 	{
@@ -281,49 +296,37 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
-	public void setup(ItemStack pStack)
+	public void setup(ItemStack pStack, SlotContext slot, PoseStack matrixStack, MultiBufferSource buffer, int light)
 	{
-			this.root.visible = true;
+		this.root.visible = true;
 
-			super.head.getAllParts().forEach(part -> part.visible = false);
-			this.faceplate.getAllParts().forEach(part -> part.visible = false);
-			super.hat.getAllParts().forEach(part -> part.visible = false);
+		this.head.getAllParts().forEach(part -> part.visible = false);
+		this.faceplate.getAllParts().forEach(part -> part.visible = false);
+		this.hat.getAllParts().forEach(part -> part.visible = false);
 
-			this.right_arm_main.getAllParts().forEach(part -> part.visible = false);
-			this.right_paldron.getAllParts().forEach(part -> part.visible = false);
-			this.left_arm_main.getAllParts().forEach(part -> part.visible = false);
-			this.left_paldron.getAllParts().forEach(part -> part.visible = false);
+		this.right_arm_main.getAllParts().forEach(part -> part.visible = false);
+		this.right_paldron.getAllParts().forEach(part -> part.visible = false);
+		this.left_arm_main.getAllParts().forEach(part -> part.visible = false);
+		this.left_paldron.getAllParts().forEach(part -> part.visible = false);
 
-			super.body.getAllParts().forEach(part -> part.visible = false);
+		this.body.getAllParts().forEach(part -> part.visible = false);
 
-			this.right_leg_top.getAllParts().forEach(part -> part.visible = false);
-			this.right_boot.getAllParts().forEach(part -> part.visible = false);
-			this.left_leg_top.getAllParts().forEach(part -> part.visible = false);
-			this.left_boot.getAllParts().forEach(part -> part.visible = false);
+		this.right_leg_top.getAllParts().forEach(part -> part.visible = false);
+		this.right_boot_tip.getAllParts().forEach(part -> part.visible = false);
+		this.right_boot_outside.getAllParts().forEach(part -> part.visible = false);
+		this.left_leg_top.getAllParts().forEach(part -> part.visible = false);
+		this.left_boot_tip.getAllParts().forEach(part -> part.visible = false);
+		this.left_boot_outside.getAllParts().forEach(part -> part.visible = false);
 
-			this.kama.getAllParts().forEach(part -> part.visible = false);
-
-
-			super.head.visible = true;
-			this.faceplate.visible = true;
-			super.hat.visible = true;
-
-			super.body.visible = true;
-
-			super.leftArm.visible = true;
-			super.rightArm.visible = true;
-
-			super.leftLeg.visible = true;
-			super.rightLeg.visible = true;
-
+		this.kama.getAllParts().forEach(part -> part.visible = false);
 
 			//now we need to get the actual data from the itemstack
 			//and set the correct pieces to be visible
@@ -333,34 +336,96 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 			return;
 		}
 
-		final DynamicShardplateData data = pStack.getCapability(DeadplateItem.CAPABILITY).resolve().get();
+		final DynamicShardplateData data = pStack.getCapability(ShardplateItem.CAPABILITY).resolve().get();
 
-
-		super.head.getChild(data.getHeadID()).visible = true;
-		this.faceplate.getChild(data.getFaceplateID()).visible = true;
-		super.body.getChild(data.getBodyID()).visible = true;
-		if(!data.getKamaID().equals("kama0"))
+		final ShardplateItem item = (ShardplateItem) pStack.getItem();
+		switch (slot.index())
 		{
-			this.kama.getChild(data.getKamaID()).visible = true;
+			case 100 ->
+			{
+				this.right_leg.visible = true;
+				this.left_leg.visible = true;
+
+				this.right_boot.visible = true;
+				this.right_boot_outside.getChild(data.getRightBootOutsideID()).visible = true;
+				this.right_boot_tip.getChild(data.getRightBootTipID()).visible = true;
+
+				this.left_boot.visible = true;
+				this.left_boot_outside.getChild(data.getLeftBootOutsideID()).visible = true;
+				this.left_boot_tip.getChild(data.getLeftBootTipID()).visible = true;
+
+			}
+			case 101 ->
+			{
+				this.kama.visible = true;
+				this.left_leg.visible = true;
+				this.right_leg.visible = true;
+				this.left_leg_top.visible = true;
+				this.right_leg_top.visible = true;
+
+				if(!data.getKamaID().equals("kama0"))
+				{
+					this.kama.getChild(data.getKamaID()).visible = true;
+				}
+				this.right_leg_top.getChild(data.getRightLegID()).visible = true;
+				this.left_leg_top.getChild(data.getLeftLegID()).visible = true;
+
+			}
+			case 102 ->
+			{
+				this.body.visible = true;
+				this.right_arm.visible = true;
+				this.left_arm.visible = true;
+				this.right_arm_main.visible = true;
+				this.right_paldron.visible = true;
+				this.left_arm_main.visible = true;
+				this.left_paldron.visible = true;
+
+				this.body.getChild(data.getBodyID()).visible = true;
+
+				this.right_arm_main.getChild(data.getRightArmID()).visible = true;
+				if(!data.getRightPaldronsID().equals("right_paldron0"))
+				{
+					this.right_paldron.getChild(data.getRightPaldronsID()).visible = true;
+				}
+
+				this.left_arm_main.getChild(data.getLeftArmID()).visible = true;
+				if(!data.getLeftPaldronsID().equals("left_paldron0"))
+				{
+					this.left_paldron.getChild(data.getLeftPaldronsID()).visible = true;
+				}
+			}
+			case 103 ->
+			{
+				this.head.visible = true;
+				this.head.getChild(data.getHeadID()).visible = true;
+				this.faceplate.visible = true;
+				this.faceplate.getChild(data.getFaceplateID()).visible = true;
+			}
+			default ->
+			{
+
+			}
 		}
 
-		this.right_arm_main.getChild(data.getRightArmID()).visible = true;
-		if(!data.getRightPaldronsID().equals("right_paldron0"))
-		{
-			this.right_paldron.getChild(data.getRightPaldronsID()).visible = true;
-		}
-		this.right_leg_top.getChild(data.getRightLegID()).visible = true;
-		this.right_boot_outside.getChild(data.getRightBootOutsideID()).visible = true;
-		this.right_boot_tip.getChild(data.getRightBootTipID()).visible = true;
+		Color color = item.getColour();
+		VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(
+				buffer,
+				renderType(TEXTURE),
+				false,
+				false);
 
-		this.left_arm_main.getChild(data.getLeftArmID()).visible = true;
-		if(!data.getLeftPaldronsID().equals("left_paldron0"))
-		{
-			this.left_paldron.getChild(data.getLeftPaldronsID()).visible = true;
-		}
-		this.left_leg_top.getChild(data.getLeftLegID()).visible = true;
-		this.left_boot_outside.getChild(data.getLeftBootOutsideID()).visible = true;
-		this.left_boot_tip.getChild(data.getLeftBootTipID()).visible = true;
+		renderToBuffer(
+				matrixStack,
+				vertexBuilder,
+				light,
+				OverlayTexture.NO_OVERLAY,
+				color.getRed() / 255f,
+				color.getGreen() / 255f,
+				color.getBlue() / 255f,
+				1);
+
+
 
 
 	}
@@ -377,62 +442,12 @@ public class DynamicShardplateModel extends HumanoidModel<LivingEntity>
 		}
 	}
 
-	//getters
-	public ModelPart getRoot()
-	{
-		return root;
-	}
 
-	public ModelPart getFaceplate()
+	@Override
+	public Color getColour()
 	{
-		return faceplate;
+		return color;
 	}
-
-	public ModelPart getKama()
-	{
-		return kama;
-	}
-
-	public ModelPart getLeft_leg_top()
-	{
-		return left_leg_top;
-	}
-
-	public ModelPart getLeft_boot()
-	{
-		return left_boot;
-	}
-
-	public ModelPart getLeft_arm_main()
-	{
-		return left_arm_main;
-	}
-
-	public ModelPart getLeft_paldron()
-	{
-		return left_paldron;
-	}
-
-	public ModelPart getRight_leg_top()
-	{
-		return right_leg_top;
-	}
-
-	public ModelPart getRight_boot()
-	{
-		return right_boot;
-	}
-
-	public ModelPart getRight_arm_main()
-	{
-		return right_arm_main;
-	}
-
-	public ModelPart getRight_paldron()
-	{
-		return right_paldron;
-	}
-
 }
 
 

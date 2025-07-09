@@ -11,6 +11,7 @@ import leaf.cosmere.surgebinding.common.items.*;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
@@ -78,12 +79,32 @@ public class SurgebindingItemModelsGen extends ItemModelProvider
 			{
 				if (item instanceof DeadplateItem)
 				{
+					if (((DeadplateItem) item).getEquipmentSlot() == EquipmentSlot.HEAD)
+					{
+						complexItem(path,"shard" + path.substring(4), "shardplate_helmet_visor");
+					}
+					else
+					{
 					simpleItem(path, "shard" + path.substring(4));
+					}
 				}
 				else if (item instanceof LivingplateItem)
 				{
-					simpleItem(path, path.substring(path.indexOf("_") + 1));
+					if (((LivingplateItem) item).getEquipmentSlot() == EquipmentSlot.HEAD)
+					{
+						complexItem(path,path.substring(path.indexOf("_") + 1), "shardplate_helmet_visor");
+					}
+					else
+					{
+						simpleItem(path, path.substring(path.indexOf("_") + 1));
+					}
 				}
+				continue;
+			}
+			else if(item instanceof ShardplateCurioItem
+			|| item instanceof LivingplateCurioItem)
+			{
+				complexItem(path, "shardplate_helmet", "shardplate_helmet_visor");
 				continue;
 			}
 
@@ -105,5 +126,12 @@ public class SurgebindingItemModelsGen extends ItemModelProvider
 		return this.getBuilder(path)
 				.parent(new ModelFile.UncheckedModelFile("item/generated"))
 				.texture("layer0", modLoc("item/" + texturePath));
+	}
+	public ItemModelBuilder complexItem(String path, String texturePath1, String texturePath2)
+	{
+		return this.getBuilder(path)
+				.parent(new ModelFile.UncheckedModelFile("item/generated"))
+				.texture("layer0", modLoc("item/" + texturePath1))
+				.texture("layer1",modLoc("item/" + texturePath2));
 	}
 }

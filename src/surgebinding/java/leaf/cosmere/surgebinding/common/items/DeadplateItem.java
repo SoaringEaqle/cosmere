@@ -4,29 +4,16 @@
 
 package leaf.cosmere.surgebinding.common.items;
 
-import leaf.cosmere.client.render.CosmereRenderers;
-import leaf.cosmere.surgebinding.client.render.renderer.ArmorRenderer;
+import leaf.cosmere.api.Roshar;
 import leaf.cosmere.surgebinding.common.Surgebinding;
-import leaf.cosmere.surgebinding.common.capabilities.DynamicShardplateData;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.function.Consumer;
+import java.awt.*;
 
 public class DeadplateItem extends ShardplateItem
 {
@@ -44,4 +31,9 @@ public class DeadplateItem extends ShardplateItem
 	}
 
 
+	@Override
+	public Color getColour()
+	{
+		return Roshar.getDeadplate();
+	}
 }
