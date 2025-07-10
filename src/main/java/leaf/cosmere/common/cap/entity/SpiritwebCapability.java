@@ -16,6 +16,7 @@ import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
+import leaf.cosmere.client.PowerSaveState;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.config.CosmereConfigs;
 import leaf.cosmere.common.network.packets.SyncPlayerSpiritwebMessage;
@@ -90,6 +91,8 @@ public class SpiritwebCapability implements ISpiritweb
 
 	private final Map<Manifestations.ManifestationTypes, ISpiritwebSubmodule> spiritwebSubmodules;
 
+	private Map<Integer, Map<Manifestation, Integer>> powerSaveStorage;
+
 
 	public SpiritwebCapability(LivingEntity ent)
 	{
@@ -146,6 +149,7 @@ public class SpiritwebCapability implements ISpiritweb
 			spiritwebSubmodule.serialize(this);
 		}
 
+		nbt.put("PowerSaveStates", PowerSaveState.serialize());
 
 		return nbt;
 	}
@@ -200,6 +204,10 @@ public class SpiritwebCapability implements ISpiritweb
 		for (ISpiritwebSubmodule spiritwebSubmodule : spiritwebSubmodules.values())
 		{
 			spiritwebSubmodule.deserialize(this);
+		}
+		if(nbt.contains("PowerSaveStates"))
+		{
+			PowerSaveState.deserialize((CompoundTag) nbt.get("PowerSaveStates"));
 		}
 	}
 
