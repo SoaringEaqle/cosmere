@@ -19,6 +19,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.InteractionHand;
@@ -75,10 +76,7 @@ public class ClientForgeEvents
 				// just deactivate
 				Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
 				//if all powers are deactivated, the power save state is off.
-				for(PowerSaveState.PowerSaves save: PowerSaveState.PowerSaves.values())
-				{
-					save.deactivate();
-				}
+
 			}
 
 			//check keybinds with modifiers first?
@@ -126,18 +124,22 @@ public class ClientForgeEvents
 					}
 					int modifier = -selected.getMode(spiritweb);
 
-					//if active turn off
+					//if inactive turn on
 					if (!selected.isActive(spiritweb))
 					{
 						//if inactive and feruchemic ability tap 5
 						//else level one
 						modifier += activator.getCategory().equals("feruchemy")? -5: 1;
 						Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+						spiritweb.getLiving().sendSystemMessage(Component.literal("Activated " +
+								Component.translatable(selected.getTranslationKey())));
 
 					}
 					else
 					{
                         Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+						spiritweb.getLiving().sendSystemMessage(Component.literal("Deactivated " +
+								Component.translatable(selected.getTranslationKey())));
                     }
                 }
 			}
@@ -158,7 +160,7 @@ public class ClientForgeEvents
 					}
 					else if(isKeyHeld(Keybindings.SAVE_POWER_SAVE))
 					{
-						powerSave.addManifestations(spiritweb.getManifestations(false,true));
+						powerSave.addManifestations(spiritweb);
 					}
 				}
 			}
