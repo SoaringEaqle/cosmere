@@ -6,12 +6,15 @@ package leaf.cosmere.surgebinding.client.render.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import leaf.cosmere.surgebinding.client.render.SurgebindingLayerDefinitions;
-import leaf.cosmere.surgebinding.client.render.model.ShardplateModel;
+import leaf.cosmere.surgebinding.client.render.model.DynamicShardplateModel;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ArmorStandModel;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,14 +22,19 @@ import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
+import java.awt.*;
+
 public class ArmorRenderer implements ICurioRenderer
 {
-	public ShardplateModel model;
+	public DynamicShardplateModel model;
+
 
 	public ArmorRenderer()
 	{
 		final ModelPart modelPart = Minecraft.getInstance().getEntityModels().bakeLayer(SurgebindingLayerDefinitions.SHARDPLATE);
-		model = new ShardplateModel(modelPart);
+		model = new DynamicShardplateModel(modelPart);
+
+
 	}
 
 	@Override
@@ -46,6 +54,7 @@ public class ArmorRenderer implements ICurioRenderer
 
 		LivingEntity entity = slotContext.entity();
 
+
 		MobEffectInstance effectInstance = entity.getEffect(MobEffects.INVISIBILITY);
 		if (effectInstance != null && effectInstance.getDuration() > 0)
 		{
@@ -57,7 +66,30 @@ public class ArmorRenderer implements ICurioRenderer
 
 		ICurioRenderer.followBodyRotations(entity, this.model);
 
+		this.model.setup(stack, slotContext, matrixStack, renderTypeBuffer, light);
+/*
+		if(entityModel instanceof HumanoidModel humanoidModel && !(entityModel instanceof ArmorStandModel))
+		{
+			humanoidModel.setAllVisible(true);
+
+			if(model.faceplate.visible)
+			{
+				humanoidModel.head.visible = false;
+			}
+			if(model.body.visible)
+			{
+				humanoidModel.leftArm.visible = false;
+				humanoidModel.rightArm.visible = false;
+				humanoidModel.body.visible = false;
+				humanoidModel.leftLeg.visible = false;
+				humanoidModel.rightLeg.visible = false;
+			}
+		}
+*/
 		//this.model.render(stack, slotContext, matrixStack, renderTypeBuffer, light);
 
 	}
+
+
+
 }

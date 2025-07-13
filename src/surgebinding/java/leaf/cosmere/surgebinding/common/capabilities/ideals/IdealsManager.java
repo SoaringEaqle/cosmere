@@ -12,7 +12,7 @@ import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.util.TaskQueueManager;
 import leaf.cosmere.surgebinding.common.Surgebinding;
-import leaf.cosmere.surgebinding.common.capabilities.ideals.order.WindrunnerIdealStateManager;
+import leaf.cosmere.surgebinding.common.capabilities.ideals.order.WindrunnerIdealValidator;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
 import leaf.cosmere.surgebinding.common.config.SurgebindingServerConfig;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingManifestations;
@@ -25,7 +25,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.event.ServerChatEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class RadiantStateManager
+public class IdealsManager
 {
 	private static ResourceLocation SWEAR_IDEAL = new ResourceLocation(Surgebinding.MODID, "swear_ideal");
 
@@ -225,7 +225,7 @@ public class RadiantStateManager
 		{
 			case WINDRUNNER ->
 			{
-				return WindrunnerIdealStateManager.validateIdeal(spiritweb, idealToSwear);
+				return WindrunnerIdealValidator.validateIdeal(spiritweb, idealToSwear);
 			}
 			case SKYBREAKER ->
 			{

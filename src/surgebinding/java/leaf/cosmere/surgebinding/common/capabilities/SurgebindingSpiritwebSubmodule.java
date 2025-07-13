@@ -1,20 +1,22 @@
 /*
- * File updated ~ 5 - 3 - 2025 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.capabilities;
 
 import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Manifestations;
+import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.helpers.EffectsHelper;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.items.CapWrapper;
-import leaf.cosmere.surgebinding.common.capabilities.ideals.RadiantStateManager;
+import leaf.cosmere.surgebinding.common.capabilities.ideals.IdealsManager;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
 import leaf.cosmere.surgebinding.common.items.GemstoneItem;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingDimensions;
+import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
@@ -27,10 +29,15 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosCapability;
+import top.theillusivec4.curios.api.CuriosDataProvider;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
@@ -39,7 +46,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	//stormlight stored
 	private int stormlightStored = 0;
 
-	private boolean herald = false;
+	private Roshar.RadiantOrder heraldOrder = null;
 
 	//Since I'm referencing it so often. For readability if nothing else
 	int maxPlayerStormlight = SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get();
@@ -49,9 +56,12 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 	//a little ew, I'd rather this in an enum utils, but it's the only place that needs it
 	public static final ShardplateArmorMaterial[] ARMOR_MATERIALS = ShardplateArmorMaterial.values();
-	RadiantStateManager idealsManager = new RadiantStateManager();
+	IdealsManager idealsManager = new IdealsManager();
 	private ISpiritweb spiritweb;
 
+	//These Items specifically represent the living plate and blade bonded to the Radiant. This way, these objects can exist without ever needing be summoned.
+	private ItemStack blade = null;
+	private ItemStack plate = null;
 	public static SurgebindingSpiritwebSubmodule getSubmodule(ISpiritweb data)
 	{
 		return (SurgebindingSpiritwebSubmodule) data.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
@@ -59,7 +69,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 	public boolean isHerald()
 	{
-		return herald;
+		return heraldOrder != null;
 	}
 
 	public boolean isOathed()
@@ -76,7 +86,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		stormlightStored = compoundTag.getInt("stored_stormlight");
 		idealsManager.deserialize(spiritweb);
 
-		this.herald = compoundTag.contains("herald") && compoundTag.getBoolean("herald");
+		this.heraldOrder = compoundTag.contains("herald")
+		                   ? Roshar.RadiantOrder.valueOf(compoundTag.getInt("herald")).orElse(null)
+		                   : null;
 	}
 
 	@Override
@@ -87,10 +99,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		compoundTag.putInt("stored_stormlight", stormlightStored);
 		idealsManager.serialize(spiritweb);
 
-		//don't store extra data if we don't need to
-		if (herald)
+		if (heraldOrder != null)
 		{
-			compoundTag.putBoolean("herald", true);
+			compoundTag.putInt("herald", heraldOrder.getID());
 		}
 		else if (compoundTag.contains("herald"))
 		{
@@ -158,9 +169,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 				int drainRate = SurgebindingConfigs.SERVER.STORMLIGHT_DRAIN_RATE.get();
 				//todo maybe reducing cost based on how many ideals they have sworn?
-				//int idealsSworn = idealsManager.getIdeal();
+				int idealsSworn = 1;
 
-				adjustStormlight(-(drainRate), true);
+				adjustStormlight(-(drainRate / idealsSworn), true);
 			}
 		}
 
@@ -168,6 +179,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 		if (surgebindingActiveTick)
 		{
+			/*
 			ItemStack helmet = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
 			ItemStack breastplate = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
 			ItemStack leggings = livingEntity.getItemBySlot(EquipmentSlot.LEGS);
@@ -197,15 +209,8 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 						break;
 					}
 				}
-			}
+			}*/
 		}
-	}
-
-	@Override
-	public void drainInvestiture(ISpiritweb data, double strength)
-	{
-		//todo drain based on strength
-		stormlightStored = (int) (stormlightStored * 0.1f);
 	}
 
 
@@ -427,8 +432,18 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 		idealsManager.onChatMessageReceived(event);
 	}
 
-	public void setHerald(boolean isHerald)
+	public void setHerald(Roshar.RadiantOrder order)
 	{
-		herald = isHerald;
+		heraldOrder = order;
 	}
+
+
+	@Override
+	public void drainInvestiture(ISpiritweb data, double strength)
+	{
+		//todo drain based on strength
+		stormlightStored = (int) (stormlightStored * 0.1f);
+	}
+
+
 }
