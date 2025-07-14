@@ -80,12 +80,16 @@ public class IronSteelLinesThread implements Runnable
 	}
 
 	//stops and kills thread
-	public static void stopThread()
+	public static void stopThread(boolean restart)
 	{
 		if (INSTANCE != null)
 		{
 			INSTANCE.stop();
 			INSTANCE = null;
+			if (restart)
+			{
+				startThread();
+			}
 		}
 	}
 
@@ -179,6 +183,7 @@ public class IronSteelLinesThread implements Runnable
 	public void run()
 	{
 		final Minecraft mc = Minecraft.getInstance();
+		boolean restartThread = false;
 		while (!isStopping)
 		{
 			try
@@ -206,7 +211,7 @@ public class IronSteelLinesThread implements Runnable
 									// if level is null, the player has no world loaded, so stop
 									if (player == null || mc.level == null)
 									{
-										stopThread();
+										stopThread(false);
 										return false;
 									}
 									isGood = !isBlockObscured(blockPos, player, level);
@@ -238,7 +243,7 @@ public class IronSteelLinesThread implements Runnable
 						// if level is null, the player has no world loaded, so stop
 						if (player == null || mc.level == null)
 						{
-							stopThread();
+							stopThread(false);
 							return;
 						}
 						if (entityContainsMetal(entity)
@@ -265,11 +270,12 @@ public class IronSteelLinesThread implements Runnable
 			catch (Exception e)
 			{
 				CosmereAPI.logger.info("Unexpected exception in lines thread: \n" + Arrays.toString(e.getStackTrace()));
+				restartThread = true;
 
 				break;
 			}
 		}
-		stopThread();
+		stopThread(restartThread);
 	}
 
 	private boolean isBlockObscured(BlockPos blockPos, Player player, Level level)
