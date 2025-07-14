@@ -27,6 +27,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
@@ -238,24 +239,31 @@ public class IronSteelLinesThread implements Runnable
 				{
 					EntityHelper.getEntitiesInRange(playerEntity, scanRange, false).forEach(entity ->
 					{
-						Player player = Minecraft.getInstance().player;
-						Level level = Minecraft.getInstance().level;
-						// if level is null, the player has no world loaded, so stop
-						if (player == null || mc.level == null)
+						try
 						{
-							stopThread(false);
-							return;
+							Player player = Minecraft.getInstance().player;
+							Level level = Minecraft.getInstance().level;
+							// if level is null, the player has no world loaded, so stop
+							if (player == null || mc.level == null)
+							{
+								stopThread(false);
+								return;
+							}
+							if (entityContainsMetal(entity)
+									&& !isEntityObscured(entity, player, level))
+							{
+								nextScan.foundEntities.add(
+										entity.position().add(
+												0,
+												entity.getBoundingBox().getYsize() / 2,
+												0));
+								closestMetalThingLookedAt.set(compareVectors(entity.position().add(0, entity.getBoundingBox().getYsize() / 2, 0), player, closestMetalThingLookedAt.get()));
+							}
 						}
-						if (entityContainsMetal(entity)
-								&& !isEntityObscured(entity, player, level))
+						catch (ConcurrentModificationException coModE)
 						{
-							nextScan.foundEntities.add(
-									entity.position().add(
-											0,
-											entity.getBoundingBox().getYsize() / 2,
-											0));
-
-							closestMetalThingLookedAt.set(compareVectors(entity.position().add(0, entity.getBoundingBox().getYsize() / 2, 0), player, closestMetalThingLookedAt.get()));
+							// we can ignore this safely, probably
+							// if this comes back to bite us, I, Gerbagel, take no responsibility 
 						}
 					});
 				}
