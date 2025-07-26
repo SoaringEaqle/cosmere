@@ -152,6 +152,17 @@ public class EntityEventHandler
 	{
 		boolean isPlayerEntity = entity instanceof Player;
 
+		if (isPlayerEntity)
+		{
+			if (!MathHelper.chance(CosmereConfigs.SERVER_CONFIG.PLAYER_METALBORN_CHANCE.get()))
+			{
+				// if player isn't metalborn, no need to continue
+				// a bit messy to do this but oh well, we want to change it anyway      // tech debt? what's that?
+				addOtherPowers(spiritwebCapability);
+				return;
+			}
+		}
+
 		final Integer chanceOfFullPowers = CosmereConfigs.SERVER_CONFIG.FULLBORN_POWERS_CHANCE.get();
 		final Integer chanceOfTwinborn = isPlayerEntity ? CosmereConfigs.SERVER_CONFIG.TWINBORN_POWERS_CHANCE_PLAYER.get() : CosmereConfigs.SERVER_CONFIG.TWINBORN_POWERS_CHANCE_MOB.get();
 		//low chance of having full powers of one type
@@ -251,7 +262,7 @@ public class EntityEventHandler
 			else
 			{
 				Manifestation manifestation;
-				isAllomancy = isPlayerEntity ? MathHelper.randomInt(1, 100) < CosmereConfigs.SERVER_CONFIG.PLAYER_MISTING_TO_FERRING_DISTRIBUTION.get() : MathHelper.randomBool();
+				isAllomancy = isPlayerEntity ? MathHelper.randomInt(0, 99) < CosmereConfigs.SERVER_CONFIG.PLAYER_MISTING_TO_FERRING_DISTRIBUTION.get() : MathHelper.randomBool();
 				if (allomancyLoaded && feruchemyLoaded)
 				{
 					manifestation =

@@ -14,6 +14,7 @@ public class CosmereServerConfig implements ICosmereConfig
 
 	public final ForgeConfigSpec.IntValue CHARGEABLE_MAX_VALUE;
 	public final ForgeConfigSpec.BooleanValue SCULK_CAN_HEAR_KINETIC_INVESTITURE;
+	public final ForgeConfigSpec.IntValue PLAYER_METALBORN_CHANCE;
 	public final ForgeConfigSpec.IntValue FULLBORN_POWERS_CHANCE;
 	public final ForgeConfigSpec.IntValue TWINBORN_POWERS_CHANCE_PLAYER;
 	public final ForgeConfigSpec.IntValue TWINBORN_POWERS_CHANCE_MOB;
@@ -35,6 +36,7 @@ public class CosmereServerConfig implements ICosmereConfig
 		MOB_POWERS_CHANCE = builder.comment("1 in how many mobs should have powers?").defineInRange("mobPowerChance", 16, 1, 123456);
 		RAIDER_POWERS_CHANCE = builder.comment("1 in how many Raiders should have powers?").defineInRange("raiderPowerChance", 64, 1, 123456);
 
+		PLAYER_METALBORN_CHANCE = builder.comment("1 in how many players should be metalborn?").defineInRange("playerMetalbornChance", 1, 1, 123456);
 		FULLBORN_POWERS_CHANCE = builder.comment("1 in how many should powered individuals should have full powers of one type").defineInRange("fullPowersChance", 16, 1, 123456);
 		TWINBORN_POWERS_CHANCE_PLAYER = builder.comment("If not full born, 1 in how many powered players should be twinborn? If players are not twinborn, they will be either a misting or ferring.").defineInRange("twinbornPowersChancePlayer", 1, 1, 123456);
 		TWINBORN_POWERS_CHANCE_MOB = builder.comment("If not full born, 1 in how many powered mobs should be twinborn?").defineInRange("twinbornPowersChanceMob", 16, 1, 123456);
