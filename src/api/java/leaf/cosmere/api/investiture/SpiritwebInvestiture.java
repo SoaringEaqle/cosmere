@@ -8,23 +8,31 @@ public class SpiritwebInvestiture implements IInvestiture
 	
 	private int beu;
 	
-	private InvestitureContainer container;
+	private IInvestitureContainer container;
+
+	private InvestitureConstants.Shards shard;
+	private InvestitureConstants.InvestitureSources source;
 	
-	public SpiritwebInvestiture(InvestitureContainer investitureContainer, Manifestation[] appManifest)
+	public SpiritwebInvestiture(IInvestitureContainer investitureContainer,
+	                            InvestitureConstants.Shards shard,
+	                            InvestitureConstants.InvestitureSources source,
+	                            Manifestation[] appManifest)
 	{
+		this.shard = shard;
+		this.source = source;
 		this.beu = 9 * 15;
 		this.appManfestations = appManifest;
 		container = investitureContainer;
-		container.addInvestiture(this);
+		container.mergeOrAddInvestiture(this);
 
 	}
 	
-	public SpiritwebInvestiture(InvestitureContainer investitureContainer, int beu, Manifestation[] appManifest)
+	public SpiritwebInvestiture(IInvestitureContainer investitureContainer, int beu, Manifestation[] appManifest)
 	{
 		this.beu = beu;
 		this.appManfestations = appManifest;
 		container = investitureContainer;
-		container.addInvestiture(this);
+		container.mergeOrAddInvestiture(this);
 	}
 	
 	public int getBEU()
@@ -38,9 +46,21 @@ public class SpiritwebInvestiture implements IInvestiture
 	{
 		return appManfestations;
 	}
-	
 
-	public InvestitureContainer getContainer()
+	@Override
+	public InvestitureConstants.Shards getShard()
+	{
+		return null;
+	}
+
+	@Override
+	public InvestitureConstants.InvestitureSources getSource()
+	{
+		return null;
+	}
+
+
+	public IInvestitureContainer getContainer()
 	{
 		return container;
 	}

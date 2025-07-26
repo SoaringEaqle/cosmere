@@ -2,15 +2,15 @@ package leaf.cosmere.surgebinding.common.investiture;
 
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.investiture.Investiture;
-import leaf.cosmere.api.investiture.InvestitureContainer;
+import leaf.cosmere.api.investiture.IInvestitureContainer;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
 
 public class Stormlight extends Investiture
 {
-	public Stormlight(InvestitureContainer container,
-	                  int beu)
+	public Stormlight(IInvestitureContainer container,
+                      int beu)
 	{
 		super(container,beu, Manifestations.manifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING));
 		int decayRate;

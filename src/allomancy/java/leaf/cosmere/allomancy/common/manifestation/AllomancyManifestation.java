@@ -8,9 +8,10 @@ import leaf.cosmere.allomancy.client.AllomancyKeybindings;
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
 import leaf.cosmere.allomancy.common.registries.AllomancyStats;
 import leaf.cosmere.api.*;
+import leaf.cosmere.api.investiture.InvestitureConstants;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
-import leaf.cosmere.api.investiture.InvestitureContainer;
+import leaf.cosmere.api.investiture.IInvestitureContainer;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.charge.MetalmindChargeHelper;
 import leaf.cosmere.api.investiture.Investiture;
@@ -163,7 +164,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		LivingEntity livingEntity = data.getLiving();
 		boolean isActiveTick = isActiveTick(data);
 		allo.adjustIngestedMetal(metalType, -cost, isActiveTick);
-		newInvest((InvestitureContainer) data);
+		if(isActiveTick)newInvest((IInvestitureContainer) data);
 
 		if (isActiveTick && livingEntity instanceof ServerPlayer serverPlayer)
 		{
@@ -174,6 +175,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		if (mode > 0)
 		{
 			//todo: rewrite all applyEffectTick() methods to pull from investiture sources.
+
 			applyEffectTick(data);
 			return true;
 		}
@@ -263,13 +265,13 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 	
 	@Override
-	public int maxInvestitureDraw(InvestitureContainer data)
+	public int maxInvestitureDraw(IInvestitureContainer data)
 	{
 		return (int) ((10 * getStrength((SpiritwebCapability)data,false)) + 15);
 	}
 	
 	@Override
-	public int minInvestitureDraw(InvestitureContainer data)
+	public int minInvestitureDraw(IInvestitureContainer data)
 	{
 		if(isFlaring((SpiritwebCapability)data))
 		{
@@ -280,12 +282,12 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	
 
 	public final Manifestation[] appManifestComp = Manifestations.manifestArrayBuilder.getAllMetal(this.getMetalType());
-	
 
-	
-	public Investiture newInvest(InvestitureContainer data)
+
+
+	public Investiture newInvest(IInvestitureContainer data)
 	{
-		Investiture sub = new Investiture(data, isFlaring((ISpiritweb) data)? 30 : 15, appManifestComp);
+		Investiture sub = new Investiture(data, InvestitureConstants.Shards.PRESERVATION, InvestitureConstants.InvestitureSources.DIRECT, isFlaring((ISpiritweb) data) ? 30 : 15, appManifestComp);
 		sub.setPriority(5);
 		return sub;
 	}

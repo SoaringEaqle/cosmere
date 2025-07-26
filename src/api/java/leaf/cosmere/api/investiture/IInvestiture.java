@@ -9,8 +9,11 @@ public interface IInvestiture
 	void setBEU(int beu);
 	
 	Manifestation[] getApplicableManifestations();
-	
 
-	InvestitureContainer getContainer();
+	InvestitureConstants.Shards getShard();
+
+	InvestitureConstants.InvestitureSources getSource();
+
+	IInvestitureContainer getContainer();
 
 }

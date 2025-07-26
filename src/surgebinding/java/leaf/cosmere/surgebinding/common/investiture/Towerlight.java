@@ -2,12 +2,12 @@ package leaf.cosmere.surgebinding.common.investiture;
 
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.investiture.Investiture;
-import leaf.cosmere.api.investiture.InvestitureContainer;
+import leaf.cosmere.api.investiture.IInvestitureContainer;
 
 public class Towerlight extends Investiture
 {
-	public Towerlight(InvestitureContainer container,
-	                  int beu)
+	public Towerlight(IInvestitureContainer container,
+                      int beu)
 	{
 		super(container,beu, Manifestations.manifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING));
 
