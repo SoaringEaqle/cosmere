@@ -7,7 +7,6 @@ package leaf.cosmere.client;
 import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
-import leaf.cosmere.client.render.CosmereRenderers;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.network.packets.ChangeManifestationModeMessage;
 import leaf.cosmere.common.registry.ManifestationRegistry;
