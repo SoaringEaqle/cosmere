@@ -111,7 +111,7 @@ public class RadiantStateManager
 			//for each ideal
 			for (int ideal = 1; ideal <= 5; ideal++)
 			{
-				String thisIdeal = SurgebindingConfigs.SERVER.getIdeal(ideal, radiantOrder.getID());
+				String thisIdeal = order.getTranslatedOath(ideal).getString();
 				if (thisIdeal.equals(SurgebindingServerConfig.IDEAL_NOT_IMPLEMENTED))
 				{
 					//skip ideals that are not yet implemented

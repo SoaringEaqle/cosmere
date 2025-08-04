@@ -13,6 +13,7 @@ import leaf.cosmere.surgebinding.common.commands.SurgebindingCommands;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeGravitation;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;

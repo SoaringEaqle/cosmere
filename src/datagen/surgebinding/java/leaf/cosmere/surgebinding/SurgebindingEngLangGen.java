@@ -4,7 +4,9 @@
 
 package leaf.cosmere.surgebinding;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
+import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.providers.IAttributeProvider;
@@ -20,6 +22,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
+import java.util.Map;
 
 import static leaf.cosmere.api.Constants.Strings.KEY_SHARDBLADE;
 
@@ -51,6 +56,7 @@ public class SurgebindingEngLangGen extends LanguageProvider
 		addCommands();
 		addKeybindings();
 		addStats();
+		addOaths();
 
 	}
 
@@ -182,5 +188,91 @@ public class SurgebindingEngLangGen extends LanguageProvider
 	private void addStats()
 	{
 
+	}
+
+	private void addOaths()
+	{
+		String oath = "first";
+
+
+
+		for(Roshar.RadiantOrder order: EnumUtils.RADIANT_ORDERS)
+		{
+
+			for(int i = 1; i <= 5; i++)
+			{
+				add(order.getOath(i), getOath(order,i));
+			}
+		}
+	}
+
+	private String getOath(Roshar.RadiantOrder order, int ideal)
+	{
+		final String IDEAL_NOT_IMPLEMENTED = "notyetimplemented";
+		if (ideal == 1)
+		{
+			return "Life before Death, Strength before Weakness, Journey before Destination";
+		}
+		else if(ideal == 2)
+		{
+			return List.of(
+					"I will protect those who cannot protect themselves.", //windrunner
+					"I swear to seek justice, to let it guide me, until I find a more perfect Ideal.", //skybreaker
+					"To control my power, I will control myself.", //dustbringer
+					"I will remember those who have been forgotten", //edgedancer
+					"I will seek truth wherever it is hidden.", //truthwatcher //todo better?
+					IDEAL_NOT_IMPLEMENTED, //lightweaver
+					"I will reach my potential", //elsecaller
+					"I will seek freedom for those in bondage.", //willshaper
+					"I will step forward when others fall back.", //stoneward
+					"I will unite instead of divide." //bondsmith
+			).get(order.getID());
+		}
+		else if(ideal == 3)
+		{
+			return List.of(
+					"I will protect even those I hate", //windrunner
+					"I swear to follow", //skybreaker
+					"To understand my power, I will understand what power is.", //dustbringer
+					"I will listen to those who have been ignored.", //edgedancer
+					"I will reveal truth to all who seek it.", //truthwatcher
+					IDEAL_NOT_IMPLEMENTED, //lightweaver
+					"I will achieve my goals, no matter the cost", //elsecaller
+					"I will fight oppression", //willshaper
+					"I will be the foundation on which others can build.", //stoneward
+					"I will take responsibility for what I have done. If I must fall, I will rise each time a better" //bondsmith
+			).get(order.getID());
+		}
+		else if(ideal == 4)
+		{
+			return List.of(
+					"I accept that there will be those I cannot protect.", //windrunner
+					IDEAL_NOT_IMPLEMENTED, //skybreaker
+					"I will accept that destruction is sometimes necessary", //dustbringer
+					IDEAL_NOT_IMPLEMENTED, //edgedancer
+					IDEAL_NOT_IMPLEMENTED, //truthwatcher
+					IDEAL_NOT_IMPLEMENTED, //lightweaver
+					"I will accept that some goals are unobtainable", //elsecaller
+					IDEAL_NOT_IMPLEMENTED, //willshaper
+					IDEAL_NOT_IMPLEMENTED, //stoneward
+					IDEAL_NOT_IMPLEMENTED //bondsmith
+			).get(order.getID());
+		}
+		else if (ideal == 5)
+		{
+			List.of(
+					"I will protect myself, so that I may continue to protect others. ", //windrunner
+					"I am the law", //skybreaker
+					IDEAL_NOT_IMPLEMENTED, //dustbringer
+					IDEAL_NOT_IMPLEMENTED, //edgedancer
+					IDEAL_NOT_IMPLEMENTED, //truthwatcher
+					IDEAL_NOT_IMPLEMENTED, //lightweaver
+					IDEAL_NOT_IMPLEMENTED, //elsecaller
+					IDEAL_NOT_IMPLEMENTED, //willshaper
+					IDEAL_NOT_IMPLEMENTED, //stoneward
+					IDEAL_NOT_IMPLEMENTED //bondsmith
+			).get(order.getID());
+		}
+		return IDEAL_NOT_IMPLEMENTED;
 	}
 }

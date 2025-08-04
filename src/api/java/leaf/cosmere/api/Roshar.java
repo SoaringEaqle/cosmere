@@ -4,6 +4,8 @@
 
 package leaf.cosmere.api;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -294,6 +296,26 @@ public class Roshar
 				case BONDSMITH://Tension & Adhesion
 					return Surges.ADHESION;
 			}
+		}
+
+		public String getOath(int idealNum)
+		{
+			String ideal = switch (idealNum)
+			{
+				case 1 -> ".first";
+				case 2 -> ".second";
+				case 3 -> ".third";
+				case 4 -> ".fourth";
+				case 5 -> ".fifth";
+				default -> "";
+			};
+			return "oaths." + this.getName() + ideal;
+		}
+
+		public MutableComponent getTranslatedOath(int idealNum)
+		{
+			String ideal = getOath(idealNum);
+			return Component.translatable(ideal);
 		}
 
 		public int getColorValue()
