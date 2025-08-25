@@ -5,11 +5,11 @@
 package leaf.cosmere.api.manifestation;
 
 import leaf.cosmere.api.CosmereAPI;
+import leaf.cosmere.api.investiture.IInvestitureContainer;
 import leaf.cosmere.api.investiture.Investiture;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.providers.IManifestationProvider;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
-import leaf.cosmere.api.investiture.IInvestitureContainer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -144,7 +144,7 @@ public class Manifestation implements IManifestationProvider
 
 
 
-	public int drawInvestiture(IInvestitureContainer data, int beu)
+	public int drawInvestiture(IInvestitureContainer<?> data, int beu)
 	{
 		ArrayList<Investiture> invests = data.availableInvestitures(this);
 		int sum = 0;
@@ -185,12 +185,12 @@ public class Manifestation implements IManifestationProvider
 
 	}
 
-	public int maxInvestitureDraw(IInvestitureContainer data)
+	public int maxInvestitureDraw(IInvestitureContainer<?> data)
 	{
 		return 0;
 	}
 
-	public int minInvestitureDraw(IInvestitureContainer data)
+	public int minInvestitureDraw(IInvestitureContainer<?> data)
 	{
 		return 0;
 	}

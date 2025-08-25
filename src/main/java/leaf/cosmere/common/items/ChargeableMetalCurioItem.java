@@ -8,9 +8,6 @@ import leaf.cosmere.api.Constants;
 import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.Metals;
-import leaf.cosmere.api.investiture.IInvestiture;
-import leaf.cosmere.api.investiture.IInvestitureItemContainer;
-import leaf.cosmere.api.investiture.Investiture;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.properties.PropTypes;
@@ -22,10 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ChargeableMetalCurioItem extends ChargeableItemBase implements IHasMetalType, ICurioItem, IInvestitureItemContainer
+public class ChargeableMetalCurioItem extends ChargeableItemBase implements IHasMetalType, ICurioItem
 {
 	private final Metals.MetalType metalType;
 
@@ -92,47 +88,5 @@ public class ChargeableMetalCurioItem extends ChargeableItemBase implements IHas
 				}
 			});
 		}
-	}
-
-	@Override
-	public ArrayList<Investiture> availableInvestitures(ItemStack stack, Manifestation manifest)
-	{
-		return ;
-	}
-
-	@Override
-	public Investiture findInvestiture(ItemStack stack, Manifestation[] appManifest)
-	{
-		return null;
-	}
-
-	@Override
-	public void mergeOrAddInvestiture(ItemStack stack, IInvestiture invest)
-	{
-
-	}
-
-	@Override
-	public int currentBEU()
-	{
-		return 0;
-	}
-
-	@Override
-	public int getMaxBEU()
-	{
-		return 0;
-	}
-
-	@Override
-	public void setMaxBEU(int maxBEU)
-	{
-
-	}
-
-	@Override
-	public void clean()
-	{
-
 	}
 }

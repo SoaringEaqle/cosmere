@@ -2,14 +2,12 @@ package leaf.cosmere.api.investiture;
 
 import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.Metals;
-import leaf.cosmere.api.manifestation.Manifestation;
 
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
-public class InvestitureConstants
+public class InvestitureHelpers
 {
 	public enum Shards
 	{
@@ -44,7 +42,7 @@ public class InvestitureConstants
 			this.id = number;
 		}
 
-		public static Optional<InvestitureConstants.Shards> valueOf(int value)
+		public static Optional<InvestitureHelpers.Shards> valueOf(int value)
 		{
 			return Arrays.stream(values())
 					.filter(shard -> shard.id == value)
@@ -84,10 +82,7 @@ public class InvestitureConstants
 				case AUTONOMY -> Manifestations.ManifestationTypes.SANDMASTERY;
 				case DOR -> Manifestations.ManifestationTypes.AON_DOR;
 				case ENDOWMENT -> Manifestations.ManifestationTypes.AWAKENING;
-				case HONOR -> Manifestations.ManifestationTypes.SURGEBINDING;
-				case ODIUM -> Manifestations.ManifestationTypes.SURGEBINDING;
-				case RETRIBUTION -> Manifestations.ManifestationTypes.SURGEBINDING;
-				case CULTIVATION -> Manifestations.ManifestationTypes.SURGEBINDING;
+				case HONOR, ODIUM, RETRIBUTION, CULTIVATION -> Manifestations.ManifestationTypes.SURGEBINDING;
 				default -> Manifestations.ManifestationTypes.NONE;
 			};
 		}
@@ -112,7 +107,7 @@ public class InvestitureConstants
 			this.id = id;
 		}
 
-		public static Optional<InvestitureConstants.InvestitureSources> valueOf(int value)
+		public static Optional<InvestitureHelpers.InvestitureSources> valueOf(int value)
 		{
 			return Arrays.stream(values())
 					.filter(shard -> shard.id == value)
@@ -128,6 +123,21 @@ public class InvestitureConstants
 		{
 			return name().toLowerCase(Locale.ROOT);
 		}
+
+	}
+
+	public static class Math
+	{
+		int beuToStrength(int beu)
+		{
+			return beu/15;
+		}
+
+		int strengthToBEU(int strength)
+		{
+			return strength*15;
+		}
+
 
 	}
 }

@@ -10,11 +10,11 @@ import com.mojang.blaze3d.vertex.*;
 import leaf.cosmere.api.*;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
-import leaf.cosmere.api.investiture.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.config.CosmereConfigs;
+import leaf.cosmere.common.investiture.InvestitureContainer;
 import leaf.cosmere.common.network.packets.SyncPlayerSpiritwebMessage;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
@@ -57,7 +57,7 @@ import java.util.List;
     https://coppermind.net/wiki/Ars_Arcanum#The_Alloy_of_Law
  */
 
-public class SpiritwebCapability implements ISpiritweb, IInvestitureEntityContainer
+public class SpiritwebCapability implements ISpiritweb
 {
 	//Injection
 	public static final Capability<ISpiritweb> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
@@ -69,6 +69,7 @@ public class SpiritwebCapability implements ISpiritweb, IInvestitureEntityContai
 	private boolean hasBeenInitialized = false;
 
 	private final LivingEntity livingEntity;
+	private InvestitureContainer<LivingEntity> investitureContainer;
 
 	public final Map<Manifestation, Integer> MANIFESTATIONS_MODE = new HashMap<>();
 
@@ -87,9 +88,6 @@ public class SpiritwebCapability implements ISpiritweb, IInvestitureEntityContai
 
 	private final Map<Manifestations.ManifestationTypes, ISpiritwebSubmodule> spiritwebSubmodules;
 
-	private final List<Investiture> investitures = new ArrayList<>();
-	private final List<SpiritwebInvestiture> swInvestitures = new ArrayList<>();
-	private int maxBEU;
 
 
 
@@ -148,12 +146,9 @@ public class SpiritwebCapability implements ISpiritweb, IInvestitureEntityContai
 			spiritwebSubmodule.serialize(this);
 		}
 
-		ListTag investStored = new ListTag();
-		for(Investiture investiture: investitures)
-		{
-			investStored.add(investiture.serializeNBT());
-		}
-		nbt.put("investitures", investStored);
+		InvestitureContainer<LivingEntity> container = InvestitureContainer.findOrCreateContainer(getLiving());
+		nbt.put("investContainer", container.serializeNBT());
+
 
 		return nbt;
 	}
@@ -210,16 +205,8 @@ public class SpiritwebCapability implements ISpiritweb, IInvestitureEntityContai
 			spiritwebSubmodule.deserialize(this);
 		}
 
-		if (compoundTag.contains("investitures"))
-		{
-			ListTag listtag = (ListTag) compoundTag.get("investitures");
-			for (int i = 0; i < listtag.size(); ++i)
-			{
-				CompoundTag sub = listtag.getCompound(i);
-				Investiture.buildFromNBT(sub, this);
-			}
+		investitureContainer = InvestitureContainer.findOrCreateContainer(getLiving());
 
-		}
 	}
 
 	@Override
@@ -1013,98 +1000,15 @@ public class SpiritwebCapability implements ISpiritweb, IInvestitureEntityContai
 		}
 	}
 
-
 	@Override
-	public ArrayList<Investiture> availableInvestitures(Manifestation manifest)
+	public int maxBEU()
 	{
-		ArrayList<Investiture> availables = new ArrayList<>();
-		for (Investiture invest : investitures)
-		{
-			if (invest.isUsable(manifest))
-			{
-				availables.add(invest);
-			}
-		}
-		return availables;
+		//todo: determine maximum BEU capacity based on player's powers, active powers, location, etc.
+		return Integer.MAX_VALUE;
 	}
 
-	@Override
-	public void mergeOrAddInvestiture(IInvestiture invest)
+	public InvestitureContainer<LivingEntity> getInvestitureContainer()
 	{
-		if (invest instanceof SpiritwebInvestiture swInvest)
-		{
-			for (SpiritwebInvestiture investiture : swInvestitures)
-			{
-				swInvest.merge(investiture);
-			}
-			swInvestitures.add(swInvest);
-		}
-		else if (invest instanceof Investiture iInvest)
-		{
-			iInvest.merge(
-					investitures.stream()
-							.filter(investiture -> investiture.getShard() == iInvest.getShard())
-							.findFirst()
-							.orElse(iInvest));
-			investitures.add(iInvest);
-		}
+		return investitureContainer;
 	}
-
-	@Override
-	public Investiture findInvestiture(Manifestation[] appManifest)
-	{
-		for (Investiture invest : investitures)
-		{
-			if (Arrays.equals(invest.getApplicableManifestations(), appManifest))
-			{
-				return invest;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean hasInvestiture(Investiture investiture)
-	{
-		return !investitures.stream().filter(investiture1 -> investiture == investiture1).toList().isEmpty();
-	}
-
-	@Override
-	public int currentBEU()
-	{
-		int sub = 0;
-		for(Investiture invest: investitures)
-		{
-			sub+= invest.getBEU();
-		}
-		return sub;
-	}
-
-	@Override
-	public int getMaxBEU()
-	{
-		return maxBEU;
-	}
-
-	@Override
-	public void setMaxBEU(int maxBEU)
-	{
-		this.maxBEU = maxBEU;
-	}
-
-	@Override
-	// Clears out empty investiture objects from the ArrayList and the game memory
-	// Objects in use elsewhere will not be removed, and can re-attach themselves later using the "reattach()" method
-	public void clean()
-	{
-		for(Investiture investiture: investitures)
-		{
-			if(investiture.getBEU() == 0)
-			{
-				investitures.remove(investiture);
-			}
-		}
-		System.gc();
-	}
-
 }

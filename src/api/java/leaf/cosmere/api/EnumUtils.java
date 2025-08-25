@@ -4,7 +4,7 @@
 
 package leaf.cosmere.api;
 
-import leaf.cosmere.api.investiture.InvestitureConstants;
+import leaf.cosmere.api.investiture.InvestitureHelpers;
 import net.minecraft.core.Direction;
 
 //constant static enum arrays for enums in api that get used often. Save memory allocation where possible
@@ -20,7 +20,7 @@ public class EnumUtils
 	public static final Roshar.Surges[] SURGES = Roshar.Surges.values();
 
 	//investiture
-	public static final InvestitureConstants.Shards[] SHARDS = InvestitureConstants.Shards.values();
+	public static final InvestitureHelpers.Shards[] SHARDS = InvestitureHelpers.Shards.values();
 
 	//yes I know it's a vanilla enum
 	public static final Direction[] DIRECTIONS = Direction.values();

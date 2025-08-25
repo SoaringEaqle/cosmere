@@ -1,42 +1,43 @@
 package leaf.cosmere.api.investiture;
 
+import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.manifestation.Manifestation;
+import net.minecraft.nbt.CompoundTag;
 
 public class SpiritwebInvestiture implements IInvestiture
 {
-	private Manifestation[] appManfestations;
+	private Manifestation[] applicableManifestations;
 	
 	private int beu;
-	
-	private IInvestitureContainer container;
 
-	private InvestitureConstants.Shards shard;
-	private InvestitureConstants.InvestitureSources source;
+
+	private IInvestitureContainer container;
+	private InvestitureHelpers.Shards shard;
+	private InvestitureHelpers.InvestitureSources source;
+
+	private CompoundTag nbt;
 	
 	public SpiritwebInvestiture(IInvestitureContainer investitureContainer,
-	                            InvestitureConstants.Shards shard,
-	                            InvestitureConstants.InvestitureSources source,
+								int strength,
+	                            InvestitureHelpers.Shards shard,
+	                            InvestitureHelpers.InvestitureSources source,
 	                            Manifestation[] appManifest)
 	{
 		this.shard = shard;
 		this.source = source;
-		this.beu = 9 * 15;
-		this.appManfestations = appManifest;
+		this.beu = strength * 15;
+		this.applicableManifestations = appManifest;
 		container = investitureContainer;
 		container.mergeOrAddInvestiture(this);
 
 	}
 	
-	public SpiritwebInvestiture(IInvestitureContainer investitureContainer, int beu, Manifestation[] appManifest)
-	{
-		this.beu = beu;
-		this.appManfestations = appManifest;
-		container = investitureContainer;
-		container.mergeOrAddInvestiture(this);
-	}
+
 	
 	public int getBEU()
-	{return beu;}
+	{
+		return beu;
+	}
 
 	public void setBEU(int beu) 
 	{
@@ -44,22 +45,22 @@ public class SpiritwebInvestiture implements IInvestiture
 	}
 	public Manifestation[] getApplicableManifestations()
 	{
-		return appManfestations;
+		return applicableManifestations;
 	}
 
 	@Override
-	public InvestitureConstants.Shards getShard()
+	public InvestitureHelpers.Shards getShard()
 	{
 		return null;
 	}
 
 	@Override
-	public InvestitureConstants.InvestitureSources getSource()
+	public InvestitureHelpers.InvestitureSources getSource()
 	{
 		return null;
 	}
 
-
+	@Override
 	public IInvestitureContainer getContainer()
 	{
 		return container;
@@ -75,16 +76,83 @@ public class SpiritwebInvestiture implements IInvestiture
 		beu = strength * 15;
 	}
 	
-	public void merge(SpiritwebInvestiture other)
+	public boolean merge(SpiritwebInvestiture other)
 	{
 		if(this.getApplicableManifestations()==(other.getApplicableManifestations())
 			&& this.getContainer().equals(other.getContainer()))
 		{
 			this.beu += other.getBEU();
+			other.setBEU(0);
+			return true;
 			//other.close();
 		}
+		return false;
 	}
 	
 	//public void close() {this = null;}
+
+	public CompoundTag serializeNBT()
+	{
+		if (this.nbt == null)
+		{
+			this.nbt = new CompoundTag();
+		}
+		nbt.putString("shard", shard.getName().toLowerCase());
+		nbt.putString("source", source.getName().toLowerCase());
+		nbt.putInt("manifestations_length", applicableManifestations.length);
+		final CompoundTag manifestationNBT = new CompoundTag();
+		for (int i = 0; i < applicableManifestations.length; i++)
+		{
+			manifestationNBT.putInt(applicableManifestations[i].getRegistryName().toString(), i);
+		}
+		nbt.put("manifestations", manifestationNBT);
+		nbt.putInt("beu", beu);
+
+		return nbt;
+	}
+
+	public void deserializeNBT(CompoundTag nbt)
+	{
+		this.nbt = nbt;
+		beu = nbt.getInt("beu");
+		shard = InvestitureHelpers.Shards.valueOf(nbt.getString("shard"));
+		source = InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source"));
+		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
+		CompoundTag manifestNBT = nbt.getCompound("manifestations");
+		for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
+		{
+			final String manifestationLoc = manifestation.getRegistryName().toString();
+
+			if (manifestNBT.contains(manifestationLoc))
+			{
+				applicableManifestations[manifestNBT.getInt(manifestationLoc)] = manifestation;
+			}
+		}
+
+
+	}
+
+	public static SpiritwebInvestiture buildFromNBT(CompoundTag nbt, IInvestitureContainer data)
+	{
+		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
+		CompoundTag manifestNBT = nbt.getCompound("manifestations");
+		for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
+		{
+			final String manifestationLoc = manifestation.getRegistryName().toString();
+
+			if (manifestNBT.contains(manifestationLoc))
+			{
+				array[manifestNBT.getInt(manifestationLoc)] = manifestation;
+			}
+		}
+		SpiritwebInvestiture invest = new SpiritwebInvestiture(data,
+				nbt.getInt("beu"),
+				InvestitureHelpers.Shards.valueOf(nbt.getString("shard")),
+				InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source")),
+				array);
+		invest.nbt = nbt;
+
+		return invest;
+	}
 
 }

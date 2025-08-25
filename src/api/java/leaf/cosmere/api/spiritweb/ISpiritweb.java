@@ -95,4 +95,6 @@ public interface ISpiritweb extends INBTSerializable<CompoundTag>
 
 	Set<Map.Entry<UUID, CosmereEffectInstance>> getEffects();
 
+	int maxBEU();
+
 }

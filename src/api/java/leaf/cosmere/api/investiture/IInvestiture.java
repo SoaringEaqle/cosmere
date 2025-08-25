@@ -10,10 +10,10 @@ public interface IInvestiture
 	
 	Manifestation[] getApplicableManifestations();
 
-	InvestitureConstants.Shards getShard();
+	InvestitureHelpers.Shards getShard();
 
-	InvestitureConstants.InvestitureSources getSource();
+	InvestitureHelpers.InvestitureSources getSource();
 
-	IInvestitureContainer getContainer();
+	IInvestitureContainer<?> getContainer();
 
 }

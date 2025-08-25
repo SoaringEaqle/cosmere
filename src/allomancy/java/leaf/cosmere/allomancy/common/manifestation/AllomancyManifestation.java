@@ -8,12 +8,13 @@ import leaf.cosmere.allomancy.client.AllomancyKeybindings;
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
 import leaf.cosmere.allomancy.common.registries.AllomancyStats;
 import leaf.cosmere.api.*;
-import leaf.cosmere.api.investiture.InvestitureConstants;
+import leaf.cosmere.api.investiture.IInvestitureContainer;
+import leaf.cosmere.api.investiture.InvestitureHelpers;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
-import leaf.cosmere.api.investiture.IInvestitureContainer;
-import leaf.cosmere.common.cap.entity.SpiritwebCapability;
+import leaf.cosmere.common.investiture.InvestitureContainer;
 import leaf.cosmere.common.charge.MetalmindChargeHelper;
+import leaf.cosmere.api.investiture.IInvestitureCreator;
 import leaf.cosmere.api.investiture.Investiture;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +26,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public class AllomancyManifestation extends Manifestation implements IHasMetalType, IInvestitureSource
+public class AllomancyManifestation extends Manifestation implements IHasMetalType, IInvestitureCreator
 {
 	private final Metals.MetalType metalType;
 
@@ -115,7 +116,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	{
 		//absolute value, because compounding uses negative modes.
 		int modeAbs = Mth.abs(getMode(data));
-		AllomancySpiritwebSubmodule allo = (AllomancySpiritwebSubmodule) ((SpiritwebCapability) data).getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY);
+		AllomancySpiritwebSubmodule allo = (AllomancySpiritwebSubmodule) data.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY);
 
 		//make sure the user can afford the cost of burning this metal
 		while (modeAbs > 0)
@@ -158,13 +159,16 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		int mode = getMode(data);
 		final int cost = Mth.abs(mode);
 
-		AllomancySpiritwebSubmodule allo = (AllomancySpiritwebSubmodule) ((SpiritwebCapability) data).getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY);
+		AllomancySpiritwebSubmodule allo = (AllomancySpiritwebSubmodule) data.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY);
 
 		//don't check every tick.
 		LivingEntity livingEntity = data.getLiving();
 		boolean isActiveTick = isActiveTick(data);
 		allo.adjustIngestedMetal(metalType, -cost, isActiveTick);
-		if(isActiveTick)newInvest((IInvestitureContainer) data);
+		if(isActiveTick)
+		{
+			newInvest(InvestitureContainer.findOrCreateContainer(data));
+		}
 
 		if (isActiveTick && livingEntity instanceof ServerPlayer serverPlayer)
 		{
@@ -265,15 +269,15 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 	
 	@Override
-	public int maxInvestitureDraw(IInvestitureContainer data)
+	public int maxInvestitureDraw(IInvestitureContainer<?> data)
 	{
-		return (int) ((10 * getStrength((SpiritwebCapability)data,false)) + 15);
+		return (int) ((10 * getStrength(data.getSpiritweb(),false)) + 15);
 	}
 	
 	@Override
-	public int minInvestitureDraw(IInvestitureContainer data)
+	public int minInvestitureDraw(IInvestitureContainer<?> data)
 	{
-		if(isFlaring((SpiritwebCapability)data))
+		if(isFlaring(data.getSpiritweb()))
 		{
 			return 30;
 		}
@@ -281,13 +285,27 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 	
 
-	public final Manifestation[] appManifestComp = Manifestations.manifestArrayBuilder.getAllMetal(this.getMetalType());
+	public final Manifestation[] appManifestComp = Manifestations.ManifestArrayBuilder.getAllMetal(this.getMetalType());
 
 
-
-	public Investiture newInvest(IInvestitureContainer data)
+	@Override
+	public Investiture newInvest(IInvestitureContainer<?> data)
 	{
-		Investiture sub = new Investiture(data, InvestitureConstants.Shards.PRESERVATION, InvestitureConstants.InvestitureSources.DIRECT, isFlaring((ISpiritweb) data) ? 30 : 15, appManifestComp);
+		double strength = getStrength(data.getSpiritweb(), false);
+		double baseStrength = getStrength(data.getSpiritweb(), true);
+
+		int beu = 10 + Mth.floor(strength) + Mth.floor(baseStrength);
+		if(isFlaring(data.getSpiritweb()))
+		{
+			beu *= 2;
+		}
+
+		Investiture sub = new Investiture(
+				data,
+				InvestitureHelpers.Shards.PRESERVATION,
+				InvestitureHelpers.InvestitureSources.DIRECT,
+				beu,
+				appManifestComp);
 		sub.setPriority(5);
 		return sub;
 	}

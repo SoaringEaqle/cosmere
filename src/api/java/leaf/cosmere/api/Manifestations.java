@@ -110,7 +110,7 @@ public class Manifestations
 			return CosmereAPI.manifestationRegistry().getValue(new ResourceLocation("cosmere", "none"));
 		}
 	}
-	public static class manifestArrayBuilder
+	public static class ManifestArrayBuilder
 	{
 		public static Manifestation[] getAll()
 		{

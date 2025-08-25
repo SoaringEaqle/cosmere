@@ -4,15 +4,15 @@ import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 public class Investiture implements IInvestiture
 {
 
-	private IInvestitureEntityContainer container = null;
-	private ItemStack stackContainer = null;
-	private InvestitureConstants.Shards shard;
-	private InvestitureConstants.InvestitureSources source;
+	private IInvestitureContainer<?> container;
+	private InvestitureHelpers.Shards shard;
+	private InvestitureHelpers.InvestitureSources source;
 	private Manifestation[] applicableManifestations;
 	private int priority = 1;
 	private int beu;
@@ -20,9 +20,9 @@ public class Investiture implements IInvestiture
 	private CompoundTag nbt;
 
 
-	public Investiture(IInvestitureEntityContainer container,
-	                   InvestitureConstants.Shards shard,
-	                   InvestitureConstants.InvestitureSources source,
+	public Investiture(@Nonnull IInvestitureContainer<?> container,
+	                   InvestitureHelpers.Shards shard,
+	                   InvestitureHelpers.InvestitureSources source,
 	                   int beu,
 	                   Manifestation[] applicableManifestations,
 	                   int decayRate)
@@ -37,9 +37,9 @@ public class Investiture implements IInvestiture
 		this.source = source;
 	}
 
-	public Investiture(IInvestitureEntityContainer container,
-	                   InvestitureConstants.Shards shard,
-	                   InvestitureConstants.InvestitureSources source,
+	public Investiture(@Nonnull IInvestitureContainer<?> container,
+	                   InvestitureHelpers.Shards shard,
+	                   InvestitureHelpers.InvestitureSources source,
 	                   int beu,
 	                   Manifestation[] applicableManifestations)
 	{
@@ -51,22 +51,6 @@ public class Investiture implements IInvestiture
 		this.shard = shard;
 		this.source = source;
 		this.decayRate = 0;
-	}
-
-	public Investiture(ItemStack stack,
-	                   InvestitureConstants.Shards shard,
-	                   InvestitureConstants.InvestitureSources source,
-	                   int beu,
-	                   Manifestation[] applicableManifestations,
-	                   int decayRate)
-	{
-
-		this.beu = beu;
-		this.applicableManifestations = applicableManifestations;
-		this.stackContainer = stack;
-		this.decayRate = decayRate;
-		this.shard = shard;
-		this.source = source;
 	}
 
 
@@ -113,49 +97,20 @@ public class Investiture implements IInvestiture
 	}
 
 	@Override
-	public InvestitureConstants.Shards getShard()
+	public InvestitureHelpers.Shards getShard()
 	{
 		return shard;
 	}
 
 	@Override
-	public InvestitureConstants.InvestitureSources getSource()
+	public InvestitureHelpers.InvestitureSources getSource()
 	{
 		return source;
 	}
 
 	public IInvestitureContainer getContainer()
 	{
-		if(container != null && stackContainer != null)
-		{
-			// something went wrong. Only one of these should have a value.
-			IInvestitureItemContainer item = (IInvestitureItemContainer) stackContainer.getItem();
-			if(container.hasInvestiture(this) && item.hasInvestiture(stackContainer, this))
-			{
-				// something went really wrong. Both containers contain this investiture.
-				// We'll default to returning it to the player, and removing it from the ItemStack.
-				item.clearInvestiture(stackContainer, this);
-				stackContainer = null;
-				return container;
-
-			}
-			else if(container.hasInvestiture(this))
-			{
-				stackContainer = null;
-				return container;
-			}
-			else if(item.hasInvestiture(stackContainer, this))
-			{
-				container = null;
-				return stackContainer;
-			}
-			else
-			{
-				//neither owns it, default to entity, and reattach
-
-			}
-
-		}
+		return container;
 	}
 
 	public ISpiritweb getSpiritweb()
@@ -211,7 +166,6 @@ public class Investiture implements IInvestiture
 
 	public void reattach()
 	{
-		if
 		container.mergeOrAddInvestiture(this);
 	}
 
@@ -242,8 +196,8 @@ public class Investiture implements IInvestiture
 		this.nbt = nbt;
 		decayRate = nbt.getInt("decay_rate");
 		beu = nbt.getInt("beu");
-		shard = InvestitureConstants.Shards.valueOf(nbt.getString("shard"));
-		source = InvestitureConstants.InvestitureSources.valueOf(nbt.getString("source"));
+		shard = InvestitureHelpers.Shards.valueOf(nbt.getString("shard"));
+		source = InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source"));
 		priority = nbt.getInt("priority");
 		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -260,7 +214,7 @@ public class Investiture implements IInvestiture
 
 	}
 
-	public static Investiture buildFromNBT(CompoundTag nbt, IInvestitureContainer data)
+	public static Investiture buildFromNBT(CompoundTag nbt, IInvestitureContainer<?> data)
 	{
 		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -274,8 +228,8 @@ public class Investiture implements IInvestiture
 			}
 		}
 		Investiture invest = new Investiture(data,
-				InvestitureConstants.Shards.valueOf(nbt.getString("shard")),
-				InvestitureConstants.InvestitureSources.valueOf(nbt.getString("source")),
+				InvestitureHelpers.Shards.valueOf(nbt.getString("shard")),
+				InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source")),
 				nbt.getInt("beu"),array, nbt.getInt("decay_rate"));
 		invest.nbt = nbt;
 		invest.setPriority(nbt.getInt("priority"));

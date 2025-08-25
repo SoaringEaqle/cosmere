@@ -1,7 +1,7 @@
 package leaf.cosmere.common;
 
-import leaf.cosmere.api.investiture.Investiture;
 import leaf.cosmere.api.investiture.IInvestitureContainer;
+import leaf.cosmere.api.investiture.Investiture;
 
 public class InvestTranfer
 	//Used when changing the location of investiture, ex. when moving investiture from a gem to a spiritweb.
@@ -14,7 +14,7 @@ public class InvestTranfer
 	{
 		this.invest1 = invest;
 		this.rate = rate;
-		invest2 = new Investiture(toGo,1,invest1.getApplicableManifestations());
+		invest2 = new Investiture(toGo, invest1.getShard(), invest1.getSource(), 0, invest1.getApplicableManifestations(), newDecay);
 	}
 
 	public void tick()
