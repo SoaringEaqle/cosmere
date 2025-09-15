@@ -1,19 +1,19 @@
 package leaf.cosmere.surgebinding.common.investiture;
 
 import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.investiture.IInvestitureContainer;
+import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.investiture.Investiture;
-import leaf.cosmere.api.investiture.InvestitureHelpers;
+import leaf.cosmere.api.investiture.InvHelpers;
 
 public class Towerlight extends Investiture
 {
-	public Towerlight(IInvestitureContainer<?> container,
+	public Towerlight(IInvContainer<?> container,
 	                  int beu)
 	{
 		super(container,
-				InvestitureHelpers.Shards.HONOR,
+				InvHelpers.Shards.HONOR,
 				//Feels most accurate
-				InvestitureHelpers.InvestitureSources.MISTS,
+				InvHelpers.InvestitureSources.MISTS,
 				beu,
 				Manifestations.ManifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING));
 

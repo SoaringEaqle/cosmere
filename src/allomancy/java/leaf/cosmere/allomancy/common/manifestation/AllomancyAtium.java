@@ -9,6 +9,7 @@ import leaf.cosmere.allomancy.common.registries.AllomancyManifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
+import leaf.cosmere.common.investiture.InvestitureContainer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraftforge.common.util.LazyOptional;
@@ -35,6 +36,8 @@ public class AllomancyAtium extends AllomancyManifestation
 		//Reveals Your Future
 		{
 			//todo
+			InvestitureContainer.findOrCreateContainer(data.getLiving()).runInvestiturePull(this);
+
 		}
 	}
 

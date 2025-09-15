@@ -1,9 +1,10 @@
+/*
+* File updated ~ 15 - 9 - 25 ~ Soar
+ */
+
 package leaf.cosmere.common.investiture;
 
-import leaf.cosmere.api.investiture.IInvestiture;
-import leaf.cosmere.api.investiture.IInvestitureContainer;
-import leaf.cosmere.api.investiture.Investiture;
-import leaf.cosmere.api.investiture.SpiritwebInvestiture;
+import leaf.cosmere.api.investiture.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
@@ -21,7 +22,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 import java.util.*;
 
-public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>> implements IInvestitureContainer<T>
+public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>> implements IInvContainer<T>
 {
 	private static final Map<ICapabilitySerializable<CompoundTag>, InvestitureContainer<?>> containers = new HashMap<>();
 
@@ -54,7 +55,7 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 		}
 	}
 
-	public static InvestitureContainer<?> findOrCreateContainer(ISpiritweb spiritweb)
+	public static InvestitureContainer<LivingEntity> findOrCreateContainer(ISpiritweb spiritweb)
 	{
 		return findOrCreateContainer(spiritweb.getLiving());
 	}
@@ -85,9 +86,9 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 	private InvestitureContainer(T parent)
 	{
 		this.parent = parent;
-		if(this.parent instanceof LivingEntity entity && SpiritwebCapability.get(entity).isPresent())
+		if(this.parent instanceof LivingEntity entity && SpiritwebCapability.get(entity).resolve().isPresent())
 		{
-			ISpiritweb web = SpiritwebCapability.get(entity).orElse(null);
+			ISpiritweb web = SpiritwebCapability.get(entity).resolve().get();
 			CompoundTag tag = web.getCompoundTag();
 			if (tag.contains("investContainer"))
 			{
@@ -334,14 +335,111 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 	// Objects in use elsewhere will not be removed, and can re-attach themselves later using the "reattach()" method
 	public void clean()
 	{
-		for(Investiture investiture: investitures)
+		investitures.removeIf(investiture -> investiture.getBEU() == 0);
+		System.gc();
+	}
+
+	@Override
+	public InvHelpers.InvestitureSources containerSource()
+	{
+		if(parent instanceof LivingEntity entity)
 		{
-			if(investiture.getBEU() == 0)
+			return InvHelpers.InvestitureSources.SELF;
+		}
+		else if(parent instanceof ItemStack stack)
+		{
+
+		}
+		return null;
+	}
+
+	public int runInvestiturePull(Manifestation manifestation)
+	{
+		ArrayList<Investiture> investitures = availableInvestitures(manifestation);
+		int out = 0;
+
+		//Test to see if the minimum amount of investiture is available
+		//If not return
+		int possible = 0;
+		for(Investiture invest: investitures)
+		{
+			possible += invest.getBEU();
+		}
+		if(possible < manifestation.minInvestitureDraw(this))
+		{
+			return 0;
+		}
+
+
+		//Loops through each priority
+		for(int i = 1; i <= 5; i++)
+		{
+			//Temporary list of values of given priority
+			ArrayList<Investiture> temp = new ArrayList<>();
+			int sub = 0;
+			//Adds investitures to temporary list
+			for (Investiture invest : investitures)
 			{
-				investitures.remove(investiture);
+				// remove empty investitures
+				if(invest.getBEU() == 0)
+				{
+					investitures.remove(invest);
+				}
+				if(invest.getPriority() != i)
+				{
+					continue;
+				}
+				temp.add(invest);
+				sub += invest.getBEU();
+			}
+			//Don't need to loop through an empty list.
+			if(temp.isEmpty())
+			{
+				continue;
+			}
+
+			//If current total is less than max, pull all investiture from each source of the priority
+			if(sub + out <= manifestation.maxInvestitureDraw(this))
+			{
+				for(Investiture invest: temp)
+				{
+					out += invest.drain();
+
+				}
+			}
+			//Else, pull a percentage relative to each investiture's total.
+			else
+			{
+				int sub2 = manifestation.maxInvestitureDraw(this) - out;
+				int sub3 = 0;
+				for(Investiture invest: temp)
+				{
+					int toDraw = (invest.getBEU()/sub) * sub2;
+					sub3 += toDraw;
+					invest.removeBEU(toDraw);
+				}
+				int index = 0;
+
+				//Checking that investiture gets pulled correctly
+				while(sub3 < sub2)
+				{
+					Investiture invest = temp.get(index);
+					if(invest.getBEU() > 0)
+					{
+						sub3 += 1;
+						invest.removeBEU(1);
+					}
+					if(invest.getBEU() == 0)
+					{
+						temp.remove(index);
+					}
+					index = index >= temp.size() ? 0 : index + 1;
+				}
+
+				out += sub3;
 			}
 		}
-		System.gc();
+		return out;
 	}
 
 }

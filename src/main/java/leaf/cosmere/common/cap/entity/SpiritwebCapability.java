@@ -95,6 +95,7 @@ public class SpiritwebCapability implements ISpiritweb
 	{
 		this.livingEntity = ent;
 		spiritwebSubmodules = Cosmere.makeSpiritwebSubmodules();
+		investitureContainer = InvestitureContainer.findOrCreateContainer(getLiving());
 	}
 
 
@@ -1007,8 +1008,4 @@ public class SpiritwebCapability implements ISpiritweb
 		return Integer.MAX_VALUE;
 	}
 
-	public InvestitureContainer<LivingEntity> getInvestitureContainer()
-	{
-		return investitureContainer;
-	}
 }

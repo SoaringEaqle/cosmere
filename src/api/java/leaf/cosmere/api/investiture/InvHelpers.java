@@ -1,13 +1,18 @@
+/*
+* File updated ~ 15 - 9 - 25 ~ Soar
+ */
+
 package leaf.cosmere.api.investiture;
 
 import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
+import leaf.cosmere.api.manifestation.Manifestation;
 
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
-public class InvestitureHelpers
+public class InvHelpers
 {
 	public enum Shards
 	{
@@ -42,7 +47,7 @@ public class InvestitureHelpers
 			this.id = number;
 		}
 
-		public static Optional<InvestitureHelpers.Shards> valueOf(int value)
+		public static Optional<InvHelpers.Shards> valueOf(int value)
 		{
 			return Arrays.stream(values())
 					.filter(shard -> shard.id == value)
@@ -107,7 +112,7 @@ public class InvestitureHelpers
 			this.id = id;
 		}
 
-		public static Optional<InvestitureHelpers.InvestitureSources> valueOf(int value)
+		public static Optional<InvHelpers.InvestitureSources> valueOf(int value)
 		{
 			return Arrays.stream(values())
 					.filter(shard -> shard.id == value)
@@ -130,14 +135,88 @@ public class InvestitureHelpers
 	{
 		int beuToStrength(int beu)
 		{
-			return beu/15;
+			return beu/Constants.beuStrengthRatio;
 		}
 
 		int strengthToBEU(int strength)
 		{
-			return strength*15;
+			return strength*Constants.beuStrengthRatio;
 		}
 
 
+	}
+
+	public static class Constants
+	{
+		//Tick Counters
+		//Any manifestations that activate on ticks 3,0, or 1 get free activation until tick 2.
+		//During this tick, investiture is collected and filled. All movement of investiture objects is handled this tick.
+		public static final int collectionTick = 0;
+		//Investiture gets managed. Sources and Investiture are merged and/or deleted as fit
+		public static final int mangagementTick = 1;
+		//Manifestations check how much investiture they need and if all sources have the required amount.
+		// Investiture is counted.
+		public static final int checkTick = 2;
+		//Manifestations request beu to continue for another cycle.
+		public static final int pullTick = 3;
+
+
+		public static final int beuStrengthRatio = 15;
+	}
+
+	public class Transferer
+	{
+		private Investiture investIn;
+		private Investiture investOut;
+		private int rate;
+
+		public Transferer(Investiture investIn, IInvContainer containerOut, int transferRate, int decayRate)
+		{
+			this.investIn = investIn;
+			Shards shard = investIn.getShard();
+			InvestitureSources source = investIn.getContainer().containerSource();
+			Manifestation[] man = investIn.getApplicableManifestations();
+			this.investOut = new Investiture(containerOut, shard, source, transferRate, man, decayRate);
+			rate = transferRate;
+			investIn.removeBEU(transferRate);
+		}
+
+		public Transferer(Investiture investIn, IInvContainer containerOut, int transferRate)
+		{
+			this(investIn, containerOut, transferRate, 0);
+		}
+
+		public void transfer()
+		{
+			investOut.addBEU(rate - investIn.removeBEU(rate));
+		}
+
+		public int getRate()
+		{
+			return rate;
+		}
+
+		public Investiture getInvestIn()
+		{
+			return investIn;
+		}
+
+		public Investiture getInvestOut()
+		{
+			return investOut;
+		}
+
+
+		public void clean()
+		{
+			if(investIn.getBEU() == 0)
+			{
+				investIn = null;
+			}
+			if(investOut.getBEU() == 0)
+			{
+				investOut = null;
+			}
+		}
 	}
 }

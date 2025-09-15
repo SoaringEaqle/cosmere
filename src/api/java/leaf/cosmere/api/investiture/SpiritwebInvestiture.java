@@ -11,16 +11,16 @@ public class SpiritwebInvestiture implements IInvestiture
 	private int beu;
 
 
-	private IInvestitureContainer container;
-	private InvestitureHelpers.Shards shard;
-	private InvestitureHelpers.InvestitureSources source;
+	private IInvContainer<?> container;
+	private InvHelpers.Shards shard;
+	private InvHelpers.InvestitureSources source;
 
 	private CompoundTag nbt;
 	
-	public SpiritwebInvestiture(IInvestitureContainer investitureContainer,
-								int strength,
-	                            InvestitureHelpers.Shards shard,
-	                            InvestitureHelpers.InvestitureSources source,
+	public SpiritwebInvestiture(IInvContainer<?> investitureContainer,
+	                            int strength,
+	                            InvHelpers.Shards shard,
+	                            InvHelpers.InvestitureSources source,
 	                            Manifestation[] appManifest)
 	{
 		this.shard = shard;
@@ -49,19 +49,19 @@ public class SpiritwebInvestiture implements IInvestiture
 	}
 
 	@Override
-	public InvestitureHelpers.Shards getShard()
+	public InvHelpers.Shards getShard()
 	{
 		return null;
 	}
 
 	@Override
-	public InvestitureHelpers.InvestitureSources getSource()
+	public InvHelpers.InvestitureSources getSource()
 	{
 		return null;
 	}
 
 	@Override
-	public IInvestitureContainer getContainer()
+	public IInvContainer<?> getContainer()
 	{
 		return container;
 	}
@@ -115,8 +115,8 @@ public class SpiritwebInvestiture implements IInvestiture
 	{
 		this.nbt = nbt;
 		beu = nbt.getInt("beu");
-		shard = InvestitureHelpers.Shards.valueOf(nbt.getString("shard"));
-		source = InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source"));
+		shard = InvHelpers.Shards.valueOf(nbt.getString("shard"));
+		source = InvHelpers.InvestitureSources.valueOf(nbt.getString("source"));
 		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
 		for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
@@ -132,7 +132,7 @@ public class SpiritwebInvestiture implements IInvestiture
 
 	}
 
-	public static SpiritwebInvestiture buildFromNBT(CompoundTag nbt, IInvestitureContainer data)
+	public static SpiritwebInvestiture buildFromNBT(CompoundTag nbt, IInvContainer<?> data)
 	{
 		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -147,8 +147,8 @@ public class SpiritwebInvestiture implements IInvestiture
 		}
 		SpiritwebInvestiture invest = new SpiritwebInvestiture(data,
 				nbt.getInt("beu"),
-				InvestitureHelpers.Shards.valueOf(nbt.getString("shard")),
-				InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source")),
+				InvHelpers.Shards.valueOf(nbt.getString("shard")),
+				InvHelpers.InvestitureSources.valueOf(nbt.getString("source")),
 				array);
 		invest.nbt = nbt;
 

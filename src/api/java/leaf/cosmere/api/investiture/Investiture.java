@@ -1,3 +1,7 @@
+/*
+* File updated ~ 15 - 9 - 25 ~ Soar
+ */
+
 package leaf.cosmere.api.investiture;
 
 import leaf.cosmere.api.CosmereAPI;
@@ -10,9 +14,9 @@ import javax.annotation.Nonnull;
 public class Investiture implements IInvestiture
 {
 
-	private IInvestitureContainer<?> container;
-	private InvestitureHelpers.Shards shard;
-	private InvestitureHelpers.InvestitureSources source;
+	private IInvContainer<?> container;
+	private InvHelpers.Shards shard;
+	private InvHelpers.InvestitureSources source;
 	private Manifestation[] applicableManifestations;
 	private int priority = 1;
 	private int beu;
@@ -20,9 +24,9 @@ public class Investiture implements IInvestiture
 	private CompoundTag nbt;
 
 
-	public Investiture(@Nonnull IInvestitureContainer<?> container,
-	                   InvestitureHelpers.Shards shard,
-	                   InvestitureHelpers.InvestitureSources source,
+	public Investiture(@Nonnull IInvContainer<?> container,
+	                   InvHelpers.Shards shard,
+	                   InvHelpers.InvestitureSources source,
 	                   int beu,
 	                   Manifestation[] applicableManifestations,
 	                   int decayRate)
@@ -37,9 +41,9 @@ public class Investiture implements IInvestiture
 		this.source = source;
 	}
 
-	public Investiture(@Nonnull IInvestitureContainer<?> container,
-	                   InvestitureHelpers.Shards shard,
-	                   InvestitureHelpers.InvestitureSources source,
+	public Investiture(@Nonnull IInvContainer<?> container,
+	                   InvHelpers.Shards shard,
+	                   InvHelpers.InvestitureSources source,
 	                   int beu,
 	                   Manifestation[] applicableManifestations)
 	{
@@ -79,6 +83,13 @@ public class Investiture implements IInvestiture
 		}
 	}
 
+	public int drain()
+	{
+		int temp = beu;
+		beu = 0;
+		return temp;
+	}
+
 	public void addBEU(int add)
 	{
 		beu += add;
@@ -97,18 +108,18 @@ public class Investiture implements IInvestiture
 	}
 
 	@Override
-	public InvestitureHelpers.Shards getShard()
+	public InvHelpers.Shards getShard()
 	{
 		return shard;
 	}
 
 	@Override
-	public InvestitureHelpers.InvestitureSources getSource()
+	public InvHelpers.InvestitureSources getSource()
 	{
 		return source;
 	}
 
-	public IInvestitureContainer getContainer()
+	public IInvContainer<?> getContainer()
 	{
 		return container;
 	}
@@ -196,8 +207,8 @@ public class Investiture implements IInvestiture
 		this.nbt = nbt;
 		decayRate = nbt.getInt("decay_rate");
 		beu = nbt.getInt("beu");
-		shard = InvestitureHelpers.Shards.valueOf(nbt.getString("shard"));
-		source = InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source"));
+		shard = InvHelpers.Shards.valueOf(nbt.getString("shard"));
+		source = InvHelpers.InvestitureSources.valueOf(nbt.getString("source"));
 		priority = nbt.getInt("priority");
 		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -214,7 +225,7 @@ public class Investiture implements IInvestiture
 
 	}
 
-	public static Investiture buildFromNBT(CompoundTag nbt, IInvestitureContainer<?> data)
+	public static Investiture buildFromNBT(CompoundTag nbt, IInvContainer<?> data)
 	{
 		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -228,8 +239,8 @@ public class Investiture implements IInvestiture
 			}
 		}
 		Investiture invest = new Investiture(data,
-				InvestitureHelpers.Shards.valueOf(nbt.getString("shard")),
-				InvestitureHelpers.InvestitureSources.valueOf(nbt.getString("source")),
+				InvHelpers.Shards.valueOf(nbt.getString("shard")),
+				InvHelpers.InvestitureSources.valueOf(nbt.getString("source")),
 				nbt.getInt("beu"),array, nbt.getInt("decay_rate"));
 		invest.nbt = nbt;
 		invest.setPriority(nbt.getInt("priority"));

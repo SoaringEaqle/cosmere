@@ -1,3 +1,6 @@
+/*
+* File updated ~ 15 - 9 - 25 ~ Soar
+ */
 package leaf.cosmere.common.items;
 
 import leaf.cosmere.api.helpers.StackNBTHelper;
@@ -21,4 +24,5 @@ public abstract class InvestedItemBase extends ChargeableItemBase
 	{
 		StackNBTHelper.set(stack, "investContainer", tag);
 	}
+
 }
