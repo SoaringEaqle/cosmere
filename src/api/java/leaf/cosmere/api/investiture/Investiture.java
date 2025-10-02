@@ -21,6 +21,8 @@ public class Investiture implements IInvestiture
 	private int priority = 1;
 	private int beu;
 	private int decayRate;
+	private int currentMaxDraw;
+
 	private CompoundTag nbt;
 
 
@@ -68,7 +70,9 @@ public class Investiture implements IInvestiture
 		this.beu = beu;
 	}
 
+	/*
 	public int removeBEU(int remove)
+
 	{
 		if (remove > beu)
 		{
@@ -80,6 +84,53 @@ public class Investiture implements IInvestiture
 		{
 			beu -= remove;
 			return 0;
+		}
+	}
+	*/
+
+	public int removeBEU(int remove)
+	{
+		if(remove > beu)
+		{
+			int out = beu;
+			beu = 0;
+			return out;
+		}
+		else
+		{
+			beu -= remove;
+			return remove;
+		}
+	}
+
+	public int removeBEU(int remove, boolean upToCurrent)
+	{
+		if(upToCurrent)
+		{
+			if (remove > currentMaxDraw)
+			{
+				beu -= currentMaxDraw;
+				return currentMaxDraw;
+			}
+			else
+			{
+				beu -= remove;
+				return remove;
+			}
+		}
+		else
+		{
+			if (remove > beu)
+			{
+				int out = beu;
+				beu = 0;
+				return out;
+			}
+			else
+			{
+				beu -= remove;
+				return remove;
+			}
 		}
 	}
 
@@ -124,9 +175,27 @@ public class Investiture implements IInvestiture
 		return container;
 	}
 
+	public int getCurrentMaxDraw()
+	{
+		return currentMaxDraw;
+	}
+	@Override
+	public void calculateCurrentMaxDraw()
+	{
+		int x = 0;
+		for(Manifestation manifest: applicableManifestations)
+		{
+			if(manifest.isActive(getSpiritweb()))
+			{
+				x++;
+			}
+		}
+		currentMaxDraw = beu/x;
+	}
+
 	public ISpiritweb getSpiritweb()
 	{
-		return (ISpiritweb) container;
+		return getContainer().getSpiritweb().resolve().orElse(null);
 	}
 
 	public int getDecayRate()
@@ -177,7 +246,10 @@ public class Investiture implements IInvestiture
 
 	public void reattach()
 	{
-		container.mergeOrAddInvestiture(this);
+		if(!container.hasInvestiture(this))
+		{
+			container.mergeOrAddInvestiture(this);
+		}
 	}
 
 	public CompoundTag serializeNBT()

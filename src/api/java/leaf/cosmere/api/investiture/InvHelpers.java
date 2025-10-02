@@ -7,8 +7,12 @@ package leaf.cosmere.api.investiture;
 import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.manifestation.Manifestation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -91,6 +95,25 @@ public class InvHelpers
 				default -> Manifestations.ManifestationTypes.NONE;
 			};
 		}
+
+		public static Shards getShardOfManifest(Manifestation manifestation)
+		{
+			return getShardOfManifest(manifestation.getManifestationType());
+		}
+
+		public static Shards getShardOfManifest(Manifestations.ManifestationTypes manifestationT)
+		{
+			return switch (manifestationT)
+			{
+				case ALLOMANCY -> PRESERVATION;
+				case HEMALURGY -> RUIN;
+				case SANDMASTERY -> AUTONOMY;
+				case AON_DOR -> DOR;
+				case AWAKENING -> ENDOWMENT;
+				case SURGEBINDING -> HONOR;
+				default -> NONE;
+			};
+		}
 	}
 	// All possible sources for gaining kinetic investiture
 	public enum InvestitureSources
@@ -102,6 +125,7 @@ public class InvHelpers
 		SELF(4),
 		LUHEL_BOND(5),
 		NAHEL_BOND(6),
+		//Hemalurgy
 		LIFEFORCE(7),
 		PERPENDICULARITY(8);
 
@@ -133,16 +157,25 @@ public class InvHelpers
 
 	public static class Math
 	{
-		int beuToStrength(int beu)
+		public static double beuToStrength(int beu)
 		{
-			return beu/Constants.beuStrengthRatio;
+			return (double) beu /Constants.beuStrengthRatio;
 		}
 
-		int strengthToBEU(int strength)
+		public static int strengthToBEU(double strength)
 		{
-			return strength*Constants.beuStrengthRatio;
+			return (int) (strength*Constants.beuStrengthRatio);
 		}
 
+		public static int beuToPower(int beu)
+		{
+			return beu/Constants.beuPowerRatio;
+		}
+
+		public static int powerToBEU(int power)
+		{
+			return power * Constants.beuPowerRatio;
+		}
 
 	}
 
@@ -162,60 +195,43 @@ public class InvHelpers
 
 
 		public static final int beuStrengthRatio = 15;
+		public static final int beuPowerRatio = 20;
 	}
 
-	public class Transferer
+	public static class TransferHelper
 	{
-		private Investiture investIn;
-		private Investiture investOut;
-		private int rate;
+		public static HashSet<Transferer> transferers = new HashSet<>();
 
-		public Transferer(Investiture investIn, IInvContainer containerOut, int transferRate, int decayRate)
+		public static void addTransferer(Transferer transferer)
 		{
-			this.investIn = investIn;
-			Shards shard = investIn.getShard();
-			InvestitureSources source = investIn.getContainer().containerSource();
-			Manifestation[] man = investIn.getApplicableManifestations();
-			this.investOut = new Investiture(containerOut, shard, source, transferRate, man, decayRate);
-			rate = transferRate;
-			investIn.removeBEU(transferRate);
+			transferers.add(transferer);
 		}
 
-		public Transferer(Investiture investIn, IInvContainer containerOut, int transferRate)
+		protected static void removeTransferer(Transferer transferer)
 		{
-			this(investIn, containerOut, transferRate, 0);
+			transferers.remove(transferer);
 		}
 
-		public void transfer()
+		public static void transferAll()
 		{
-			investOut.addBEU(rate - investIn.removeBEU(rate));
-		}
-
-		public int getRate()
-		{
-			return rate;
-		}
-
-		public Investiture getInvestIn()
-		{
-			return investIn;
-		}
-
-		public Investiture getInvestOut()
-		{
-			return investOut;
-		}
-
-
-		public void clean()
-		{
-			if(investIn.getBEU() == 0)
+			for(Transferer transferer: transferers)
 			{
-				investIn = null;
+				transferer.transfer();
 			}
-			if(investOut.getBEU() == 0)
+		}
+
+		public static void clean()
+		{
+			transferers.removeIf(transferer -> transferer.getInvestIn() == null || transferer.getInvestOut() == null);
+		}
+
+		@SubscribeEvent
+		public static void tick()
+		{
+			if(Minecraft.getInstance().level.getServer().getTickCount() % 40 == 19)
 			{
-				investOut = null;
+				transferAll();
+				clean();
 			}
 		}
 	}

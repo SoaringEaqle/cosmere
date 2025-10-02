@@ -8,7 +8,10 @@ import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.EffectsHelper;
 import leaf.cosmere.api.helpers.EntityHelper;
+import leaf.cosmere.api.investiture.IInvContainer;
+import leaf.cosmere.api.investiture.InvHelpers;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
+import leaf.cosmere.common.investiture.InvestitureContainer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -47,6 +50,7 @@ public class AllomancyBendalloy extends AllomancyManifestation
 				return;
 			}
 
+			int invest = data.getInvestitureContainer().runInvestiturePull(this);
 			//Slows Down Time for the entities around the user
 			if (playerThreadMap.get(uuid) == null)
 			{
@@ -55,7 +59,7 @@ public class AllomancyBendalloy extends AllomancyManifestation
 			List<LivingEntity> entitiesToAffect = playerThreadMap.get(uuid).requestEntityList();
 			for (LivingEntity e : entitiesToAffect)
 			{
-				e.addEffect(EffectsHelper.getNewEffect(MobEffects.MOVEMENT_SLOWDOWN, mode));
+				e.addEffect(EffectsHelper.getNewEffect(MobEffects.MOVEMENT_SLOWDOWN, InvHelpers.Math.beuToPower(invest)));
 			}
 
 

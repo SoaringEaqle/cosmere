@@ -22,7 +22,7 @@ public class Stormlight extends Investiture
 		int decayRate;
 		if(container.getParent() instanceof LivingEntity)
 		{
-			ISpiritweb sw = container.getSpiritweb();
+			ISpiritweb sw = container.getSpiritweb().resolve().get();
 			SurgebindingSpiritwebSubmodule ssm = (SurgebindingSpiritwebSubmodule) sw.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
 			decayRate = (6 - ssm.getIdeal()) * SurgebindingConfigs.SERVER.STORMLIGHT_DRAIN_RATE.get() / 2;
 		}

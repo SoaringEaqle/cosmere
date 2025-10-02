@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.*;
 import leaf.cosmere.api.*;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
+import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
@@ -69,7 +70,7 @@ public class SpiritwebCapability implements ISpiritweb
 	private boolean hasBeenInitialized = false;
 
 	private final LivingEntity livingEntity;
-	private InvestitureContainer<LivingEntity> investitureContainer;
+	private IInvContainer investitureContainer;
 
 	public final Map<Manifestation, Integer> MANIFESTATIONS_MODE = new HashMap<>();
 
@@ -95,7 +96,9 @@ public class SpiritwebCapability implements ISpiritweb
 	{
 		this.livingEntity = ent;
 		spiritwebSubmodules = Cosmere.makeSpiritwebSubmodules();
-		investitureContainer = InvestitureContainer.findOrCreateContainer(getLiving());
+		investitureContainer = InvestitureContainer.get(livingEntity).isPresent() ?
+		                       InvestitureContainer.get(livingEntity).resolve().get() :
+		                       null;
 	}
 
 
@@ -147,7 +150,7 @@ public class SpiritwebCapability implements ISpiritweb
 			spiritwebSubmodule.serialize(this);
 		}
 
-		InvestitureContainer<LivingEntity> container = InvestitureContainer.findOrCreateContainer(getLiving());
+		IInvContainer container = InvestitureContainer.get(livingEntity).resolve().get();
 		nbt.put("investContainer", container.serializeNBT());
 
 
@@ -206,7 +209,9 @@ public class SpiritwebCapability implements ISpiritweb
 			spiritwebSubmodule.deserialize(this);
 		}
 
-		investitureContainer = InvestitureContainer.findOrCreateContainer(getLiving());
+		investitureContainer = InvestitureContainer.get(livingEntity).isPresent() ?
+		                       InvestitureContainer.get(livingEntity).resolve().get() :
+		                       null;
 
 	}
 
@@ -430,6 +435,12 @@ public class SpiritwebCapability implements ISpiritweb
 	public LivingEntity getLiving()
 	{
 		return livingEntity;
+	}
+
+	@Override
+	public IInvContainer getInvestitureContainer()
+	{
+		return investitureContainer;
 	}
 
 

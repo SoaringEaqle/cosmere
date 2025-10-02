@@ -4,77 +4,54 @@
 
 package leaf.cosmere.common.investiture;
 
+import leaf.cosmere.api.CosmereAPI;
+import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.investiture.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
+import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.charge.IChargeable;
-import leaf.cosmere.common.items.InvestedItemBase;
+import leaf.cosmere.common.items.ChargeableItemBase;
+import leaf.cosmere.common.network.packets.SyncPlayerInvestitureContainerMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 
-public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>> implements IInvContainer<T>
+public class InvestitureContainer<T extends net.minecraftforge.common.capabilities.CapabilityProvider<T>> implements IInvContainer<T>
 {
-	private static final Map<ICapabilitySerializable<CompoundTag>, InvestitureContainer<?>> containers = new HashMap<>();
 
-	public static InvestitureContainer<LivingEntity> findOrCreateContainer(LivingEntity entity)
+	public static final Capability<IInvContainer> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
 	{
-		if(containers.containsKey(entity))
-		{
-			return (InvestitureContainer<LivingEntity>) containers.get(entity);
+	});
 
-		}
-		else
-		{
-			InvestitureContainer<LivingEntity> containTemp = new InvestitureContainer<LivingEntity>(entity);
-			containers.put(entity, containTemp);
-			return containTemp;
-		}
-	}
-
-	public static InvestitureContainer<ItemStack> findOrCreateContainer(ItemStack stack)
-	{
-		if(containers.containsKey(stack))
-		{
-			return (InvestitureContainer<ItemStack>) containers.get(stack);
-		}
-		else
-		{
-			InvestitureContainer<ItemStack> containTemp = new InvestitureContainer<>(stack);
-			containers.put(stack, containTemp);
-			return containTemp;
-		}
-	}
-
-	public static InvestitureContainer<LivingEntity> findOrCreateContainer(ISpiritweb spiritweb)
-	{
-		return findOrCreateContainer(spiritweb.getLiving());
-	}
-
-	public static void clear()
-	{
-		for(ICapabilitySerializable<CompoundTag> entry: containers.keySet())
-		{
-			InvestitureContainer<?> value = containers.get(entry);
-			if(value.lastAccessedTick > 20)
-			{
-				value.saveNBT();
-				containers.remove(entry);
-			}
-		}
-
-	}
+	//detect if capability has been set up yet
+	private boolean didSetup = false;
 
 	private final T parent;
+	private Entity entityAssociate;
+
 
 	private CompoundTag nbt;
 
@@ -83,44 +60,138 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 	private int maxBEU;
 	private int lastAccessedTick; // Used for cleaning. If not accessed after several ticks, clear it out.
 
-	private InvestitureContainer(T parent)
+	public InvestitureContainer(T parent)
 	{
 		this.parent = parent;
-		if(this.parent instanceof LivingEntity entity && SpiritwebCapability.get(entity).resolve().isPresent())
+		if(this.parent instanceof Entity entity)
 		{
-			ISpiritweb web = SpiritwebCapability.get(entity).resolve().get();
-			CompoundTag tag = web.getCompoundTag();
-			if (tag.contains("investContainer"))
-			{
-				nbt = tag.getCompound("investContainer");
-				deserializeNBT(nbt);
-			}
-			else
-			{
-				nbt = new CompoundTag();
-				maxBEU = web.maxBEU();
-			}
-		}
-		else if(this.parent instanceof LivingEntity entity)
-		{
-			//todo: save nbt Data from living entity.
-		}
-		else if(this.parent instanceof ItemStack stack
-				&& stack.getItem() instanceof InvestedItemBase itemBase)
-		{
-			CompoundTag tag = stack.getOrCreateTag();
-			if (tag.contains("investContainer"))
-			{
-				nbt = tag.getCompound("investContainer");
-				deserializeNBT(nbt);
-			}
-			else
-			{
-				nbt = new CompoundTag();
-				maxBEU = itemBase.getMaxCharge(stack);
-			}
+			entityAssociate = entity;
 		}
 	}
+
+	@Nonnull
+	public static LazyOptional<IInvContainer> get(LivingEntity entity)
+	{
+		return entity != null ? entity.getCapability(InvestitureContainer.CAPABILITY, null)
+		                      : LazyOptional.empty();
+	}
+
+	@Nonnull
+	public static LazyOptional<IInvContainer> get(ItemStack stack)
+	{
+		return stack != null ? stack.getCapability(InvestitureContainer.CAPABILITY, null)
+		                     : LazyOptional.empty();
+	}
+
+	@Nonnull
+	public static LazyOptional<IInvContainer> get(BlockEntity entity)
+	{
+		return entity != null ? entity.getCapability(InvestitureContainer.CAPABILITY, null)
+		                      : LazyOptional.empty();
+	}
+
+	@Nonnull
+	public static LazyOptional<IInvContainer> get(net.minecraftforge.common.capabilities.CapabilityProvider<?> object)
+	{
+		if(object instanceof LivingEntity entity)
+		{
+			return get(entity);
+		}
+		else if(object instanceof ItemStack stack)
+		{
+			return get(stack);
+		}
+		else if(object instanceof BlockEntity entity)
+		{
+			return get(entity);
+		}
+		else
+		{
+			return object != null ? object.getCapability(InvestitureContainer.CAPABILITY, null)
+			                      : LazyOptional.empty();
+		}
+	}
+
+	@Override
+	public void tick()
+	{
+		//if server
+		if (!getEntityAssociate().level().isClientSide)
+		{
+			if(!didSetup)
+			{
+				syncToClients(null);
+				didSetup = true;
+			}
+			// Clean up and decay at the end of every other second
+			if(getEntityAssociate().tickCount % 40 == 39)
+			{
+				tickServer();
+			}
+		}
+		else
+		{
+			tickClient();
+		}
+	}
+
+	@Override
+	public void syncToClients(@Nullable ServerPlayer serverPlayerEntity)
+	{
+		if (parent != null && getEntityAssociate().level().isClientSide)
+		{
+			throw new IllegalStateException("Don't sync client -> server");
+		}
+
+		CompoundTag nbt = serializeNBT();
+
+		if (serverPlayerEntity == null)
+		{
+			Cosmere.packetHandler().sendToAllInWorld(new SyncPlayerInvestitureContainerMessage(this.getEntityAssociate().getId(), nbt), (ServerLevel) getEntityAssociate().level());
+		}
+		else
+		{
+			Cosmere.packetHandler().sendTo(new SyncPlayerInvestitureContainerMessage(this.getEntityAssociate().getId(), nbt), serverPlayerEntity);
+		}
+	}
+	@Override
+	public void onPlayerClone(PlayerEvent.Clone event, IInvContainer<T> oldInvContainer)
+	{
+
+		var oldContainer = (InvestitureContainer<T>) oldInvContainer;
+
+		//TODO config options that let you choose what can be transferred
+
+
+		//forcibly serialize the old web, then deserialize it into the new one
+		//before, it was just a copy of whatever was saved the last time it was synced.
+		deserializeNBT(oldContainer.serializeNBT().copy());
+
+		if (event.isWasDeath())
+		{
+
+		}
+	}
+
+	public void tickServer()
+	{
+		for(Investiture invest: investitures)
+		{
+			invest.decay();
+			if(invest.getBEU() <= 0)
+			{
+				investitures.remove(invest);
+			}
+		}
+
+	}
+
+	public void tickClient()
+	{
+		//Anything on client side
+		//Later phase.
+	}
+
 
 	@Override
 	public T getParent()
@@ -128,53 +199,16 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 		return parent;
 	}
 
-	public ISpiritweb getSpiritweb()
+	@Override
+	public LazyOptional<ISpiritweb> getSpiritweb()
 	{
-		if(parent instanceof LivingEntity entity)
+		if(parent instanceof LivingEntity ent)
 		{
-			return SpiritwebCapability.get(entity).resolve().orElse(null);
+			return SpiritwebCapability.get(ent);
 		}
-		if(parent instanceof ItemStack stack)
-		{
-			if(stack.getItem() instanceof IChargeable item)
-			{
-				UUID connection = item.getAttunedPlayer(stack);
-				Player player = null;
-				for(Level level: Minecraft.getInstance().level.getServer().getAllLevels())
-				{
-					player = level.getPlayerByUUID(connection);
-					if(player != null)
-					{
-						return SpiritwebCapability.get(player).resolve().orElse(null);
-					}
-				}
+		return LazyOptional.empty();
+	}
 
-			}
-		}
-		return null;
-	}
-	public CompoundTag saveNBT()
-	{
-		serializeNBT();
-		if(this.parent instanceof LivingEntity entity && SpiritwebCapability.get(entity).isPresent())
-		{
-			//spiritwebs manage their own containers, since it's accessed so much.
-			return nbt;
-		}
-		else if(this.parent instanceof LivingEntity entity)
-		{
-			//todo: attach nbt to entity
-			//entity.
-		}
-		else if(this.parent instanceof ItemStack stack
-				&& stack.getItem() instanceof InvestedItemBase item)
-		{
-			item.saveContainer(stack, nbt);
-			containers.remove(parent);
-			return nbt;
-		}
-		return nbt;
-	}
 
 	@Override
 	public CompoundTag serializeNBT()
@@ -319,6 +353,17 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 	}
 
 	@Override
+	public int currentBEUDraw(List<Investiture> list)
+	{
+		int sub = 0;
+		for(Investiture invest: list)
+		{
+			sub += invest.getCurrentMaxDraw();
+		}
+		return sub;
+	}
+
+	@Override
 	public int getMaxBEU()
 	{
 		return maxBEU;
@@ -346,7 +391,7 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 		{
 			return InvHelpers.InvestitureSources.SELF;
 		}
-		else if(parent instanceof ItemStack stack)
+		else if(parent != null)
 		{
 
 		}
@@ -355,17 +400,37 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 
 	public int runInvestiturePull(Manifestation manifestation)
 	{
-		ArrayList<Investiture> investitures = availableInvestitures(manifestation);
+
+		/*Steps
+		1. Available list of all investiture that can apply to input.
+		2. Create an output variable.
+		3. Sum max currently available
+		4. If - sum is less than manifestation min
+			T. a. return 0.
+		5.  for 5x - Start at 1:
+			a. If - output >= manifestation max
+				T. a. break.
+			b. Temp list of all available with the given priority.
+			c. If - temp is empty
+				T. a. continue;
+			d. Find the max currently available beu's for the priority
+			e. Create temp variable.
+			f. If - the max currently available is less than or equal to manifestation max:
+				T. a. For - each in Temp list
+					i. add max currently available to temp
+				F. a. see below.
+			g. Add last pull to output.
+		6. clean list.
+		7. return output
+		 */
+
+
+		ArrayList<Investiture> availInvestitures = availableInvestitures(manifestation);
 		int out = 0;
 
 		//Test to see if the minimum amount of investiture is available
 		//If not return
-		int possible = 0;
-		for(Investiture invest: investitures)
-		{
-			possible += invest.getBEU();
-		}
-		if(possible < manifestation.minInvestitureDraw(this))
+		if(currentBEUDraw(availInvestitures) < manifestation.minInvestitureDraw(getSpiritweb().resolve().get()))
 		{
 			return 0;
 		}
@@ -374,32 +439,36 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 		//Loops through each priority
 		for(int i = 1; i <= 5; i++)
 		{
+			if(out > manifestation.maxInvestitureDraw(getSpiritweb().resolve().get()))
+			{
+				break;
+			}
 			//Temporary list of values of given priority
 			ArrayList<Investiture> temp = new ArrayList<>();
-			int sub = 0;
+			int tempTotal = 0;
+
 			//Adds investitures to temporary list
-			for (Investiture invest : investitures)
+			for (Investiture invest : availInvestitures)
 			{
-				// remove empty investitures
+				// remove empty investiture sets
 				if(invest.getBEU() == 0)
 				{
-					investitures.remove(invest);
+					availInvestitures.remove(invest);
 				}
-				if(invest.getPriority() != i)
+				else if(invest.getPriority() == i)
 				{
-					continue;
+					temp.add(invest);
+					tempTotal += invest.getBEU();
 				}
-				temp.add(invest);
-				sub += invest.getBEU();
 			}
 			//Don't need to loop through an empty list.
 			if(temp.isEmpty())
 			{
 				continue;
 			}
-
+			int theoryMax = manifestation.maxInvestitureDraw(getSpiritweb().resolve().get()) - out;
 			//If current total is less than max, pull all investiture from each source of the priority
-			if(sub + out <= manifestation.maxInvestitureDraw(this))
+			if(tempTotal <= theoryMax)
 			{
 				for(Investiture invest: temp)
 				{
@@ -410,24 +479,23 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 			//Else, pull a percentage relative to each investiture's total.
 			else
 			{
-				int sub2 = manifestation.maxInvestitureDraw(this) - out;
-				int sub3 = 0;
+
+				int tempOut = 0;
 				for(Investiture invest: temp)
 				{
-					int toDraw = (invest.getBEU()/sub) * sub2;
-					sub3 += toDraw;
-					invest.removeBEU(toDraw);
+					int toDraw = (int) (((double)(invest.getBEU())/tempTotal) * theoryMax);
+					tempOut += invest.removeBEU(toDraw, true);
 				}
 				int index = 0;
 
 				//Checking that investiture gets pulled correctly
-				while(sub3 < sub2)
+				while(tempOut < theoryMax)
 				{
 					Investiture invest = temp.get(index);
 					if(invest.getBEU() > 0)
 					{
-						sub3 += 1;
-						invest.removeBEU(1);
+						tempOut += 1;
+						invest.removeBEU(1, true);
 					}
 					if(invest.getBEU() == 0)
 					{
@@ -436,10 +504,21 @@ public class InvestitureContainer<T extends ICapabilitySerializable<CompoundTag>
 					index = index >= temp.size() ? 0 : index + 1;
 				}
 
-				out += sub3;
+				out += tempOut;
 			}
 		}
+		clean();
 		return out;
 	}
 
+	@Override
+	public Entity getEntityAssociate()
+	{
+		return entityAssociate;
+	}
+	@Override
+	public void setEntityAssociate(Entity entityAssociate)
+	{
+		this.entityAssociate = entityAssociate;
+	}
 }

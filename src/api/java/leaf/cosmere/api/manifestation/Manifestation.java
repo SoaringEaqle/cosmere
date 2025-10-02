@@ -144,9 +144,9 @@ public class Manifestation implements IManifestationProvider
 
 
 	//May be redundant method
-	public int drawInvestiture(IInvContainer<?> data, int beu)
+	public int drawInvestiture(ISpiritweb data, int beu)
 	{
-		ArrayList<Investiture> invests = data.availableInvestitures(this);
+		ArrayList<Investiture> invests = data.getInvestitureContainer().availableInvestitures(this);
 		int sum = 0;
 		for(Investiture investiture: invests)
 		{
@@ -185,12 +185,12 @@ public class Manifestation implements IManifestationProvider
 
 	}
 
-	public int maxInvestitureDraw(IInvContainer<?> data)
+	public int maxInvestitureDraw(ISpiritweb data)
 	{
 		return 0;
 	}
 
-	public int minInvestitureDraw(IInvContainer<?> data)
+	public int minInvestitureDraw(ISpiritweb data)
 	{
 		return 0;
 	}

@@ -7,12 +7,16 @@ package leaf.cosmere.surgebinding.common.items;
 import leaf.cosmere.api.IHasGemType;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Roshar;
+import leaf.cosmere.api.investiture.IInvContainer;
+import leaf.cosmere.api.investiture.InvHelpers;
+import leaf.cosmere.api.investiture.Transferer;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.items.ChargeableItemBase;
+import leaf.cosmere.common.items.InvestableItemBase;
 import leaf.cosmere.common.properties.PropTypes;
-import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
-import leaf.cosmere.surgebinding.common.registries.SurgebindingDimensions;
+import leaf.cosmere.surgebinding.common.investiture.Highstorm;
+import leaf.cosmere.surgebinding.common.investiture.LightTransferer;
+import leaf.cosmere.surgebinding.common.investiture.Stormlight;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingManifestations;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -24,7 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
-public class GemstoneItem extends ChargeableItemBase implements IHasGemType
+public class GemstoneItem extends InvestableItemBase implements IHasGemType
 {
 	private final Roshar.Gemstone gemstone;
 	private final Roshar.GemSize gemSize;
@@ -63,33 +67,28 @@ public class GemstoneItem extends ChargeableItemBase implements IHasGemType
 	@Override
 	public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem)
 	{
-		if (entityItem.level().dimension().equals(SurgebindingDimensions.ROSHAR_DIM_KEY))
+		Highstorm highstorm = new Highstorm();
+		if(highstorm.isHighstorm(entityItem))
 		{
-			if (entityItem.level().isRainingAt(entityItem.blockPosition()) && entityItem.level().isThundering())
-			{
 				if (getCharge(stack) < getMaxCharge(stack))
 				{
 					//gemstones charge faster in the world
-					this.increaseCurrentCharge(stack, 5);
+					highstorm.newInvest(getAsContainer(stack), 10);
 				}
-			}
 		}
+
 		return super.onEntityItemUpdate(stack, entityItem);
 	}
 
 	@Override
 	public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pItemSlot, boolean pIsSelected)
 	{
-		if (!pLevel.dimension().equals(SurgebindingDimensions.ROSHAR_DIM_KEY))
-		{
-			return;
-		}
-
-		if (pLevel.isRainingAt(pEntity.blockPosition()) && pLevel.isThundering())
+		Highstorm storm = new Highstorm();
+		if (storm.isHighstorm(pEntity))
 		{
 			if (pStack.getItem() instanceof GemstoneItem gemstoneItem)
 			{
-				gemstoneItem.increaseCurrentCharge(pStack);
+				storm.newInvest(getAsContainer(pStack), 5);
 			}
 		}
 
@@ -109,6 +108,7 @@ public class GemstoneItem extends ChargeableItemBase implements IHasGemType
 		SpiritwebCapability.get(pPlayer).ifPresent(spiritweb ->
 		{
 			SpiritwebCapability data = (SpiritwebCapability) spiritweb;
+			IInvContainer playerContainer = data.getInvestitureContainer();
 
 			boolean hasAnySurgebinding = SurgebindingManifestations.SURGEBINDING_POWERS.values().stream().anyMatch((manifestation -> spiritweb.hasManifestation(manifestation.getManifestation())));
 
@@ -119,45 +119,53 @@ public class GemstoneItem extends ChargeableItemBase implements IHasGemType
 
 			final int charge = getCharge(itemStack);
 
+			/* Old code
 			SurgebindingSpiritwebSubmodule sb = (SurgebindingSpiritwebSubmodule) data.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
 
 			int playerStormlight = sb.getStormlight();
 
+			 */
+
 			final int maxPlayerStormlight = SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get();
+
+			Stormlight invest = (Stormlight) (playerContainer.findInvestiture(Manifestations.ManifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING)));
+			Stormlight gemInvest = (Stormlight) (getAsContainer(itemStack).findInvestiture(Manifestations.ManifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING)));
+
 
 			//Get stormlight from gems
 			if (!pPlayer.isCrouching())
 			{
 				//if charge is less than max stormlight, put all charge into player.
 
-				final int attemptedTotal = charge + playerStormlight;
+
+
+				final int attemptedTotal = charge + invest.getBEU();
 				if (attemptedTotal <= maxPlayerStormlight)
 				{
-					sb.adjustStormlight(charge, true);
-					setCharge(itemStack, 0);
+					Transferer gemTransfer = new LightTransferer(gemInvest, playerContainer, 400, 0, Integer.MAX_VALUE);
 				}
 				else
 				{
 					int remainder = attemptedTotal - maxPlayerStormlight;
 					final int chargeLevelUsed = charge - remainder;
-					sb.adjustStormlight(chargeLevelUsed, true);
-					adjustCharge(itemStack, -chargeLevelUsed);
+					Transferer gemTransfer = new Transferer(gemInvest, playerContainer, 400, 0, Integer.MAX_VALUE);
+					gemTransfer.setKillAmount(chargeLevelUsed);
 				}
 			}
 			//put remaining stormlight into gem.
 			else
 			{
-				if (playerStormlight > 0)
+				if (invest.getBEU() > 0)
 				{
-					if ((charge + playerStormlight) > getMaxCharge(itemStack))
+					if ((charge + invest.getBEU()) > getMaxCharge(itemStack))
 					{
-						sb.adjustStormlight(-(getMaxCharge(itemStack) - charge), true);
-						setCharge(itemStack, getMaxCharge(itemStack));
+						Transferer transferer = new LightTransferer(invest, getAsContainer(itemStack), 1000, 0, Integer.MAX_VALUE);
+						transferer.setKillAmount(getMaxCharge(itemStack) - charge);
 					}
 					else
 					{
-						sb.adjustStormlight(-playerStormlight, true);
-						setCharge(itemStack, (short) (playerStormlight + charge));
+						Transferer transferer = new LightTransferer(invest, getAsContainer(itemStack), 1000, 0, Integer.MAX_VALUE);
+						transferer.setKillAmount(getMaxCharge(itemStack) - charge);
 					}
 				}
 			}

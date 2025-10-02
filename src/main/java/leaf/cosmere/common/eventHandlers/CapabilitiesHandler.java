@@ -5,9 +5,13 @@
 package leaf.cosmere.common.eventHandlers;
 
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
+import leaf.cosmere.common.investiture.InvestitureContainer;
+import leaf.cosmere.common.items.ChargeableItemBase;
+import leaf.cosmere.common.items.InvestableItemBase;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +25,7 @@ import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -68,6 +73,71 @@ public class CapabilitiesHandler
 				}
 			});
 		}
+		if(isValidInvestitureContainer(eventEntity))
+		{
+			LivingEntity livingEntity = (LivingEntity) eventEntity;
+
+			event.addCapability(Constants.Resources.INV_CONTAINER_CAP, new ICapabilitySerializable<CompoundTag>()
+			{
+				final InvestitureContainer investitureContainer = new InvestitureContainer(livingEntity);
+				final LazyOptional<IInvContainer> invContainerInstance = LazyOptional.of(() -> investitureContainer);
+
+				@Nonnull
+				@Override
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side)
+				{
+					return cap == InvestitureContainer.CAPABILITY ? (LazyOptional<T>) invContainerInstance
+					                                              : LazyOptional.empty();
+				}
+
+				@Override
+				public CompoundTag serializeNBT()
+				{
+					return investitureContainer.serializeNBT();
+				}
+
+				@Override
+				public void deserializeNBT(CompoundTag nbt)
+				{
+					investitureContainer.deserializeNBT(nbt);
+				}
+			});
+		}
+	}
+
+	@SubscribeEvent
+	public static void attachItemCapabilities(AttachCapabilitiesEvent<ItemStack> event)
+	{
+		ItemStack eventStack = event.getObject();
+
+		if (isValidInvestitureContainer(eventStack))
+		{
+			event.addCapability(Constants.Resources.INV_CONTAINER_CAP, new ICapabilitySerializable<CompoundTag>()
+			{
+				final InvestitureContainer investitureContainer = new InvestitureContainer(eventStack);
+				final LazyOptional<IInvContainer> invContainerInstance = LazyOptional.of(() -> investitureContainer);
+
+				@Nonnull
+				@Override
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side)
+				{
+					return cap == InvestitureContainer.CAPABILITY ? (LazyOptional<T>) invContainerInstance
+					                                              : LazyOptional.empty();
+				}
+
+				@Override
+				public CompoundTag serializeNBT()
+				{
+					return investitureContainer.serializeNBT();
+				}
+
+				@Override
+				public void deserializeNBT(CompoundTag nbt)
+				{
+					investitureContainer.deserializeNBT(nbt);
+				}
+			});
+		}
 	}
 
 	public static boolean isValidSpiritWebEntity(Entity entity)
@@ -80,5 +150,22 @@ public class CapabilitiesHandler
 				|| entity instanceof Warden
 				|| entity instanceof Llama
 				|| entity instanceof Cat;
+	}
+
+	public static boolean isValidInvestitureContainer(Entity entity)
+	{
+		return isValidSpiritWebEntity(entity);
+		//add block entities
+	}
+
+	//Alternative for investiture container for entities that can only be affected by investiture, but can't use it.
+	public static boolean isValidInfustionEntity(Entity entity)
+	{
+		return (entity instanceof LivingEntity && !isValidInvestitureContainer(entity));
+	}
+
+	public static boolean isValidInvestitureContainer(ItemStack stack)
+	{
+		return stack.getItem() instanceof InvestableItemBase;
 	}
 }

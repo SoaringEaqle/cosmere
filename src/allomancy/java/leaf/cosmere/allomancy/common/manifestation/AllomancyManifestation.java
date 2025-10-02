@@ -12,6 +12,7 @@ import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.investiture.InvHelpers;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
+import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.investiture.InvestitureContainer;
 import leaf.cosmere.common.charge.MetalmindChargeHelper;
 import leaf.cosmere.api.investiture.IInvCreator;
@@ -167,7 +168,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		allo.adjustIngestedMetal(metalType, -cost, isActiveTick);
 		if(isActiveTick)
 		{
-			newInvest(InvestitureContainer.findOrCreateContainer(data));
+			newInvest(data.getInvestitureContainer());
 		}
 
 		if (isActiveTick && livingEntity instanceof ServerPlayer serverPlayer)
@@ -269,19 +270,19 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 	
 	@Override
-	public int maxInvestitureDraw(IInvContainer<?> data)
+	public int maxInvestitureDraw(ISpiritweb data)
 	{
-		return (int) ((10 * getStrength(data.getSpiritweb(),false)) + 15);
+		return (int) ((10 * getStrength(data,false)) + minInvestitureDraw(data));
 	}
 	
 	@Override
-	public int minInvestitureDraw(IInvContainer<?> data)
+	public int minInvestitureDraw(ISpiritweb data)
 	{
-		if(isFlaring(data.getSpiritweb()))
+		if(isFlaring(data))
 		{
-			return 30;
+			return 100;
 		}
-		return 15;
+		return 50;
 	}
 	
 
@@ -289,25 +290,57 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 
 
 	@Override
-	public Investiture newInvest(IInvContainer<?> data)
+	public Investiture newInvest(IInvContainer data)
 	{
-		double strength = getStrength(data.getSpiritweb(), false);
-		double baseStrength = getStrength(data.getSpiritweb(), true);
 
+		ISpiritweb web;
+		if(data.getParent() instanceof LivingEntity entity)
+		{
+			web = SpiritwebCapability.get(entity).resolve().get();
+		}
+		else
+		{
+			return null;
+		}
+		double strength = getStrength(web, false);
+		double baseStrength = getStrength(web, true);
+
+		//gets investiture
 		int beu = 50 + Mth.floor(strength) + Mth.floor(baseStrength);
-		if(isFlaring(data.getSpiritweb()))
+		if(isFlaring(web))
 		{
 			beu *= 2;
 		}
 
+		Manifestation[] appManifest;
+		if(isCompounding(web))
+		{
+			appManifest = appManifestComp;
+		}
+		else
+		{
+			appManifest = Manifestations.ManifestArrayBuilder.getArray(this);
+		}
 		Investiture sub = new Investiture(
 				data,
 				InvHelpers.Shards.PRESERVATION,
 				InvHelpers.InvestitureSources.DIRECT,
 				beu,
-				appManifestComp);
+				appManifest);
 		sub.setPriority(5);
 		return sub;
+	}
+
+	@Override
+	public Investiture newInvest(IInvContainer data, int beu, int decay)
+	{
+		return newInvest(data);
+	}
+
+	@Override
+	public Investiture newInvest(IInvContainer data, int beu)
+	{
+		return newInvest(data);
 	}
 
 }

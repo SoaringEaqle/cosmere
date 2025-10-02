@@ -16,4 +16,8 @@ public interface IInvestiture
 
 	IInvContainer<?> getContainer();
 
+	int getCurrentMaxDraw();
+
+	void calculateCurrentMaxDraw();
+
 }
