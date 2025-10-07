@@ -1,5 +1,5 @@
 /*
- * File created ~ 2 - 5 - 2025 ~ SoaringEaqle
+ * File updated ~ 10 - 6 - 2025 ~ SoaringEaqle
  */
 
 package leaf.cosmere.client;
@@ -8,15 +8,11 @@ import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.config.CosmereClientConfig;
 import leaf.cosmere.common.config.CosmereConfigs;
 import leaf.cosmere.common.network.packets.ChangeManifestationModeMessage;
 import leaf.cosmere.common.registry.ManifestationRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

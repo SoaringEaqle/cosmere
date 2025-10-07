@@ -1,5 +1,5 @@
 /*
- * File updated ~ 9 - 3 - 2025 ~ Leaf
+ * File updated ~ 10 - 6 - 2025 ~ Soar
  */
 
 package leaf.cosmere.common.config;
