@@ -8,35 +8,32 @@ import net.minecraft.nbt.CompoundTag;
 
 public class SpiritwebInvestiture implements IInvestiture
 {
+	private IInvContainer<?> container;
+	private InvHelpers.Shard shard;
+	private InvHelpers.InvestitureSource source;
+
 	private Manifestation[] applicableManifestations;
 	
-	private int beu;
+	private double beu;
 
-
-	private IInvContainer<?> container;
-	private InvHelpers.Shards shard;
-	private InvHelpers.InvestitureSources source;
-	private int lastPullInvestiture = 0;
 	private int mode = 0;
 
 	private CompoundTag nbt;
 
-	private int currentMaxDraw;
-
 	public SpiritwebInvestiture(IInvContainer<?> invContainer, Manifestation manifestation, ISpiritweb web)
 	{
 		container = invContainer;
-		beu = InvHelpers.Math.strengthToBEU(manifestation.getStrength(web, true));
-		shard = InvHelpers.Shards.getShardOfManifest(manifestation);
-		source = InvHelpers.InvestitureSources.DIRECT;
+		beu = InvHelpers.InvMath.strengthToBEU(manifestation.getStrength(web, true));
+		shard = InvHelpers.Shard.getShardOfManifest(manifestation);
+		source = InvHelpers.InvestitureSource.DIRECT;
 		applicableManifestations = Manifestations.ManifestArrayBuilder.getArray(manifestation);
 		container.mergeOrAddInvestiture(this);
 	}
 	
 	public SpiritwebInvestiture(IInvContainer<?> investitureContainer,
 	                            double strength,
-	                            InvHelpers.Shards shard,
-	                            InvHelpers.InvestitureSources source,
+	                            InvHelpers.Shard shard,
+	                            InvHelpers.InvestitureSource source,
 	                            Manifestation[] appManifest)
 	{
 		this.shard = shard;
@@ -50,12 +47,12 @@ public class SpiritwebInvestiture implements IInvestiture
 	
 
 	
-	public int getBEU()
+	public double getBEU()
 	{
 		return beu;
 	}
 
-	public void setBEU(int beu) 
+	public void setBEU(double beu)
 	{
 		this.beu = beu;
 	}
@@ -65,53 +62,42 @@ public class SpiritwebInvestiture implements IInvestiture
 	}
 
 	@Override
-	public InvHelpers.Shards getShard()
+	public InvHelpers.Shard getShard()
 	{
 		return null;
 	}
 
 	@Override
-	public InvHelpers.InvestitureSources getSource()
+	public InvHelpers.InvestitureSource getSource()
 	{
 		return null;
 	}
 
 	@Override
-	public IInvContainer<?> getContainer()
+	public IInfuseContainer<?> getContainer()
 	{
 		return container;
 	}
 
 	@Override
-	public int getCurrentMaxDraw()
+	public double getCurrentMaxDraw()
 	{
-		return currentMaxDraw;
+		return beu;
 	}
 
 	@Override
 	public void calculateCurrentMaxDraw()
 	{
-		currentMaxDraw = beu;
 	}
 
 	public double getStrength()
 	{
-		return InvHelpers.Math.beuToStrength(beu);
+		return InvHelpers.InvMath.beuToStrength(beu);
 	}
 	
 	public void setStrength(double strength)
 	{
-		beu = InvHelpers.Math.strengthToBEU(strength);
-	}
-
-	public int getLastPullInvestiture()
-	{
-		return lastPullInvestiture;
-	}
-
-	public void setLastPullInvestiture(int lastPullInvestiture)
-	{
-		this.lastPullInvestiture = lastPullInvestiture;
+		beu = InvHelpers.InvMath.strengthToBEU(strength);
 	}
 
 	public int getMode()
@@ -128,8 +114,8 @@ public class SpiritwebInvestiture implements IInvestiture
 	{
 		if(this.getApplicableManifestations()==(other.getApplicableManifestations())
 			&& this.getContainer().equals(other.getContainer())
-		&& this.source != InvHelpers.InvestitureSources.LIFEFORCE
-		&& other.source != InvHelpers.InvestitureSources.LIFEFORCE)
+		&& this.source != InvHelpers.InvestitureSource.LIFEFORCE
+		&& other.source != InvHelpers.InvestitureSource.LIFEFORCE)
 		{
 			this.beu += other.getBEU();
 			other.setBEU(0);
@@ -156,9 +142,8 @@ public class SpiritwebInvestiture implements IInvestiture
 			manifestationNBT.putInt(applicableManifestations[i].getRegistryName().toString(), i);
 		}
 		nbt.put("manifestations", manifestationNBT);
-		nbt.putInt("beu", beu);
+		nbt.putDouble("beu", beu);
 
-		nbt.putInt("lpi",lastPullInvestiture);
 
 		return nbt;
 	}
@@ -166,9 +151,9 @@ public class SpiritwebInvestiture implements IInvestiture
 	public void deserializeNBT(CompoundTag nbt)
 	{
 		this.nbt = nbt;
-		beu = nbt.getInt("beu");
-		shard = InvHelpers.Shards.valueOf(nbt.getString("shard"));
-		source = InvHelpers.InvestitureSources.valueOf(nbt.getString("source"));
+		beu = nbt.getDouble("beu");
+		shard = InvHelpers.Shard.valueOf(nbt.getString("shard"));
+		source = InvHelpers.InvestitureSource.valueOf(nbt.getString("source"));
 		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
 		for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
@@ -181,7 +166,6 @@ public class SpiritwebInvestiture implements IInvestiture
 			}
 		}
 
-		lastPullInvestiture = nbt.getInt("lpi");
 
 
 	}
@@ -200,11 +184,10 @@ public class SpiritwebInvestiture implements IInvestiture
 			}
 		}
 		SpiritwebInvestiture invest = new SpiritwebInvestiture(data,
-				nbt.getInt("beu"),
-				InvHelpers.Shards.valueOf(nbt.getString("shard")),
-				InvHelpers.InvestitureSources.valueOf(nbt.getString("source")),
+				nbt.getDouble("beu"),
+				InvHelpers.Shard.valueOf(nbt.getString("shard")),
+				InvHelpers.InvestitureSource.valueOf(nbt.getString("source")),
 				array);
-		invest.lastPullInvestiture = nbt.getInt("lpi");
 		invest.nbt = nbt;
 
 

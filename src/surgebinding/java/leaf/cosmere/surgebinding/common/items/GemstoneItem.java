@@ -67,13 +67,12 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 	@Override
 	public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem)
 	{
-		Highstorm highstorm = new Highstorm();
-		if(highstorm.isHighstorm(entityItem))
+		if(Highstorm.isHighstorm(entityItem))
 		{
 				if (getCharge(stack) < getMaxCharge(stack))
 				{
 					//gemstones charge faster in the world
-					highstorm.newInvest(getAsContainer(stack), 10);
+					Highstorm.highstorm.newInvest(getAsContainer(stack), 100);
 				}
 		}
 
@@ -83,12 +82,12 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 	@Override
 	public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pItemSlot, boolean pIsSelected)
 	{
-		Highstorm storm = new Highstorm();
-		if (storm.isHighstorm(pEntity))
+
+		if (Highstorm.isHighstorm(pEntity))
 		{
 			if (pStack.getItem() instanceof GemstoneItem gemstoneItem)
 			{
-				storm.newInvest(getAsContainer(pStack), 5);
+				Highstorm.highstorm.newInvest(getAsContainer(pStack), 50);
 			}
 		}
 
@@ -142,14 +141,13 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 				final int attemptedTotal = charge + invest.getBEU();
 				if (attemptedTotal <= maxPlayerStormlight)
 				{
-					Transferer gemTransfer = new LightTransferer(gemInvest, playerContainer, 400, 0, Integer.MAX_VALUE);
+					new LightTransferer(gemInvest, playerContainer, 400, 0, 5)
+							.setKillAmount(maxPlayerStormlight - invest.getBEU());
 				}
 				else
 				{
-					int remainder = attemptedTotal - maxPlayerStormlight;
-					final int chargeLevelUsed = charge - remainder;
-					Transferer gemTransfer = new Transferer(gemInvest, playerContainer, 400, 0, Integer.MAX_VALUE);
-					gemTransfer.setKillAmount(chargeLevelUsed);
+					new LightTransferer(gemInvest, playerContainer, 400, 0, 3)
+							.setKillAmount(maxPlayerStormlight - invest.getBEU());
 				}
 			}
 			//put remaining stormlight into gem.
@@ -159,13 +157,13 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 				{
 					if ((charge + invest.getBEU()) > getMaxCharge(itemStack))
 					{
-						Transferer transferer = new LightTransferer(invest, getAsContainer(itemStack), 1000, 0, Integer.MAX_VALUE);
-						transferer.setKillAmount(getMaxCharge(itemStack) - charge);
+						new LightTransferer(invest, getAsContainer(itemStack),
+								1000, 0, Integer.MAX_VALUE);
 					}
 					else
 					{
-						Transferer transferer = new LightTransferer(invest, getAsContainer(itemStack), 1000, 0, Integer.MAX_VALUE);
-						transferer.setKillAmount(getMaxCharge(itemStack) - charge);
+						new LightTransferer(invest, getAsContainer(itemStack),
+								1000, 0, Integer.MAX_VALUE);
 					}
 				}
 			}

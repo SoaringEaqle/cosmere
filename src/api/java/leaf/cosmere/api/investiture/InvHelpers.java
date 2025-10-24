@@ -8,7 +8,6 @@ import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.manifestation.Manifestation;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Arrays;
@@ -18,7 +17,7 @@ import java.util.Optional;
 
 public class InvHelpers
 {
-	public enum Shards
+	public enum Shard
 	{
 		NONE(0),
 		AUTONOMY(1),
@@ -46,12 +45,12 @@ public class InvHelpers
 
 		final int id;
 
-		Shards(int number)
+		Shard(int number)
 		{
 			this.id = number;
 		}
 
-		public static Optional<InvHelpers.Shards> valueOf(int value)
+		public static Optional<Shard> valueOf(int value)
 		{
 			return Arrays.stream(values())
 					.filter(shard -> shard.id == value)
@@ -68,15 +67,15 @@ public class InvHelpers
 			return name().toLowerCase(Locale.ROOT);
 		}
 
-		public Shards[] getComponentShards()
+		public Shard[] getComponentShards()
 		{
 			return switch (this)
 			{
-				case DOR -> new Shards[]{DEVOTION, DOMINION};
-				case HARMONY -> new Shards[]{RUIN, PRESERVATION};
-				case RETRIBUTION -> new Shards[]{HONOR, ODIUM};
+				case DOR -> new Shard[]{DEVOTION, DOMINION};
+				case HARMONY -> new Shard[]{RUIN, PRESERVATION};
+				case RETRIBUTION -> new Shard[]{HONOR, ODIUM};
 				case PURE -> EnumUtils.SHARDS;
-				default -> new Shards[]{this};
+				default -> new Shard[]{this};
 
 			};
 		}
@@ -96,12 +95,12 @@ public class InvHelpers
 			};
 		}
 
-		public static Shards getShardOfManifest(Manifestation manifestation)
+		public static Shard getShardOfManifest(Manifestation manifestation)
 		{
 			return getShardOfManifest(manifestation.getManifestationType());
 		}
 
-		public static Shards getShardOfManifest(Manifestations.ManifestationTypes manifestationT)
+		public static Shard getShardOfManifest(Manifestations.ManifestationTypes manifestationT)
 		{
 			return switch (manifestationT)
 			{
@@ -116,7 +115,7 @@ public class InvHelpers
 		}
 	}
 	// All possible sources for gaining kinetic investiture
-	public enum InvestitureSources
+	public enum InvestitureSource
 	{
 		DIRECT(0),
 		MISTS(1),
@@ -131,12 +130,12 @@ public class InvHelpers
 
 		final int id;
 
-		InvestitureSources(int id)
+		InvestitureSource(int id)
 		{
 			this.id = id;
 		}
 
-		public static Optional<InvHelpers.InvestitureSources> valueOf(int value)
+		public static Optional<InvestitureSource> valueOf(int value)
 		{
 			return Arrays.stream(values())
 					.filter(shard -> shard.id == value)
@@ -155,11 +154,11 @@ public class InvHelpers
 
 	}
 
-	public static class Math
+	public static class InvMath
 	{
-		public static double beuToStrength(int beu)
+		public static double beuToStrength(double beu)
 		{
-			return (double) beu /Constants.beuStrengthRatio;
+			return beu /Constants.beuStrengthRatio;
 		}
 
 		public static int strengthToBEU(double strength)
@@ -167,12 +166,12 @@ public class InvHelpers
 			return (int) (strength*Constants.beuStrengthRatio);
 		}
 
-		public static int beuToPower(int beu)
+		public static int beuToPower(double beu)
 		{
-			return beu/Constants.beuPowerRatio;
+			return (int) (beu/Constants.beuPowerRatio);
 		}
 
-		public static int powerToBEU(int power)
+		public static double powerToBEU(int power)
 		{
 			return power * Constants.beuPowerRatio;
 		}
@@ -182,16 +181,15 @@ public class InvHelpers
 	public static class Constants
 	{
 		//Tick Counters
-		//Any manifestations that activate on ticks 3,0, or 1 get free activation until tick 2.
-		//During this tick, investiture is collected and filled. All movement of investiture objects is handled this tick.
-		public static final int collectionTick = 0;
-		//Investiture gets managed. Sources and Investiture are merged and/or deleted as fit
-		public static final int mangagementTick = 1;
-		//Manifestations check how much investiture they need and if all sources have the required amount.
-		// Investiture is counted.
-		public static final int checkTick = 2;
-		//Manifestations request beu to continue for another cycle.
-		public static final int pullTick = 3;
+		//containers clean up.
+		public static final int containerTick = 39;
+		//investiture is transfered.
+		public static final int transferTick = 19;
+
+		//KineticInvestiture objects decay
+		//KineticInvestiture calculates next second's max investiture drain.
+		public static final int investitureTick = 2;
+
 
 
 		public static final int beuStrengthRatio = 15;

@@ -5,14 +5,13 @@ import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.StackNBTHelper;
-import leaf.cosmere.api.investiture.IInvContainer;
-import leaf.cosmere.api.investiture.Investiture;
-import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.investiture.IInfuseContainer;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.api.text.TextHelper;
+import leaf.cosmere.common.cap.InfusionContainer;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.config.CosmereConfigs;
-import leaf.cosmere.common.investiture.InvestitureContainer;
+import leaf.cosmere.common.cap.entity.InvestitureContainer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -41,10 +40,9 @@ public abstract class InvestableItemBase extends BaseItem
 		super(prop);
 	}
 
-	public IInvContainer<ItemStack> getAsContainer(ItemStack stack)
+	public IInfuseContainer<ItemStack> getAsContainer(ItemStack stack)
 	{
-		return InvestitureContainer.get(stack).isPresent() ? InvestitureContainer.get(stack).resolve().get()
-		                                                   : null;
+		return !InfusionContainer.get(stack).isPresent() ? null : InfusionContainer.get(stack).resolve().get();
 	}
 
 	@Override
@@ -72,11 +70,6 @@ public abstract class InvestableItemBase extends BaseItem
 		return getCharge(stack) > 1;
 	}
 
-	public int getCharge(ItemStack stack, Manifestation manifest)
-	{
-		List<Investiture> temp = getAsContainer(stack).availableInvestitures(manifest);
-		return getAsContainer(stack).currentBEUDraw(temp);
-	}
 	public int getCharge(ItemStack stack)
 	{
 		return getAsContainer(stack).currentBEU();

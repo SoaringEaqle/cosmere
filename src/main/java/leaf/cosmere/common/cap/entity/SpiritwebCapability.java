@@ -15,7 +15,6 @@ import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.config.CosmereConfigs;
-import leaf.cosmere.common.investiture.InvestitureContainer;
 import leaf.cosmere.common.network.packets.SyncPlayerSpiritwebMessage;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;

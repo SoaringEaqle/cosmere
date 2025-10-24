@@ -5,12 +5,13 @@
 package leaf.cosmere.common.eventHandlers;
 
 import leaf.cosmere.api.Constants;
+import leaf.cosmere.api.investiture.IInfuseContainer;
 import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
+import leaf.cosmere.common.cap.InfusionContainer;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.investiture.InvestitureContainer;
-import leaf.cosmere.common.items.ChargeableItemBase;
+import leaf.cosmere.common.cap.entity.InvestitureContainer;
 import leaf.cosmere.common.items.InvestableItemBase;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -73,7 +74,7 @@ public class CapabilitiesHandler
 				}
 			});
 		}
-		if(isValidInvestitureContainer(eventEntity))
+		if(isValidInfusionContainer(eventEntity))
 		{
 			LivingEntity livingEntity = (LivingEntity) eventEntity;
 
@@ -110,12 +111,12 @@ public class CapabilitiesHandler
 	{
 		ItemStack eventStack = event.getObject();
 
-		if (isValidInvestitureContainer(eventStack))
+		if (isValidInfusionContainer(eventStack))
 		{
 			event.addCapability(Constants.Resources.INV_CONTAINER_CAP, new ICapabilitySerializable<CompoundTag>()
 			{
-				final InvestitureContainer investitureContainer = new InvestitureContainer(eventStack);
-				final LazyOptional<IInvContainer> invContainerInstance = LazyOptional.of(() -> investitureContainer);
+				final InfusionContainer<ItemStack> investitureContainer = new InfusionContainer<>(eventStack);
+				final LazyOptional<IInfuseContainer> invContainerInstance = LazyOptional.of(() -> investitureContainer);
 
 				@Nonnull
 				@Override
@@ -152,19 +153,19 @@ public class CapabilitiesHandler
 				|| entity instanceof Cat;
 	}
 
-	public static boolean isValidInvestitureContainer(Entity entity)
+	public static boolean isValidInfusionContainer(Entity entity)
 	{
 		return isValidSpiritWebEntity(entity);
 		//add block entities
 	}
 
 	//Alternative for investiture container for entities that can only be affected by investiture, but can't use it.
-	public static boolean isValidInfustionEntity(Entity entity)
+	public static boolean isValidInfusionEntity(Entity entity)
 	{
-		return (entity instanceof LivingEntity && !isValidInvestitureContainer(entity));
+		return (entity instanceof LivingEntity && !isValidInfusionContainer(entity));
 	}
 
-	public static boolean isValidInvestitureContainer(ItemStack stack)
+	public static boolean isValidInfusionContainer(ItemStack stack)
 	{
 		return stack.getItem() instanceof InvestableItemBase;
 	}

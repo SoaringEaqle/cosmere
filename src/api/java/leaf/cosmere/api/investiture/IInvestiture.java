@@ -1,23 +1,27 @@
 package leaf.cosmere.api.investiture;
 
 import leaf.cosmere.api.manifestation.Manifestation;
+import net.minecraft.nbt.CompoundTag;
 
 public interface IInvestiture
 {
-	int getBEU();
+	double getBEU();
 
-	void setBEU(int beu);
+	void setBEU(double beu);
 	
 	Manifestation[] getApplicableManifestations();
 
-	InvHelpers.Shards getShard();
+	InvHelpers.Shard getShard();
 
-	InvHelpers.InvestitureSources getSource();
+	InvHelpers.InvestitureSource getSource();
 
-	IInvContainer<?> getContainer();
+	IInfuseContainer<?> getContainer();
 
-	int getCurrentMaxDraw();
+	double getCurrentMaxDraw();
 
 	void calculateCurrentMaxDraw();
+
+	CompoundTag serializeNBT();
+	void deserializeNBT(CompoundTag nbt);
 
 }

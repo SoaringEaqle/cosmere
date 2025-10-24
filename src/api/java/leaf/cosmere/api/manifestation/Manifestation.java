@@ -5,8 +5,7 @@
 package leaf.cosmere.api.manifestation;
 
 import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.investiture.IInvContainer;
-import leaf.cosmere.api.investiture.Investiture;
+import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.providers.IManifestationProvider;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
@@ -146,9 +145,9 @@ public class Manifestation implements IManifestationProvider
 	//May be redundant method
 	public int drawInvestiture(ISpiritweb data, int beu)
 	{
-		ArrayList<Investiture> invests = data.getInvestitureContainer().availableInvestitures(this);
+		ArrayList<KineticInvestiture> invests = data.getInvestitureContainer().availableInvestitures(this);
 		int sum = 0;
-		for(Investiture investiture: invests)
+		for(KineticInvestiture investiture: invests)
 		{
 			sum += investiture.getBEU();
 		}
@@ -169,7 +168,7 @@ public class Manifestation implements IManifestationProvider
 			// 1 highest, 5 lowest
 			for(int i = 1; i <= 5; i++)
 			{
-				for (Investiture investiture: invests)
+				for (KineticInvestiture investiture: invests)
 				{
 					if(investiture.getPriority() == i)
 					{

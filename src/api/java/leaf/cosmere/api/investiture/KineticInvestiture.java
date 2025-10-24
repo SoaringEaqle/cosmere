@@ -11,27 +11,27 @@ import net.minecraft.nbt.CompoundTag;
 
 import javax.annotation.Nonnull;
 
-public class Investiture implements IInvestiture
+public class KineticInvestiture implements IInvestiture
 {
 
-	private IInvContainer<?> container;
-	private InvHelpers.Shards shard;
-	private InvHelpers.InvestitureSources source;
+	private IInfuseContainer<?> container;
+	private InvHelpers.Shard shard;
+	private InvHelpers.InvestitureSource source;
 	private Manifestation[] applicableManifestations;
 	private int priority = 1;
-	private int beu;
-	private int decayRate;
-	private int currentMaxDraw;
+	private double beu;
+	private double decayRate;
+	private double currentMaxDraw;
 
 	private CompoundTag nbt;
 
 
-	public Investiture(@Nonnull IInvContainer<?> container,
-	                   InvHelpers.Shards shard,
-	                   InvHelpers.InvestitureSources source,
-	                   int beu,
-	                   Manifestation[] applicableManifestations,
-	                   int decayRate)
+	public KineticInvestiture(@Nonnull IInfuseContainer<?> container,
+	                          InvHelpers.Shard shard,
+	                          InvHelpers.InvestitureSource source,
+	                          double beu,
+	                          Manifestation[] applicableManifestations,
+	                          double decayRate)
 	{
 
 		this.beu = beu;
@@ -43,11 +43,11 @@ public class Investiture implements IInvestiture
 		this.source = source;
 	}
 
-	public Investiture(@Nonnull IInvContainer<?> container,
-	                   InvHelpers.Shards shard,
-	                   InvHelpers.InvestitureSources source,
-	                   int beu,
-	                   Manifestation[] applicableManifestations)
+	public KineticInvestiture(@Nonnull IInvContainer<?> container,
+	                          InvHelpers.Shard shard,
+	                          InvHelpers.InvestitureSource source,
+	                          double beu,
+	                          Manifestation[] applicableManifestations)
 	{
 
 		this.beu = beu;
@@ -60,12 +60,12 @@ public class Investiture implements IInvestiture
 	}
 
 
-	public int getBEU()
+	public double getBEU()
 	{
 		return beu;
 	}
 
-	public void setBEU(int beu)
+	public void setBEU(double beu)
 	{
 		this.beu = beu;
 	}
@@ -88,26 +88,25 @@ public class Investiture implements IInvestiture
 	}
 	*/
 
-	public int removeBEU(int remove)
+	public void addBEU(double add)
 	{
-		if(remove > beu)
-		{
-			int out = beu;
-			beu = 0;
-			return out;
-		}
-		else
-		{
-			beu -= remove;
-			return remove;
-		}
+		beu += add;
 	}
 
-	public int removeBEU(int remove, boolean upToCurrent)
+	public double removeBEU(double remove)
 	{
-		if(upToCurrent)
-		{
-			if (remove > currentMaxDraw)
+		return removeBEU(remove, false);
+	}
+
+	public double removeBEU(double remove, boolean upToCurrent)
+	{
+			if (remove > beu)
+			{
+				double out = beu;
+				beu = 0;
+				return out;
+			}
+			else if (upToCurrent && remove > currentMaxDraw)
 			{
 				beu -= currentMaxDraw;
 				return currentMaxDraw;
@@ -117,33 +116,28 @@ public class Investiture implements IInvestiture
 				beu -= remove;
 				return remove;
 			}
-		}
-		else
-		{
-			if (remove > beu)
-			{
-				int out = beu;
-				beu = 0;
-				return out;
-			}
-			else
-			{
-				beu -= remove;
-				return remove;
-			}
-		}
 	}
 
-	public int drain()
+	public double drain()
 	{
-		int temp = beu;
+		double temp = beu;
 		beu = 0;
 		return temp;
 	}
 
-	public void addBEU(int add)
+	public double getDecayRate()
 	{
-		beu += add;
+		return decayRate;
+	}
+
+	public void setDecayRate(double decayRate)
+	{
+		this.decayRate = decayRate;
+	}
+
+	public void decay()
+	{
+		beu -= decayRate;
 	}
 
 	public int getPriority(){return priority;}
@@ -159,23 +153,23 @@ public class Investiture implements IInvestiture
 	}
 
 	@Override
-	public InvHelpers.Shards getShard()
+	public InvHelpers.Shard getShard()
 	{
 		return shard;
 	}
 
 	@Override
-	public InvHelpers.InvestitureSources getSource()
+	public InvHelpers.InvestitureSource getSource()
 	{
 		return source;
 	}
 
-	public IInvContainer<?> getContainer()
+	public IInfuseContainer<?> getContainer()
 	{
 		return container;
 	}
 
-	public int getCurrentMaxDraw()
+	public double getCurrentMaxDraw()
 	{
 		return currentMaxDraw;
 	}
@@ -185,7 +179,7 @@ public class Investiture implements IInvestiture
 		int x = 0;
 		for(Manifestation manifest: applicableManifestations)
 		{
-			if(manifest.isActive(getSpiritweb()))
+			if(getSpiritweb() != null && manifest.isActive(getSpiritweb()))
 			{
 				x++;
 			}
@@ -195,18 +189,14 @@ public class Investiture implements IInvestiture
 
 	public ISpiritweb getSpiritweb()
 	{
-		return getContainer().getSpiritweb().resolve().orElse(null);
+		if(container instanceof IInvContainer contain)
+		{
+			return (ISpiritweb) contain.getSpiritweb().resolve().orElse(null);
+		}
+		return null;
 	}
 
-	public int getDecayRate()
-	{
-		return decayRate;
-	}
 
-	public void setDecayRate(int decayRate)
-	{
-		this.decayRate = decayRate;
-	}
 
 	public boolean isUsable(Manifestation manifest1)
 	{
@@ -220,7 +210,7 @@ public class Investiture implements IInvestiture
 		return false;
 	}
 
-	public boolean merge(Investiture other)
+	public boolean merge(KineticInvestiture other)
 	{
 		if(this == other)
 		{
@@ -231,18 +221,14 @@ public class Investiture implements IInvestiture
 			&& this.getContainer().equals(other.getContainer()))
 		{
 			this.beu += other.getBEU();
+			other.setBEU(0);
 			return true;
-			//other.close;
 		}
 		return false;
 	}
-	
-	//protected void close() {this = null;}
 
-	public void decay()
-	{
-		beu -= decayRate;
-	}
+
+
 
 	public void reattach()
 	{
@@ -268,8 +254,8 @@ public class Investiture implements IInvestiture
 		}
 		nbt.put("manifestations", manifestationNBT);
 		nbt.putInt("priority", priority);
-		nbt.putInt("decay_rate", decayRate);
-		nbt.putInt("beu", beu);
+		nbt.putDouble("decay_rate", decayRate);
+		nbt.putDouble("beu", beu);
 
 		return nbt;
 	}
@@ -277,10 +263,10 @@ public class Investiture implements IInvestiture
 	public void deserializeNBT(CompoundTag nbt)
 	{
 		this.nbt = nbt;
-		decayRate = nbt.getInt("decay_rate");
-		beu = nbt.getInt("beu");
-		shard = InvHelpers.Shards.valueOf(nbt.getString("shard"));
-		source = InvHelpers.InvestitureSources.valueOf(nbt.getString("source"));
+		decayRate = nbt.getDouble("decay_rate");
+		beu = nbt.getDouble("beu");
+		shard = InvHelpers.Shard.valueOf(nbt.getString("shard"));
+		source = InvHelpers.InvestitureSource.valueOf(nbt.getString("source"));
 		priority = nbt.getInt("priority");
 		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -297,7 +283,7 @@ public class Investiture implements IInvestiture
 
 	}
 
-	public static Investiture buildFromNBT(CompoundTag nbt, IInvContainer<?> data)
+	public static KineticInvestiture buildFromNBT(CompoundTag nbt, IInvContainer<?> data)
 	{
 		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -310,10 +296,10 @@ public class Investiture implements IInvestiture
 				array[manifestNBT.getInt(manifestationLoc)] = manifestation;
 			}
 		}
-		Investiture invest = new Investiture(data,
-				InvHelpers.Shards.valueOf(nbt.getString("shard")),
-				InvHelpers.InvestitureSources.valueOf(nbt.getString("source")),
-				nbt.getInt("beu"),array, nbt.getInt("decay_rate"));
+		KineticInvestiture invest = new KineticInvestiture(data,
+				InvHelpers.Shard.valueOf(nbt.getString("shard")),
+				InvHelpers.InvestitureSource.valueOf(nbt.getString("source")),
+				nbt.getDouble("beu"),array, nbt.getInt("decay_rate"));
 		invest.nbt = nbt;
 		invest.setPriority(nbt.getInt("priority"));
 		return invest;

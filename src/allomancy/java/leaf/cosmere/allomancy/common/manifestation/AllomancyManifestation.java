@@ -8,15 +8,11 @@ import leaf.cosmere.allomancy.client.AllomancyKeybindings;
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
 import leaf.cosmere.allomancy.common.registries.AllomancyStats;
 import leaf.cosmere.api.*;
-import leaf.cosmere.api.investiture.IInvContainer;
-import leaf.cosmere.api.investiture.InvHelpers;
+import leaf.cosmere.api.investiture.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.investiture.InvestitureContainer;
 import leaf.cosmere.common.charge.MetalmindChargeHelper;
-import leaf.cosmere.api.investiture.IInvCreator;
-import leaf.cosmere.api.investiture.Investiture;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -288,9 +284,24 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 
 	public final Manifestation[] appManifestComp = Manifestations.ManifestArrayBuilder.getAllMetal(this.getMetalType());
 
+	public int beuGrantAmount(ISpiritweb web, int mode)
+	{
+		double strength = getStrength(web, false);
+		double baseStrength = getStrength(web, true);
+
+		int beu = 50 + Mth.floor(strength) + Mth.floor(baseStrength);
+		beu *= Math.abs(mode);
+
+		return beu;
+	}
+
+	public int beuGrantAmount(ISpiritweb web)
+	{
+		return beuGrantAmount(web, getMode(web));
+	}
 
 	@Override
-	public Investiture newInvest(IInvContainer data)
+	public KineticInvestiture newInvest(IInfuseContainer data)
 	{
 
 		ISpiritweb web;
@@ -302,15 +313,9 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		{
 			return null;
 		}
-		double strength = getStrength(web, false);
-		double baseStrength = getStrength(web, true);
 
 		//gets investiture
-		int beu = 50 + Mth.floor(strength) + Mth.floor(baseStrength);
-		if(isFlaring(web))
-		{
-			beu *= 2;
-		}
+		int beu = beuGrantAmount(web);
 
 		Manifestation[] appManifest;
 		if(isCompounding(web))
@@ -321,10 +326,10 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		{
 			appManifest = Manifestations.ManifestArrayBuilder.getArray(this);
 		}
-		Investiture sub = new Investiture(
+		KineticInvestiture sub = new KineticInvestiture(
 				data,
-				InvHelpers.Shards.PRESERVATION,
-				InvHelpers.InvestitureSources.DIRECT,
+				InvHelpers.Shard.PRESERVATION,
+				InvHelpers.InvestitureSource.DIRECT,
 				beu,
 				appManifest);
 		sub.setPriority(5);
@@ -332,13 +337,13 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 
 	@Override
-	public Investiture newInvest(IInvContainer data, int beu, int decay)
+	public KineticInvestiture newInvest(IInfuseContainer data, double beu, double decay)
 	{
 		return newInvest(data);
 	}
 
 	@Override
-	public Investiture newInvest(IInvContainer data, int beu)
+	public KineticInvestiture newInvest(IInfuseContainer data, double beu)
 	{
 		return newInvest(data);
 	}

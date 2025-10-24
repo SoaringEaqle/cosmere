@@ -4,47 +4,64 @@ import leaf.cosmere.api.manifestation.Manifestation;
 
 public class Transferer
 {
-	protected Investiture investIn;
-	protected Investiture investOut;
+	protected KineticInvestiture investIn;
+	protected KineticInvestiture investOut;
 	private int rate;
 	private int cycles = Integer.MAX_VALUE;
 	private int cycNum = 0;
 
-	private int killAmount = 0;
+	private int killAmount;
 
-	public Transferer(Investiture investIn, IInvContainer containerOut, int transfeRate, int decayRate, int cycles)
+	public Transferer(KineticInvestiture investIn, IInvContainer containerOut, int transfeRate, int decayRate, int cycles, int killPoint)
 	{
 		this(investIn, containerOut, transfeRate, decayRate);
 		this.cycles = cycles;
+		this.killAmount = Math.min(killPoint, containerOut.getMaxBEU());
 	}
-	public Transferer(Investiture investIn, IInvContainer containerOut, int transferRate, int decayRate)
+	public Transferer(KineticInvestiture investIn, IInvContainer containerOut, int transferRate, int decayRate)
 	{
 		this.investIn = investIn;
-		InvHelpers.Shards shard = investIn.getShard();
-		InvHelpers.InvestitureSources source = investIn.getContainer().containerSource();
+		InvHelpers.Shard shard = investIn.getShard();
+		InvHelpers.InvestitureSource source = investIn.getContainer().containerSource();
 		Manifestation[] man = investIn.getApplicableManifestations();
-		this.investOut = new Investiture(containerOut, shard, source, investIn.removeBEU(transferRate), man, decayRate);
+		this.investOut = new KineticInvestiture(containerOut, shard, source, investIn.removeBEU(transferRate), man, decayRate);
 		rate = transferRate;
 		InvHelpers.TransferHelper.addTransferer(this);
+		this.killAmount = containerOut.getMaxBEU();
 	}
 
-	public Transferer(Investiture investIn, IInvContainer containerOut, int transferRate)
+	public Transferer(KineticInvestiture investIn, IInvContainer containerOut, int transferRate)
 	{
 		this(investIn, containerOut, transferRate, 0);
 	}
 
-	protected Transferer(Investiture investIn, Investiture investOut, int transferRate, int cycles)
+	protected Transferer(KineticInvestiture investIn, KineticInvestiture investOut, int transferRate, int cycles, int killPoint)
 	{
 		this.investOut = investOut;
 		this.investIn = investIn;
 		this.rate = transferRate;
 		this.cycles = cycles;
+		this.killAmount = killPoint;
+	}
+
+	protected Transferer(KineticInvestiture investIn, KineticInvestiture investOut, int transferRate)
+	{
+		this(investIn, investOut, transferRate, Integer.MAX_VALUE, investOut.getContainer().getMaxBEU());
 	}
 
 	public void transfer()
 	{
+		int transfer1;
+		if((cycNum + 1) * rate > killAmount)
+		{
+			transfer1 = ((cycNum + 1) * rate) - killAmount;
+		}
+		else
+		{
+			transfer1 = rate;
+		}
 		cycNum++;
-		investOut.addBEU(investIn.removeBEU(rate));
+		investOut.addBEU(investIn.removeBEU(transfer1));
 		investIn.reattach();
 		if (cycNum == cycles || cycNum * rate >= killAmount)
 		{
@@ -57,12 +74,12 @@ public class Transferer
 		return rate;
 	}
 
-	public Investiture getInvestIn()
+	public KineticInvestiture getInvestIn()
 	{
 		return investIn;
 	}
 
-	public Investiture getInvestOut()
+	public KineticInvestiture getInvestOut()
 	{
 		return investOut;
 	}

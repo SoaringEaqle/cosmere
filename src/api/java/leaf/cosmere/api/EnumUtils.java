@@ -20,7 +20,7 @@ public class EnumUtils
 	public static final Roshar.Surges[] SURGES = Roshar.Surges.values();
 
 	//investiture
-	public static final InvHelpers.Shards[] SHARDS = InvHelpers.Shards.values();
+	public static final InvHelpers.Shard[] SHARDS = InvHelpers.Shard.values();
 
 	//yes I know it's a vanilla enum
 	public static final Direction[] DIRECTIONS = Direction.values();

@@ -2,36 +2,24 @@
 * File updated ~ 15 - 9 - 25 ~ Soar
  */
 
-package leaf.cosmere.common.investiture;
+package leaf.cosmere.common.cap.entity;
 
-import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.investiture.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.items.ChargeableItemBase;
+import leaf.cosmere.common.cap.InfusionContainer;
 import leaf.cosmere.common.network.packets.SyncPlayerInvestitureContainerMessage;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
@@ -39,77 +27,31 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class InvestitureContainer<T extends net.minecraftforge.common.capabilities.CapabilityProvider<T>> implements IInvContainer<T>
+public class InvestitureContainer extends InfusionContainer<Entity> implements IInvContainer<Entity>
 {
 
-	public static final Capability<IInvContainer> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
+
+	public static final Capability<IInvContainer<Entity>> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
 	{
 	});
 
 	//detect if capability has been set up yet
 	private boolean didSetup = false;
 
-	private final T parent;
-	private Entity entityAssociate;
+	public final Set<SpiritwebInvestiture> swInvestitures = new HashSet<>();
 
-
-	private CompoundTag nbt;
-
-	public final List<Investiture> investitures = new ArrayList<>();
-	public final List<SpiritwebInvestiture> swInvestitures = new ArrayList<>();
-	private int maxBEU;
 	private int lastAccessedTick; // Used for cleaning. If not accessed after several ticks, clear it out.
 
-	public InvestitureContainer(T parent)
+	public InvestitureContainer(Entity parent)
 	{
-		this.parent = parent;
-		if(this.parent instanceof Entity entity)
-		{
-			entityAssociate = entity;
-		}
+		super(parent);
 	}
 
 	@Nonnull
-	public static LazyOptional<IInvContainer> get(LivingEntity entity)
+	public static LazyOptional<IInfuseContainer<?>> get(LivingEntity entity)
 	{
-		return entity != null ? entity.getCapability(InvestitureContainer.CAPABILITY, null)
+		return entity != null ? entity.getCapability(InvestitureContainer.CAPABILITY, null).cast()
 		                      : LazyOptional.empty();
-	}
-
-	@Nonnull
-	public static LazyOptional<IInvContainer> get(ItemStack stack)
-	{
-		return stack != null ? stack.getCapability(InvestitureContainer.CAPABILITY, null)
-		                     : LazyOptional.empty();
-	}
-
-	@Nonnull
-	public static LazyOptional<IInvContainer> get(BlockEntity entity)
-	{
-		return entity != null ? entity.getCapability(InvestitureContainer.CAPABILITY, null)
-		                      : LazyOptional.empty();
-	}
-
-	@Nonnull
-	public static LazyOptional<IInvContainer> get(net.minecraftforge.common.capabilities.CapabilityProvider<?> object)
-	{
-		if(object instanceof LivingEntity entity)
-		{
-			return get(entity);
-		}
-		else if(object instanceof ItemStack stack)
-		{
-			return get(stack);
-		}
-		else if(object instanceof BlockEntity entity)
-		{
-			return get(entity);
-		}
-		else
-		{
-			return object != null ? object.getCapability(InvestitureContainer.CAPABILITY, null)
-			                      : LazyOptional.empty();
-		}
 	}
 
 	@Override
@@ -128,6 +70,13 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 			{
 				tickServer();
 			}
+			if(getEntityAssociate().tickCount % 20 == 19)
+			{
+				for (IInvestiture invest : investitures)
+				{
+					invest.calculateCurrentMaxDraw();
+				}
+			}
 		}
 		else
 		{
@@ -138,7 +87,7 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 	@Override
 	public void syncToClients(@Nullable ServerPlayer serverPlayerEntity)
 	{
-		if (parent != null && getEntityAssociate().level().isClientSide)
+		if (super.getParent() != null && getEntityAssociate().level().isClientSide)
 		{
 			throw new IllegalStateException("Don't sync client -> server");
 		}
@@ -155,10 +104,10 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 		}
 	}
 	@Override
-	public void onPlayerClone(PlayerEvent.Clone event, IInvContainer<T> oldInvContainer)
+	public void onPlayerClone(PlayerEvent.Clone event, IInvContainer<Entity> oldInvContainer)
 	{
 
-		var oldContainer = (InvestitureContainer<T>) oldInvContainer;
+		var oldContainer = (InvestitureContainer) oldInvContainer;
 
 		//TODO config options that let you choose what can be transferred
 
@@ -175,10 +124,14 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 
 	public void tickServer()
 	{
-		for(Investiture invest: investitures)
+		for(IInvestiture invest: investitures)
 		{
-			invest.decay();
-			if(invest.getBEU() <= 0)
+			if(invest instanceof KineticInvestiture investiture)
+			{
+				investiture.decay();
+
+			}
+			if (invest.getBEU() <= 0)
 			{
 				investitures.remove(invest);
 			}
@@ -194,15 +147,9 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 
 
 	@Override
-	public T getParent()
-	{
-		return parent;
-	}
-
-	@Override
 	public LazyOptional<ISpiritweb> getSpiritweb()
 	{
-		if(parent instanceof LivingEntity ent)
+		if(super.getParent() instanceof LivingEntity ent)
 		{
 			return SpiritwebCapability.get(ent);
 		}
@@ -217,11 +164,11 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 		{
 			ListTag investStored = new ListTag();
 
-			for (Investiture investiture : investitures)
+			for (IInvestiture investiture : investitures)
 			{
 				investStored.add(investiture.serializeNBT());
 			}
-			nbt.put("investitures", investStored);
+			nbt.put("kinInvest", investStored);
 		}
 		if(!swInvestitures.isEmpty())
 		{
@@ -232,8 +179,6 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 			}
 			nbt.put("swInvestitures", swInvest);
 		}
-
-		nbt.putInt("maxBEU", maxBEU);
 
 		nbt.putInt("lastAccessedTick", lastAccessedTick);
 
@@ -257,16 +202,16 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 			nbt = compoundTag;
 		}
 
-		this.maxBEU = nbt.getInt("maxBEU");
+		this.maxBEU = nbt.getDouble("maxBEU");
 		this.lastAccessedTick = nbt.getInt("lastAccessedTick");
 
-		if (nbt.contains("investitures"))
+		if (nbt.contains("kinInvest"))
 		{
-			ListTag listtag = nbt.getList("investitures", Tag.TAG_LIST);
+			ListTag listtag = nbt.getList("kinInvest", Tag.TAG_LIST);
 			for (int i = 0; i < listtag.size(); i++)
 			{
 				CompoundTag sub = listtag.getCompound(i);
-				Investiture temp = Investiture.buildFromNBT(sub, this);
+				KineticInvestiture temp = KineticInvestiture.buildFromNBT(sub, this);
 				investitures.add(temp);
 
 			}
@@ -287,12 +232,12 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 
 
 	@Override
-	public ArrayList<Investiture> availableInvestitures(Manifestation manifest)
+	public HashSet<IInvestiture> availableInvestitures(Manifestation manifest)
 	{
-		ArrayList<Investiture> availables = new ArrayList<>();
-		for (Investiture invest : investitures)
+		HashSet<IInvestiture> availables = new HashSet<>();
+		for (IInvestiture invest : investitures)
 		{
-			if (invest.isUsable(manifest))
+			if (invest instanceof KineticInvestiture investiture && investiture.isUsable(manifest))
 			{
 				availables.add(invest);
 			}
@@ -307,25 +252,30 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 		{
 			for (SpiritwebInvestiture investiture : swInvestitures)
 			{
-				swInvest.merge(investiture);
+				if(swInvest.merge(investiture))
+				{
+					investiture.setBEU(0);
+				}
 			}
 			swInvestitures.add(swInvest);
 		}
-		else if (invest instanceof Investiture iInvest)
+		else if (invest instanceof KineticInvestiture iInvest)
 		{
-			iInvest.merge(
-					investitures.stream()
-							.filter(investiture -> investiture.getShard() == iInvest.getShard())
-							.findFirst()
-							.orElse(iInvest));
+			for (KineticInvestiture investiture : investitures)
+			{
+				if(iInvest.merge(investiture))
+				{
+					investiture.setBEU(0);
+				}
+			}
 			investitures.add(iInvest);
 		}
 	}
 
 	@Override
-	public Investiture findInvestiture(Manifestation[] appManifest)
+	public KineticInvestiture findInvestiture(Manifestation[] appManifest)
 	{
-		for (Investiture invest : investitures)
+		for (KineticInvestiture invest : investitures)
 		{
 			if (Arrays.equals(invest.getApplicableManifestations(), appManifest))
 			{
@@ -336,27 +286,16 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 	}
 
 	@Override
-	public boolean hasInvestiture(Investiture investiture)
+	public boolean hasInvestiture(KineticInvestiture investiture)
 	{
 		return !investitures.stream().filter(investiture1 -> investiture == investiture1).toList().isEmpty();
 	}
 
-	@Override
-	public int currentBEU()
-	{
-		int sub = 0;
-		for(Investiture invest: investitures)
-		{
-			sub+= invest.getBEU();
-		}
-		return sub;
-	}
 
-	@Override
-	public int currentBEUDraw(List<Investiture> list)
+	public int currentBEUDraw(List<KineticInvestiture> list)
 	{
 		int sub = 0;
-		for(Investiture invest: list)
+		for(KineticInvestiture invest: list)
 		{
 			sub += invest.getCurrentMaxDraw();
 		}
@@ -364,16 +303,16 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 	}
 
 	@Override
-	public int getMaxBEU()
+	public double currentBEU()
 	{
-		return maxBEU;
+		int sub = 0;
+		for(KineticInvestiture invest: investitures)
+		{
+			sub+= invest.getBEU();
+		}
+		return sub;
 	}
 
-	@Override
-	public void setMaxBEU(int maxBEU)
-	{
-		this.maxBEU = maxBEU;
-	}
 
 	@Override
 	// Clears out empty investiture objects from the ArrayList and the game memory
@@ -385,11 +324,11 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 	}
 
 	@Override
-	public InvHelpers.InvestitureSources containerSource()
+	public InvHelpers.InvestitureSource containerSource()
 	{
-		if(parent instanceof LivingEntity entity)
+		if(super.parent instanceof LivingEntity entity)
 		{
-			return InvHelpers.InvestitureSources.SELF;
+			return InvHelpers.InvestitureSource.SELF;
 		}
 		else if(parent != null)
 		{
@@ -398,7 +337,7 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 		return null;
 	}
 
-	public int runInvestiturePull(Manifestation manifestation)
+	public double runInvestiturePull(Manifestation manifestation)
 	{
 
 		/*Steps
@@ -425,8 +364,15 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 		 */
 
 
-		ArrayList<Investiture> availInvestitures = availableInvestitures(manifestation);
-		int out = 0;
+		ArrayList<KineticInvestiture> availInvestitures = new ArrayList<>();
+		for(IInvestiture invest: availableInvestitures(manifestation))
+		{
+			if(invest instanceof KineticInvestiture invest1)
+			{
+				availInvestitures.add(invest1);
+			}
+		}
+		double out = 0;
 
 		//Test to see if the minimum amount of investiture is available
 		//If not return
@@ -444,11 +390,11 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 				break;
 			}
 			//Temporary list of values of given priority
-			ArrayList<Investiture> temp = new ArrayList<>();
-			int tempTotal = 0;
+			ArrayList<KineticInvestiture> temp = new ArrayList<>();
+			double tempTotal = 0;
 
-			//Adds investitures to temporary list
-			for (Investiture invest : availInvestitures)
+			//Adds infusions to temporary list
+			for (KineticInvestiture invest : availInvestitures)
 			{
 				// remove empty investiture sets
 				if(invest.getBEU() == 0)
@@ -466,11 +412,11 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 			{
 				continue;
 			}
-			int theoryMax = manifestation.maxInvestitureDraw(getSpiritweb().resolve().get()) - out;
+			double theoryMax = manifestation.maxInvestitureDraw(getSpiritweb().resolve().get()) - out;
 			//If current total is less than max, pull all investiture from each source of the priority
 			if(tempTotal <= theoryMax)
 			{
-				for(Investiture invest: temp)
+				for(KineticInvestiture invest: temp)
 				{
 					out += invest.drain();
 
@@ -480,10 +426,10 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 			else
 			{
 
-				int tempOut = 0;
-				for(Investiture invest: temp)
+				double tempOut = 0;
+				for(KineticInvestiture invest: temp)
 				{
-					int toDraw = (int) (((double)(invest.getBEU())/tempTotal) * theoryMax);
+					double toDraw =  ((invest.getBEU()/tempTotal) * theoryMax);
 					tempOut += invest.removeBEU(toDraw, true);
 				}
 				int index = 0;
@@ -491,7 +437,7 @@ public class InvestitureContainer<T extends net.minecraftforge.common.capabiliti
 				//Checking that investiture gets pulled correctly
 				while(tempOut < theoryMax)
 				{
-					Investiture invest = temp.get(index);
+					KineticInvestiture invest = temp.get(index);
 					if(invest.getBEU() > 0)
 					{
 						tempOut += 1;
