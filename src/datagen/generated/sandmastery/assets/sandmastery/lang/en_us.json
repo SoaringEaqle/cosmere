@@ -18,7 +18,6 @@
   "key.cosmere.sandmastery.platform": "Use Platform Mastery",
   "key.cosmere.sandmastery.projectile": "Use Projectile Mastery",
   "manifestation.sandmastery.cushion": "Sand Mastery Cushion",
-  "manifestation.sandmastery.ribbons": "Sand Mastery Ribbons",
   "manifestation.sandmastery.cushion.description": "Masters can use cushion",
   "manifestation.sandmastery.elevate": "Sand Mastery Elevate",
   "manifestation.sandmastery.elevate.description": "Masters can use elevate",
@@ -28,5 +27,7 @@
   "manifestation.sandmastery.platform.description": "Masters can use platform",
   "manifestation.sandmastery.projectile": "Sand Mastery Projectile",
   "manifestation.sandmastery.projectile.description": "Masters can use projectile",
+  "manifestation.sandmastery.ribbons": "Sand Mastery Ribbons",
+  "manifestation.sandmastery.ribbons.description": "Masters can use ribbons",
   "tabs.sandmastery.items": "Sandmastery"
 }
