@@ -142,6 +142,20 @@ public class Metals
 			}
 		}
 
+		public boolean isGodMetal()
+		{
+			switch (this)
+			{
+				case ATIUM:
+				case LERASIUM:
+				case LERASATIUM:
+				case HARMONIUM:
+					return true;
+				default:
+					return false;
+			}
+		}
+
 		public boolean hasAssociatedManifestation()
 		{
 			switch (this)
@@ -967,6 +981,11 @@ public class Metals
 
 			var resourceLoc = new ResourceLocation(CosmereAPI.COSMERE_MODID, getName() + Constants.RegNameStubs.NUGGET);
 			return ForgeRegistries.ITEMS.getValue(resourceLoc);
+		}
+
+		public String getTranslationKey()
+		{
+			return "metal.cosmere." + this.getName();
 		}
 	}
 

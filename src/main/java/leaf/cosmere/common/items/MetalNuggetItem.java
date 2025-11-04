@@ -15,6 +15,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
+import java.util.Set;
 
 public class MetalNuggetItem extends MetalItem
 {
@@ -68,6 +69,15 @@ public class MetalNuggetItem extends MetalItem
 		pLivingEntity.hurt(CosmereDamageTypesRegistry.EAT_METAL.source(pLivingEntity.level()), 1);
 
 		return itemstack;
+	}
+
+	@Override
+	public boolean isFoil(ItemStack itemStack)
+	{
+		// God Metals should have foil
+		MetalNuggetItem item = (MetalNuggetItem) itemStack.getItem();
+		if(item.getMetalType().isGodMetal()) return true;
+		return super.isFoil(itemStack);
 	}
 
 }

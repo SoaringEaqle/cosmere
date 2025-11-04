@@ -12,6 +12,7 @@ import leaf.cosmere.allomancy.common.manifestation.AllomancyNicrosil;
 import leaf.cosmere.allomancy.common.manifestation.AllomancyPewter;
 import leaf.cosmere.allomancy.common.utils.MiscHelper;
 import leaf.cosmere.api.Metals;
+import leaf.cosmere.common.items.InvestedMetalNuggetItem;
 import leaf.cosmere.common.items.MetalNuggetItem;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -49,20 +50,11 @@ public class AllomancyEntityEventHandler
 		ItemStack stack = event.getEntity().getMainHandItem();
 		if (!stack.isEmpty())
 		{
-			if (stack.getItem() instanceof MetalNuggetItem beadItem)
+			if (stack.getItem() instanceof InvestedMetalNuggetItem)
 			{
-				Metals.MetalType metalType = beadItem.getMetalType();
-
-				switch (metalType)
-				{
-					//only care about god metal when trying to give others powers
-					case LERASIUM:
-						MiscHelper.consumeNugget(target, metalType, 1);
-						//need to shrink, because metal nugget only shrinks on item use finish from eating, which is not part of entity interact with item
-						stack.shrink(1);
-						break;
-				}
-
+				MiscHelper.consumeNugget(target, stack, true);
+				//need to shrink, because metal nugget only shrinks on item use finish from eating, which is not part of entity interact with item
+				stack.shrink(1);
 			}
 		}
 		else
@@ -83,8 +75,7 @@ public class AllomancyEntityEventHandler
 		final LivingEntity livingEntity = event.getEntity();
 		if (event.getItem().getItem() instanceof MetalNuggetItem item)
 		{
-			//no need to shrink item count as it's already done as part of nugget use item finish
-			MiscHelper.consumeNugget(livingEntity, item.getMetalType(), 1);
+			MiscHelper.consumeNugget(livingEntity, event.getItem(), item instanceof InvestedMetalNuggetItem);
 		}
 	}
 

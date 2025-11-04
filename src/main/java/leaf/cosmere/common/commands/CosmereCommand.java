@@ -31,6 +31,7 @@ public class CosmereCommand
 				.then(SummonCommand.register(dispatcher))
 				.then(CosmereEffectCommand.register(dispatcher))
 				.then(ChooseMetalbornPowersCommand.register(dispatcher))
+				.then(MetalAlloyCommand.register(dispatcher))
 		);
 	}
 }

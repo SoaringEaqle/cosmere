@@ -4,6 +4,7 @@ import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.commands.arguments.AllomancyArgumentType;
 import leaf.cosmere.common.commands.arguments.FeruchemyArgumentType;
 import leaf.cosmere.common.commands.arguments.ManifestationsArgumentType;
+import leaf.cosmere.common.commands.arguments.MetalArgumentType;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
@@ -30,4 +31,9 @@ public class ArgumentTypeRegistry
 			() -> ArgumentTypeInfos.registerByClass(
 									FeruchemyArgumentType.class,
 									SingletonArgumentInfo.contextFree(FeruchemyArgumentType::createArgument)));
+
+	public static final RegistryObject<ArgumentTypeInfo<?, ?>> METAL_ARGUMENT_TYPE = ARGUMENT_TYPE_INFOS.register("metal_argument_type",
+			() -> ArgumentTypeInfos.registerByClass(
+					MetalArgumentType.class,
+					SingletonArgumentInfo.contextFree(MetalArgumentType::createArgument)));
 }

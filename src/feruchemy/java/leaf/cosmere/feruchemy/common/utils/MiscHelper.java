@@ -8,17 +8,29 @@ import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.text.TextHelper;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
+import leaf.cosmere.common.items.InvestedMetalNuggetItem;
+import leaf.cosmere.common.items.MetalNuggetItem;
 import leaf.cosmere.feruchemy.common.config.FeruchemyConfigs;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.horse.Llama;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class MiscHelper
 {
 
-	public static void consumeNugget(LivingEntity livingEntity, Metals.MetalType metalType)
+	public static void consumeNugget(LivingEntity livingEntity, ItemStack itemStack, boolean isInvestedNugget)
 	{
-		if (metalType == null || livingEntity.level().isClientSide)
+		MetalNuggetItem nuggetItem = (MetalNuggetItem) itemStack.getItem();
+		Metals.MetalType metalType = nuggetItem.getMetalType();
+
+		if (livingEntity.level().isClientSide)
 		{
 			return;
 		}
@@ -27,19 +39,34 @@ public class MiscHelper
 		{
 			SpiritwebCapability spiritweb = (SpiritwebCapability) iSpiritweb;
 
-			if (metalType == Metals.MetalType.LERASATIUM)
+			if(isInvestedNugget)
 			{
-				for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
-				{
-					//give feruchemy
-					final boolean isFeruchemy = manifestation.getManifestationType() == Manifestations.ManifestationTypes.FERUCHEMY;
-					final boolean notAtium = manifestation.getPowerID() != Metals.MetalType.ATIUM.getID();
-					if (isFeruchemy && notAtium)//don't double up on improving electrum
-					{
-						final double strength = manifestation.getStrength(iSpiritweb, true);
-						final int minimum = FeruchemyConfigs.SERVER.GOD_METAL_EAT_STRENGTH_MINIMUM.get();
+				HashSet<Metals.MetalType> metalTypes = InvestedMetalNuggetItem.readMetalAlloyNbtData(itemStack.getOrCreateTag());
+				Integer size = InvestedMetalNuggetItem.readMetalAlloySizeNbtData(itemStack.getOrCreateTag());
 
-						spiritweb.giveManifestation(manifestation, strength < minimum ? minimum : (int) (strength + 1));
+				if(metalTypes != null && size != null)
+				{
+					// Ensure it is for Allomancy only
+					if (metalType == Metals.MetalType.LERASATIUM || (metalTypes != null && metalTypes.contains(Metals.MetalType.LERASATIUM) && metalTypes.size() == 2))
+					{
+						ArrayList<Manifestation> manifestations = InvestedMetalNuggetItem.determineManifestations(itemStack);
+						HashMap<Manifestation, Integer> existingManifestations = spiritweb.getManifestations();
+
+						for(Manifestation manifestation: manifestations)
+						{
+							Integer currentStrength = existingManifestations.get(manifestation);
+							spiritweb.giveManifestation(manifestation, currentStrength == null ? size : currentStrength + size);
+						}
+					}
+
+					//https://www.theoryland.com/intvmain.php?i=977#43
+					if (metalType == Metals.MetalType.LERASATIUM)
+					{
+						if (livingEntity instanceof Llama && !livingEntity.hasCustomName())
+						{
+							//todo translations
+							livingEntity.setCustomName(TextHelper.createTranslatedText("Full Feruchemist Llama"));
+						}
 					}
 				}
 			}

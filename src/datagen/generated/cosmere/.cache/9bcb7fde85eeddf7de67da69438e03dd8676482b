@@ -1,4 +1,4 @@
-// 1.20.1	2024-11-04T18:26:44.070954	Item Models: cosmere
+// 1.20.1	2025-11-02T18:25:53.8181672	Item Models: cosmere
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/aluminum_ingot.json
 8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/aluminum_nugget.json
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/atium_ingot.json
@@ -26,6 +26,7 @@ c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/electrum_ing
 31ffe9eeff25c7a22a24938b36557b62be478b3d assets/cosmere/models/item/guide.json
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/harmonium_ingot.json
 8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/harmonium_nugget.json
+8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/invested_metal_nugget.json
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/lead_ingot.json
 8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/lead_nugget.json
 c53339be6912e7d509624d7f73722bc76ea92beb assets/cosmere/models/item/lerasatium_ingot.json

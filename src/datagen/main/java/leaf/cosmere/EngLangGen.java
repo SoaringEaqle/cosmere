@@ -35,6 +35,7 @@ public class EngLangGen extends LanguageProvider
 	protected void addTranslations()
 	{
 		addItemsAndBlocks();
+		addMetals();
 		addEntities();
 		addAdvancements();
 		addManifestations();
@@ -101,6 +102,15 @@ public class EngLangGen extends LanguageProvider
 				add("item.cosmere." + i, StringHelper.fixCapitalisation(i));
 				add("item.cosmere." + b, StringHelper.fixCapitalisation(b));
 			}
+		}
+	}
+
+	private void addMetals()
+	{
+		// Work through each metal
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
+		{
+			add("metal.cosmere." + metalType.getName(), StringHelper.fixCapitalisation(metalType.getName()));
 		}
 	}
 
