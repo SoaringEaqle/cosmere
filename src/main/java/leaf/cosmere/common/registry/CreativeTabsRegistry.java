@@ -4,9 +4,12 @@
 
 package leaf.cosmere.common.registry;
 
+import leaf.cosmere.api.EnumUtils;
+import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.common.Cosmere;
+import leaf.cosmere.common.items.InvestedMetalNuggetItem;
 import leaf.cosmere.common.registration.impl.CreativeTabDeferredRegister;
 import leaf.cosmere.common.registration.impl.CreativeTabRegistryObject;
 import net.minecraft.network.chat.Component;
@@ -15,6 +18,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class CreativeTabsRegistry
 {
@@ -31,8 +37,45 @@ public class CreativeTabsRegistry
 									{
 										CreativeTabDeferredRegister.addToDisplay(ItemsRegistry.ITEMS, output);
 										CreativeTabDeferredRegister.addToDisplay(BlocksRegistry.BLOCKS, output);
+										addLerasiumAlloyNuggets(output);
+										addLerasatiumAlloyNuggets(output);
 									})
 			);
+
+
+	private static void addLerasiumAlloyNuggets(CreativeModeTab.Output output)
+	{
+		for (MetalType metalType : Arrays.asList(EnumUtils.METAL_TYPES).subList(0, 16))
+		{
+			if (metalType.hasFeruchemicalEffect())
+			{
+				final InvestedMetalNuggetItem item = ItemsRegistry.INVESTED_METAL_NUGGET.get();
+
+				HashSet<MetalType> metalTypes = new HashSet<>();
+				metalTypes.add(MetalType.LERASIUM);
+				metalTypes.add(metalType);
+
+				item.addFilled(output,metalTypes , 16);
+			}
+		}
+	}
+
+	private static void addLerasatiumAlloyNuggets(CreativeModeTab.Output output)
+	{
+		for (MetalType metalType : Arrays.asList(EnumUtils.METAL_TYPES).subList(0, 16))
+		{
+			if (metalType.hasFeruchemicalEffect())
+			{
+				final InvestedMetalNuggetItem item = (InvestedMetalNuggetItem) ItemsRegistry.INVESTED_METAL_NUGGET.get();
+				HashSet<MetalType> metalTypes = new HashSet<>();
+				metalTypes.add(MetalType.LERASATIUM);
+				metalTypes.add(metalType);
+
+				item.addFilled(output,metalTypes , 16);
+			}
+		}
+	}
+
 
 	private static void addToExistingTabs(BuildCreativeModeTabContentsEvent event)
 	{

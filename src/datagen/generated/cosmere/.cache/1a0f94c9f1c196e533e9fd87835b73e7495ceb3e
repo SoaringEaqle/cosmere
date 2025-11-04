@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-30T10:54:20.1947047	Tags: cosmere
+// 1.20.1	2025-11-02T18:25:53.8151675	Tags: cosmere
 7e6f8b5d96792bb9046c5c1d332e4ba04dcade48 data/cosmere/tags/blocks/contains_metal.json
 af8261c6c6c4f45348129424d153185fe0b65a81 data/cosmere/tags/entity_types/contains_metal.json
 d0c886fa06555d83e6eb011a2ee98463827788e1 data/cosmere/tags/items/contains_metal.json
@@ -63,7 +63,7 @@ fb172135d66ef8791c5a8ada75b7e51bbfde19c8 data/forge/tags/items/ingots/silver.jso
 a7a420d5b7cc9d4aee8a081558985bbe907d7cb5 data/forge/tags/items/ingots/steel.json
 fb0b9a9b5ce5a346dbc8123188af5bf8eb41c6b1 data/forge/tags/items/ingots/tin.json
 f140725c970d068d8a82ce708d90066286adf93d data/forge/tags/items/ingots/zinc.json
-17ea46c722857735ed9d9f49ea9378791da43f3d data/forge/tags/items/nuggets.json
+34932f00ba5047d84fbaf0188279380165a76292 data/forge/tags/items/nuggets.json
 a6a8b995609572866ddf9cabcb9711813bb5b7df data/forge/tags/items/nuggets/aluminum.json
 55f6cc1ec48e9476aeb337bcae090d1b2d62210b data/forge/tags/items/nuggets/atium.json
 ea782221059a2106ec8c7ba74d71e70e3d605073 data/forge/tags/items/nuggets/bendalloy.json
@@ -75,6 +75,7 @@ e29935f2c3e81e869de66a8cdac49503e43cd96a data/forge/tags/items/nuggets/bronze.js
 88afeca099451118453904d66845c85efe9c94a0 data/forge/tags/items/nuggets/duralumin.json
 dd30bdf008a620efe87c6c5119f1c2c4f70e4e49 data/forge/tags/items/nuggets/electrum.json
 ec040e528b1db1332ff6840f0281812e1f7f6b74 data/forge/tags/items/nuggets/harmonium.json
+fad026468e3e70a9536f8778505a17032b075744 data/forge/tags/items/nuggets/invested_metal_nugget.json
 6aa066a9b7a3cbe43e5477bb8f3428e58434c15c data/forge/tags/items/nuggets/lead.json
 28030458471611b1614a624b264cdc17fb5c6ab4 data/forge/tags/items/nuggets/lerasatium.json
 8208cc064a68c06d411c6a9bea026d2d78c38368 data/forge/tags/items/nuggets/lerasium.json

@@ -4,6 +4,7 @@
 
 package leaf.cosmere.common.util;
 
+import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.resource.ore.OreType;
 
 public class CosmereEnumUtils

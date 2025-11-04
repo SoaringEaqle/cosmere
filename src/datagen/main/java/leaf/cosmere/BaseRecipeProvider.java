@@ -267,7 +267,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 	{
 		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
 				.define('I', input)
-				.define('J', center)
+ 				.define('J', center)
 				.pattern("III")
 				.pattern("IJI")
 				.pattern("III")

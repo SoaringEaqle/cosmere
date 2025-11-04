@@ -110,7 +110,7 @@ public class CosmereTags
 			return ItemTags.create(resourceLocation);
 		}
 
-		private static TagKey<Item> forgeItemTag(String name)
+		public static TagKey<Item> forgeItemTag(String name)
 		{
 			final ResourceLocation forgeTagToMake = new ResourceLocation("forge", name);
 			return makeItem(forgeTagToMake);
