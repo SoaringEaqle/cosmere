@@ -12,7 +12,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.common.commands.arguments.MetalArgumentType;
-import leaf.cosmere.common.items.InvestedMetalNuggetItem;
+import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.HashSet;
 
-import static leaf.cosmere.common.registry.ItemsRegistry.INVESTED_METAL_NUGGET;
+import static leaf.cosmere.common.registry.ItemsRegistry.GOD_METAL_ALLOY_NUGGET;
 
 public class MetalAlloyCommand extends ModCommand
 {
@@ -35,7 +35,8 @@ public class MetalAlloyCommand extends ModCommand
 
 	private static int give(CommandContext<CommandSourceStack> context) throws CommandSyntaxException
 	{
-		ItemStack itemStack = new ItemStack(INVESTED_METAL_NUGGET.get());
+		GodMetalAlloyNuggetItem item = GOD_METAL_ALLOY_NUGGET.get();
+		ItemStack itemStack = new ItemStack(item);
 		HashSet<MetalType> metalTypes = new HashSet<>();
 
 		int sizeArg = context.getArgument("size", Integer.class);
@@ -51,7 +52,7 @@ public class MetalAlloyCommand extends ModCommand
 			}
 		}
 
-		if(InvestedMetalNuggetItem.writeMetalAlloyNbtData(itemStack.getOrCreateTag(), metalTypes, sizeArg))
+		if(item.writeMetalAlloyNbtData(itemStack, metalTypes) && item.writeMetalAlloySizeNbtData(itemStack, sizeArg))
 		{
 			itemStack.setCount(1);
 			context.getSource().getPlayerOrException().getInventory().add(itemStack);

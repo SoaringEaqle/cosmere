@@ -4,22 +4,20 @@
 
 package leaf.cosmere.feruchemy.common.utils;
 
-import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.text.TextHelper;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.items.InvestedMetalNuggetItem;
+import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.items.MetalNuggetItem;
-import leaf.cosmere.feruchemy.common.config.FeruchemyConfigs;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class MiscHelper
@@ -39,23 +37,34 @@ public class MiscHelper
 		{
 			SpiritwebCapability spiritweb = (SpiritwebCapability) iSpiritweb;
 
-			if(isInvestedNugget)
+			if(itemStack.getItem() instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem)
 			{
-				HashSet<Metals.MetalType> metalTypes = InvestedMetalNuggetItem.readMetalAlloyNbtData(itemStack.getOrCreateTag());
-				Integer size = InvestedMetalNuggetItem.readMetalAlloySizeNbtData(itemStack.getOrCreateTag());
+				HashSet<Metals.MetalType> metalTypes = godMetalAlloyNuggetItem.readMetalAlloyNbtData(itemStack);
+				Integer size = godMetalAlloyNuggetItem.readMetalAlloySizeNbtData(itemStack);
 
-				if(metalTypes != null && size != null)
+				if(size != null)
 				{
 					// Ensure it is for Allomancy only
 					if (metalType == Metals.MetalType.LERASATIUM || (metalTypes != null && metalTypes.contains(Metals.MetalType.LERASATIUM) && metalTypes.size() == 2))
 					{
-						ArrayList<Manifestation> manifestations = InvestedMetalNuggetItem.determineManifestations(itemStack);
-						HashMap<Manifestation, Integer> existingManifestations = spiritweb.getManifestations();
+						ArrayList<Manifestation> manifestations = godMetalAlloyNuggetItem.determineManifestations(itemStack);
 
 						for(Manifestation manifestation: manifestations)
 						{
-							Integer currentStrength = existingManifestations.get(manifestation);
-							spiritweb.giveManifestation(manifestation, currentStrength == null ? size : currentStrength + size);
+							int currentStrength = 0;
+							if(!(manifestation.getAttribute() instanceof RangedAttribute attribute)) return;
+							AttributeInstance attributeInstance = livingEntity.getAttribute(attribute);
+							if(attributeInstance != null) {
+								currentStrength = (int) attributeInstance.getValue();
+							}
+
+							// Let's ensure not to update the base value if it's out of range,
+							// even if it will get sanitized
+							int newStrength = size + currentStrength;
+							if(newStrength > attribute.getMinValue() && newStrength < attribute.getMaxValue())
+							{
+								spiritweb.giveManifestation(manifestation, size+currentStrength);
+							}
 						}
 					}
 

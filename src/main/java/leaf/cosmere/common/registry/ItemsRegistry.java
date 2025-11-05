@@ -27,9 +27,9 @@ public class ItemsRegistry
 	public static final ItemRegistryObject<GuideItem> GUIDE = ITEMS.register("guide", GuideItem::new);
 
 	// Add
-	public static final ItemRegistryObject<InvestedMetalNuggetItem> INVESTED_METAL_NUGGET = ITEMS.register(
-			RegNameStubs.INVESTED + "metal" + RegNameStubs.NUGGET,
-			() -> new InvestedMetalNuggetItem(Metals.MetalType.SILVER));
+	public static final ItemRegistryObject<GodMetalAlloyNuggetItem> GOD_METAL_ALLOY_NUGGET = ITEMS.register(
+			"god_metal_alloy" + RegNameStubs.NUGGET,
+			() -> new GodMetalAlloyNuggetItem());
 
 	//Mass items gen
 
@@ -71,7 +71,7 @@ public class ItemsRegistry
 							Function.identity(),
 							type -> ITEMS.register(
 									type.getName() + RegNameStubs.NUGGET,
-									() -> new InvestedMetalNuggetItem(type)
+									() -> new GodMetalNuggetItem(type)
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<MetalIngotItem>> METAL_INGOTS =

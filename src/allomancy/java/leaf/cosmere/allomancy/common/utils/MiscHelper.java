@@ -5,29 +5,22 @@
 package leaf.cosmere.allomancy.common.utils;
 
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
-import leaf.cosmere.allomancy.common.config.AllomancyConfigs;
-import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.text.TextHelper;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.items.InvestedMetalNuggetItem;
+import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.items.MetalNuggetItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.item.ItemStack;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.UUID;
 
 public class MiscHelper
 {
@@ -46,17 +39,17 @@ public class MiscHelper
 		{
 			SpiritwebCapability spiritweb = (SpiritwebCapability) iSpiritweb;
 
-			if(isInvestedNugget)
+			if(itemStack.getItem() instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem)
 			{
-				HashSet<Metals.MetalType> metalTypes = InvestedMetalNuggetItem.readMetalAlloyNbtData(itemStack.getOrCreateTag());
-				Integer size = InvestedMetalNuggetItem.readMetalAlloySizeNbtData(itemStack.getOrCreateTag());
+				HashSet<Metals.MetalType> metalTypes = godMetalAlloyNuggetItem.readMetalAlloyNbtData(itemStack);
+				Integer size = godMetalAlloyNuggetItem.readMetalAlloySizeNbtData(itemStack);
 
 				if(size != null)
 				{
 					// Ensure it is for Allomancy only
 					if (metalType == Metals.MetalType.LERASIUM || (metalTypes != null && metalTypes.contains(Metals.MetalType.LERASIUM) && metalTypes.size() == 2))
 					{
-						ArrayList<Manifestation> manifestations = InvestedMetalNuggetItem.determineManifestations(itemStack);
+						ArrayList<Manifestation> manifestations = godMetalAlloyNuggetItem.determineManifestations(itemStack);
 
 						for(Manifestation manifestation: manifestations)
 						{

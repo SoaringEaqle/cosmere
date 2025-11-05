@@ -4,10 +4,8 @@
 
 package leaf.cosmere.feruchemy.common.eventHandlers;
 
-import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.EntityHelper;
-import leaf.cosmere.common.items.InvestedMetalNuggetItem;
-import leaf.cosmere.common.items.MetalNuggetItem;
+import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.feruchemy.common.Feruchemy;
 import leaf.cosmere.feruchemy.common.effects.store.BrassStoreEffect;
@@ -44,7 +42,7 @@ public class FeruchemyEntityEventHandler
 		ItemStack stack = event.getEntity().getMainHandItem();
 		if (!stack.isEmpty())
 		{
-			if (stack.getItem() instanceof InvestedMetalNuggetItem )
+			if (stack.getItem() instanceof GodMetalAlloyNuggetItem)
 			{
 				MiscHelper.consumeNugget(target, stack, true);
 				//need to shrink, because metal nugget only shrinks on item use finish from eating
@@ -63,7 +61,7 @@ public class FeruchemyEntityEventHandler
 		}
 
 		final LivingEntity livingEntity = event.getEntity();
-		if (event.getItem().getItem() instanceof InvestedMetalNuggetItem)
+		if (event.getItem().getItem() instanceof GodMetalAlloyNuggetItem)
 		{
 			//no need to shrink item count as it's already done as part of nugget use item finish
 			MiscHelper.consumeNugget(livingEntity, event.getItem(), true);
