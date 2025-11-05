@@ -9,7 +9,7 @@ import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.items.InvestedMetalNuggetItem;
+import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.registration.impl.CreativeTabDeferredRegister;
 import leaf.cosmere.common.registration.impl.CreativeTabRegistryObject;
 import net.minecraft.network.chat.Component;
@@ -49,13 +49,13 @@ public class CreativeTabsRegistry
 		{
 			if (metalType.hasFeruchemicalEffect())
 			{
-				final InvestedMetalNuggetItem item = ItemsRegistry.INVESTED_METAL_NUGGET.get();
+				final GodMetalAlloyNuggetItem item = ItemsRegistry.GOD_METAL_ALLOY_NUGGET.get();
 
 				HashSet<MetalType> metalTypes = new HashSet<>();
 				metalTypes.add(MetalType.LERASIUM);
 				metalTypes.add(metalType);
 
-				item.addFilled(output,metalTypes , 16);
+				item.addFilled(output, metalTypes, 16);
 			}
 		}
 	}
@@ -66,12 +66,12 @@ public class CreativeTabsRegistry
 		{
 			if (metalType.hasFeruchemicalEffect())
 			{
-				final InvestedMetalNuggetItem item = (InvestedMetalNuggetItem) ItemsRegistry.INVESTED_METAL_NUGGET.get();
+				final GodMetalAlloyNuggetItem item = ItemsRegistry.GOD_METAL_ALLOY_NUGGET.get();
 				HashSet<MetalType> metalTypes = new HashSet<>();
 				metalTypes.add(MetalType.LERASATIUM);
 				metalTypes.add(metalType);
 
-				item.addFilled(output,metalTypes , 16);
+				item.addFilled(output, metalTypes, 16);
 			}
 		}
 	}

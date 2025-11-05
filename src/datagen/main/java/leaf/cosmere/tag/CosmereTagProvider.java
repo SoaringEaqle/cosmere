@@ -11,7 +11,7 @@ import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.blocks.MetalBlock;
 import leaf.cosmere.common.blocks.MetalOreBlock;
-import leaf.cosmere.common.items.InvestedMetalNuggetItem;
+import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.items.MetalIngotItem;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
@@ -129,10 +129,10 @@ public class CosmereTagProvider extends BaseTagProvider
 		}
 
 		// Add the metal alloy nugget to the nugget tags
-		final TagKey<Item> nuggetTag = CosmereTags.Items.forgeItemTag("nuggets/invested_metal_nugget");
+		final TagKey<Item> nuggetTag = CosmereTags.Items.forgeItemTag("nuggets/god_metal_alloy_nugget");
 		getItemBuilder(Tags.Items.NUGGETS).add(nuggetTag);
 
-		final ItemRegistryObject<InvestedMetalNuggetItem> nugRegObj = ItemsRegistry.INVESTED_METAL_NUGGET;
+		final ItemRegistryObject<GodMetalAlloyNuggetItem> nugRegObj = ItemsRegistry.GOD_METAL_ALLOY_NUGGET;
 		if (nugRegObj != null)
 		{
 			Item nuggetItem = nugRegObj.asItem();

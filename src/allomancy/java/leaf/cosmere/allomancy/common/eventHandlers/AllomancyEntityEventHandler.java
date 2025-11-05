@@ -11,8 +11,7 @@ import leaf.cosmere.allomancy.common.manifestation.AllomancyChromium;
 import leaf.cosmere.allomancy.common.manifestation.AllomancyNicrosil;
 import leaf.cosmere.allomancy.common.manifestation.AllomancyPewter;
 import leaf.cosmere.allomancy.common.utils.MiscHelper;
-import leaf.cosmere.api.Metals;
-import leaf.cosmere.common.items.InvestedMetalNuggetItem;
+import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.items.MetalNuggetItem;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +49,7 @@ public class AllomancyEntityEventHandler
 		ItemStack stack = event.getEntity().getMainHandItem();
 		if (!stack.isEmpty())
 		{
-			if (stack.getItem() instanceof InvestedMetalNuggetItem)
+			if (stack.getItem() instanceof GodMetalAlloyNuggetItem)
 			{
 				MiscHelper.consumeNugget(target, stack, true);
 				//need to shrink, because metal nugget only shrinks on item use finish from eating, which is not part of entity interact with item
@@ -75,7 +74,7 @@ public class AllomancyEntityEventHandler
 		final LivingEntity livingEntity = event.getEntity();
 		if (event.getItem().getItem() instanceof MetalNuggetItem item)
 		{
-			MiscHelper.consumeNugget(livingEntity, event.getItem(), item instanceof InvestedMetalNuggetItem);
+			MiscHelper.consumeNugget(livingEntity, event.getItem(), true);
 		}
 	}
 

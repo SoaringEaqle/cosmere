@@ -7,9 +7,7 @@ package leaf.cosmere.items;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.items.MetalIngotItem;
-import leaf.cosmere.common.items.MetalNuggetItem;
-import leaf.cosmere.common.items.MetalRawOreItem;
+import leaf.cosmere.common.items.*;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -49,7 +47,7 @@ public class ItemModelsGen extends ItemModelProvider
 				simpleItem(path, "metal_ingot");
 				continue;
 			}
-			else if (item instanceof MetalNuggetItem)
+			else if (item instanceof MetalNuggetItem || item instanceof GodMetalNuggetItem || item instanceof GodMetalAlloyNuggetItem)
 			{
 				simpleItem(path, "metal_nugget");
 				continue;
