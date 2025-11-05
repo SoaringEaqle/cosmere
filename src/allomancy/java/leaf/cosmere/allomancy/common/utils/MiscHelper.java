@@ -5,95 +5,61 @@
 package leaf.cosmere.allomancy.common.utils;
 
 import leaf.cosmere.allomancy.common.capabilities.AllomancySpiritwebSubmodule;
-import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.Metals;
+import leaf.cosmere.api.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.text.TextHelper;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
-import leaf.cosmere.common.items.MetalNuggetItem;
-import net.minecraft.server.level.ServerPlayer;
+import leaf.cosmere.common.items.GodMetalNuggetItem;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class MiscHelper
 {
 
-	public static void consumeNugget(LivingEntity livingEntity, ItemStack itemStack, boolean isInvestedNugget)
+	public static void consumeNugget(LivingEntity livingEntity, ItemStack itemStack)
 	{
-		MetalNuggetItem nuggetItem = (MetalNuggetItem) itemStack.getItem();
-		Metals.MetalType metalType = nuggetItem.getMetalType();
-
 		if (livingEntity.level().isClientSide)
 		{
 			return;
 		}
 
-		SpiritwebCapability.get(livingEntity).ifPresent(iSpiritweb ->
+		if(itemStack.getItem() instanceof IGrantsManifestations manifestingItem && itemStack.getItem() instanceof IHasSize sizeItem)
 		{
-			SpiritwebCapability spiritweb = (SpiritwebCapability) iSpiritweb;
-
-			if(itemStack.getItem() instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem)
+			Integer size = sizeItem.readMetalAlloySizeNbtData(itemStack);
+			if(size != null)
 			{
-				HashSet<Metals.MetalType> metalTypes = godMetalAlloyNuggetItem.readMetalAlloyNbtData(itemStack);
-				Integer size = godMetalAlloyNuggetItem.readMetalAlloySizeNbtData(itemStack);
+				ArrayList<Manifestation> manifestations = manifestingItem.determineManifestations(itemStack);
+				manifestingItem.grantManifestations(livingEntity, manifestations, size);
+			}
 
-				if(size != null)
+			//https://www.theoryland.com/intvmain.php?i=977#43
+			if (itemStack.getItem() instanceof GodMetalNuggetItem godItem && godItem.getMetalType() == Metals.MetalType.LERASIUM)
+			{
+				if (livingEntity instanceof Llama && !livingEntity.hasCustomName())
 				{
-					// Ensure it is for Allomancy only
-					if (metalType == Metals.MetalType.LERASIUM || (metalTypes != null && metalTypes.contains(Metals.MetalType.LERASIUM) && metalTypes.size() == 2))
-					{
-						ArrayList<Manifestation> manifestations = godMetalAlloyNuggetItem.determineManifestations(itemStack);
-
-						for(Manifestation manifestation: manifestations)
-						{
-							int currentStrength = 0;
-							if(!(manifestation.getAttribute() instanceof RangedAttribute attribute)) return;
-							AttributeInstance attributeInstance = livingEntity.getAttribute(attribute);
-							if(attributeInstance != null) {
-								currentStrength = (int) attributeInstance.getValue();
-							}
-
-							// Let's ensure not to update the base value if it's out of range,
-							// even if it will get sanitized
-							int newStrength = size + currentStrength;
-							if(newStrength > attribute.getMinValue() && newStrength < attribute.getMaxValue())
-							{
-								spiritweb.giveManifestation(manifestation, size+currentStrength);
-							}
-						}
-					}
-
-					//https://www.theoryland.com/intvmain.php?i=977#43
-					if (metalType == Metals.MetalType.LERASIUM)
-					{
-						if (livingEntity instanceof Llama && !livingEntity.hasCustomName())
-						{
-							//todo translations
-							livingEntity.setCustomName(TextHelper.createTranslatedText("Mistborn Llama"));
-						}
-					}
+					//todo translations
+					livingEntity.setCustomName(TextHelper.createTranslatedText("Mistborn Llama"));
 				}
 			}
-			else if (metalType != Metals.MetalType.LERASATIUM) //ignore lerasatium, that's handled in feruchemy
+		}
+		else if(itemStack.getItem() instanceof IHasMetalType metalItem)
+		{
+			SpiritwebCapability.get(livingEntity).ifPresent(iSpiritweb ->
 			{
-				//add to metal stored
-				final int addAmount = metalType.getAllomancyBurnTimeSeconds();
-				AllomancySpiritwebSubmodule allo = (AllomancySpiritwebSubmodule) spiritweb.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY);
-				allo.adjustIngestedMetal(metalType, addAmount, true);
-			}
-
-			if (livingEntity instanceof ServerPlayer serverPlayer)
-			{
-				spiritweb.syncToClients(serverPlayer);
-			}
-		});
+				Metals.MetalType metalType = metalItem.getMetalType();
+				SpiritwebCapability spiritweb = (SpiritwebCapability) iSpiritweb;
+				if (metalType != Metals.MetalType.LERASATIUM) //ignore lerasatium, that's handled in feruchemy
+				{
+					//add to metal stored
+					final int addAmount = metalType.getAllomancyBurnTimeSeconds();
+					AllomancySpiritwebSubmodule allo = (AllomancySpiritwebSubmodule) spiritweb.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY);
+					allo.adjustIngestedMetal(metalType, addAmount, true);
+				}
+			});
+		}
 	}
 
 
