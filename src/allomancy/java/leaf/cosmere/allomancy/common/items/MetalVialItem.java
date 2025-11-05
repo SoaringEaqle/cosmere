@@ -115,7 +115,7 @@ public class MetalVialItem extends BaseItem implements IHasMetalType
 		metalsInVial.entrySet().forEach(metalInfo ->
 		{
 			// MetalName x Value
-			MiscHelper.consumeNugget(entityLiving, stack, false);
+			MiscHelper.consumeNugget(entityLiving, stack);
 		});
 
 

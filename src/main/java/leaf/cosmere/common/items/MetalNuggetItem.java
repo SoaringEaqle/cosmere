@@ -71,13 +71,4 @@ public class MetalNuggetItem extends MetalItem
 		return itemstack;
 	}
 
-	@Override
-	public boolean isFoil(ItemStack itemStack)
-	{
-		// God Metals should have foil
-		MetalNuggetItem item = (MetalNuggetItem) itemStack.getItem();
-		if(item.getMetalType().isGodMetal()) return true;
-		return super.isFoil(itemStack);
-	}
-
 }

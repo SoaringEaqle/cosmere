@@ -4,8 +4,10 @@
 
 package leaf.cosmere.feruchemy.common.eventHandlers;
 
+import leaf.cosmere.api.IGrantsManifestations;
 import leaf.cosmere.api.helpers.EntityHelper;
 import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
+import leaf.cosmere.common.items.GodMetalNuggetItem;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.feruchemy.common.Feruchemy;
 import leaf.cosmere.feruchemy.common.effects.store.BrassStoreEffect;
@@ -42,10 +44,10 @@ public class FeruchemyEntityEventHandler
 		ItemStack stack = event.getEntity().getMainHandItem();
 		if (!stack.isEmpty())
 		{
-			if (stack.getItem() instanceof GodMetalAlloyNuggetItem)
+			if (stack.getItem() instanceof GodMetalAlloyNuggetItem || stack.getItem() instanceof GodMetalNuggetItem)
 			{
-				MiscHelper.consumeNugget(target, stack, true);
-				//need to shrink, because metal nugget only shrinks on item use finish from eating
+				MiscHelper.consumeNugget(target, stack);
+				//need to shrink, because metal nugget only shrinks on item use finish from eating, which is not part of entity interact with item
 				stack.shrink(1);
 			}
 		}
@@ -61,10 +63,10 @@ public class FeruchemyEntityEventHandler
 		}
 
 		final LivingEntity livingEntity = event.getEntity();
-		if (event.getItem().getItem() instanceof GodMetalAlloyNuggetItem)
+		if (event.getItem().getItem() instanceof GodMetalAlloyNuggetItem || event.getItem().getItem() instanceof IGrantsManifestations)
 		{
 			//no need to shrink item count as it's already done as part of nugget use item finish
-			MiscHelper.consumeNugget(livingEntity, event.getItem(), true);
+			MiscHelper.consumeNugget(livingEntity, event.getItem());
 		}
 	}
 

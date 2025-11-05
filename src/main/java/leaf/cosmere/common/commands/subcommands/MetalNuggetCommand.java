@@ -10,19 +10,21 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import leaf.cosmere.api.IHasAlloy;
+import leaf.cosmere.api.IHasSize;
 import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.common.commands.arguments.MetalArgumentType;
-import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.HashSet;
 
-import static leaf.cosmere.common.registry.ItemsRegistry.GOD_METAL_ALLOY_NUGGET;
+import static leaf.cosmere.common.registry.ItemsRegistry.GOD_METAL_NUGGETS;
 
-public class MetalAlloyCommand extends ModCommand
+public class MetalNuggetCommand extends ModCommand
 {
 
 	@Override
@@ -35,31 +37,47 @@ public class MetalAlloyCommand extends ModCommand
 
 	private static int give(CommandContext<CommandSourceStack> context) throws CommandSyntaxException
 	{
-		GodMetalAlloyNuggetItem item = GOD_METAL_ALLOY_NUGGET.get();
-		ItemStack itemStack = new ItemStack(item);
+		MetalType godMetal = null;
 		HashSet<MetalType> metalTypes = new HashSet<>();
 
 		int sizeArg = context.getArgument("size", Integer.class);
 
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < 2; i++)
 		{
 			try {
 				MetalType metalTypeArg = context.getArgument("metal" + i, MetalType.class);
-
 				metalTypes.add(metalTypeArg);
+				if (metalTypeArg.isGodMetal())
+				{
+					godMetal = metalTypeArg;
+				}
 			} catch (IllegalArgumentException e) {
 				break;
 			}
 		}
 
-		if(item.writeMetalAlloyNbtData(itemStack, metalTypes) && item.writeMetalAlloySizeNbtData(itemStack, sizeArg))
+		if(godMetal != null)
 		{
-			itemStack.setCount(1);
-			context.getSource().getPlayerOrException().getInventory().add(itemStack);
-		} else
-		{
-			String errorMsg = "Invalid Metals / Ratios!";
-			throw new CommandSyntaxException(new SimpleCommandExceptionType(Component.literal(errorMsg)), Component.literal(errorMsg));
+			Item item = GOD_METAL_NUGGETS.get(godMetal).get();
+			ItemStack itemStack = new ItemStack(item);
+
+			if (item instanceof IHasSize sizeItem)
+			{
+				if(!sizeItem.writeMetalAlloySizeNbtData(itemStack, sizeArg))
+				{
+					String errorMsg = "Invalid Metals";
+					throw new CommandSyntaxException(new SimpleCommandExceptionType(Component.literal(errorMsg)), Component.literal(errorMsg));
+				}
+			}
+
+			if(item instanceof IHasAlloy alloyItem)
+			{
+				if(!alloyItem.writeMetalAlloyNbtData(itemStack, metalTypes))
+				{
+					String errorMsg = "Invalid Size";
+					throw new CommandSyntaxException(new SimpleCommandExceptionType(Component.literal(errorMsg)), Component.literal(errorMsg));
+				}
+			}
 		}
 
 		return SINGLE_SUCCESS;
@@ -67,11 +85,11 @@ public class MetalAlloyCommand extends ModCommand
 
 	public static ArgumentBuilder<CommandSourceStack, ?> register(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
-		 return Commands.literal("metallic_alloy").requires(context -> context.hasPermission(2))
+		 return Commands.literal("metal_nugget").requires(context -> context.hasPermission(2))
 				 .then(Commands.argument("size", IntegerArgumentType.integer(1, 16))
 						 .then(Commands.argument("metal0", MetalArgumentType.createArgument())
-						 .executes(MetalAlloyCommand::give)
+						 .executes(MetalNuggetCommand::give)
 								 .then(Commands.argument("metal1", MetalArgumentType.createArgument())
-							     .executes(MetalAlloyCommand::give))));
+							     .executes(MetalNuggetCommand::give))));
 	}
 }

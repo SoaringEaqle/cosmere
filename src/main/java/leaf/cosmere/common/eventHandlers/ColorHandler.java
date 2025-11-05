@@ -92,7 +92,7 @@ public final class ColorHandler
 					continue;
 				}
 
-				if (item instanceof IHasColour)
+				if (item instanceof IHasColour || item instanceof IHasAlloy)
 				{
 					itemColors.register(itemColorHandler, item);
 				}

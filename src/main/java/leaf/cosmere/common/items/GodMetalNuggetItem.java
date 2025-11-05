@@ -1,26 +1,28 @@
 package leaf.cosmere.common.items;
 
-import leaf.cosmere.api.EnumUtils;
-import leaf.cosmere.api.IHasSize;
-import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.Metals;
+import leaf.cosmere.api.*;
 import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
-public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize
+public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGrantsManifestations
 {
 	public static int MIN_SIZE = 1;
 	public static int MAX_SIZE = 16;
@@ -43,6 +45,38 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize
 	}
 
 	@Override
+	public int getUseDuration(ItemStack stack)
+	{
+		//be annoying enough that people prefer metal vials
+		Integer size = readMetalAlloySizeNbtData(stack);
+		if (size == null) super.getUseDuration(stack);
+		return size;
+	}
+
+	@Override
+	public ItemStack finishUsingItem(ItemStack itemstack, Level pLevel, LivingEntity pLivingEntity)
+	{
+		if (pLevel.isClientSide)
+		{
+			return itemstack;
+		}
+
+		if (pLivingEntity instanceof Player player && !player.isCreative())
+		{
+			itemstack.shrink(1);
+		}
+
+		return itemstack;
+	}
+
+	@Override
+	public boolean isFoil(ItemStack itemStack)
+	{
+		// God Metals should have foil
+		return true;
+	}
+
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
 	{
@@ -51,7 +85,7 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize
 		tooltip.add(Component.literal("Size: ").withStyle(ChatFormatting.WHITE).append(
 				Component.literal(size + "/" + MAX_SIZE).withStyle(ChatFormatting.GRAY)));
 
-		ArrayList<Manifestation> manifestations = determineManifestations();
+		ArrayList<Manifestation> manifestations = determineManifestations(stack);
 
 		if (!manifestations.isEmpty() & size != getMaxSize())
 		{
@@ -66,7 +100,8 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize
 		}
 	}
 
-	public ArrayList<Manifestation> determineManifestations()
+	@Override
+	public ArrayList<Manifestation> determineManifestations(ItemStack itemStack)
 	{
 		ArrayList<Manifestation> manifestations = new ArrayList<>();
 
@@ -94,4 +129,37 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize
 		}
 		return manifestations;
 	}
+
+	@Override
+	public void grantManifestations(LivingEntity livingEntity, ArrayList<Manifestation> manifestations, int strength)
+	{
+		SpiritwebCapability.get(livingEntity).ifPresent(iSpiritweb ->
+		{
+			SpiritwebCapability spiritweb = (SpiritwebCapability) iSpiritweb;
+
+			for(Manifestation manifestation: manifestations)
+			{
+				int currentStrength = 0;
+				if(!(manifestation.getAttribute() instanceof RangedAttribute attribute)) return;
+				AttributeInstance attributeInstance = livingEntity.getAttribute(attribute);
+				if(attributeInstance != null) {
+					currentStrength = (int) attributeInstance.getValue();
+				}
+
+				// Let's ensure not to update the base value if it's out of range,
+				// even if it will get sanitized
+				int newStrength = strength + currentStrength;
+				if(newStrength >= attribute.getMinValue() && newStrength <= attribute.getMaxValue())
+				{
+					spiritweb.giveManifestation(manifestation, strength+currentStrength);
+				}
+			}
+
+			if (livingEntity instanceof ServerPlayer serverPlayer)
+			{
+				spiritweb.syncToClients(serverPlayer);
+			}
+		});
+	}
+
 }

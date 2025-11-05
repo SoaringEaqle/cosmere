@@ -45,7 +45,7 @@ public class AlloyItem extends BaseItem implements IHasAlloy
 			}
 			return metalTypes;
 		}
-		return null;
+		return new HashSet<Metals.MetalType>();
 	}
 
 	public boolean writeMetalAlloyNbtData(ItemStack itemStack, HashSet<Metals.MetalType> alloyedMetals)

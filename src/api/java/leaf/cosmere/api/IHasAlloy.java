@@ -1,7 +1,5 @@
 package leaf.cosmere.api;
 
-import leaf.cosmere.api.manifestation.Manifestation;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import java.awt.*;
