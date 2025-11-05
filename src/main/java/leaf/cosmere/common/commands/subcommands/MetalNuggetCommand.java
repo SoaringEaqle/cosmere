@@ -59,7 +59,7 @@ public class MetalNuggetCommand extends ModCommand
 		if(godMetal != null)
 		{
 			Item item = GOD_METAL_NUGGETS.get(godMetal).get();
-			ItemStack itemStack = new ItemStack(item);
+			ItemStack itemStack = new ItemStack(item, 1);
 
 			if (item instanceof IHasSize sizeItem)
 			{
@@ -78,6 +78,7 @@ public class MetalNuggetCommand extends ModCommand
 					throw new CommandSyntaxException(new SimpleCommandExceptionType(Component.literal(errorMsg)), Component.literal(errorMsg));
 				}
 			}
+			context.getSource().getPlayerOrException().getInventory().add(itemStack);
 		}
 
 		return SINGLE_SUCCESS;

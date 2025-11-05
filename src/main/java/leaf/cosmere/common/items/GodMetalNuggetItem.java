@@ -45,15 +45,6 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 	}
 
 	@Override
-	public int getUseDuration(ItemStack stack)
-	{
-		//be annoying enough that people prefer metal vials
-		Integer size = readMetalAlloySizeNbtData(stack);
-		if (size == null) super.getUseDuration(stack);
-		return size;
-	}
-
-	@Override
 	public ItemStack finishUsingItem(ItemStack itemstack, Level pLevel, LivingEntity pLivingEntity)
 	{
 		if (pLevel.isClientSide)
