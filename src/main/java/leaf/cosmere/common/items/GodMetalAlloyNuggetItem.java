@@ -65,9 +65,7 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 	public int getUseDuration(ItemStack stack)
 	{
 		//be annoying enough that people prefer metal vials
-		Integer size = readMetalAlloySizeNbtData(stack);
-		if (size == null) return 16;
-		return size;
+		return 16;
 	}
 
 	@Nonnull
