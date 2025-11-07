@@ -85,7 +85,7 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 				decompressRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get(), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType), metalType.getName() + "_item_deconstruct");
 			}
 			else {
-				compressRecipe(ItemsRegistry.METAL_INGOTS.get(metalType).get(), CosmereTags.Items.METAL_NUGGET_TAGS.get(metalType), ItemsRegistry.GOD_METAL_NUGGETS.get(metalType)).save(consumer);
+				compressRecipe(ItemsRegistry.METAL_INGOTS.get(metalType).get(), ItemsRegistry.GOD_METAL_NUGGETS.get(metalType).get()).save(consumer);
 				decompressRecipe(consumer, ItemsRegistry.GOD_METAL_NUGGETS.get(metalType).get(), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType), metalType.getName() + "_item_deconstruct");
 			}
 

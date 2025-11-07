@@ -78,7 +78,7 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 
 		ArrayList<Manifestation> manifestations = determineManifestations(stack);
 
-		if (!manifestations.isEmpty() & size != getMaxSize())
+		if (!manifestations.isEmpty())
 		{
 			tooltip.add(Component.empty());
 			tooltip.add(Component.literal("When consumed:").withStyle(ChatFormatting.GOLD));

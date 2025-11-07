@@ -4,10 +4,15 @@
 
 package leaf.cosmere;
 
+import leaf.cosmere.api.IHasSize;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.TagKey;
@@ -16,7 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.DifferenceIngredient;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import javax.annotation.Nullable;
@@ -257,6 +264,40 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 	{
 		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
 				.define('I', input)
+				.pattern("III")
+				.pattern("III")
+				.pattern("III")
+				.unlockedBy("has_item", has(input));
+	}
+
+	protected void nuggetAlloyRecipe(Consumer<FinishedRecipe> consumer, ItemLike output, ItemLike godMetalInput, ItemLike metalInput, int size)
+	{
+		CompoundTag nbt = new CompoundTag();
+		nbt.putInt("nuggetSize", size);
+		Ingredient godMetalIngredient = PartialNBTIngredient.of(godMetalInput, nbt);
+		godMetalIngredient.getItems()[0].setCount(1);
+
+		Ingredient metalIngredient = PartialNBTIngredient.of(godMetalInput, nbt);
+		godMetalIngredient.getItems()[0].setCount(16);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output, 16)
+				.unlockedBy("has_item", has(output))
+				.requires(metalIngredient)
+				.requires(godMetalIngredient)
+				.save(consumer);
+	}
+
+	// For items with size
+	protected ShapedRecipeBuilder compressRecipe(ItemLike output, ItemLike input) {
+		if(!(input instanceof IHasSize sizeItemInput)) return null;
+		int size = sizeItemInput.getMaxSize();
+
+		CompoundTag nbt = new CompoundTag();
+		nbt.putInt("nuggetSize", size);
+		Ingredient ingredient = PartialNBTIngredient.of(input, nbt);
+
+		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
+				.define('I', ingredient) // tag filtered by NBT
 				.pattern("III")
 				.pattern("III")
 				.pattern("III")
