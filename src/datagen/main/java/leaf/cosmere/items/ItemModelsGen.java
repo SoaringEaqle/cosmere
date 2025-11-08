@@ -41,22 +41,22 @@ public class ItemModelsGen extends ItemModelProvider
 			{
 				continue;
 			}
-			//otherwise set specific textures based on these item types
-			else if (item instanceof MetalIngotItem)
-			{
-				simpleItem(path, "metal_ingot");
-				continue;
-			}
-			else if (item instanceof MetalNuggetItem || item instanceof GodMetalNuggetItem || item instanceof GodMetalAlloyNuggetItem)
-			{
-				simpleItem(path, "metal_nugget");
-				continue;
-			}
-			else if (item instanceof MetalRawOreItem rawItem)
-			{
-				simpleItem(path, rawItem.getMetalType().isAlloy() ? "metal_blend" : "metal_raw");
-				continue;
-			}
+			////otherwise set specific textures based on these item types
+			//else if (item instanceof MetalIngotItem)
+			//{
+			//	simpleItem(path, "metal_ingot");
+			//	continue;
+			//}
+			//else if (item instanceof MetalNuggetItem)
+			//{
+			//	simpleItem(path, "metal_nugget");
+			//	continue;
+			//}
+			//else if (item instanceof MetalRawOreItem rawItem)
+			//{
+			//	simpleItem(path, rawItem.getMetalType().isAlloy() ? "metal_blend" : "metal_raw");
+			//	continue;
+			//}
 
 			//else normal item texture rules apply
 			simpleItem(path, path);
