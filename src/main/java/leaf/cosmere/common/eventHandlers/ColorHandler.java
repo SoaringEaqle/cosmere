@@ -40,12 +40,9 @@ public final class ColorHandler
 				{
 					if(tintIndex == 0)
 					{
-						if(itemStack.getItem() instanceof IHasAlloy alloyItem)
-						{
-							HashSet<MetalType> metals = alloyItem.readMetalAlloyNbtData(itemStack);
-							if(metals != null) return alloyItem.getColourValue(metals);
-						}
-						return ((IHasColour) itemStack.getItem()).getColourValue();
+						if(!(itemStack.getItem() instanceof IHasAlloy alloyItem)) return -1;
+						HashSet<MetalType> metals = alloyItem.readMetalAlloyNbtData(itemStack);
+						return alloyItem.getColourValue(metals);
 					}
 					return -1;
 				};
@@ -87,13 +84,13 @@ public final class ColorHandler
 				//todo temp?
 				if (//!itemNamespace.equals("surgebinding") &&
 						!itemNamespace.equals("cosmeretools")
-					//&& !itemNamespace.equals("cosmere")
+					&& !itemNamespace.equals("cosmere")
 				)
 				{
 					continue;
 				}
 
-				if (item instanceof IHasColour || item instanceof IHasAlloy)
+				if (item instanceof IHasAlloy)
 				{
 					itemColors.register(itemColorHandler, item);
 				}

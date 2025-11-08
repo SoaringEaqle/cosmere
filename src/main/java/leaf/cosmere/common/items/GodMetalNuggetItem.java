@@ -64,7 +64,7 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 	public boolean isFoil(ItemStack itemStack)
 	{
 		// God Metals should have foil
-		return true;
+		return super.isFoil(itemStack);
 	}
 
 	@Override
