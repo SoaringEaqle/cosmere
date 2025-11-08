@@ -1,4 +1,4 @@
-// 1.20.1	2025-11-08T13:50:38.9083728	Item Models: cosmere
+// 1.20.1	2025-11-07T23:46:55.9845752	Item Models: cosmere
 ff0d97cfe0dc1ec1f93e6a39585a79d351141f40 assets/cosmere/models/item/aluminum_ingot.json
 8b0d2f2a1126a0af33aa3e87bf6486a87914d9a3 assets/cosmere/models/item/aluminum_nugget.json
 4a894e0164206d6a02ad4c4d773cc458a0e331db assets/cosmere/models/item/atium_ingot.json
@@ -23,6 +23,7 @@ d0f7f1f9bf4078c3ce32dd1fc6d21eb72889010a assets/cosmere/models/item/duralumin_bl
 7f1c2aba76d0cfe4c1b46a095ab28fcb27eb2076 assets/cosmere/models/item/electrum_blend.json
 ee62a22f6baecee57f2242a3474c420d1f12d407 assets/cosmere/models/item/electrum_ingot.json
 85ff83dfdaf3ad35aa3d2f7571a12ca9063b5389 assets/cosmere/models/item/electrum_nugget.json
+8b69f9e5c9ea89a6fbd04f62f05a7cf3b0c09e88 assets/cosmere/models/item/god_metal_alloy_nugget.json
 31ffe9eeff25c7a22a24938b36557b62be478b3d assets/cosmere/models/item/guide.json
 0e6a8187a44579b813f0f7ef5d36c4163fcff33d assets/cosmere/models/item/harmonium_ingot.json
 4633420b9247c1b84a2db84236d1ae32e642d726 assets/cosmere/models/item/harmonium_nugget.json

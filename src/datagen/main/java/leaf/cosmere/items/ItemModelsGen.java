@@ -41,6 +41,11 @@ public class ItemModelsGen extends ItemModelProvider
 			{
 				continue;
 			}
+			else if (item instanceof GodMetalAlloyNuggetItem)
+			{
+				simpleItem(path, "metal_nugget");
+				continue;
+			}
 			////otherwise set specific textures based on these item types
 			//else if (item instanceof MetalIngotItem)
 			//{
