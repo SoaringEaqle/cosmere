@@ -4,8 +4,10 @@
 
 package leaf.cosmere;
 
+import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.IHasSize;
 import leaf.cosmere.api.helpers.RegistryHelper;
+import leaf.cosmere.common.recipe.MetalworkingRecipeBuilder;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -270,45 +272,52 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.unlockedBy("has_item", has(input));
 	}
 
-	protected void nuggetAlloyRecipe(Consumer<FinishedRecipe> consumer, ItemLike output, ItemLike godMetalInput, ItemLike metalInput, int size)
-	{
-		CompoundTag nbt = new CompoundTag();
-		nbt.putInt("nuggetSize", size);
-		Ingredient godMetalIngredient = PartialNBTIngredient.of(godMetalInput, nbt);
-		godMetalIngredient.getItems()[0].setCount(1);
-
-		Ingredient metalIngredient = PartialNBTIngredient.of(godMetalInput, nbt);
-		godMetalIngredient.getItems()[0].setCount(16);
-
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output, 16)
-				.unlockedBy("has_item", has(output))
-				.requires(metalIngredient)
-				.requires(godMetalIngredient)
-				.save(consumer);
-	}
-
 	// For items with size
-	protected ShapedRecipeBuilder compressRecipe(ItemLike output, ItemLike input) {
-		if(!(input instanceof IHasSize sizeItemInput)) return null;
+	protected ShapelessRecipeBuilder compressRecipe(ItemLike output, ItemLike input)
+	{
+		if (!(input instanceof IHasSize sizeItemInput))
+		{
+			return null;
+		}
 		int size = sizeItemInput.getMaxSize();
 
 		CompoundTag nbt = new CompoundTag();
 		nbt.putInt("nuggetSize", size);
 		Ingredient ingredient = PartialNBTIngredient.of(input, nbt);
 
-		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
-				.define('I', ingredient) // tag filtered by NBT
-				.pattern("III")
-				.pattern("III")
-				.pattern("III")
-				.unlockedBy("has_item", has(input));
+		return ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output)
+				.unlockedBy("has_item", has(output))
+				.requires(ingredient, 9);
+	}
+
+	protected MetalworkingRecipeBuilder alloyingRecipe(ItemLike output, ItemLike input, ItemLike godInput, int size)
+	{
+		if (!(godInput instanceof IHasMetalType godMetalItemInput)) return null;
+		if (!(input instanceof IHasMetalType metalItemInput)) return null;
+
+		CompoundTag nbt = new CompoundTag();
+		nbt.putInt("nuggetSize", size);
+		int[] metalIds = { godMetalItemInput.getMetalType().getID(), metalItemInput.getMetalType().getID() };
+		nbt.putIntArray("alloyedMetals", metalIds);
+
+		CompoundTag godNbt = new CompoundTag();
+		godNbt.putInt("nuggetSize", size);
+
+		Ingredient ingredient = Ingredient.of(input);
+		Ingredient godIngredient = PartialNBTIngredient.of(godInput, godNbt);
+
+		return MetalworkingRecipeBuilder.metalworking(RecipeCategory.MISC, output)
+				.resultNbt(nbt)
+				.requires(ingredient, 15)
+				.requires(godIngredient, 1)
+				.unlockedBy("has_item", has(output));
 	}
 
 	protected ShapedRecipeBuilder compressRecipe(ItemLike output, TagKey<Item> input, ItemLike center)
 	{
 		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
 				.define('I', input)
- 				.define('J', center)
+				.define('J', center)
 				.pattern("III")
 				.pattern("IJI")
 				.pattern("III")
