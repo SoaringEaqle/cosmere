@@ -4,23 +4,16 @@
 
 package leaf.cosmere.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.client.gui.MetalworkingTableScreen;
 import leaf.cosmere.client.gui.SpiritwebMenu;
 import leaf.cosmere.client.render.CosmereRenderers;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.registry.MenuRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -90,10 +83,5 @@ public class ClientModEvents
 			SpiritwebMenu.instance.postRender(spiritweb);
 		});
 
-	}
-
-	@SubscribeEvent
-	public static void onRegisterScreens(FMLClientSetupEvent e) {
-		MenuScreens.register(MenuRegistry.METALWORKING_TABLE_MENU.get(), MetalworkingTableScreen::new);
 	}
 }

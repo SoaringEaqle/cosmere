@@ -4,14 +4,9 @@
 
 package leaf.cosmere;
 
-import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.IHasSize;
 import leaf.cosmere.api.helpers.RegistryHelper;
-import leaf.cosmere.common.recipe.MetalworkingRecipeBuilder;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
@@ -23,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.DifferenceIngredient;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -288,29 +282,6 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 		return ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output)
 				.unlockedBy("has_item", has(output))
 				.requires(ingredient, 9);
-	}
-
-	protected MetalworkingRecipeBuilder alloyingRecipe(ItemLike output, ItemLike input, ItemLike godInput, int size)
-	{
-		if (!(godInput instanceof IHasMetalType godMetalItemInput)) return null;
-		if (!(input instanceof IHasMetalType metalItemInput)) return null;
-
-		CompoundTag nbt = new CompoundTag();
-		nbt.putInt("nuggetSize", size);
-		int[] metalIds = { godMetalItemInput.getMetalType().getID(), metalItemInput.getMetalType().getID() };
-		nbt.putIntArray("alloyedMetals", metalIds);
-
-		CompoundTag godNbt = new CompoundTag();
-		godNbt.putInt("nuggetSize", size);
-
-		Ingredient ingredient = Ingredient.of(input);
-		Ingredient godIngredient = PartialNBTIngredient.of(godInput, godNbt);
-
-		return MetalworkingRecipeBuilder.metalworking(RecipeCategory.MISC, output)
-				.resultNbt(nbt)
-				.requires(ingredient, 15)
-				.requires(godIngredient, 1)
-				.unlockedBy("has_item", has(output));
 	}
 
 	protected ShapedRecipeBuilder compressRecipe(ItemLike output, TagKey<Item> input, ItemLike center)

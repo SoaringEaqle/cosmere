@@ -91,21 +91,6 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 
 			Metals.MetalType[] godMetals = { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM };
 
-			if(!metalType.isGodMetal())
-			{
-				for (Metals.MetalType godMetal : godMetals)
-				{
-					for (int i = 1; i <= 16; i++)
-					{
-						alloyingRecipe(
-								ItemsRegistry.GOD_METAL_ALLOY_NUGGET.get(),
-								ItemsRegistry.METAL_NUGGETS.get(metalType).get(),
-								ItemsRegistry.GOD_METAL_NUGGETS.get(godMetal).get(),
-								i).save(consumer, new ResourceLocation(Cosmere.MODID, godMetal.getName() + "_" + metalType.getName() + "_alloy_" + i));
-					}
-				}
-			}
-
 			if (metalType.isAlloy())
 			{
 				Item outputBlend = ItemsRegistry.METAL_RAW_BLEND.get(metalType).asItem();
