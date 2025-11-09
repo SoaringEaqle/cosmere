@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "forge:nuggets/atium"
+    },
+    "J": {
+      "item": "cosmere:atium_nugget"
+    }
+  },
+  "pattern": [
+    "III",
+    "IJI",
+    "III"
+  ],
+  "result": {
+    "item": "cosmere:atium_ingot"
+  },
+  "show_notification": true
+}
