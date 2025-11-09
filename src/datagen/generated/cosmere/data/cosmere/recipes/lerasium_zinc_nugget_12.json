@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "cosmere:zinc_nugget"
+    },
+    "J": {
+      "type": "forge:partial_nbt",
+      "item": "cosmere:lerasium_nugget",
+      "nbt": "{nuggetSize:12}"
+    }
+  },
+  "pattern": [
+    "III",
+    "IJI",
+    "III"
+  ],
+  "result": {
+    "item": "cosmere:lerasium_alloy_nugget",
+    "nbt": "{alloyedMetals:[I;4],nuggetSize:4}"
+  },
+  "show_notification": true
+}

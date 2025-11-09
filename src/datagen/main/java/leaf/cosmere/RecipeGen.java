@@ -61,6 +61,42 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 
 		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
+			// God Metal Alloy Nugget Recipes
+			if(!metalType.isGodMetal() && metalType.hasAssociatedManifestation())
+			{
+				Metals.MetalType[] godMetals = { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM };
+				for(Metals.MetalType godMetal : godMetals)
+				{
+					if(metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
+					{
+						Item item;
+						switch (godMetal)
+						{
+							case IRON:
+								item = Items.IRON_NUGGET;
+								break;
+							case GOLD:
+								item = Items.GOLD_NUGGET;
+								break;
+							default:
+								item = Items.IRON_NUGGET;
+								break;
+						}
+						godMetalAlloyRecipe(consumer,
+								ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetal).get(),
+								item,
+								ItemsRegistry.GOD_METAL_NUGGETS.get(godMetal).get());
+					}
+					else
+					{
+						godMetalAlloyRecipe(consumer,
+								ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetal).get(),
+								ItemsRegistry.METAL_NUGGETS.get(metalType).get(),
+								ItemsRegistry.GOD_METAL_NUGGETS.get(godMetal).get());
+					}
+				}
+			}
+
 			//theres no reason for uss to add ways to recipe blocks/ingots that minecraft already has
 			final Metals.MetalType[] blacklistedTypes = {Metals.MetalType.IRON, Metals.MetalType.GOLD,};
 			if (Arrays.stream(blacklistedTypes).anyMatch(metalType::equals))
@@ -88,8 +124,6 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 				compressRecipe(ItemsRegistry.METAL_INGOTS.get(metalType).get(), ItemsRegistry.GOD_METAL_NUGGETS.get(metalType).get()).save(consumer);
 				decompressRecipe(consumer, ItemsRegistry.GOD_METAL_NUGGETS.get(metalType).get(), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType), metalType.getName() + "_item_deconstruct");
 			}
-
-			Metals.MetalType[] godMetals = { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM };
 
 			if (metalType.isAlloy())
 			{

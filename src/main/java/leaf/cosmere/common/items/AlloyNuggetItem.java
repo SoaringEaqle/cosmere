@@ -1,9 +1,7 @@
 package leaf.cosmere.common.items;
 
 import leaf.cosmere.api.IHasAlloy;
-import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.Metals.MetalType;
-import leaf.cosmere.common.properties.PropTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -15,9 +13,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class AlloyItem extends MetalItem implements IHasAlloy
+public class AlloyNuggetItem extends MetalNuggetItem implements IHasAlloy
 {
-	public AlloyItem(MetalType metalType)
+	public AlloyNuggetItem(MetalType metalType)
 	{
 		super(metalType);
 	}

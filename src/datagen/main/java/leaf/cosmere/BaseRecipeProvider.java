@@ -4,9 +4,13 @@
 
 package leaf.cosmere;
 
+import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.IHasSize;
 import leaf.cosmere.api.helpers.RegistryHelper;
+import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
+import leaf.cosmere.recipe.NbtShapedRecipeBuilder;
+import leaf.cosmere.recipe.NbtShapelessRecipeBuilder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
@@ -264,6 +268,58 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.pattern("III")
 				.pattern("III")
 				.unlockedBy("has_item", has(input));
+	}
+
+	protected void godMetalAlloyRecipe(Consumer<FinishedRecipe> consumer, ItemLike output, ItemLike inputMetal, ItemLike inputGodMetal)
+	{
+		if(!(inputMetal instanceof IHasMetalType metalItem)) return;
+		if(!(inputGodMetal instanceof IHasMetalType godMetalItem)) return;
+		CompoundTag outNbt = new CompoundTag();
+		outNbt.putInt("nuggetSize", 4);
+		int[] metalIds = new int[] { metalItem.getMetalType().getID() };
+		outNbt.putIntArray("alloyedMetals", metalIds);
+
+		for(int inSize = 4; inSize <= 16; inSize+=4)
+		{
+			CompoundTag inNbt = new CompoundTag();
+			inNbt.putInt("nuggetSize", inSize);
+
+			String name = godMetalItem.getMetalType().getName() + "_" +
+					metalItem.getMetalType().getName() + "_nugget_" + inSize;
+
+			NbtShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output, 8)
+					.define('I', inputMetal)
+					.definePartial('J', inputGodMetal, inNbt)
+					.pattern("III")
+					.pattern("IJI")
+					.pattern("III")
+					.unlockedBy("has_item", has(inputMetal))
+					.resultNbt(outNbt)
+					.save(consumer, new ResourceLocation(Cosmere.MODID, name));
+		}
+	}
+
+	protected void godMetalNuggetRecipe(Consumer<FinishedRecipe> consumer, ItemLike inputGodMetal)
+	{
+		if(!(inputGodMetal instanceof IHasMetalType godMetalItem)) return;
+
+
+		for(int inSize = 1; inSize <= 8; inSize*=2)
+		{
+			CompoundTag inNbt = new CompoundTag();
+			inNbt.putInt("nuggetSize", inSize);
+
+			CompoundTag outNbt = new CompoundTag();
+			outNbt.putInt("nuggetSize", inSize*2);
+
+			String name = godMetalItem.getMetalType().getName() + "_nugget_" + inSize;
+
+			NbtShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, inputGodMetal)
+					.requiresPartial(inputGodMetal, inNbt, 2)
+					.unlockedBy("has_item", has(inputGodMetal))
+					.resultNbt(outNbt)
+					.save(consumer, new ResourceLocation(Cosmere.MODID, name));
+		}
 	}
 
 	// For items with size

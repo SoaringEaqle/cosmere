@@ -4,6 +4,7 @@ import leaf.cosmere.api.*;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -44,6 +45,7 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 		return MIN_SIZE;
 	}
 
+	// God Metals shouldn't hurt
 	@Override
 	public ItemStack finishUsingItem(ItemStack itemstack, Level pLevel, LivingEntity pLivingEntity)
 	{
@@ -61,11 +63,33 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 	}
 
 	@Override
+	public boolean hasCraftingRemainingItem(ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public ItemStack getCraftingRemainingItem(ItemStack stack) {
+		ItemStack out = stack.copy();
+		CompoundTag tag = out.getOrCreateTag();
+
+		int size = tag.contains("nuggetSize") ? tag.getInt("nuggetSize") : 4;
+		int newSize = size - 4;
+		tag.putInt("nuggetSize", newSize);
+
+		if (newSize < 4) {
+			return ItemStack.EMPTY;
+		}
+
+		return out;
+	}
+
+	@Override
 	public boolean isFoil(ItemStack itemStack)
 	{
 		// God Metals should have foil
 		return super.isFoil(itemStack);
 	}
+
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

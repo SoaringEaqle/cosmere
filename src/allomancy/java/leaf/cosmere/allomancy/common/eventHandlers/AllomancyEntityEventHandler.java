@@ -12,6 +12,7 @@ import leaf.cosmere.allomancy.common.manifestation.AllomancyNicrosil;
 import leaf.cosmere.allomancy.common.manifestation.AllomancyPewter;
 import leaf.cosmere.allomancy.common.utils.MiscHelper;
 import leaf.cosmere.api.IGrantsManifestations;
+import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.items.GodMetalNuggetItem;
 import leaf.cosmere.common.items.MetalNuggetItem;
@@ -51,10 +52,14 @@ public class AllomancyEntityEventHandler
 		ItemStack stack = event.getEntity().getMainHandItem();
 		if (!stack.isEmpty())
 		{
-			if (stack.getItem() instanceof GodMetalAlloyNuggetItem || stack.getItem() instanceof GodMetalNuggetItem)
+			if (stack.getItem() instanceof MetalNuggetItem metalNuggetItem)
 			{
+				// Don't alloy for consuming normal metal nuggets
+				if (!(stack.getItem() instanceof GodMetalAlloyNuggetItem) && !(stack.getItem() instanceof GodMetalNuggetItem)) return;
+				// Only consume the nugget if it contains Lerasium
+				if (metalNuggetItem.getMetalType().isGodMetal() && metalNuggetItem.getMetalType() != Metals.MetalType.LERASIUM) return;
+
 				MiscHelper.consumeNugget(target, stack);
-				//need to shrink, because metal nugget only shrinks on item use finish from eating, which is not part of entity interact with item
 				stack.shrink(1);
 			}
 		}
@@ -72,8 +77,10 @@ public class AllomancyEntityEventHandler
 		final LivingEntity livingEntity = event.getEntity();
 		if(livingEntity.level().isClientSide) return;
 
-		if (event.getItem().getItem() instanceof MetalNuggetItem || event.getItem().getItem() instanceof IGrantsManifestations)
+		if (event.getItem().getItem() instanceof MetalNuggetItem metalNuggetItem)
 		{
+			// Only consume the nugget if it contains Lerasium
+			if(metalNuggetItem.getMetalType().isGodMetal() && metalNuggetItem.getMetalType() != Metals.MetalType.LERASIUM) return;
 			MiscHelper.consumeNugget(livingEntity, event.getItem());
 		}
 	}
