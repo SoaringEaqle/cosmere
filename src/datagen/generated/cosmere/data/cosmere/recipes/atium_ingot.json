@@ -4,47 +4,47 @@
   "ingredients": [
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:atium_nugget",
+      "item": "cosmere:atium_god_nugget",
       "nbt": "{nuggetSize:16}"
     }
   ],

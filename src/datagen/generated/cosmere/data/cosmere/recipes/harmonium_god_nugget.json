@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "cosmere:harmonium_nugget"
+    }
+  ],
+  "result": {
+    "item": "cosmere:harmonium_god_nugget",
+    "nbt": "{nuggetSize:16}"
+  }
+}

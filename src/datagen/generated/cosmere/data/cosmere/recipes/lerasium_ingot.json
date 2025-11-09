@@ -4,47 +4,47 @@
   "ingredients": [
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:lerasium_nugget",
+      "item": "cosmere:lerasium_god_nugget",
       "nbt": "{nuggetSize:16}"
     }
   ],

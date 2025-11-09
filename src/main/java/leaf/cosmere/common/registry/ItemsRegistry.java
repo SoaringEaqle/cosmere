@@ -51,7 +51,6 @@ public class ItemsRegistry
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_NUGGETS =
 			Arrays.stream(EnumUtils.METAL_TYPES)
 					.filter(type -> type.hasMaterialItem() || type == Metals.MetalType.COPPER)      // I'm sorry for this Leaf :( >> Gerbagel
-					.filter(type -> !type.isGodMetal())
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
@@ -75,7 +74,7 @@ public class ItemsRegistry
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
-									type.getName() + RegNameStubs.NUGGET,
+									type.getName() + "_god" + RegNameStubs.NUGGET,
 									() -> new GodMetalNuggetItem(type)
 							)));
 

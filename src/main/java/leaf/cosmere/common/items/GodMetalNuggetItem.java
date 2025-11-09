@@ -42,6 +42,11 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 		return MIN_SIZE;
 	}
 
+	@Override
+	public int getMaxStackSize(ItemStack stack) {
+		return 1;
+	}
+
 	// God Metals shouldn't hurt
 	@Override
 	public ItemStack finishUsingItem(ItemStack itemstack, Level pLevel, LivingEntity pLivingEntity)
@@ -74,7 +79,9 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 		tag.putInt("nuggetSize", newSize);
 
 		if (newSize < 4) {
-			return ItemStack.EMPTY;
+			out.shrink(1);
+			tag.putInt("nuggetSize", this.getMaxSize());
+			return out;
 		}
 
 		return out;

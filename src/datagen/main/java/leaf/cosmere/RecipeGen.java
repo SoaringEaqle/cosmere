@@ -122,6 +122,8 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 			else {
 				compressRecipe(ItemsRegistry.METAL_INGOTS.get(metalType).get(), ItemsRegistry.GOD_METAL_NUGGETS.get(metalType).get()).save(consumer);
 				decompressRecipe(consumer, ItemsRegistry.GOD_METAL_NUGGETS.get(metalType).get(), CosmereTags.Items.METAL_INGOT_TAGS.get(metalType), metalType.getName() + "_item_deconstruct");
+
+				godMetalNuggetRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get());
 			}
 
 			if (metalType.isAlloy())

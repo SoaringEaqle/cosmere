@@ -4,47 +4,47 @@
   "ingredients": [
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     },
     {
       "type": "forge:partial_nbt",
-      "item": "cosmere:harmonium_nugget",
+      "item": "cosmere:harmonium_god_nugget",
       "nbt": "{nuggetSize:16}"
     }
   ],

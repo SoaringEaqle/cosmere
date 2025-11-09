@@ -44,6 +44,10 @@ public class MetalNuggetItem extends MetalItem
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand)
 	{
 		ItemStack stack = player.getItemInHand(hand);
+
+		// Skip eating if it is a god metal
+		if(this.getMetalType().isGodMetal()) return InteractionResultHolder.pass(stack);
+
 		if (player.canEat(true))
 		{
 			player.startUsingItem(hand);
