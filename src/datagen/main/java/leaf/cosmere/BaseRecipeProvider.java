@@ -327,24 +327,6 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.save(consumer, new ResourceLocation(Cosmere.MODID, name));
 	}
 
-	// For items with size
-	protected ShapelessRecipeBuilder compressRecipe(ItemLike output, ItemLike input)
-	{
-		if (!(input instanceof IHasSize sizeItemInput))
-		{
-			return null;
-		}
-		int size = sizeItemInput.getMaxSize();
-
-		CompoundTag nbt = new CompoundTag();
-		nbt.putInt("nuggetSize", size);
-		Ingredient ingredient = PartialNBTIngredient.of(input, nbt);
-
-		return ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output)
-				.unlockedBy("has_item", has(output))
-				.requires(ingredient, 9);
-	}
-
 	protected ShapedRecipeBuilder compressRecipe(ItemLike output, TagKey<Item> input, ItemLike center)
 	{
 		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
