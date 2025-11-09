@@ -13,6 +13,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -41,9 +42,14 @@ public class ItemModelsGen extends ItemModelProvider
 			{
 				continue;
 			}
-			else if (item instanceof GodMetalAlloyNuggetItem)
+			else if (item instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem && !godMetalAlloyNuggetItem.getMetalType().isGodMetal())
 			{
-				simpleItem(path, "metal_nugget");
+				if(!godMetalAlloyNuggetItem.getMetalType().hasMaterialItem())
+				{
+					gameItem(path, godMetalAlloyNuggetItem.getMetalType().getName() + "_nugget");
+					continue;
+				}
+				simpleItem(path, godMetalAlloyNuggetItem.getMetalType().getName() + "_nugget");
 				continue;
 			}
 			////otherwise set specific textures based on these item types
@@ -80,5 +86,12 @@ public class ItemModelsGen extends ItemModelProvider
 		return this.getBuilder(path)
 				.parent(new ModelFile.UncheckedModelFile("item/generated"))
 				.texture("layer0", modLoc("item/" + texturePath));
+	}
+
+	public ItemModelBuilder gameItem(String path, String texturePath)
+	{
+		return this.getBuilder(path)
+				.parent(new ModelFile.UncheckedModelFile("item/generated"))
+				.texture("layer0", mcLoc("item/" + texturePath));
 	}
 }

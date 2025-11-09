@@ -5,6 +5,7 @@
 package leaf.cosmere.common.registry;
 
 import leaf.cosmere.api.EnumUtils;
+import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.api.providers.IItemProvider;
@@ -21,6 +22,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 public class CreativeTabsRegistry
 {
@@ -35,47 +37,28 @@ public class CreativeTabsRegistry
 							builder.withSearchBar()//Allow our tabs to be searchable for convenience purposes
 									.displayItems((displayParameters, output) ->
 									{
-										CreativeTabDeferredRegister.addToDisplay(ItemsRegistry.ITEMS, output);
+										// CreativeTabDeferredRegister.addToDisplay(ItemsRegistry.ITEMS, output);
+										List<IItemProvider> items = ItemsRegistry.ITEMS.getAllItems();
+										for(IItemProvider item : items)
+										{
+											if(item.asItem() instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem)
+											{
+												for (MetalType metalType : new MetalType[]{ MetalType.LERASIUM, MetalType.LERASATIUM })
+												{
+													HashSet<MetalType> metalTypes = new HashSet<>();
+													metalTypes.add(metalType);
+
+													godMetalAlloyNuggetItem.addFilled(output, metalTypes, 8);
+												}
+											}
+											else
+											{
+												output.accept(item);
+											}
+										}
 										CreativeTabDeferredRegister.addToDisplay(BlocksRegistry.BLOCKS, output);
-										addLerasiumAlloyNuggets(output);
-										addLerasatiumAlloyNuggets(output);
 									})
 			);
-
-
-	private static void addLerasiumAlloyNuggets(CreativeModeTab.Output output)
-	{
-		for (MetalType metalType : Arrays.asList(EnumUtils.METAL_TYPES).subList(0, 16))
-		{
-			if (metalType.hasFeruchemicalEffect())
-			{
-				final GodMetalAlloyNuggetItem item = ItemsRegistry.GOD_METAL_ALLOY_NUGGET.get();
-
-				HashSet<MetalType> metalTypes = new HashSet<>();
-				metalTypes.add(MetalType.LERASIUM);
-				metalTypes.add(metalType);
-
-				item.addFilled(output, metalTypes, 16);
-			}
-		}
-	}
-
-	private static void addLerasatiumAlloyNuggets(CreativeModeTab.Output output)
-	{
-		for (MetalType metalType : Arrays.asList(EnumUtils.METAL_TYPES).subList(0, 16))
-		{
-			if (metalType.hasFeruchemicalEffect())
-			{
-				final GodMetalAlloyNuggetItem item = ItemsRegistry.GOD_METAL_ALLOY_NUGGET.get();
-				HashSet<MetalType> metalTypes = new HashSet<>();
-				metalTypes.add(MetalType.LERASATIUM);
-				metalTypes.add(metalType);
-
-				item.addFilled(output, metalTypes, 16);
-			}
-		}
-	}
-
 
 	private static void addToExistingTabs(BuildCreativeModeTabContentsEvent event)
 	{

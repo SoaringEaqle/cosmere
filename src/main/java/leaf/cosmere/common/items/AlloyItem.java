@@ -2,7 +2,7 @@ package leaf.cosmere.common.items;
 
 import leaf.cosmere.api.IHasAlloy;
 import leaf.cosmere.api.IHasMetalType;
-import leaf.cosmere.api.Metals;
+import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.common.properties.PropTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -15,11 +15,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class AlloyItem extends BaseItem implements IHasAlloy
+public class AlloyItem extends MetalItem implements IHasAlloy
 {
-	public AlloyItem()
+	public AlloyItem(MetalType metalType)
 	{
-		super();
+		super(metalType);
 	}
 
 	/**
@@ -30,31 +30,31 @@ public class AlloyItem extends BaseItem implements IHasAlloy
 		return InteractionResult.PASS;
 	}
 
-	public HashSet<Metals.MetalType> readMetalAlloyNbtData(ItemStack itemStack)
+	public HashSet<MetalType> readMetalAlloyNbtData(ItemStack itemStack)
 	{
 		CompoundTag nbt = itemStack.getOrCreateTag();
 		if(nbt.contains("alloyedMetals"))
 		{
 			int[] metalIds = nbt.getIntArray("alloyedMetals");
-			HashSet<Metals.MetalType> metalTypes = new HashSet<>();
+			HashSet<MetalType> metalTypes = new HashSet<>();
 			for (int metalId : metalIds)
 			{
 				metalTypes.add(
-						Metals.MetalType.valueOf(metalId).isPresent() ?
-						Metals.MetalType.valueOf(metalId).get() : Metals.MetalType.SILVER);
+						MetalType.valueOf(metalId).isPresent() ?
+						MetalType.valueOf(metalId).get() : MetalType.SILVER);
 			}
 			return metalTypes;
 		}
-		return new HashSet<Metals.MetalType>();
+		return new HashSet<MetalType>();
 	}
 
-	public boolean writeMetalAlloyNbtData(ItemStack itemStack, HashSet<Metals.MetalType> alloyedMetals)
+	public boolean writeMetalAlloyNbtData(ItemStack itemStack, HashSet<MetalType> alloyedMetals)
 	{
 		CompoundTag nbt = itemStack.getOrCreateTag();
 		ArrayList<Integer> metalIds = new ArrayList<>();
 		boolean containsGodMetal = false;
 		boolean containsNormalMetal = false;
-		for (Metals.MetalType alloyedMetal : alloyedMetals)
+		for (MetalType alloyedMetal : alloyedMetals)
 		{
 			metalIds.add(alloyedMetal.getID());
 
@@ -94,18 +94,18 @@ public class AlloyItem extends BaseItem implements IHasAlloy
 		return new Color((int) r, (int) g, (int) b);
 	}
 
-	public Color getColour(HashSet<Metals.MetalType> metals)
+	public Color getColour(HashSet<MetalType> metals)
 	{
 		ArrayList<Color> colors = new ArrayList<>();
-		int i = 0;
-		for(Metals.MetalType metal : metals)
+		for(MetalType metal : metals)
 		{
+			if (metal == this.getMetalType()) continue;
 			colors.add(metal.getColor());
 		}
 		return mixColors(colors);
 	}
 
-	public int getColourValue(HashSet<Metals.MetalType> metals)
+	public int getColourValue(HashSet<MetalType> metals)
 	{
 		return getColour(metals).getRGB();
 	}
