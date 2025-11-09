@@ -2,9 +2,7 @@ package leaf.cosmere.common.items;
 
 import leaf.cosmere.api.*;
 import leaf.cosmere.api.manifestation.Manifestation;
-import leaf.cosmere.api.text.TextHelper;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.registry.CosmereDamageTypesRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -15,7 +13,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
-import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -25,7 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGrantsManifestations
+public class GodMetalAlloyNuggetItem extends AlloyNuggetItem implements IHasSize, IGrantsManifestations
 {
 	public static int MIN_SIZE = 1;
 	public static int MAX_SIZE = 16;
@@ -51,50 +48,6 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 		writeMetalAlloyNbtData(itemStack, alloyedMetals);
 		writeMetalAlloySizeNbtData(itemStack, size);
 		output.accept(itemStack);
-	}
-
-	@Nonnull
-	@Override
-	public UseAnim getUseAnimation(ItemStack stack)
-	{
-		return UseAnim.EAT;
-	}
-
-
-	@Override
-	public int getUseDuration(ItemStack stack)
-	{
-		//be annoying enough that people prefer metal vials
-		return 16;
-	}
-
-	@Nonnull
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand)
-	{
-		ItemStack stack = player.getItemInHand(hand);
-		if (player.canEat(true))
-		{
-			player.startUsingItem(hand);
-			return InteractionResultHolder.consume(stack);
-		}
-		return InteractionResultHolder.pass(stack);
-	}
-
-	@Override
-	public ItemStack finishUsingItem(ItemStack itemstack, Level pLevel, LivingEntity pLivingEntity)
-	{
-		if (pLevel.isClientSide)
-		{
-			return itemstack;
-		}
-
-		if (pLivingEntity instanceof Player player && !player.isCreative())
-		{
-			itemstack.shrink(1);
-		}
-
-		return itemstack;
 	}
 
 	@Override
