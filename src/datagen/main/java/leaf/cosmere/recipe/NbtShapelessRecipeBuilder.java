@@ -55,54 +55,8 @@ public class NbtShapelessRecipeBuilder implements RecipeBuilder {
 		return this;
 	}
 
-	public NbtShapelessRecipeBuilder requires(TagKey<Item> tag) {
-		base.requires(Ingredient.of(tag));
-		return this;
-	}
-
-	public NbtShapelessRecipeBuilder requires(TagKey<Item> tag, int count) {
-		base.requires(Ingredient.of(tag), count);
-		return this;
-	}
-
-	public NbtShapelessRecipeBuilder requiresPartial(ItemLike item, CompoundTag subsetNbt) {
-		ItemStack s = new ItemStack(item);
-		if (subsetNbt != null && !subsetNbt.isEmpty()) s.setTag(subsetNbt.copy());
-		return requires(PartialNBTIngredient.of(s));
-	}
-
-	public NbtShapelessRecipeBuilder requiresStrict(ItemLike item, CompoundTag exactNbt) {
-		ItemStack s = new ItemStack(item);
-		if (exactNbt != null && !exactNbt.isEmpty()) s.setTag(exactNbt.copy());
-		return requires(StrictNBTIngredient.of(s));
-	}
-
 	public NbtShapelessRecipeBuilder requiresPartial(ItemLike item, CompoundTag subsetNbt, int count) {
-		ItemStack s = new ItemStack(item);
-		if (subsetNbt != null && !subsetNbt.isEmpty()) s.setTag(subsetNbt.copy());
-		return requires(PartialNBTIngredient.of(s), count);
-	}
-
-	public NbtShapelessRecipeBuilder requiresStrict(ItemLike item, CompoundTag exactNbt, int count) {
-		ItemStack s = new ItemStack(item);
-		if (exactNbt != null && !exactNbt.isEmpty()) s.setTag(exactNbt.copy());
-		return requires(StrictNBTIngredient.of(s), count);
-	}
-
-	public NbtShapelessRecipeBuilder requiresPartial(TagKey<Item> tag, CompoundTag subsetNbt) {
-		return requires(wrapForgeNbtIngredient("forge:partial_nbt", Ingredient.of(tag), subsetNbt));
-	}
-
-	public NbtShapelessRecipeBuilder requiresStrict(TagKey<Item> tag, CompoundTag exactNbt) {
-		return requires(wrapForgeNbtIngredient("forge:strict_nbt", Ingredient.of(tag), exactNbt));
-	}
-
-	public NbtShapelessRecipeBuilder requiresPartial(TagKey<Item> tag, CompoundTag subsetNbt, int count) {
-		return requires(wrapForgeNbtIngredient("forge:partial_nbt", Ingredient.of(tag), subsetNbt), count);
-	}
-
-	public NbtShapelessRecipeBuilder requiresStrict(TagKey<Item> tag, CompoundTag exactNbt, int count) {
-		return requires(wrapForgeNbtIngredient("forge:strict_nbt", Ingredient.of(tag), exactNbt), count);
+		return requires(PartialNBTIngredient.of(item, subsetNbt), count);
 	}
 
 	public NbtShapelessRecipeBuilder group(@Nullable String group) { base.group(group); return this; }
@@ -118,14 +72,6 @@ public class NbtShapelessRecipeBuilder implements RecipeBuilder {
 	private static FinishedRecipe wrap(FinishedRecipe inner, @Nullable CompoundTag resultNbt) {
 		if (resultNbt == null || resultNbt.isEmpty()) return inner;
 		return new FinishedWithResultNbt(inner, resultNbt.copy());
-	}
-
-	private static Ingredient wrapForgeNbtIngredient(String forgeType, Ingredient base, CompoundTag nbt) {
-		JsonObject wrapper = new JsonObject();
-		wrapper.addProperty("type", forgeType);
-		wrapper.add("ingredient", base.toJson());
-		wrapper.addProperty("nbt", (nbt == null || nbt.isEmpty()) ? "{}" : nbt.toString());
-		return Ingredient.fromJson(wrapper);
 	}
 
 	private static final class FinishedWithResultNbt implements FinishedRecipe {

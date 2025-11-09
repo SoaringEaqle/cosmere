@@ -67,10 +67,10 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 				Metals.MetalType[] godMetals = { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM };
 				for(Metals.MetalType godMetal : godMetals)
 				{
-					if(metalType.hasMaterialItem() || metalType == Metals.MetalType.COPPER)
+					if(!metalType.hasMaterialItem())
 					{
 						Item item;
-						switch (godMetal)
+						switch (metalType)
 						{
 							case IRON:
 								item = Items.IRON_NUGGET;
@@ -80,7 +80,6 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 								break;
 							default:
 								item = Items.IRON_NUGGET;
-								break;
 						}
 						godMetalAlloyRecipe(consumer,
 								ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetal).get(),

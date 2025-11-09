@@ -52,12 +52,6 @@ public class NbtShapedRecipeBuilder implements RecipeBuilder {
 		return this;
 	}
 
-	public NbtShapedRecipeBuilder defineStrict(char symbol, ItemLike item, CompoundTag nbt) {
-		ItemStack s = new ItemStack(item);
-		if (nbt != null && !nbt.isEmpty()) s.setTag(nbt.copy());
-		return define(symbol, StrictNBTIngredient.of(s));
-	}
-
 	public NbtShapedRecipeBuilder definePartial(char symbol, ItemLike item, CompoundTag subsetNbt) {
 		return define(symbol, PartialNBTIngredient.of(item, subsetNbt));
 	}
