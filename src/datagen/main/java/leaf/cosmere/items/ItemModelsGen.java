@@ -42,13 +42,8 @@ public class ItemModelsGen extends ItemModelProvider
 			{
 				continue;
 			}
-			else if (item instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem && !godMetalAlloyNuggetItem.getMetalType().isGodMetal())
+			else if (item instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem)
 			{
-				if(!godMetalAlloyNuggetItem.getMetalType().hasMaterialItem())
-				{
-					gameItem(path, godMetalAlloyNuggetItem.getMetalType().getName() + "_nugget");
-					continue;
-				}
 				simpleItem(path, godMetalAlloyNuggetItem.getMetalType().getName() + "_nugget");
 				continue;
 			}
@@ -86,12 +81,5 @@ public class ItemModelsGen extends ItemModelProvider
 		return this.getBuilder(path)
 				.parent(new ModelFile.UncheckedModelFile("item/generated"))
 				.texture("layer0", modLoc("item/" + texturePath));
-	}
-
-	public ItemModelBuilder gameItem(String path, String texturePath)
-	{
-		return this.getBuilder(path)
-				.parent(new ModelFile.UncheckedModelFile("item/generated"))
-				.texture("layer0", mcLoc("item/" + texturePath));
 	}
 }

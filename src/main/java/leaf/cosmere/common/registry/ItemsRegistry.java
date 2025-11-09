@@ -61,11 +61,11 @@ public class ItemsRegistry
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<GodMetalAlloyNuggetItem>> GOD_METAL_ALLOY_NUGGETS =
 			Arrays.stream(EnumUtils.METAL_TYPES)
-					.filter(type -> !type.isGodMetal())
+					.filter(Metals.MetalType::isGodMetal)
 					.collect(Collectors.toMap(
 							Function.identity(),
 							type -> ITEMS.register(
-									"god_metal_" + type.getName() + "_alloy" + RegNameStubs.NUGGET,
+									type.getName() + "_alloy" + RegNameStubs.NUGGET,
 									() -> new GodMetalAlloyNuggetItem(type)
 							)));
 

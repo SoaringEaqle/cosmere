@@ -107,14 +107,14 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 		if (metalTypes != null)
 		{
 			MutableComponent metalListComponent = Component.empty();
-			for (Metals.MetalType metalType : metalTypes)
-			{
-				metalListComponent.append(Component.translatable(metalType.getTranslationKey())
-						.withStyle(Style.EMPTY.withColor(metalType.getColorValue())));
-				metalListComponent.append(Component.literal(" / ").withStyle(ChatFormatting.WHITE));
-			}
 			metalListComponent.append(Component.translatable(this.getMetalType().getTranslationKey())
 					.withStyle(Style.EMPTY.withColor(this.getMetalType().getColorValue())));
+			for (Metals.MetalType metalType : metalTypes)
+			{
+				metalListComponent.append(Component.literal(" / ").withStyle(ChatFormatting.WHITE));
+				metalListComponent.append(Component.translatable(metalType.getTranslationKey())
+						.withStyle(Style.EMPTY.withColor(metalType.getColorValue())));
+			}
 
 			tooltip.add(metalListComponent);
 		}
@@ -143,26 +143,9 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 		Integer size = readMetalAlloySizeNbtData(itemStack);
 		if (size == null) return Rarity.COMMON;
 
-		boolean containsGodMetal = false;
-		Set<Metals.MetalType> metalTypes = readMetalAlloyNbtData(itemStack);
-		if (metalTypes == null) return Rarity.COMMON;
-		for (Metals.MetalType metalType : metalTypes)
-		{
-			if (metalType.isGodMetal())
-			{
-				containsGodMetal = true;
-				break;
-			}
-		}
-
-		if (containsGodMetal)
-		{
-			if (size <= 8) return Rarity.UNCOMMON;
-			else if (size == MAX_SIZE) return Rarity.EPIC;
-			return Rarity.RARE;
-		}
-
-		return Rarity.COMMON;
+		if (size <= 8) return Rarity.UNCOMMON;
+		else if (size == MAX_SIZE) return Rarity.EPIC;
+		return Rarity.RARE;
 	}
 
 	// This needs to be replaced once a connection system is in place
@@ -177,20 +160,26 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 		if (metals == null) return manifestations;
 
 		Manifestation manifestation;
-		if (metals.contains(Metals.MetalType.LERASIUM))
+		if (this.getMetalType() == Metals.MetalType.LERASIUM)
 		{
-			manifestation = Manifestations.ManifestationTypes.ALLOMANCY.getManifestation(this.getMetalType().getID());
-			if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
+			for(Metals.MetalType metal : metals)
 			{
-				manifestations.add(manifestation);
+				manifestation = Manifestations.ManifestationTypes.ALLOMANCY.getManifestation(metal.getID());
+				if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
+				{
+					manifestations.add(manifestation);
+				}
 			}
 		}
-		else if (metals.contains(Metals.MetalType.LERASATIUM))
+		else if (this.getMetalType() == Metals.MetalType.LERASATIUM)
 		{
-			manifestation = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(this.getMetalType().getID());
-			if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
+			for(Metals.MetalType metal : metals)
 			{
-				manifestations.add(manifestation);
+				manifestation = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(metal.getID());
+				if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
+				{
+					manifestations.add(manifestation);
+				}
 			}
 		}
 		return manifestations;

@@ -68,12 +68,10 @@ public class AllomancyEntityEventHandler
 	@SubscribeEvent
 	public static void onFinishUsingItem(LivingEntityUseItemEvent.Finish event)
 	{
-		if (event.isCanceled())
-		{
-			return;
-		}
-
+		if (event.isCanceled()) return;
 		final LivingEntity livingEntity = event.getEntity();
+		if(livingEntity.level().isClientSide) return;
+
 		if (event.getItem().getItem() instanceof MetalNuggetItem || event.getItem().getItem() instanceof IGrantsManifestations)
 		{
 			MiscHelper.consumeNugget(livingEntity, event.getItem());
