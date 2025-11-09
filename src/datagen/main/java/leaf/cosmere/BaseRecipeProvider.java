@@ -6,6 +6,7 @@ package leaf.cosmere;
 
 import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.IHasSize;
+import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
@@ -19,6 +20,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
@@ -272,11 +274,26 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 
 	protected void godMetalAlloyRecipe(Consumer<FinishedRecipe> consumer, ItemLike output, ItemLike inputMetal, ItemLike inputGodMetal)
 	{
-		if(!(inputMetal instanceof IHasMetalType metalItem)) return;
+		Metals.MetalType metalType;
+		if(inputMetal instanceof IHasMetalType inMetal){
+			metalType = inMetal.getMetalType();
+		}
+		else if(inputMetal == Items.GOLD_NUGGET)
+		{
+			metalType = Metals.MetalType.GOLD;
+		}
+		else if(inputMetal == Items.IRON_NUGGET)
+		{
+			metalType = Metals.MetalType.IRON;
+		} else
+		{
+			metalType = Metals.MetalType.IRON;
+		}
+
 		if(!(inputGodMetal instanceof IHasMetalType godMetalItem)) return;
 		CompoundTag outNbt = new CompoundTag();
-		outNbt.putInt("nuggetSize", 4);
-		int[] metalIds = new int[] { metalItem.getMetalType().getID() };
+		outNbt.putInt("nuggetSize", 8);
+		int[] metalIds = new int[] { metalType.getID() };
 		outNbt.putIntArray("alloyedMetals", metalIds);
 
 		for(int inSize = 4; inSize <= 16; inSize+=4)
@@ -285,7 +302,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 			inNbt.putInt("nuggetSize", inSize);
 
 			String name = godMetalItem.getMetalType().getName() + "_" +
-					metalItem.getMetalType().getName() + "_nugget_" + inSize;
+					metalType.getName() + "_nugget_" + inSize;
 
 			NbtShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output, 8)
 					.define('I', inputMetal)
@@ -293,7 +310,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 					.pattern("III")
 					.pattern("IJI")
 					.pattern("III")
-					.unlockedBy("has_item", has(inputMetal))
+					.unlockedBy("has_item", has(inputGodMetal))
 					.resultNbt(outNbt)
 					.save(consumer, new ResourceLocation(Cosmere.MODID, name));
 		}

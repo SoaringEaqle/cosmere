@@ -17,8 +17,9 @@
     "III"
   ],
   "result": {
+    "count": 8,
     "item": "cosmere:lerasatium_alloy_nugget",
-    "nbt": "{alloyedMetals:[I;3],nuggetSize:4}"
+    "nbt": "{alloyedMetals:[I;3],nuggetSize:8}"
   },
   "show_notification": true
 }
