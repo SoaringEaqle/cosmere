@@ -111,6 +111,20 @@ public class CosmereTagProvider extends BaseTagProvider
 					// tell our nuggets what their tags are.
 					addToTag(metalNuggetTag, nuggetItem);
 				}
+
+				// Add the metal alloy nugget to the nugget tags
+				if(!metalType.isGodMetal())
+				{
+					final TagKey<Item> godMetalAlloyNuggetTag = metalType.getGodMetalAlloyNuggetTag();
+					getItemBuilder(Tags.Items.NUGGETS).add(godMetalAlloyNuggetTag);
+
+					ItemRegistryObject<GodMetalAlloyNuggetItem> alloyNugRegObj = ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(metalType);
+					if (alloyNugRegObj != null)
+					{
+						Item nuggetItem = alloyNugRegObj.asItem();
+						addToTag(godMetalAlloyNuggetTag, nuggetItem);
+					}
+				}
 			}
 
 			if (metalType.hasOre())
@@ -126,17 +140,6 @@ public class CosmereTagProvider extends BaseTagProvider
 				final TagKey<Item> metalBlendTag = metalType.getMetalBlendTag();
 				addToTag(metalBlendTag, item);
 			}
-		}
-
-		// Add the metal alloy nugget to the nugget tags
-		final TagKey<Item> nuggetTag = CosmereTags.Items.forgeItemTag("nuggets/god_metal_alloy_nugget");
-		getItemBuilder(Tags.Items.NUGGETS).add(nuggetTag);
-
-		final ItemRegistryObject<GodMetalAlloyNuggetItem> nugRegObj = ItemsRegistry.GOD_METAL_ALLOY_NUGGET;
-		if (nugRegObj != null)
-		{
-			Item nuggetItem = nugRegObj.asItem();
-			addToTag(nuggetTag, nuggetItem);
 		}
 	}
 

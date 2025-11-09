@@ -40,9 +40,9 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 		return MAX_SIZE;
 	}
 
-	public GodMetalAlloyNuggetItem()
+	public GodMetalAlloyNuggetItem(Metals.MetalType metalType)
 	{
-		super();
+		super(metalType);
 	}
 
 	public void addFilled(CreativeModeTab.Output output, HashSet<Metals.MetalType> alloyedMetals, int size)
@@ -101,19 +101,21 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
 	{
-		HashSet<Metals.MetalType> metals = readMetalAlloyNbtData(stack);
+		HashSet<Metals.MetalType> metalTypes = readMetalAlloyNbtData(stack);
 		Integer size = readMetalAlloySizeNbtData(stack);
 
-		if (metals != null)
+		if (metalTypes != null)
 		{
 			MutableComponent metalListComponent = Component.empty();
-			for (Iterator<Metals.MetalType> it = metals.iterator(); it.hasNext(); )
+			for (Metals.MetalType metalType : metalTypes)
 			{
-				Metals.MetalType metal = it.next();
-				metalListComponent.append(Component.translatable(metal.getTranslationKey())
-						.withStyle(Style.EMPTY.withColor(metal.getColorValue())));
-				if (it.hasNext()) metalListComponent.append(Component.literal(" / ").withStyle(ChatFormatting.WHITE));
+				metalListComponent.append(Component.translatable(metalType.getTranslationKey())
+						.withStyle(Style.EMPTY.withColor(metalType.getColorValue())));
+				metalListComponent.append(Component.literal(" / ").withStyle(ChatFormatting.WHITE));
 			}
+			metalListComponent.append(Component.translatable(this.getMetalType().getTranslationKey())
+					.withStyle(Style.EMPTY.withColor(this.getMetalType().getColorValue())));
+
 			tooltip.add(metalListComponent);
 		}
 
@@ -177,34 +179,21 @@ public class GodMetalAlloyNuggetItem extends AlloyItem implements IHasSize, IGra
 		Manifestation manifestation;
 		if (metals.contains(Metals.MetalType.LERASIUM))
 		{
-			for (Metals.MetalType metal : metals)
+			manifestation = Manifestations.ManifestationTypes.ALLOMANCY.getManifestation(this.getMetalType().getID());
+			if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
 			{
-				if (metal != Metals.MetalType.LERASIUM)
-				{
-					manifestation = Manifestations.ManifestationTypes.ALLOMANCY.getManifestation(metal.getID());
-					if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
-					{
-						manifestations.add(manifestation);
-					}
-				}
+				manifestations.add(manifestation);
 			}
 		}
 		else if (metals.contains(Metals.MetalType.LERASATIUM))
 		{
-			for (Metals.MetalType metal : metals)
+			manifestation = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(this.getMetalType().getID());
+			if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
 			{
-				if (metal != Metals.MetalType.LERASATIUM)
-				{
-					manifestation = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(metal.getID());
-					if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
-					{
-						manifestations.add(manifestation);
-					}
-				}
+				manifestations.add(manifestation);
 			}
 		}
 		return manifestations;
-
 
 	}
 

@@ -26,11 +26,6 @@ public class ItemsRegistry
 
 	public static final ItemRegistryObject<GuideItem> GUIDE = ITEMS.register("guide", GuideItem::new);
 
-	// Add
-	public static final ItemRegistryObject<GodMetalAlloyNuggetItem> GOD_METAL_ALLOY_NUGGET = ITEMS.register(
-			"god_metal_alloy" + RegNameStubs.NUGGET,
-			() -> new GodMetalAlloyNuggetItem());
-
 	//Mass items gen
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> METAL_RAW_ORE =
@@ -62,6 +57,16 @@ public class ItemsRegistry
 							type -> ITEMS.register(
 									type.getName() + RegNameStubs.NUGGET,
 									() -> new MetalNuggetItem(type)
+							)));
+
+	public static final Map<Metals.MetalType, ItemRegistryObject<GodMetalAlloyNuggetItem>> GOD_METAL_ALLOY_NUGGETS =
+			Arrays.stream(EnumUtils.METAL_TYPES)
+					.filter(type -> !type.isGodMetal())
+					.collect(Collectors.toMap(
+							Function.identity(),
+							type -> ITEMS.register(
+									"god_metal_" + type.getName() + "_alloy" + RegNameStubs.NUGGET,
+									() -> new GodMetalAlloyNuggetItem(type)
 							)));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> GOD_METAL_NUGGETS =
