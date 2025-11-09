@@ -43,13 +43,7 @@ public class CreativeTabsRegistry
 										{
 											if(item.asItem() instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem)
 											{
-												for (MetalType metalType : new MetalType[]{ MetalType.LERASIUM, MetalType.LERASATIUM })
-												{
-													HashSet<MetalType> metalTypes = new HashSet<>();
-													metalTypes.add(metalType);
-
-													godMetalAlloyNuggetItem.addFilled(output, metalTypes, 8);
-												}
+												handleGodMetalNuggetItem(godMetalAlloyNuggetItem, output);
 											}
 											else
 											{
@@ -59,6 +53,21 @@ public class CreativeTabsRegistry
 										CreativeTabDeferredRegister.addToDisplay(BlocksRegistry.BLOCKS, output);
 									})
 			);
+
+	private static void handleGodMetalNuggetItem(GodMetalAlloyNuggetItem godMetalAlloyNuggetItem, CreativeModeTab.Output output)
+	{
+		if(godMetalAlloyNuggetItem.getMetalType() == MetalType.LERASIUM ||
+				godMetalAlloyNuggetItem.getMetalType() == MetalType.LERASATIUM)
+		{
+			for (MetalType metalType : Arrays.stream(EnumUtils.METAL_TYPES).toList().subList(0, 16))
+			{
+				HashSet<MetalType> metalTypes = new HashSet<>();
+				metalTypes.add(metalType);
+
+				godMetalAlloyNuggetItem.addFilled(output, metalTypes, 8);
+			}
+		}
+	}
 
 	private static void addToExistingTabs(BuildCreativeModeTabContentsEvent event)
 	{

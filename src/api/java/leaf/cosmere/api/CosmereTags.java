@@ -76,9 +76,10 @@ public class CosmereTags
 
 		public static final Map<Metals.MetalType, TagKey<Item>> GOD_METAL_ALLOY_NUGGET_TAGS =
 				Arrays.stream(EnumUtils.METAL_TYPES)
+						.filter(Metals.MetalType::isGodMetal)
 						.collect(Collectors.toMap(
 								Function.identity(),
-								type -> forgeItemTag("nuggets/god_metal_" + type.getName() + "_alloy")));
+								type -> forgeItemTag("nuggets/" + type.getName() + "_alloy")));
 
 		public static final Map<Metals.MetalType, TagKey<Item>> METAL_INGOT_TAGS =
 				Arrays.stream(EnumUtils.METAL_TYPES)

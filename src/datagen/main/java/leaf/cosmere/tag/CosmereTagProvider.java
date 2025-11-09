@@ -113,7 +113,7 @@ public class CosmereTagProvider extends BaseTagProvider
 				}
 
 				// Add the metal alloy nugget to the nugget tags
-				if(!metalType.isGodMetal())
+				if(metalType.isGodMetal())
 				{
 					final TagKey<Item> godMetalAlloyNuggetTag = metalType.getGodMetalAlloyNuggetTag();
 					getItemBuilder(Tags.Items.NUGGETS).add(godMetalAlloyNuggetTag);
