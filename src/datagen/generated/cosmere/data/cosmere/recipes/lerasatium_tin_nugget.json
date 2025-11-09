@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "cosmere:tin_nugget"
+    },
+    "J": {
+      "item": "cosmere:lerasatium_god_nugget"
+    }
+  },
+  "pattern": [
+    "III",
+    "IJI",
+    "III"
+  ],
+  "result": {
+    "count": 8,
+    "item": "cosmere:lerasatium_alloy_nugget",
+    "nbt": "{alloyedMetals:[I;2],nuggetSize:8}"
+  },
+  "show_notification": true
+}
