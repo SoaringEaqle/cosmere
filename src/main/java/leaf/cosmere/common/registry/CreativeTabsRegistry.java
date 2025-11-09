@@ -5,7 +5,6 @@
 package leaf.cosmere.common.registry;
 
 import leaf.cosmere.api.EnumUtils;
-import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.api.providers.IItemProvider;

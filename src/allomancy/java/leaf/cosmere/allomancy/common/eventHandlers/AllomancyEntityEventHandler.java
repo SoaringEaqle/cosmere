@@ -11,7 +11,6 @@ import leaf.cosmere.allomancy.common.manifestation.AllomancyChromium;
 import leaf.cosmere.allomancy.common.manifestation.AllomancyNicrosil;
 import leaf.cosmere.allomancy.common.manifestation.AllomancyPewter;
 import leaf.cosmere.allomancy.common.utils.MiscHelper;
-import leaf.cosmere.api.IGrantsManifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
 import leaf.cosmere.common.items.GodMetalNuggetItem;

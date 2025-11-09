@@ -15,7 +15,6 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
-import java.util.Set;
 
 public class MetalNuggetItem extends MetalItem
 {

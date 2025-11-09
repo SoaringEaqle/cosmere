@@ -4,7 +4,6 @@
 
 package leaf.cosmere.feruchemy.common.eventHandlers;
 
-import leaf.cosmere.api.IGrantsManifestations;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.EntityHelper;
 import leaf.cosmere.common.items.GodMetalAlloyNuggetItem;
