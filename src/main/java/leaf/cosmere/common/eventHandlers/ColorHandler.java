@@ -4,11 +4,11 @@
 
 package leaf.cosmere.common.eventHandlers;
 
-import leaf.cosmere.api.IHasAlloy;
 import leaf.cosmere.api.IHasColour;
 import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.common.config.CosmereConfigs;
+import leaf.cosmere.common.items.AlloyNuggetItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
@@ -38,13 +38,9 @@ public final class ColorHandler
 		ItemColor itemColorHandler =
 				(itemStack, tintIndex) ->
 				{
-					if(tintIndex == 0)
-					{
-						if(!(itemStack.getItem() instanceof IHasAlloy alloyItem)) return -1;
-						HashSet<MetalType> metals = alloyItem.readMetalAlloyNbtData(itemStack);
-						return alloyItem.getColourValue(metals);
-					}
-					return -1;
+					if(tintIndex != 0) return -1;
+					if(!(itemStack.getItem() instanceof AlloyNuggetItem alloyNuggetItem)) return -1;
+					return alloyNuggetItem.getColourValue();
 				};
 
 		ItemColor blockItemColorHandler =
@@ -90,7 +86,7 @@ public final class ColorHandler
 					continue;
 				}
 
-				if (item instanceof IHasAlloy)
+				if (item instanceof AlloyNuggetItem)
 				{
 					itemColors.register(itemColorHandler, item);
 				}

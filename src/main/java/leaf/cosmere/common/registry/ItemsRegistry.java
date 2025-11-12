@@ -58,15 +58,20 @@ public class ItemsRegistry
 									() -> new MetalNuggetItem(type)
 							)));
 
-	public static final Map<Metals.MetalType, ItemRegistryObject<GodMetalAlloyNuggetItem>> GOD_METAL_ALLOY_NUGGETS =
-			Arrays.stream(EnumUtils.METAL_TYPES)
-					.filter(Metals.MetalType::isGodMetal)
+	public static final Map<Metals.MetalType, Map<Metals.MetalType, ItemRegistryObject<GodMetalAlloyNuggetItem>>> GOD_METAL_ALLOY_NUGGETS =
+			Arrays.stream(new Metals.MetalType[] { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM })
 					.collect(Collectors.toMap(
-							Function.identity(),
-							type -> ITEMS.register(
-									type.getName() + "_alloy" + RegNameStubs.NUGGET,
-									() -> new GodMetalAlloyNuggetItem(type)
-							)));
+							Function.identity(), // key: the god metal itself
+							godMetalType -> Arrays.stream(EnumUtils.METAL_TYPES)
+									.filter(type -> !type.isGodMetal())
+									.collect(Collectors.toMap(
+											Function.identity(), // key: base metal
+											metalType -> ITEMS.register(
+													godMetalType.getName() + "_" + metalType.getName() + "_alloy" + RegNameStubs.NUGGET,
+													() -> new GodMetalAlloyNuggetItem(godMetalType, metalType)
+											)
+									))
+					));
 
 	public static final Map<Metals.MetalType, ItemRegistryObject<Item>> GOD_METAL_NUGGETS =
 			Arrays.stream(EnumUtils.METAL_TYPES)

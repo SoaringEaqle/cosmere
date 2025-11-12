@@ -41,15 +41,15 @@ public class GodMetalAlloyNuggetItem extends AlloyNuggetItem implements IHasSize
 		return MAX_SIZE;
 	}
 
-	public GodMetalAlloyNuggetItem(Metals.MetalType metalType)
+	public GodMetalAlloyNuggetItem(Metals.MetalType metalType, Metals.MetalType alloyedMetalType)
 	{
-		super(metalType);
+
+		super(metalType, alloyedMetalType);
 	}
 
-	public void addFilled(CreativeModeTab.Output output, HashSet<Metals.MetalType> alloyedMetals, int size)
+	public void addFilled(CreativeModeTab.Output output, int size)
 	{
 		ItemStack itemStack = new ItemStack(this);
-		writeMetalAlloyNbtData(itemStack, alloyedMetals);
 		writeMetalAlloySizeNbtData(itemStack, size);
 		output.accept(itemStack);
 	}
@@ -58,24 +58,17 @@ public class GodMetalAlloyNuggetItem extends AlloyNuggetItem implements IHasSize
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
 	{
-		HashSet<Metals.MetalType> metalTypes = readMetalAlloyNbtData(stack);
 		Integer size = readMetalAlloySizeNbtData(stack);
 
-		if (metalTypes != null)
-		{
-			MutableComponent metalListComponent = Component.empty();
-			metalListComponent.append(Component.translatable(this.getMetalType().getTranslationKey())
-					.withStyle(Style.EMPTY.withColor(this.getMetalType().getColorValue())));
-			for (Metals.MetalType metalType : metalTypes)
-			{
-				metalListComponent.append(Component.literal(" / ").withStyle(ChatFormatting.WHITE));
-				metalListComponent.append(Component.translatable(metalType.getTranslationKey())
-						.withStyle(Style.EMPTY.withColor(metalType.getColorValue())));
-			}
+		MutableComponent metalListComponent = Component.empty();
+		metalListComponent.append(Component.translatable(this.getMetalType().getTranslationKey())
+				.withStyle(Style.EMPTY.withColor(this.getMetalType().getColorValue())));
 
-			tooltip.add(metalListComponent);
-		}
+		metalListComponent.append(Component.literal(" / ").withStyle(ChatFormatting.WHITE));
+		metalListComponent.append(Component.translatable(alloyedMetalType.getTranslationKey())
+				.withStyle(Style.EMPTY.withColor(alloyedMetalType.getColorValue())));
 
+		tooltip.add(metalListComponent);
 		tooltip.add(Component.literal("Size: ").withStyle(ChatFormatting.WHITE).append(
 				Component.literal(size + "/" + MAX_SIZE).withStyle(ChatFormatting.GRAY)));
 
@@ -113,34 +106,25 @@ public class GodMetalAlloyNuggetItem extends AlloyNuggetItem implements IHasSize
 	{
 		ArrayList<Manifestation> manifestations = new ArrayList<>();
 
-		HashSet<Metals.MetalType> metals = readMetalAlloyNbtData(itemStack);
-		if (metals == null) return manifestations;
-
 		Manifestation manifestation;
 		if (this.getMetalType() == Metals.MetalType.LERASIUM)
 		{
-			for(Metals.MetalType metal : metals)
+			manifestation = Manifestations.ManifestationTypes.ALLOMANCY.getManifestation(alloyedMetalType.getID());
+			if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
 			{
-				manifestation = Manifestations.ManifestationTypes.ALLOMANCY.getManifestation(metal.getID());
-				if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
-				{
-					manifestations.add(manifestation);
-				}
+				manifestations.add(manifestation);
 			}
+
 		}
 		else if (this.getMetalType() == Metals.MetalType.LERASATIUM)
 		{
-			for(Metals.MetalType metal : metals)
+			manifestation = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(alloyedMetalType.getID());
+			if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
 			{
-				manifestation = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(metal.getID());
-				if (manifestation.getManifestationType() != Manifestations.ManifestationTypes.NONE)
-				{
-					manifestations.add(manifestation);
-				}
+				manifestations.add(manifestation);
 			}
 		}
 		return manifestations;
-
 	}
 
 	@Override

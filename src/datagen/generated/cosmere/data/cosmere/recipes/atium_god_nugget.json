@@ -7,7 +7,6 @@
     }
   ],
   "result": {
-    "item": "cosmere:atium_god_nugget",
-    "nbt": "{nuggetSize:16}"
+    "item": "cosmere:atium_god_nugget"
   }
 }
