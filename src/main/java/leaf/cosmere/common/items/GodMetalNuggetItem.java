@@ -74,14 +74,12 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 		ItemStack out = stack.copy();
 		CompoundTag tag = out.getOrCreateTag();
 
-		int size = tag.contains("nuggetSize") ? tag.getInt("nuggetSize") : 4;
-		int newSize = size - 4;
+		int size = tag.contains("nuggetSize") ? tag.getInt("nuggetSize") : this.getMinSize();
+		int newSize = size - 1;
 		tag.putInt("nuggetSize", newSize);
 
-		if (newSize < 4) {
-			out.shrink(1);
-			tag.putInt("nuggetSize", this.getMaxSize());
-			return out;
+		if (newSize < 1) {
+			return ItemStack.EMPTY;
 		}
 
 		return out;

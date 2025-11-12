@@ -4,6 +4,7 @@
 
 package leaf.cosmere;
 
+import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.IHasMetalType;
 import leaf.cosmere.api.IHasSize;
 import leaf.cosmere.api.Metals;
@@ -293,13 +294,13 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 
 		if(!(inputGodMetal instanceof IHasMetalType godMetalItem)) return;
 		CompoundTag outNbt = new CompoundTag();
-		outNbt.putInt("nuggetSize", 8);
 		int[] metalIds = new int[] { metalType.getID() };
 		outNbt.putIntArray("alloyedMetals", metalIds);
 
 		String name = godMetalItem.getMetalType().getName() + "_" +
 				metalType.getName() + "_nugget";
 
+		outNbt.putInt("nuggetSize", 2);
 		NbtShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output, 8)
 				.define('I', inputMetal)
 				.define('J', inputGodMetal)
@@ -308,7 +309,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.pattern("III")
 				.unlockedBy("has_item", has(inputGodMetal))
 				.resultNbt(outNbt)
-				.save(consumer, new ResourceLocation(Cosmere.MODID, name));
+				.save(consumer, new ResourceLocation(Cosmere.MODID, name + "_small"));
 	}
 
 	protected void godMetalNuggetRecipe(Consumer<FinishedRecipe> consumer, ItemLike inputGodMetal)
@@ -325,6 +326,42 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.unlockedBy("has_item", has(inputGodMetal))
 				.resultNbt(outNbt)
 				.save(consumer, new ResourceLocation(Cosmere.MODID, name));
+	}
+
+	protected void godMetalAlloyNuggetRecipe(Consumer<FinishedRecipe> consumer, ItemLike inputGodMetal)
+	{
+		if(!(inputGodMetal instanceof IHasMetalType godMetalItem)) return;
+
+		for(int inSize = 1; inSize <= 8; inSize*=2)
+		{
+			for(Metals.MetalType metalType : EnumUtils.METAL_TYPES)
+			{
+				if(metalType.hasAssociatedManifestation() && !metalType.isGodMetal())
+				{
+					CompoundTag nbt = new CompoundTag();
+					nbt.putInt("nuggetSize", inSize);
+					nbt.putIntArray("alloyedMetals", new int[] { metalType.getID() });
+
+					CompoundTag outNbt = new CompoundTag();
+					outNbt.putInt("nuggetSize", inSize*2);
+					outNbt.putIntArray("alloyedMetals", new int[] { metalType.getID() });
+
+					String name = godMetalItem.getMetalType().getName() + "_" + metalType.getName() + "_alloy_nugget_" + inSize;
+
+					NbtShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetalItem.getMetalType()))
+							.requiresPartial(ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetalItem.getMetalType()), nbt, 2)
+							.unlockedBy("has_item", has(inputGodMetal))
+							.resultNbt(outNbt)
+							.save(consumer, new ResourceLocation(Cosmere.MODID, name + "_decompress"));
+
+					NbtShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetalItem.getMetalType()), 2)
+							.requiresPartial(ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetalItem.getMetalType()), outNbt, 1)
+							.unlockedBy("has_item", has(inputGodMetal))
+							.resultNbt(nbt)
+							.save(consumer, new ResourceLocation(Cosmere.MODID, name + "_compress"));
+				}
+			}
+		}
 	}
 
 	protected ShapedRecipeBuilder compressRecipe(ItemLike output, TagKey<Item> input, ItemLike center)

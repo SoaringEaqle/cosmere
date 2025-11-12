@@ -23,6 +23,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -120,6 +121,7 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 			if(metalType.isGodMetal())
 			{
 				godMetalNuggetRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get());
+				godMetalAlloyNuggetRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get());
 			}
 
 			if (metalType.isAlloy())
