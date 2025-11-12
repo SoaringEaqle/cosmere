@@ -348,9 +348,9 @@ public class Metals
 			return CosmereTags.Items.METAL_NUGGET_TAGS.get(this);
 		}
 
-		public TagKey<Item> getGodMetalAlloyNuggetTag()
+		public TagKey<Item> getGodMetalAlloyNuggetTag(MetalType alloyedMetalType)
 		{
-			return CosmereTags.Items.GOD_METAL_ALLOY_NUGGET_TAGS.get(this);
+			return CosmereTags.Items.GOD_METAL_ALLOY_NUGGET_TAGS.get(this).get(alloyedMetalType);
 		}
 
 

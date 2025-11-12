@@ -9,14 +9,12 @@ import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.registry.BlocksRegistry;
+import leaf.cosmere.common.registry.CosmereRecipesRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import leaf.cosmere.common.resource.ore.OreType;
 import leaf.cosmere.common.util.CosmereEnumUtils;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -62,41 +60,6 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 
 		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
-			// God Metal Alloy Nugget Recipes
-			if(!metalType.isGodMetal() && metalType.hasAssociatedManifestation())
-			{
-				Metals.MetalType[] godMetals = { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM };
-				for(Metals.MetalType godMetal : godMetals)
-				{
-					if(!metalType.hasMaterialItem())
-					{
-						Item item;
-						switch (metalType)
-						{
-							case IRON:
-								item = Items.IRON_NUGGET;
-								break;
-							case GOLD:
-								item = Items.GOLD_NUGGET;
-								break;
-							default:
-								item = Items.IRON_NUGGET;
-						}
-						godMetalAlloyRecipe(consumer,
-								ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetal).get(),
-								item,
-								ItemsRegistry.GOD_METAL_NUGGETS.get(godMetal).get());
-					}
-					else
-					{
-						godMetalAlloyRecipe(consumer,
-								ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetal).get(),
-								ItemsRegistry.METAL_NUGGETS.get(metalType).get(),
-								ItemsRegistry.GOD_METAL_NUGGETS.get(godMetal).get());
-					}
-				}
-			}
-
 			//theres no reason for uss to add ways to recipe blocks/ingots that minecraft already has
 			final Metals.MetalType[] blacklistedTypes = {Metals.MetalType.IRON, Metals.MetalType.GOLD,};
 			if (Arrays.stream(blacklistedTypes).anyMatch(metalType::equals))
@@ -121,7 +84,6 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 			if(metalType.isGodMetal())
 			{
 				godMetalNuggetRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get());
-				godMetalAlloyNuggetRecipe(consumer, ItemsRegistry.METAL_NUGGETS.get(metalType).get());
 			}
 
 			if (metalType.isAlloy())
@@ -143,6 +105,18 @@ public class RecipeGen extends BaseRecipeProvider implements IConditionBuilder
 			addOreSmeltingRecipes(consumer, BlocksRegistry.METAL_ORE.get(oreType).deepslate().getBlock(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
 			addOreSmeltingRecipes(consumer, ItemsRegistry.METAL_RAW_ORE.get(metalType).get(), ItemsRegistry.METAL_INGOTS.get(metalType).asItem(), 1.0f, 200);
 		}
+
+		SpecialRecipeBuilder.special(CosmereRecipesRegistry.GOD_METAL_ALLOY_NUGGET_RECIPE.get())
+				.save(consumer, new ResourceLocation(Cosmere.MODID,
+						CosmereRecipesRegistry.GOD_METAL_ALLOY_NUGGET_RECIPE.getInternalRegistryName()).toString());
+
+		SpecialRecipeBuilder.special(CosmereRecipesRegistry.GOD_METAL_ALLOY_NUGGET_COMPRESS.get())
+				.save(consumer, new ResourceLocation(Cosmere.MODID,
+						CosmereRecipesRegistry.GOD_METAL_ALLOY_NUGGET_COMPRESS.getInternalRegistryName()).toString());
+
+		SpecialRecipeBuilder.special(CosmereRecipesRegistry.GOD_METAL_ALLOY_NUGGET_DECOMPRESS.get())
+				.save(consumer, new ResourceLocation(Cosmere.MODID,
+						CosmereRecipesRegistry.GOD_METAL_ALLOY_NUGGET_DECOMPRESS.getInternalRegistryName()).toString());
 
 	}
 

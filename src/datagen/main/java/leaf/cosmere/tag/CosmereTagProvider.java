@@ -113,16 +113,19 @@ public class CosmereTagProvider extends BaseTagProvider
 				}
 
 				// Add the metal alloy nugget to the nugget tags
-				if(metalType.isGodMetal())
+				if(!metalType.isGodMetal())
 				{
-					final TagKey<Item> godMetalAlloyNuggetTag = metalType.getGodMetalAlloyNuggetTag();
-					getItemBuilder(Tags.Items.NUGGETS).add(godMetalAlloyNuggetTag);
-
-					ItemRegistryObject<GodMetalAlloyNuggetItem> alloyNugRegObj = ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(metalType);
-					if (alloyNugRegObj != null)
+					for(Metals.MetalType godMetalType : new Metals.MetalType[] { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM})
 					{
-						Item nuggetItem = alloyNugRegObj.asItem();
-						addToTag(godMetalAlloyNuggetTag, nuggetItem);
+						final TagKey<Item> godMetalAlloyNuggetTag = godMetalType.getGodMetalAlloyNuggetTag(metalType);
+						getItemBuilder(Tags.Items.NUGGETS).add(godMetalAlloyNuggetTag);
+
+						ItemRegistryObject<GodMetalAlloyNuggetItem> alloyNugRegObj = ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetalType).get(metalType);
+						if (alloyNugRegObj != null)
+						{
+							Item nuggetItem = alloyNugRegObj.asItem();
+							addToTag(godMetalAlloyNuggetTag, nuggetItem);
+						}
 					}
 				}
 			}

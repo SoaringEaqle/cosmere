@@ -59,7 +59,7 @@ public class CreativeTabsRegistry
 				HashSet<MetalType> metalTypes = new HashSet<>();
 				metalTypes.add(metalType);
 
-				godMetalAlloyNuggetItem.addFilled(output, metalTypes, 8);
+				godMetalAlloyNuggetItem.addFilled(output, 8);
 			}
 		}
 	}

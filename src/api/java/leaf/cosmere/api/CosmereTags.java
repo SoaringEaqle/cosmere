@@ -74,12 +74,17 @@ public class CosmereTags
 								Function.identity(),
 								type -> forgeItemTag("nuggets/" + type.getName())));
 
-		public static final Map<Metals.MetalType, TagKey<Item>> GOD_METAL_ALLOY_NUGGET_TAGS =
-				Arrays.stream(EnumUtils.METAL_TYPES)
-						.filter(Metals.MetalType::isGodMetal)
+		public static final Map<Metals.MetalType, Map<Metals.MetalType, TagKey<Item>>> GOD_METAL_ALLOY_NUGGET_TAGS =
+				Arrays.stream(new Metals.MetalType[]{Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM})
 						.collect(Collectors.toMap(
-								Function.identity(),
-								type -> forgeItemTag("nuggets/" + type.getName() + "_alloy")));
+								Function.identity(), // key: god metal
+								god -> Arrays.stream(EnumUtils.METAL_TYPES)
+										.filter(base -> !base.isGodMetal())
+										.collect(Collectors.toMap(
+												Function.identity(), // key: base metal
+												base -> forgeItemTag("nuggets/" + god.getName() + "_" + base.getName() + "_alloy")
+										))
+						));
 
 		public static final Map<Metals.MetalType, TagKey<Item>> METAL_INGOT_TAGS =
 				Arrays.stream(EnumUtils.METAL_TYPES)

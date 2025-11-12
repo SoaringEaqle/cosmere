@@ -7,7 +7,6 @@
     }
   ],
   "result": {
-    "item": "cosmere:lerasium_god_nugget",
-    "nbt": "{nuggetSize:16}"
+    "item": "cosmere:lerasium_god_nugget"
   }
 }
