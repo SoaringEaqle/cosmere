@@ -54,9 +54,15 @@ public class AllomancyEntityEventHandler
 			if (stack.getItem() instanceof MetalNuggetItem metalNuggetItem)
 			{
 				// Don't alloy for consuming normal metal nuggets
-				if (!(stack.getItem() instanceof GodMetalAlloyNuggetItem) && !(stack.getItem() instanceof GodMetalNuggetItem)) return;
+				if (!(stack.getItem() instanceof GodMetalAlloyNuggetItem) && !(stack.getItem() instanceof GodMetalNuggetItem))
+				{
+					return;
+				}
 				// Only consume the nugget if it contains Lerasium
-				if (metalNuggetItem.getMetalType().isGodMetal() && metalNuggetItem.getMetalType() != Metals.MetalType.LERASIUM) return;
+				if (metalNuggetItem.getMetalType().isGodMetal() && metalNuggetItem.getMetalType() != Metals.MetalType.LERASIUM)
+				{
+					return;
+				}
 
 				MiscHelper.consumeNugget(target, stack);
 				stack.shrink(1);
@@ -72,14 +78,19 @@ public class AllomancyEntityEventHandler
 	@SubscribeEvent
 	public static void onFinishUsingItem(LivingEntityUseItemEvent.Finish event)
 	{
-		if (event.isCanceled()) return;
+		if (event.isCanceled())
+		{
+			return;
+		}
 		final LivingEntity livingEntity = event.getEntity();
-		if(livingEntity.level().isClientSide) return;
 
 		if (event.getItem().getItem() instanceof MetalNuggetItem metalNuggetItem)
 		{
 			// Only consume the nugget if it contains Lerasium
-			if(metalNuggetItem.getMetalType().isGodMetal() && metalNuggetItem.getMetalType() != Metals.MetalType.LERASIUM) return;
+			if (metalNuggetItem.getMetalType().isGodMetal() && metalNuggetItem.getMetalType() != Metals.MetalType.LERASIUM)
+			{
+				return;
+			}
 			MiscHelper.consumeNugget(livingEntity, event.getItem());
 		}
 	}

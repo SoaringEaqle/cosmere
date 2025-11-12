@@ -4,8 +4,6 @@
 
 package leaf.cosmere.common.registry;
 
-import leaf.cosmere.api.EnumUtils;
-import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.common.Cosmere;
@@ -19,8 +17,6 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 public class CreativeTabsRegistry
@@ -48,21 +44,6 @@ public class CreativeTabsRegistry
 										CreativeTabDeferredRegister.addToDisplay(BlocksRegistry.BLOCKS, output);
 									})
 			);
-
-	private static void handleGodMetalNuggetItem(GodMetalAlloyNuggetItem godMetalAlloyNuggetItem, CreativeModeTab.Output output)
-	{
-		if(godMetalAlloyNuggetItem.getMetalType() == MetalType.LERASIUM ||
-				godMetalAlloyNuggetItem.getMetalType() == MetalType.LERASATIUM)
-		{
-			for (MetalType metalType : Arrays.stream(EnumUtils.METAL_TYPES).toList().subList(0, 16))
-			{
-				HashSet<MetalType> metalTypes = new HashSet<>();
-				metalTypes.add(metalType);
-
-				godMetalAlloyNuggetItem.addFilled(output, 8);
-			}
-		}
-	}
 
 	private static void addToExistingTabs(BuildCreativeModeTabContentsEvent event)
 	{

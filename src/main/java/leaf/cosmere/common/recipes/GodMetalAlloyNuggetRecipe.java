@@ -1,6 +1,5 @@
 package leaf.cosmere.common.recipes;
 
-import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.common.Cosmere;
@@ -10,9 +9,7 @@ import leaf.cosmere.common.items.MetalNuggetItem;
 import leaf.cosmere.common.registry.CosmereRecipesRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,11 +19,8 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
-import java.util.Optional;
 
 public class GodMetalAlloyNuggetRecipe extends CustomRecipe
 {

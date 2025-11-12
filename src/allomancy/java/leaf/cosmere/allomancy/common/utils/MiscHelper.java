@@ -51,7 +51,7 @@ public class MiscHelper
 			{
 				Metals.MetalType metalType = metalItem.getMetalType();
 				SpiritwebCapability spiritweb = (SpiritwebCapability) iSpiritweb;
-				if (metalType != Metals.MetalType.LERASATIUM) //ignore lerasatium, that's handled in feruchemy
+				if (metalType.hasAssociatedManifestation()) //ignore metals without manifestations, that's handled in feruchemy
 				{
 					//add to metal stored
 					final int addAmount = metalType.getAllomancyBurnTimeSeconds();
