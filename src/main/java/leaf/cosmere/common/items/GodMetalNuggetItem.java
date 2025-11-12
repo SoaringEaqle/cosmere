@@ -72,16 +72,12 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 	@Override
 	public ItemStack getCraftingRemainingItem(ItemStack stack) {
 		ItemStack out = stack.copy();
-		CompoundTag tag = out.getOrCreateTag();
+		int size = readMetalAlloySizeNbtData(stack);
 
-		int size = tag.contains("nuggetSize") ? tag.getInt("nuggetSize") : this.getMinSize();
 		int newSize = size - 1;
-		tag.putInt("nuggetSize", newSize);
+		if (newSize < 1) return ItemStack.EMPTY;
 
-		if (newSize < 1) {
-			return ItemStack.EMPTY;
-		}
-
+		writeMetalAlloySizeNbtData(out, newSize);
 		return out;
 	}
 
