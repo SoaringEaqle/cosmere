@@ -5,7 +5,6 @@
 package leaf.cosmere.common.eventHandlers;
 
 import leaf.cosmere.api.IHasColour;
-import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.common.config.CosmereConfigs;
 import leaf.cosmere.common.items.AlloyNuggetItem;

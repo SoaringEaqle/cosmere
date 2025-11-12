@@ -23,7 +23,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class GodMetalAlloyNuggetItem extends AlloyNuggetItem implements IHasSize, IGrantsManifestations
