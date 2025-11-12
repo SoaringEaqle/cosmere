@@ -93,8 +93,20 @@ public class GodMetalAlloyNuggetRecipe extends CustomRecipe
 		GodMetalNuggetItem godMetalNuggetItem = (GodMetalNuggetItem) inv.getItem(4).getItem();
 		MetalType godMetalType = godMetalNuggetItem.getMetalType();
 
-		MetalNuggetItem metalNuggetItem = (MetalNuggetItem) inv.getItem(0).getItem();
-		MetalType metalType = metalNuggetItem.getMetalType();
+		MetalType metalType = null;
+		if(inv.getItem(0).getItem() == Items.IRON_NUGGET)
+		{
+			metalType = MetalType.IRON;
+		}
+		else if (inv.getItem(0).getItem() == Items.GOLD_NUGGET)
+		{
+			metalType = MetalType.GOLD;
+		}
+		else
+		{
+			MetalNuggetItem metalNuggetItem = (MetalNuggetItem) inv.getItem(0).getItem();
+			metalType = metalNuggetItem.getMetalType();
+		}
 
 		ItemStack itemStack = new ItemStack(ItemsRegistry.GOD_METAL_ALLOY_NUGGETS.get(godMetalType).get(metalType));
 		GodMetalAlloyNuggetItem item = (GodMetalAlloyNuggetItem) itemStack.getItem();
