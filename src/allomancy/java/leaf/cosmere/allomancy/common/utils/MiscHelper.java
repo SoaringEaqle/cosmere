@@ -21,10 +21,7 @@ public class MiscHelper
 
 	public static void consumeNugget(LivingEntity livingEntity, ItemStack itemStack)
 	{
-		if (livingEntity.level().isClientSide)
-		{
-			return;
-		}
+		if (livingEntity.level().isClientSide) return;
 
 		if(itemStack.getItem() instanceof IGrantsManifestations manifestingItem && itemStack.getItem() instanceof IHasSize sizeItem)
 		{
