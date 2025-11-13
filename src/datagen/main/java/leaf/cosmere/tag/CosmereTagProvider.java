@@ -113,7 +113,7 @@ public class CosmereTagProvider extends BaseTagProvider
 				}
 
 				// Add the metal alloy nugget to the nugget tags
-				if(!metalType.isGodMetal())
+				if(!metalType.isGodMetal() && metalType.hasAssociatedManifestation())
 				{
 					for(Metals.MetalType godMetalType : new Metals.MetalType[] { Metals.MetalType.LERASIUM, Metals.MetalType.LERASATIUM})
 					{

@@ -52,17 +52,9 @@
     "#forge:nuggets/lerasium",
     "#forge:nuggets/harmonium",
     "#forge:nuggets/malatium",
-    "#forge:nuggets/lerasium_malatium_alloy",
-    "#forge:nuggets/lerasatium_malatium_alloy",
     "#forge:nuggets/lerasatium",
     "#forge:nuggets/nickel",
-    "#forge:nuggets/lerasium_nickel_alloy",
-    "#forge:nuggets/lerasatium_nickel_alloy",
     "#forge:nuggets/lead",
-    "#forge:nuggets/lerasium_lead_alloy",
-    "#forge:nuggets/lerasatium_lead_alloy",
-    "#forge:nuggets/silver",
-    "#forge:nuggets/lerasium_silver_alloy",
-    "#forge:nuggets/lerasatium_silver_alloy"
+    "#forge:nuggets/silver"
   ]
 }
