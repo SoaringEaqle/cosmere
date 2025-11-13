@@ -63,7 +63,8 @@ public class ItemsRegistry
 					.collect(Collectors.toMap(
 							Function.identity(), // key: the god metal itself
 							godMetalType -> Arrays.stream(EnumUtils.METAL_TYPES)
-									.filter(type -> !type.isGodMetal())
+									.filter(Metals.MetalType::hasAssociatedManifestation)
+									.filter(metalType -> !metalType.isGodMetal())
 									.collect(Collectors.toMap(
 											Function.identity(), // key: base metal
 											metalType -> ITEMS.register(

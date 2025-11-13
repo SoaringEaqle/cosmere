@@ -7,7 +7,6 @@ package leaf.cosmere.common.eventHandlers;
 import leaf.cosmere.api.IHasColour;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.common.config.CosmereConfigs;
-import leaf.cosmere.common.items.AlloyNuggetItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
@@ -18,8 +17,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.HashSet;
 
 public final class ColorHandler
 {
@@ -35,12 +32,9 @@ public final class ColorHandler
 		ItemColors itemColors = Minecraft.getInstance().getItemColors();
 
 		ItemColor itemColorHandler =
-				(itemStack, tintIndex) ->
-				{
-					if(tintIndex != 0) return -1;
-					if(!(itemStack.getItem() instanceof AlloyNuggetItem alloyNuggetItem)) return -1;
-					return alloyNuggetItem.getColourValue();
-				};
+				(itemStack, tintIndex) -> tintIndex == 0
+				                          ? ((IHasColour) itemStack.getItem()).getColourValue()
+				                          : -1;
 
 		ItemColor blockItemColorHandler =
 				(itemStack, tintIndex) -> tintIndex == 0
@@ -79,13 +73,13 @@ public final class ColorHandler
 				//todo temp?
 				if (//!itemNamespace.equals("surgebinding") &&
 						!itemNamespace.equals("cosmeretools")
-					&& !itemNamespace.equals("cosmere")
+					//&& !itemNamespace.equals("cosmere")
 				)
 				{
 					continue;
 				}
 
-				if (item instanceof AlloyNuggetItem)
+				if (item instanceof IHasColour)
 				{
 					itemColors.register(itemColorHandler, item);
 				}

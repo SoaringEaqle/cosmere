@@ -44,7 +44,7 @@ public class ItemModelsGen extends ItemModelProvider
 			}
 			else if (item instanceof GodMetalAlloyNuggetItem godMetalAlloyNuggetItem)
 			{
-				simpleItem(path, godMetalAlloyNuggetItem.getMetalType().getName() + "_nugget");
+				simpleItem(path, godMetalAlloyNuggetItem.getMetalType().getName() + "_" + godMetalAlloyNuggetItem.getAlloyedMetalType().getName() + "_nugget");
 				continue;
 			}
 			else if (item instanceof GodMetalNuggetItem godMetalNuggetItem)
