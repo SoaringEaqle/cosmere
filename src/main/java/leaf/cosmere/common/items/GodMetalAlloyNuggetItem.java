@@ -142,13 +142,19 @@ public class GodMetalAlloyNuggetItem extends AlloyNuggetItem implements IHasSize
 					currentStrength = (int) attributeInstance.getValue();
 				}
 
-				// Let's ensure not to update the base value if it's out of range,
+				// Let's ensure not to exceed the base value if it's out of range,
 				// even if it will get sanitized
 				int newStrength = strength + currentStrength;
-				if(newStrength >= attribute.getMinValue() && newStrength <= attribute.getMaxValue())
+				if(newStrength < attribute.getMinValue())
 				{
-					spiritweb.giveManifestation(manifestation, strength+currentStrength);
+					newStrength = (int) attribute.getMinValue();
 				}
+				else if (newStrength > attribute.getMaxValue())
+				{
+					newStrength = (int) attribute.getMaxValue();
+				}
+
+				spiritweb.giveManifestation(manifestation, newStrength);
 			}
 
 			if (livingEntity instanceof ServerPlayer serverPlayer)
