@@ -250,18 +250,6 @@ public interface IHemalurgicInfo
 	{
 		UUID hemalurgicIdentity = getHemalurgicIdentity(stack);
 
-		if (hemalurgicIdentity != null)
-		{
-			// no matter what, spike reduces spiritweb integrity. Fixed value? Dynamic based on spike?
-			attributeModifiers.put(HemalurgyAttributes.SPIRITWEB_INTEGRITY.getAttribute(),
-					new AttributeModifier(
-							hemalurgicIdentity,
-							"Spiritweb Integrity",
-							-1,
-							AttributeModifier.Operation.ADDITION
-					));
-		}
-
 		if (metalType == Metals.MetalType.ALUMINUM)
 		{
 			for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
@@ -372,7 +360,6 @@ public interface IHemalurgicInfo
 								AttributeModifier.Operation.ADDITION));
 			}
 		}
-
 
 		return attributeModifiers;
 	}

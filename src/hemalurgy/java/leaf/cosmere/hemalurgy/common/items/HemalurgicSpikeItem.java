@@ -13,7 +13,9 @@ import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.items.ChargeableMetalCurioItem;
+import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.hemalurgy.common.Hemalurgy;
+import leaf.cosmere.hemalurgy.common.registries.HemalurgyAttributes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -42,6 +44,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -88,10 +91,42 @@ public class HemalurgicSpikeItem extends ChargeableMetalCurioItem implements IHe
 		Multimap<Attribute, AttributeModifier> attributeModifiers = LinkedHashMultimap.create();
 
 		Metals.MetalType metalType = getMetalType();
-		if (stack.getItem() instanceof IHemalurgicInfo)
+		if (stack.getItem() instanceof IHemalurgicInfo hemalurgicInfo)
 		{
 			//add hemalurgic attributes, if any.
-			((IHemalurgicInfo) stack.getItem()).getHemalurgicAttributes(attributeModifiers, stack, metalType);
+			hemalurgicInfo.getHemalurgicAttributes(attributeModifiers, stack, metalType);
+
+            // add spiritweb buffs, if any
+            UUID hemalurgicIdentity = getHemalurgicIdentity(stack);
+            if (hemalurgicIdentity != null)
+            {
+                int spiritwebIntegrity = -1;
+                if (slotContext.identifier().equals("linchpin"))
+                {
+                    // linchpin always gives at least +3
+                    spiritwebIntegrity += 3;
+                    Manifestation aPewter = CosmereAPI.manifestationRegistry().getValue(new ResourceLocation("allomancy", Metals.MetalType.PEWTER.getName()));
+                    if (aPewter != null && attributeModifiers.containsKey(aPewter.getAttribute()))
+                    {
+                        // pewter gives an additional +3
+                        spiritwebIntegrity += 3;
+                    }
+                    Manifestation fGold = CosmereAPI.manifestationRegistry().getValue((new ResourceLocation("feruchemy", Metals.MetalType.GOLD.getName())));
+                    if (fGold != null && attributeModifiers.containsKey(fGold.getAttribute()))
+                    {
+                        // f-gold gives an extra +6
+                        spiritwebIntegrity += 6;
+                    }
+                }
+
+                attributeModifiers.put(HemalurgyAttributes.SPIRITWEB_INTEGRITY.getAttribute(),
+                        new AttributeModifier(
+                                hemalurgicIdentity,
+                                "Spiritweb Integrity",
+                                spiritwebIntegrity,
+                                AttributeModifier.Operation.ADDITION
+                        ));
+            }
 		}
 
 		return attributeModifiers;
