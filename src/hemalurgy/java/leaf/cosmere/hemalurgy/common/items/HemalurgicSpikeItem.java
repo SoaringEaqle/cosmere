@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 15 - 11 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy.common.items;
@@ -94,6 +94,7 @@ public class HemalurgicSpikeItem extends ChargeableMetalCurioItem implements IHe
 			((IHemalurgicInfo) stack.getItem()).getHemalurgicAttributes(attributeModifiers, stack, metalType);
 		}
 
+
 		return attributeModifiers;
 	}
 
@@ -163,16 +164,22 @@ public class HemalurgicSpikeItem extends ChargeableMetalCurioItem implements IHe
 							{
 								ItemStack allomancySpike = new ItemStack(this);
 								Manifestation allomancyMani = CosmereAPI.manifestationRegistry().getValue(new ResourceLocation("allomancy", stealType.getName()));
-								Invest(allomancySpike, allomancyMani, 7, UUID.randomUUID());
-								output.accept(allomancySpike);
+								if (allomancyMani != null)
+								{
+									Invest(allomancySpike, allomancyMani, 7, UUID.randomUUID());
+									output.accept(allomancySpike);
+								}
 							}
 							//steals feruchemical abilities
 							case PEWTER, BRASS, BENDALLOY, GOLD ->
 							{
 								ItemStack feruchemySpike = new ItemStack(this);
 								Manifestation feruchemyMani = CosmereAPI.manifestationRegistry().getValue(new ResourceLocation("feruchemy", stealType.getName()));
-								Invest(feruchemySpike, feruchemyMani, 7, UUID.randomUUID());
-								output.accept(feruchemySpike);
+								if (feruchemyMani != null)
+								{
+									Invest(feruchemySpike, feruchemyMani, 7, UUID.randomUUID());
+									output.accept(feruchemySpike);
+								}
 							}
 						}
 
