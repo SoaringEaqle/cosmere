@@ -8,7 +8,6 @@ import leaf.cosmere.api.Constants;
 import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.RegistryHelper;
-import leaf.cosmere.api.providers.IAttributeProvider;
 import leaf.cosmere.api.providers.IEntityTypeProvider;
 import leaf.cosmere.api.text.StringHelper;
 import leaf.cosmere.hemalurgy.common.Hemalurgy;
