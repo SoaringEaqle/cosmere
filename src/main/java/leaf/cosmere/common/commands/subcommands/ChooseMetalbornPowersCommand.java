@@ -147,7 +147,7 @@ public class ChooseMetalbornPowersCommand extends ModCommand
 					// always give natural level manifestation; do nothing if cosmere:none is selected
 					if (!queueItem.allomanticPower.getManifestationType().equals(Manifestations.ManifestationTypes.NONE))
 					{
-						spiritweb.giveManifestation(queueItem.allomanticPower, 9);
+						spiritweb.giveManifestation(queueItem.allomanticPower, 8);
 						source.sendSuccess(() -> Component.literal("Successfully added allomantic " + queueItem.allomanticPower.getName() + " to " + player.getName().getString()), false);   // todo localisation string
 
 						// give player metal vial according to what they chose
@@ -155,7 +155,7 @@ public class ChooseMetalbornPowersCommand extends ModCommand
 					}
 					if (!queueItem.feruchemicalPower.getManifestationType().equals(Manifestations.ManifestationTypes.NONE))
 					{
-						spiritweb.giveManifestation(queueItem.feruchemicalPower, 9);
+						spiritweb.giveManifestation(queueItem.feruchemicalPower, 8);
 						source.sendSuccess(() -> Component.literal("Successfully added feruchemical " + queueItem.feruchemicalPower.getName() + " to " + player.getName().getString()), false);   // todo localisation string
 
 						// give player metal vial according to what they chose
