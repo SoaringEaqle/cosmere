@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 5 - 3 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.capabilities;
@@ -106,7 +106,7 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 			}
 		}
 
-		//brass allomancy
+		//zinc allomancy
 		{
 			AllomancyZinc zinc = (AllomancyZinc) AllomancyManifestations.ALLOMANCY_POWERS.get(Metals.MetalType.ZINC).get();
 			final boolean zincActive = zinc.isActive(spiritweb);
@@ -132,6 +132,8 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 				{
 					//todo decide how and when we poison the user for eating large amounts of metal, that sure ain't safe champ.
 					//even if the user is immune to metal poisoning, it's still not safe to eat a bunch of metal.
+					//IIRC, it's safe until you start to digest it, that's why Kelsier recommends Vin burns off all her metals before sleeping. -Rose
+					//^^ To that effect, maybe have a counter that increments up when you have a metal ingested and increments slightly slower down over time when burning or faster when empty. When it's too high the player gets worse and worse? -Rose
 
 					//todo, decide what's appropriate for reducing ingested metal amounts
 					METALS_INGESTED.put(metalType, metalIngestAmount - 1);
@@ -214,6 +216,34 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 	}
 
 	@Override
+	public void drainInvestiture(ISpiritweb data, double strength)
+	{
+		//for the purpose of allomantic aluminum and chromium, we're going to drain all the metals from the user.
+		// I realise it doesn't quite fit for a-duralumin
+
+		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
+		{
+			int ingestedMetalAmount = getIngestedMetal(metalType);
+
+			//if metal exists
+			if (ingestedMetalAmount > 0)
+			{
+				//drain metals that are actively being burned
+				if (data.canTickManifestation(Manifestations.ManifestationTypes.ALLOMANCY.getManifestation(metalType.getID())))
+				{
+					final int amountToAdjust =
+							ingestedMetalAmount > 30 ? (ingestedMetalAmount / 2) : ingestedMetalAmount;
+					adjustIngestedMetal(
+							metalType,
+							-amountToAdjust, //take amount away
+							true);
+
+				}
+			}
+		}
+	}
+
+	@Override
 	public void renderWorldEffects(ISpiritweb spiritweb, RenderLevelStageEvent event)
 	{
 		AllomancyIronSteel ironAllomancy = (AllomancyIronSteel) AllomancyManifestations.ALLOMANCY_POWERS.get(Metals.MetalType.IRON).get();
@@ -251,11 +281,11 @@ public class AllomancySpiritwebSubmodule implements ISpiritwebSubmodule
 				{
 					if (scanResult.hasTargetedCluster)
 					{
-						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, closestMetalObject, scanResult.targetedCluster.getBlocks());
+						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, range, closestMetalObject, scanResult.targetedCluster.getBlocks());
 					}
 					else
 					{
-						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, closestMetalObject, new ArrayList<>());
+						DrawHelper.drawBlocksAtPoint(viewModelStack, Color.BLUE, scanResult.foundBlocks, range, closestMetalObject, new ArrayList<>());
 					}
 				}
 

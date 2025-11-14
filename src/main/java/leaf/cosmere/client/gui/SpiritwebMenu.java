@@ -19,7 +19,6 @@ import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.network.packets.ChangeManifestationModeMessage;
 import leaf.cosmere.common.network.packets.SetSelectedManifestationMessage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -27,7 +26,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
@@ -59,6 +57,7 @@ public class SpiritwebMenu extends Screen
 	protected SpiritwebMenu()
 	{
 		super(Component.literal("Menu"));
+		this.minecraft = getMinecraft();
 	}
 
 	@Override
@@ -91,13 +90,11 @@ public class SpiritwebMenu extends Screen
 	{
 		if (Keybindings.MANIFESTATION_MENU.consumeClick())
 		{
-			final Minecraft mc = getMinecraft();
-			final Window window = mc.getWindow();
-			init(mc, window.getGuiScaledWidth(), window.getGuiScaledHeight());
+			final Window window = this.minecraft.getWindow();
+			init(this.minecraft, window.getGuiScaledWidth(), window.getGuiScaledHeight());
 			setScaledResolution(window.getGuiScaledWidth(), window.getGuiScaledHeight());
 			this.spiritweb = spiritweb;
-			mc.screen = SpiritwebMenu.instance;
-			mc.mouseHandler.releaseMouse();
+			this.minecraft.setScreen(SpiritwebMenu.instance);
 			visibility = 0;
 			lastChange = Stopwatch.createStarted();
 
@@ -105,7 +102,7 @@ public class SpiritwebMenu extends Screen
 
 			SetupButtons();
 		}
-		if (Keybindings.MANIFESTATION_MENU.isDown())
+		if (this.minecraft.screen == SpiritwebMenu.instance)
 		{
 			raiseVisibility();
 		}
@@ -165,19 +162,12 @@ public class SpiritwebMenu extends Screen
 				return true;
 			}
 		}
-		CloseScreen();
 		return true;
 	}
 
 	private void CloseScreen()
 	{
 		this.minecraft.setScreen(null);
-		if (this.minecraft.screen == null)
-		{
-			this.minecraft.setWindowActive(true);
-			this.minecraft.getSoundManager().resume();
-			this.minecraft.mouseHandler.grabMouse();
-		}
 	}
 
 	private static class SidedMenuButton

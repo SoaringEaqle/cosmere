@@ -1,5 +1,5 @@
 /*
- * File updated ~ 26 - 2 - 2023 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.client.render.renderer;
@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import leaf.cosmere.surgebinding.client.render.SurgebindingLayerDefinitions;
 import leaf.cosmere.surgebinding.client.render.model.CrypticModel;
 import leaf.cosmere.surgebinding.common.Surgebinding;
-import leaf.cosmere.surgebinding.common.entity.Cryptic;
+import leaf.cosmere.surgebinding.common.entity.spren.Cryptic;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -24,12 +24,14 @@ public class CrypticRenderer extends MobRenderer<Cryptic, CrypticModel<Cryptic>>
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(Cryptic pEntity) {
+	public ResourceLocation getTextureLocation(Cryptic pEntity)
+	{
 		return TEXTURE;
 	}
 
 	@Override
-	public void render(Cryptic pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
+	public void render(Cryptic pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight)
+	{
 		super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
 	}
 }

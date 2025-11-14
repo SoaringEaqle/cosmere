@@ -27,6 +27,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
@@ -80,12 +81,16 @@ public class IronSteelLinesThread implements Runnable
 	}
 
 	//stops and kills thread
-	public static void stopThread()
+	public static void stopThread(boolean restart)
 	{
 		if (INSTANCE != null)
 		{
 			INSTANCE.stop();
 			INSTANCE = null;
+			if (restart)
+			{
+				startThread();
+			}
 		}
 	}
 
@@ -102,6 +107,15 @@ public class IronSteelLinesThread implements Runnable
 			lock.unlock();
 			return new ScanResult();    // empty ScanResult so it doesn't crash
 		}
+	}
+
+	public int getWeight()
+	{
+		if (scanResult.hasTargetedCluster)
+		{
+			return scanResult.targetedCluster.getBlocks().size();
+		}
+		return 1;
 	}
 
 	public void releaseScanResult()
@@ -170,6 +184,7 @@ public class IronSteelLinesThread implements Runnable
 	public void run()
 	{
 		final Minecraft mc = Minecraft.getInstance();
+		boolean restartThread = false;
 		while (!isStopping)
 		{
 			try
@@ -197,7 +212,7 @@ public class IronSteelLinesThread implements Runnable
 									// if level is null, the player has no world loaded, so stop
 									if (player == null || mc.level == null)
 									{
-										stopThread();
+										stopThread(false);
 										return false;
 									}
 									isGood = !isBlockObscured(blockPos, player, level);
@@ -224,24 +239,31 @@ public class IronSteelLinesThread implements Runnable
 				{
 					EntityHelper.getEntitiesInRange(playerEntity, scanRange, false).forEach(entity ->
 					{
-						Player player = Minecraft.getInstance().player;
-						Level level = Minecraft.getInstance().level;
-						// if level is null, the player has no world loaded, so stop
-						if (player == null || mc.level == null)
+						try
 						{
-							stopThread();
-							return;
+							Player player = Minecraft.getInstance().player;
+							Level level = Minecraft.getInstance().level;
+							// if level is null, the player has no world loaded, so stop
+							if (player == null || mc.level == null)
+							{
+								stopThread(false);
+								return;
+							}
+							if (entityContainsMetal(entity)
+									&& !isEntityObscured(entity, player, level))
+							{
+								nextScan.foundEntities.add(
+										entity.position().add(
+												0,
+												entity.getBoundingBox().getYsize() / 2,
+												0));
+								closestMetalThingLookedAt.set(compareVectors(entity.position().add(0, entity.getBoundingBox().getYsize() / 2, 0), player, closestMetalThingLookedAt.get()));
+							}
 						}
-						if (entityContainsMetal(entity)
-								&& !isEntityObscured(entity, player, level))
+						catch (ConcurrentModificationException coModE)
 						{
-							nextScan.foundEntities.add(
-									entity.position().add(
-											0,
-											entity.getBoundingBox().getYsize() / 2,
-											0));
-
-							closestMetalThingLookedAt.set(compareVectors(entity.position().add(0, entity.getBoundingBox().getYsize() / 2, 0), player, closestMetalThingLookedAt.get()));
+							// we can ignore this safely, probably
+							// if this comes back to bite us, I, Gerbagel, take no responsibility 
 						}
 					});
 				}
@@ -256,20 +278,21 @@ public class IronSteelLinesThread implements Runnable
 			catch (Exception e)
 			{
 				CosmereAPI.logger.info("Unexpected exception in lines thread: \n" + Arrays.toString(e.getStackTrace()));
+				restartThread = true;
 
 				break;
 			}
 		}
-		stopThread();
+		stopThread(restartThread);
 	}
 
 	private boolean isBlockObscured(BlockPos blockPos, Player player, Level level)
 	{
 		boolean isObscured;
 		Vec3 currVec = player.getEyePosition();
-		currVec = currVec.add(-0.75D, 0D, 0D);
+		currVec = currVec.add(-1D, 0D, 0D);
 		Vec3 endPos = blockPos.getCenter();
-		endPos = endPos.add(-0.75D, 0D, 0D);
+		endPos = endPos.add(-1D, 0D, 0D);
 		Vec3 endFloorVec = new Vec3(Math.floor(endPos.x), Math.floor(endPos.y), Math.floor(endPos.z));
 		double resistance = 0.0F;
 

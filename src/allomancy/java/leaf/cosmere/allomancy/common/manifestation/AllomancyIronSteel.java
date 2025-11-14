@@ -1,11 +1,12 @@
 /*
- * File updated ~ 17 - 3 - 2024 ~ Leaf
+ * File updated ~ 30 - 4 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.manifestation;
 
 import leaf.cosmere.allomancy.client.metalScanning.IronSteelLinesThread;
 import leaf.cosmere.allomancy.common.Allomancy;
+import leaf.cosmere.allomancy.common.config.AllomancyConfigs;
 import leaf.cosmere.allomancy.common.entities.CoinProjectile;
 import leaf.cosmere.allomancy.common.items.CoinPouchItem;
 import leaf.cosmere.api.CosmereAPI;
@@ -19,12 +20,12 @@ import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.network.packets.SyncPushPullMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -117,7 +118,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 				}
 				else if (getMode(cap) <= 0)
 				{
-					IronSteelLinesThread.stopThread();
+					IronSteelLinesThread.stopThread(false);
 				}
 				return;
 			}
@@ -156,21 +157,21 @@ public class AllomancyIronSteel extends AllomancyManifestation
 			Entity entityHitResult = null;
 
 			Vec3 closestMetalObjectVec3 = IronSteelLinesThread.getInstance().getClosestMetalObject();
-			Vec3i closestMetalObject = null;
+			BlockPos closestMetalObject = null;
 			if (closestMetalObjectVec3 != null)
 			{
-				closestMetalObject = new Vec3i((int) closestMetalObjectVec3.x(), (int) closestMetalObjectVec3.y(), (int) closestMetalObjectVec3.z());
+				closestMetalObject = BlockPos.containing(closestMetalObjectVec3);
 			}
 
 			if (closestMetalObject != null)
 			{
-				BlockState blockAtPos = level.getBlockState(new BlockPos(closestMetalObject));
+				BlockState blockAtPos = level.getBlockState(closestMetalObject);
 
 				if (blockAtPos.isAir())
 				{
 					try
 					{
-						AABB aabb = new AABB(new BlockPos(closestMetalObject));
+						AABB aabb = new AABB(closestMetalObject);
 						Entity firstMetalEntity = null;
 						for (Entity ent : level.getEntities(player, aabb, potentialEntityHit -> !potentialEntityHit.isSpectator()))
 						{
@@ -201,7 +202,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 				}
 				else
 				{
-					blocks.add(new BlockPos(closestMetalObject));
+					blocks.add(closestMetalObject);
 
 					if (blocks.size() > 5)
 					{
@@ -214,12 +215,12 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		else
 		{
 			//clear list
-			if (blocks.size() > 0)
+			if (!blocks.isEmpty())
 			{
 				blocks.clear();
 				hasChanged = true;
 			}
-			if (entities.size() > 0)
+			if (!entities.isEmpty())
 			{
 				entities.clear();
 				hasChanged = true;
@@ -236,6 +237,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 					.resultOrPartial(CosmereAPI.logger::error)
 					.ifPresent(inbt1 -> nbt.put(isPush ? "pushBlocks" : "pullBlocks", inbt1));
 			nbt.putIntArray(isPush ? "pushEntities" : "pullEntities", entities);
+			nbt.putInt("weight", IronSteelLinesThread.getInstance().getWeight());
 			Allomancy.packetHandler().sendToServer(new SyncPushPullMessage(nbt));
 		}
 	}
@@ -286,6 +288,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 	private void pushpullEntities(SpiritwebCapability data)
 	{
 		List<Integer> entities = isPush ? data.pushEntities : data.pullEntities;
+		int weight = data.pushPullWeight;
 		for (int i = entities.size() - 1; i >= 0; i--)
 		{
 			int entityID = entities.get(i);
@@ -298,20 +301,21 @@ public class AllomancyIronSteel extends AllomancyManifestation
 					//move small things
 					if (targetEntity instanceof ItemEntity itemEntity)
 					{
-						if (dataLiving instanceof Player player)
+						// pick up item if pulling
+						if (dataLiving instanceof Player player && !isPush)
 						{
 							itemEntity.playerTouch(player);
 						}
 						else
 						{
-							moveEntityTowards(itemEntity, dataLiving.blockPosition());
+							moveEntityTowards(itemEntity, dataLiving.blockPosition(), weight);
 						}
 					}
 					//affect both entities
 					else if (targetEntity instanceof LivingEntity livingEntity)
 					{
-						moveEntityTowards(livingEntity, dataLiving.blockPosition());
-						moveEntityTowards(dataLiving, livingEntity.blockPosition());
+						moveEntityTowards(livingEntity, dataLiving.blockPosition(), weight);
+						moveEntityTowards(dataLiving, livingEntity.blockPosition(), weight);
 						dataLiving.hurtMarked = true;
 					}
 					//affect entity who is doing the push/pull
@@ -319,7 +323,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 					{
 						if (isPush)
 						{
-							moveEntityTowards(dataLiving, targetEntity.blockPosition());
+							moveEntityTowards(dataLiving, targetEntity.blockPosition(), weight);
 						}
 						//if not push, then check if we should pull coin projectiles back to player
 						else if (dataLiving instanceof Player player && targetEntity instanceof CoinProjectile coinProjectile)
@@ -337,13 +341,13 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		}
 	}
 
-	private void moveEntityTowards(Entity entity, BlockPos toMoveTo)
+	private void moveEntityTowards(Entity entity, BlockPos toMoveTo, int weight)
 	{
-		Vec3 blockCenter = Vec3.atCenterOf(toMoveTo);
+		Vec3 blockCenter = toMoveTo.getCenter();
 
 		Vec3 direction = VectorHelper.getDirection(
 				blockCenter,
-				Vec3.atCenterOf(entity.blockPosition()),//use entity block position, so we can do things like hover directly over a block more easily
+				entity.blockPosition().getCenter(),//use entity block position, so we can do things like hover directly over a block more easily
 				(isPush ? -1f : 2f));
 
 		//todo, clean up all the unnecessary calculations once we find what feels good at run time
@@ -352,10 +356,13 @@ public class AllomancyIronSteel extends AllomancyManifestation
 		double shortenFactor = isPush ? 0.2 : 0.4;
 		Vec3 add = entity.getDeltaMovement().add(normalize.multiply(shortenFactor, shortenFactor, shortenFactor));
 
+		// cannot have flat multiplier; can get ridiculous
+		double adjustedWeight = 1d + Math.min(AllomancyConfigs.SERVER.MAX_PUSH_PULL_WEIGHT.get(), (weight - 1) * AllomancyConfigs.SERVER.PUSH_PULL_WEIGHT.get());
+
 		//get flung off rides
 		entity.stopRiding();
 		//don't let the motion go crazy large
-		entity.setDeltaMovement(VectorHelper.ClampMagnitude(add, 1));
+		entity.setDeltaMovement(VectorHelper.ClampMagnitude(add, 1).multiply(adjustedWeight, adjustedWeight, adjustedWeight));
 		//hurt marked true means it will tell clients that they are moving.
 		entity.hurtMarked = true;
 
@@ -372,6 +379,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 	private void pushpullBlocks(SpiritwebCapability data)
 	{
 		List<BlockPos> blocks = isPush ? data.pushBlocks : data.pullBlocks;
+		int weight = data.pushPullWeight;
 		int blockListCount = blocks.size();
 
 		if (blockListCount == 0)
@@ -393,7 +401,7 @@ public class AllomancyIronSteel extends AllomancyManifestation
 			double maxDistance = getRange(data);
 			if (blockPos.closerThan(living.blockPosition(), maxDistance))
 			{
-				moveEntityTowards(living, blockPos);
+				moveEntityTowards(living, blockPos, weight);
 			}
 			else
 			{
@@ -407,13 +415,13 @@ public class AllomancyIronSteel extends AllomancyManifestation
 
 	public static boolean entityContainsMetal(Entity entity)
 	{
+		if (containsMetal(entity))
+		{
+			return true;
+		}
+
 		if (entity instanceof LivingEntity livingEntity)
 		{
-			if (containsMetal(entity))
-			{
-				return true;
-			}
-
 			if (containsMetal(livingEntity.getMainHandItem()) || containsMetal(livingEntity.getOffhandItem()))
 			{
 				return true;
@@ -624,6 +632,22 @@ public class AllomancyIronSteel extends AllomancyManifestation
 				}
 			}
 		}
+	}
+
+	@Override
+	public int getRange(ISpiritweb data)
+	{
+		if (!isActive(data))
+		{
+			return 0;
+		}
+
+		//get allomantic strength
+		double allomanticStrength = getStrength(data, false);
+
+		//no range if compounding.
+		final double potentialRange = Math.max(getMode(data), 0) * allomanticStrength;
+		return Mth.floor(potentialRange * AllomancyConfigs.SERVER.IRON_STEEL_RANGE.get());
 	}
 }
 

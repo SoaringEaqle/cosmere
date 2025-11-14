@@ -19,6 +19,7 @@ import leaf.cosmere.api.Metals;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.registry.ItemsRegistry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -48,7 +49,8 @@ public class CoinPouchItem extends ProjectileWeaponItem
 {
 	public static final Predicate<ItemStack> SUPPORTED_PROJECTILES = (itemStack) ->
 	{
-		final boolean isNugget = itemStack.is(Tags.Items.NUGGETS);
+		// todo: fix copper nugget tagging
+		final boolean isNugget = itemStack.is(Tags.Items.NUGGETS) || itemStack.getItem() == ItemsRegistry.METAL_NUGGETS.get(Metals.MetalType.COPPER).asItem();  // don't know why copper nuggets aren't tagged
 		final boolean containsMetal = itemStack.is(CosmereTags.Items.CONTAINS_METAL);
 		final boolean isUncommonMetal = (itemStack.getItem() instanceof IHasMetalType metalType) && metalType.getMetalType().getRarity() != Rarity.COMMON;
 		return isNugget && containsMetal && !isUncommonMetal;
@@ -88,7 +90,7 @@ public class CoinPouchItem extends ProjectileWeaponItem
 			//open inventory
 			if (!player.level().isClientSide && player instanceof ServerPlayer)
 			{
-				MenuProvider container = new SimpleMenuProvider((windowID, playerInv, plyr) -> new CoinPouchContainerMenu(windowID, playerInv, coinPouchStack), coinPouchStack.getHoverName());
+				MenuProvider container = new SimpleMenuProvider((windowID, playerInv, plyr) -> new CoinPouchContainerMenu(windowID, playerInv, coinPouchStack), Component.translatable("item.allomancy.coin_pouch"));
 				NetworkHooks.openScreen((ServerPlayer) player, container, buf -> buf.writeBoolean(true));
 			}
 		}

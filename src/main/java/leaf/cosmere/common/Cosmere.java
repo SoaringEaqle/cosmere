@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 10 - 2024 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.common;
@@ -20,8 +20,8 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.HashMap;
@@ -47,8 +47,8 @@ public class Cosmere
 		CosmereConfigs.registerConfigs(ModLoadingContext.get());
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-		modBus.addListener(this::commonSetup);
-		modBus.addListener(this::loadComplete);
+		modBus.addListener(this::onCommonSetup);
+		modBus.addListener(this::onClientSetup);
 		modBus.addListener(this::onAddCaps);
 		modBus.addListener(this::onConfigLoad);
 		modBus.addListener(this::onConfigReload);
@@ -151,7 +151,7 @@ public class Cosmere
 		return spiritwebSubmoduleMap;
 	}
 
-	private void commonSetup(FMLCommonSetupEvent event)
+	private void onCommonSetup(FMLCommonSetupEvent event)
 	{
 		//Initialization notification
 		CosmereAPI.logger.info("Cosmere Version {} initializing...", versionNumber);
@@ -182,12 +182,8 @@ public class Cosmere
 		capabilitiesEvent.register(SpiritwebCapability.class);
 	}
 
-	private void loadComplete(FMLLoadCompleteEvent event)
+	private void onClientSetup(FMLClientSetupEvent event)
 	{
-		event.enqueueWork(() ->
-		{
-			ColorHandler.init();
-
-		});
+		event.enqueueWork(ColorHandler::init);
 	}
 }

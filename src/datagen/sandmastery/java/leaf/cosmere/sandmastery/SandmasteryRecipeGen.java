@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.sandmastery;
@@ -26,7 +26,7 @@ public class SandmasteryRecipeGen extends BaseRecipeProvider implements IConditi
 {
 	public SandmasteryRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, Sandmastery.MODID);
 	}
 
 	@Override

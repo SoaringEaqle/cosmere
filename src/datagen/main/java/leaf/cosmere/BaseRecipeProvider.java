@@ -1,11 +1,10 @@
 /*
- * File updated ~ 5 - 6 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere;
 
 import leaf.cosmere.api.helpers.RegistryHelper;
-import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.registration.impl.ItemRegistryObject;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -31,11 +30,13 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 {
 
 	private final ExistingFileHelper existingFileHelper;
+	private final String modid;
 
-	protected BaseRecipeProvider(PackOutput output, ExistingFileHelper existingFileHelper)
+	protected BaseRecipeProvider(PackOutput output, ExistingFileHelper existingFileHelper, String modid)
 	{
 		super(output);
 		this.existingFileHelper = existingFileHelper;
+		this.modid = modid;
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 						experience,
 						time)
 				.unlockedBy("has_item", has(inputItem))
-				.save(consumer, new ResourceLocation(Cosmere.MODID, name + "_from_smelting"));
+				.save(consumer, new ResourceLocation(modid, name + "_from_smelting"));
 
 		SimpleCookingRecipeBuilder.smoking(
 						Ingredient.of(inputItem),
@@ -102,7 +103,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 						experience,
 						time / 2)
 				.unlockedBy("has_item", has(inputItem))
-				.save(consumer, new ResourceLocation(Cosmere.MODID, name + "_from_smoking"));
+				.save(consumer, new ResourceLocation(modid, name + "_from_smoking"));
 
 		SimpleCookingRecipeBuilder.campfireCooking(
 						Ingredient.of(inputItem),
@@ -111,7 +112,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 						experience,
 						time)
 				.unlockedBy("has_item", has(inputItem))
-				.save(consumer, new ResourceLocation(Cosmere.MODID, name + "_from_campfire"));
+				.save(consumer, new ResourceLocation(modid, name + "_from_campfire"));
 	}
 
 	protected void addPickaxeRecipe(Consumer<FinishedRecipe> consumer, ItemRegistryObject<Item> outputItem, TagKey<Item> inputMaterial)
@@ -240,7 +241,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output, 9)
 				.unlockedBy("has_item", has(output))
 				.requires(input)
-				.save(consumer, Cosmere.rl("conversions/" + name));
+				.save(consumer, new ResourceLocation(modid, "conversions/" + name));
 	}
 
 
@@ -249,7 +250,7 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output, 9)
 				.unlockedBy("has_item", has(output))
 				.requires(input)
-				.save(consumer, Cosmere.rl("conversions/" + name));
+				.save(consumer, new ResourceLocation(modid, "conversions/" + name));
 	}
 
 	protected ShapedRecipeBuilder compressRecipe(ItemLike output, TagKey<Item> input)

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 8 - 10 - 2024 ~ Leaf
+ * File updated ~ 9 - 3 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.hemalurgy;
@@ -7,7 +7,6 @@ package leaf.cosmere.hemalurgy;
 import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.hemalurgy.common.Hemalurgy;
-import leaf.cosmere.hemalurgy.common.items.HemalurgicSpikeItem;
 import leaf.cosmere.hemalurgy.common.registries.HemalurgyItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -42,13 +41,13 @@ public class HemalurgyItemModelsGen extends ItemModelProvider
 				getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/template_spawn_egg"));
 				continue;
 			}
-			if (item instanceof HemalurgicSpikeItem)
-			{
-				this.getBuilder(path)
-						.parent(new ModelFile.UncheckedModelFile("hemalurgy:item/spike"))
-						.texture("layer0", modLoc("item/" + "metal_spike"));
-				continue;
-			}
+			//if (item instanceof HemalurgicSpikeItem)
+			//{
+			//	this.getBuilder(path)
+			//			.parent(new ModelFile.UncheckedModelFile("hemalurgy:item/spike"))
+			//			.texture("layer0", modLoc("item/" + "metal_spike"));
+			//	continue;
+			//}
 			else if (item instanceof SwordItem)
 			{
 				//koloss sword

@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 26 - 7 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.sandmastery.common.capabilities;
@@ -174,6 +174,13 @@ public class SandmasterySpiritwebSubmodule implements ISpiritwebSubmodule
 	}
 
 	@Override
+	public void drainInvestiture(ISpiritweb data, double strength)
+	{
+		//todo - how should we handle draining sandmastery?
+		// we could force it to turn off ribbons?
+	}
+
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void collectMenuInfo(List<String> m_infoText)
 	{
@@ -290,7 +297,7 @@ public class SandmasterySpiritwebSubmodule implements ISpiritwebSubmodule
 	private static AttributeModifier getOvermasteryAttributeModifier(int gainedRibbons, UUID uuid)
 	{
 		final AttributeModifier overmasteryAttributeModifier = new AttributeModifier(
-				SandmasteryAttributes.OVERMASTERY_SECONDARY_UUID,
+				uuid,
 				String.format("%s - gained %s ribbons: %s", "Overmastery", gainedRibbons, uuid),
 				gainedRibbons,
 				AttributeModifier.Operation.ADDITION

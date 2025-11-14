@@ -12,6 +12,7 @@ import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.commands.arguments.AllomancyArgumentType;
 import leaf.cosmere.common.commands.arguments.FeruchemyArgumentType;
 import leaf.cosmere.common.config.CosmereConfigs;
+import leaf.cosmere.common.config.CosmereServerConfig;
 import leaf.cosmere.common.eventHandlers.EntityEventHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -75,7 +76,7 @@ public class ChooseMetalbornPowersCommand extends ModCommand
 			isInitialized.set(spiritwebCap.hasBeenInitialized());
 		});
 
-		if (CosmereConfigs.SERVER_CONFIG.ALLOW_METALBORN_CHOICE.get() && !isInitialized.get())
+		if (CosmereConfigs.SERVER_CONFIG.POWER_GENERATION.get() == CosmereServerConfig.PowerGeneration.PICK && !isInitialized.get())
 		{
 			// cosmere:none is also an acceptable input
 			Manifestation allomanticPower = context.getArgument("allomanticPower", Manifestation.class);
@@ -115,7 +116,7 @@ public class ChooseMetalbornPowersCommand extends ModCommand
 		}
 		else
 		{
-			if (!CosmereConfigs.SERVER_CONFIG.ALLOW_METALBORN_CHOICE.get())
+			if (CosmereConfigs.SERVER_CONFIG.POWER_GENERATION.get() != CosmereServerConfig.PowerGeneration.PICK)
 			{
 				source.sendFailure(Component.literal("Server config does not allow non-random metalborn choice"));   // todo translatable string
 			}

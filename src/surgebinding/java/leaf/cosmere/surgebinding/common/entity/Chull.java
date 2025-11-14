@@ -1,13 +1,15 @@
 /*
- * File updated ~ 10 - 6 - 2023 ~ Leaf
+ * File updated ~ 8 - 11 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.entity;
 
 import leaf.cosmere.surgebinding.common.registries.SurgebindingEntityTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Animal;
@@ -15,6 +17,7 @@ import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class Chull extends AbstractChestedHorse
@@ -36,7 +39,12 @@ public class Chull extends AbstractChestedHorse
 
 	public boolean canMate(Animal pOtherAnimal)
 	{
-		return pOtherAnimal != this && pOtherAnimal instanceof Chull;
+		if (pOtherAnimal != this && pOtherAnimal instanceof Chull otherChull)
+		{
+			return this.canParent() && otherChull.canParent();
+		}
+
+		return false;
 	}
 
 	@Override
@@ -52,6 +60,41 @@ public class Chull extends AbstractChestedHorse
 		EntityType<? extends AbstractHorse> entitytype = SurgebindingEntityTypes.CHULL.getEntityType();
 		AbstractHorse abstracthorse = entitytype.create(pLevel);
 		this.setOffspringAttributes(pOtherParent, abstracthorse);
+
+		//todo texture variants?
+
 		return abstracthorse;
+	}
+
+	@Override
+	protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit)
+	{
+		super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
+
+		//chull chests??
+
+		//gems?
+
+		//this.getAge()
+
+		//todo baby chulls drop chips, adults drop marks
+	}
+
+	@Override
+	protected Vec3 getLeashOffset()
+	{
+		return new Vec3(0.0D, (double) this.getEyeHeight(Pose.STANDING), (double) (this.getBbWidth() * 0.25F));
+	}
+
+	@Override
+	public float getEyeHeight(Pose pPose)
+	{
+		return getEyeHeight() * 0.1f;
+	}
+
+	@Override
+	public double getPassengersRidingOffset()
+	{
+		return ((this.getBbHeight() / 2f) - 0.75d);
 	}
 }

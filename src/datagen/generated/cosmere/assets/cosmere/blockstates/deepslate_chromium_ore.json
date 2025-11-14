@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "cosmere:block/ore_block_deepslate"
+      "model": "cosmere:block/deepslate_chromium_ore"
     }
   }
 }

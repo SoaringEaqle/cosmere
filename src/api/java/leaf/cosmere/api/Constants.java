@@ -1,5 +1,6 @@
 /*
- * File updated ~ 9 - 10 - 2024 ~ Leaf
+ * File updated ~ 4 - 2 - 2025 ~ Leaf
+ * File updated ~ 2 - 5 - 2025 ~ SoaringEaqle
  */
 
 package leaf.cosmere.api;
@@ -78,6 +79,15 @@ public class Constants
 	public static class Strings
 	{
 		public static final String KEYS_CATEGORY = "keys.cosmere.main";
+		public static final String KEYS_ACTIVATE_CATEGORY = "keys.cosmere.activators";
+
+		//keybind builder
+		public static final String KEY_ALLOMANCY = "key.cosmere.allomancy.";
+		public static final String KEY_FERUCHEMY = "key.cosmere.feruchemy.";
+		public static final String KEY_STORMLIGHT = "key.cosmere.stormlight.";
+
+		public static final String KEY_ACTIVATE = "key.cosmere.powers.activate";
+		public static final String KEY_SAVE_ACTIVATOR = "key.cosmere.powers.save";
 
 		public static final String KEY_MANIFESTATION_MODE_INCREASE = "key.cosmere.powers.mode.increase";
 		public static final String KEY_MANIFESTATION_MODE_DECREASE = "key.cosmere.powers.mode.decrease";
@@ -96,6 +106,8 @@ public class Constants
 		public static final String KEY_ALLOMANCY_RIOT = "key.cosmere.allomancy.riot";
 
 		public static final String KEY_SHARDBLADE = "key.cosmere.stormlight.shardblade";
+		public static final String KEY_REQUEST_STORMLIGHT = "key.cosmere.stormlight.request_stormlight";
+		public static final String KEY_DISPATCH_STORMLIGHT = "key.cosmere.stormlight.dispatch_stormlight";
 		public static final String TOOLTIP_ITEM_INFO = "tooltip.item.info.";
 		public static final String CONTAINED_POWERS_FOUND = "tooltip.cosmere.power.found";
 

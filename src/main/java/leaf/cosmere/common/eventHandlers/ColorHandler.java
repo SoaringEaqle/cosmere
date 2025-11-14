@@ -1,16 +1,18 @@
 /*
- * File updated ~ 30 - 7 - 2023 ~ Leaf
+ * File updated ~ 8 - 11 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.common.eventHandlers;
 
 import leaf.cosmere.api.IHasColour;
+import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.common.config.CosmereConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -47,8 +49,18 @@ public final class ColorHandler
 
 		for (Item item : ForgeRegistries.ITEMS)
 		{
+			final ResourceLocation registryName = RegistryHelper.get(item);
+
+			final String itemNamespace = registryName.getNamespace();
+
 			if (item instanceof BlockItem blockItem)
 			{
+				if (!itemNamespace.equals("surgebinding")
+						&& !itemNamespace.equals("cosmeretools"))
+				{
+					continue;
+				}
+
 				final Block block = blockItem.getBlock();
 				if (block instanceof IHasColour)
 				{
@@ -58,6 +70,15 @@ public final class ColorHandler
 			}
 			else
 			{
+				//todo temp?
+				if (//!itemNamespace.equals("surgebinding") &&
+						!itemNamespace.equals("cosmeretools")
+					//&& !itemNamespace.equals("cosmere")
+				)
+				{
+					continue;
+				}
+
 				if (item instanceof IHasColour)
 				{
 					itemColors.register(itemColorHandler, item);

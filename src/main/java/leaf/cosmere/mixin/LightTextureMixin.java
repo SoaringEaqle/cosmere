@@ -1,5 +1,5 @@
 /*
- * File updated ~ 12 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.mixin;
@@ -41,8 +41,8 @@ public class LightTextureMixin
 	{
 		//do stuff
 		final Minecraft mc = Minecraft.getInstance();
-		Player clientPlayer = (Player) mc.getCameraEntity();
-		if (clientPlayer == null)
+
+		if (!(Minecraft.getInstance().getCameraEntity() instanceof Player clientPlayer))
 		{
 			return prev;
 		}
