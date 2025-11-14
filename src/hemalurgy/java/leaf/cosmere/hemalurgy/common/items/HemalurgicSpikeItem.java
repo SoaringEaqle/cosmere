@@ -13,8 +13,8 @@ import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.items.ChargeableMetalCurioItem;
-import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.hemalurgy.common.Hemalurgy;
+import leaf.cosmere.hemalurgy.common.config.HemalurgyConfigs;
 import leaf.cosmere.hemalurgy.common.registries.HemalurgyAttributes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -44,7 +44,6 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -109,13 +108,13 @@ public class HemalurgicSpikeItem extends ChargeableMetalCurioItem implements IHe
                     if (aPewter != null && attributeModifiers.containsKey(aPewter.getAttribute()))
                     {
                         // pewter gives an additional +3
-                        spiritwebIntegrity += 3;
+                        spiritwebIntegrity += HemalurgyConfigs.SERVER.ALLOMANTIC_PEWTER_SPIRITWEB_BONUS.get();
                     }
                     Manifestation fGold = CosmereAPI.manifestationRegistry().getValue((new ResourceLocation("feruchemy", Metals.MetalType.GOLD.getName())));
                     if (fGold != null && attributeModifiers.containsKey(fGold.getAttribute()))
                     {
                         // f-gold gives an extra +6
-                        spiritwebIntegrity += 6;
+                        spiritwebIntegrity += HemalurgyConfigs.SERVER.FERUCHEMICAL_GOLD_SPIRITWEB_BONUS.get();
                     }
                 }
 
