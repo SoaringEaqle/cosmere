@@ -8,10 +8,12 @@ import leaf.cosmere.api.Constants;
 import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.helpers.RegistryHelper;
+import leaf.cosmere.api.providers.IAttributeProvider;
 import leaf.cosmere.api.providers.IEntityTypeProvider;
 import leaf.cosmere.api.text.StringHelper;
 import leaf.cosmere.hemalurgy.common.Hemalurgy;
 import leaf.cosmere.hemalurgy.common.items.HemalurgicSpikeItem;
+import leaf.cosmere.hemalurgy.common.registries.HemalurgyAttributes;
 import leaf.cosmere.hemalurgy.common.registries.HemalurgyEntityTypes;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -92,6 +94,9 @@ public class HemalurgyEngLangGen extends LanguageProvider
 
 	private void addAttributes()
 	{
+        final String descriptionId = HemalurgyAttributes.SPIRITWEB_INTEGRITY.getAttribute().getDescriptionId();
+        String translation = descriptionId.split("\\.")[1];
+        add(descriptionId, "Spiritweb Integrity");
 	}
 
 	private void addPatchouli()
@@ -144,6 +149,13 @@ public class HemalurgyEngLangGen extends LanguageProvider
 		add("curios.identifier.mental", "Mental Quadrant");
 		add("curios.identifier.spiritual", "Spiritual Quadrant");
 		add("curios.identifier.temporal", "Temporal Quadrant");
+        add("curios.identifier.eyes", "Eye Spike");
+        add("curios.modifiers.linchpin", "Linchpin Spike");
+        add("curios.modifiers.physical", "Physical Quadrant");
+        add("curios.modifiers.mental", "Mental Quadrant");
+        add("curios.modifiers.spiritual", "Spiritual Quadrant");
+        add("curios.modifiers.temporal", "Temporal Quadrant");
+        add("curios.modifiers.eyes", "Eye Spike");
 	}
 
 	private void addConfigs()
