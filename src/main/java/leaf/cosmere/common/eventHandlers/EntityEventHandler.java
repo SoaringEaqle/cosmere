@@ -218,7 +218,11 @@ public class EntityEventHandler
 			{
 				if (manifestation.getManifestationType() == manifestationType)
 				{
-					spiritwebCapability.giveManifestation(manifestation, 9);
+					// Lord Mistborn is 16
+					// Elend is 12
+					// Vin is 9
+					// Average strength is 8
+					spiritwebCapability.giveManifestation(manifestation, 8);
 
 				}
 			}
@@ -235,7 +239,7 @@ public class EntityEventHandler
 			{
 				if (allomancyLoaded)
 				{
-					spiritwebCapability.giveManifestation(allomancyPower, 9);
+					spiritwebCapability.giveManifestation(allomancyPower, 8);
 					if (spiritwebCapability.getLiving() instanceof Player player)
 					{
 						spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY).GiveStartingItem(player, allomancyPower);
@@ -247,7 +251,7 @@ public class EntityEventHandler
 				}
 				if (feruchemyLoaded)
 				{
-					spiritwebCapability.giveManifestation(feruchemyPower, 9);
+					spiritwebCapability.giveManifestation(feruchemyPower, 8);
 
 					if (spiritwebCapability.getLiving() instanceof Player player)
 					{
@@ -284,7 +288,7 @@ public class EntityEventHandler
 					return;
 				}
 
-				spiritwebCapability.giveManifestation(manifestation, 9);
+				spiritwebCapability.giveManifestation(manifestation, 8);
 				if (spiritwebCapability.getLiving() instanceof Player player)
 				{
 					spiritwebCapability.getSubmodule(isAllomancy ? Manifestations.ManifestationTypes.ALLOMANCY : Manifestations.ManifestationTypes.FERUCHEMY).GiveStartingItem(player, manifestation);
