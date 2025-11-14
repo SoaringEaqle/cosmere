@@ -1,5 +1,5 @@
 /*
- * File updated ~ 8 - 10 - 2022 ~ Leaf
+ * File updated ~ 14 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.client.render;
@@ -8,6 +8,7 @@ import leaf.cosmere.client.render.CosmereRenderers;
 import leaf.cosmere.surgebinding.client.render.renderer.ArmorRenderer;
 import leaf.cosmere.surgebinding.client.render.renderer.ChullRenderer;
 import leaf.cosmere.surgebinding.client.render.renderer.CrypticRenderer;
+import leaf.cosmere.surgebinding.client.render.renderer.HonorsprenRenderer;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingEntityTypes;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -28,6 +29,7 @@ public class SurgebindingRenderers
 
 		EntityRenderers.register(SurgebindingEntityTypes.CHULL.get(), ChullRenderer::new);
 		EntityRenderers.register(SurgebindingEntityTypes.CRYPTIC.get(), CrypticRenderer::new);
+		EntityRenderers.register(SurgebindingEntityTypes.HONORSPREN.get(), HonorsprenRenderer::new);
 	}
 
 

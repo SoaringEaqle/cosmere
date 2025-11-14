@@ -1,29 +1,34 @@
 /*
  * File updated ~ 12 - 11 - 2023 ~ Leaf
+ * File updated ~ 5 - 2 - 2025 ~ SoaringEaqle
  */
 
 package leaf.cosmere.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import leaf.cosmere.api.Activator;
 import leaf.cosmere.api.manifestation.Manifestation;
-import leaf.cosmere.client.gui.SpiritwebMenu;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.fog.FogManager;
 import leaf.cosmere.common.network.packets.ChangeManifestationModeMessage;
 import leaf.cosmere.common.network.packets.ChangeSelectedManifestationMessage;
 import leaf.cosmere.common.network.packets.DeactivateManifestationsMessage;
+import leaf.cosmere.common.network.packets.SetSelectedManifestationMessage;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -68,16 +73,10 @@ public class ClientForgeEvents
 			Manifestation selected = spiritweb.getSelectedManifestation();
 			if (isKeyPressed(event, Keybindings.MANIFESTATIONS_DEACTIVATE))
 			{
-				//if crouching, only turn off.
-				if (Screen.hasShiftDown())
-				{
-					Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
-				}
-				//otherwise do a normal toggle
-				else
-				{
-					//todo decide if there is an activation state?
-				}
+				// just deactivate
+				Cosmere.packetHandler().sendToServer(new DeactivateManifestationsMessage());
+				//if all powers are deactivated, the power save state is off.
+
 			}
 
 			//check keybinds with modifiers first?
@@ -110,12 +109,77 @@ public class ClientForgeEvents
 				}
 				Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected, modeIncreasePressed ? modifier : -modifier));
 			}
+
+			for (Activator activator : Keybindings.activators)
+			{
+				if (isKeyPressed(event, activator.getKeyMapping()))
+				{
+					Manifestation manifestation = activator.getManifestation();
+					Cosmere.packetHandler().sendToServer(new SetSelectedManifestationMessage(manifestation));
+					selected = manifestation;
+					//not changing sandmastery mode because ribbon allotment. no need for the rest. might be implemented later.
+					if (activator.getCategory().equals("sandmastery"))
+					{
+						break;
+					}
+					int modifier = -selected.getMode(spiritweb);
+
+					//if inactive turn on
+					if (!selected.isActive(spiritweb))
+					{
+						//if inactive and feruchemic ability tap 5
+						//else level one
+						modifier += activator.getCategory().equals("feruchemy")? -5: 1;
+						Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+						spiritweb.getLiving().sendSystemMessage(Component.literal("Activated " +
+								Component.translatable(selected.getTranslationKey())));
+
+					}
+					else
+					{
+                        Cosmere.packetHandler().sendToServer(new ChangeManifestationModeMessage(selected,modifier));
+						spiritweb.getLiving().sendSystemMessage(Component.literal("Deactivated " +
+								Component.translatable(selected.getTranslationKey())));
+                    }
+                }
+			}
+
+			//PowerSaveActivator/Saver
+			if(!(isKeyHeld(Keybindings.ACTIVATE_POWER_SAVE) || isKeyHeld(Keybindings.SAVE_POWER_SAVE)))
+            {
+                return;
+            }
+
+			for (PowerSaveState.PowerSaves powerSave: PowerSaveState.PowerSaves.values())
+			{
+				if(isKeyPressed(event, Keybindings.getKey(powerSave.getNum())))
+				{
+					if(isKeyHeld(Keybindings.ACTIVATE_POWER_SAVE))
+					{
+						powerSave.activate(spiritweb);
+					}
+					else if(isKeyHeld(Keybindings.SAVE_POWER_SAVE))
+					{
+						powerSave.addManifestations(spiritweb);
+					}
+				}
+			}
+
 		});
 	}
 
 	private static boolean isKeyPressed(InputEvent.Key event, KeyMapping keyBinding)
 	{
 		return event.getKey() == keyBinding.getKey().getValue() && keyBinding.consumeClick();
+	}
+
+	private static boolean isKeyHeld(KeyMapping keyBinding)
+	{
+		InputConstants.Key key = keyBinding.getKey();
+		return InputConstants.isKeyDown(Minecraft.getInstance()
+				.getWindow()
+				.getWindow(),
+				key.getValue());
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

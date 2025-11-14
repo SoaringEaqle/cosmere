@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 4 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.tools;
@@ -22,7 +22,7 @@ public class ToolsRecipeGen extends BaseRecipeProvider implements IConditionBuil
 {
 	public ToolsRecipeGen(PackOutput output, ExistingFileHelper existingFileHelper)
 	{
-		super(output, existingFileHelper);
+		super(output, existingFileHelper, CosmereTools.MODID);
 	}
 
 	@Override

@@ -169,7 +169,7 @@ public class DrawHelper
 				.endVertex();
 	}
 
-	public static void drawBlocksAtPoint(PoseStack poseStack, Color color, List<BlockPos> blockPosList, Vec3 highlightVector, ArrayList<BlockPos> targetedClusterBlockList)
+	public static void drawBlocksAtPoint(PoseStack poseStack, Color color, List<BlockPos> blockPosList, float range, Vec3 highlightVector, ArrayList<BlockPos> targetedClusterBlockList)
 	{
 		poseStack.pushPose();
 
@@ -203,7 +203,9 @@ public class DrawHelper
 				}
 			}
 
-			renderColoredBlock(poseStack, bufferIn, finalColor, blockPos);
+			float alphaPercent = (float) Math.max(0f, (1.0f - (view.distanceTo(blockPos.getCenter()) / range)));
+
+			renderColoredBlock(poseStack, bufferIn, finalColor, alphaPercent, blockPos);
 		}
 
 		//we are meant to end batches... but if I don't, then the boxes draw over other boxes.
@@ -213,7 +215,7 @@ public class DrawHelper
 	}
 
 
-	protected static void renderColoredBlock(PoseStack poseStack, VertexConsumer builder, Color color, BlockPos pos)
+	protected static void renderColoredBlock(PoseStack poseStack, VertexConsumer builder, Color color, float alphaPercent, BlockPos pos)
 	{
 		renderBoxSolid(
 				poseStack,
@@ -222,7 +224,7 @@ public class DrawHelper
 				color.getRed() / 255f,
 				color.getGreen() / 255f,
 				color.getBlue() / 255f,
-				0.15f);
+				0.15f * alphaPercent);
 	}
 
 	protected static void renderBoxSolid(PoseStack poseStack, VertexConsumer builder, BlockPos pos, float r, float g, float b, float alpha)

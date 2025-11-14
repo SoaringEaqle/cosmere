@@ -1,5 +1,10 @@
 {
   "values": [
-    "minecraft:iron_golem"
+    "minecraft:iron_golem",
+    "minecraft:minecart",
+    "minecraft:chest_minecart",
+    "minecraft:furnace_minecart",
+    "minecraft:hopper_minecart",
+    "minecraft:tnt_minecart"
   ]
 }

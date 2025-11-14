@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.manifestation;
@@ -62,7 +62,7 @@ public class SurgeProgression extends SurgebindingManifestation
 						else
 						{
 							final int affordableHealth = submodule.getStormlight() / stormlightHealingCostMultiplier;
-							if (submodule.adjustStormlight(-submodule.getStormlight(), true))
+							if (affordableHealth > 0 && submodule.adjustStormlight(-submodule.getStormlight(), true))
 							{
 								heal(eventTarget, eventTargetHealth + affordableHealth);
 							}
@@ -92,7 +92,7 @@ public class SurgeProgression extends SurgebindingManifestation
 						else
 						{
 							final int affordableAge = (int) ((float) submodule.getStormlight() / (float) (stormlightAgeUpCostMultiplier)) * ageUpAmount;
-							if (submodule.adjustStormlight(-submodule.getStormlight(), true))
+							if (affordableAge > 0 && submodule.adjustStormlight(-submodule.getStormlight(), true))
 							{
 								ageUp(ageableMob, affordableAge);
 							}

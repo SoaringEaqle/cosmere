@@ -1,5 +1,5 @@
 /*
- * File updated ~ 2 - 11 - 2023 ~ Leaf
+ * File updated ~ 8 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.allomancy.common.effects;
@@ -40,6 +40,7 @@ public class PewterBurnEffect extends CosmereEffect
 				AttributeModifier.Operation.ADDITION);
 
 		//damage resistance
+		//0.125 * 9 = 1.125
 		addAttributeModifier(
 				AttributesRegistry.DETERMINATION.get(),//please forgive me for my sins anime god
 				0.125D,

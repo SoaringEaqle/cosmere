@@ -90,6 +90,8 @@ public class SyncPushPullMessage implements ICosmerePacket
 					spiritweb.pullEntities.add(id);
 				}
 			}
+
+			spiritweb.pushPullWeight = data.getInt("weight");
 		}));
 	}
 

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "feruchemy:item/metal_necklace"
+    "layer0": "feruchemy:item/iron_necklace"
   }
 }

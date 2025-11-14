@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import leaf.cosmere.allomancy.common.Allomancy;
 import leaf.cosmere.allomancy.common.coinpouch.CoinPouchContainerMenu;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -60,7 +61,7 @@ public class CoinPouchContainerScreen extends AbstractContainerScreen<CoinPouchC
 	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY)
 	{
 		//write the name of the itemstack
-		guiGraphics.drawString(this.font, this.title.toString(), this.titleLabelX, this.titleLabelY, 4210752);
+		guiGraphics.drawString(this.font, this.title.getString(), this.titleLabelX, this.titleLabelY, 4210752, false);
 	}
 
 }

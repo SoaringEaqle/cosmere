@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 30 - 4 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.tag;
@@ -10,8 +10,10 @@ import leaf.cosmere.api.Metals;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.blocks.MetalBlock;
+import leaf.cosmere.common.blocks.MetalOreBlock;
 import leaf.cosmere.common.items.MetalIngotItem;
 import leaf.cosmere.common.registration.impl.BlockRegistryObject;
+import leaf.cosmere.common.registration.impl.ItemRegistryObject;
 import leaf.cosmere.common.registry.BlocksRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
@@ -69,46 +71,43 @@ public class CosmereTagProvider extends BaseTagProvider
 		for (Metals.MetalType metalType : EnumUtils.METAL_TYPES)
 		{
 
-			if (metalType.hasMaterialItem() && metalType != Metals.MetalType.COPPER)
+			//if (metalType.hasMaterialItem())
 			{
-				MetalIngotItem ingotItem = ItemsRegistry.METAL_INGOTS.get(metalType).asItem();
+				// copper only needs nugget, don't tag ingot
+				//if (metalType != Metals.MetalType.COPPER)
+				{
+					final ItemRegistryObject<MetalIngotItem> ingotRegObj = ItemsRegistry.METAL_INGOTS.get(metalType);
+					if (ingotRegObj != null)
+					{
+						MetalIngotItem ingotItem = ingotRegObj.asItem();
 
-				//don't need to tell the tag what each individual item is if they're tagged correctly
-				//add(Tags.Items.INGOTS, ingotItem);
+						//don't need to tell the tag what each individual item is if they're tagged correctly
+						//add(Tags.Items.INGOTS, ingotItem);
 
-				// tell our ingots what their tags are.
-				final TagKey<Item> metalIngotTag = metalType.getMetalIngotTag();
-				addToTag(metalIngotTag, ingotItem);
+						// tell our ingots what their tags are.
+						final TagKey<Item> metalIngotTag = metalType.getMetalIngotTag();
+						addToTag(metalIngotTag, ingotItem);
 
-				//tell the ingots that our ingot tags are part of them
-				getItemBuilder(Tags.Items.INGOTS).add(metalIngotTag);
+						//tell the ingots that our ingot tags are part of them
+						getItemBuilder(Tags.Items.INGOTS).add(metalIngotTag);
+					}
+				}
 
 				//tell the nuggets that our nugget tags are part of them
 				final TagKey<Item> metalNuggetTag = metalType.getMetalNuggetTag();
 				getItemBuilder(Tags.Items.NUGGETS).add(metalNuggetTag);
 
-				// tell the Nugget that our Nuggets are related
-				Item nuggetItem = ItemsRegistry.METAL_NUGGETS.get(metalType).asItem();
+				final ItemRegistryObject<Item> nugRegObj = ItemsRegistry.METAL_NUGGETS.get(metalType);
+				if (nugRegObj != null)
+				{// tell the Nugget that our Nuggets are related
+					Item nuggetItem = nugRegObj.asItem();
 
-				//don't need to tell the tag what each individual item is if they're tagged correctly
-				//add(Tags.Items.NUGGETS, nuggetItem);
+					//don't need to tell the tag what each individual item is if they're tagged correctly
+					//add(Tags.Items.NUGGETS, nuggetItem);
 
-				// tell our nuggets what their tags are.
-				addToTag(metalNuggetTag, nuggetItem);
-
-			}
-
-			// copper needs a nugget
-			if (metalType == Metals.MetalType.COPPER)
-			{
-				//tell the nuggets that our nugget tags are part of them
-				final TagKey<Item> metalNuggetTag = metalType.getMetalNuggetTag();
-				getItemBuilder(Tags.Items.NUGGETS).add(metalNuggetTag);
-
-				// tell the Nugget that our Nuggets are related
-				Item nuggetItem = ItemsRegistry.METAL_NUGGETS.get(metalType).asItem();
-
-				addToTag(metalNuggetTag, nuggetItem);
+					// tell our nuggets what their tags are.
+					addToTag(metalNuggetTag, nuggetItem);
+				}
 			}
 
 			if (metalType.hasOre())
@@ -157,12 +156,17 @@ public class CosmereTagProvider extends BaseTagProvider
 			final OreBlockType oreBlockType = BlocksRegistry.METAL_ORE.get(oreType);
 
 			final TagKey<Block> oreBlockTag = CosmereTags.Blocks.METAL_ORE_BLOCK_TAGS.get(metalType);
-			addToTag(oreBlockTag, oreBlockType.stone(), oreBlockType.deepslate());
+			final BlockRegistryObject<MetalOreBlock, BlockItem> stone = oreBlockType.stone();
+			final BlockRegistryObject<MetalOreBlock, BlockItem> deepslate = oreBlockType.deepslate();
+			addToTag(oreBlockTag, stone, deepslate);
 
-			addToTag(BlockTags.NEEDS_STONE_TOOL, oreBlockType.stone());
-			addToTag(BlockTags.NEEDS_IRON_TOOL, oreBlockType.deepslate());
+			hasHarvestData(stone.getBlock());
+			hasHarvestData(deepslate.getBlock());
 
-			addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, oreBlockType.stone(), oreBlockType.deepslate());
+			addToTag(BlockTags.NEEDS_STONE_TOOL, stone);
+			addToTag(BlockTags.NEEDS_IRON_TOOL, deepslate);
+
+			addToHarvestTag(BlockTags.MINEABLE_WITH_PICKAXE, stone, deepslate);
 		}
 	}
 
@@ -257,6 +261,11 @@ public class CosmereTagProvider extends BaseTagProvider
 
 		//entities
 		entityTagBuilder.add(EntityType.IRON_GOLEM);
+		entityTagBuilder.add(EntityType.MINECART);
+		entityTagBuilder.add(EntityType.CHEST_MINECART);
+		entityTagBuilder.add(EntityType.FURNACE_MINECART);
+		entityTagBuilder.add(EntityType.HOPPER_MINECART);
+		entityTagBuilder.add(EntityType.TNT_MINECART);
 	}
 
 	private void addCopperBlockVariations(IntrinsicCosmereTagBuilder<Item> itemTagBuilder, IntrinsicCosmereTagBuilder<Block> blockTagBuilder)

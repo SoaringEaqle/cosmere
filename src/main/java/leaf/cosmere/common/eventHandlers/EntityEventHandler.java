@@ -1,5 +1,5 @@
 /*
- * File updated ~ 21 - 11 - 2023 ~ Leaf
+ * File updated ~ 9 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.common.eventHandlers;
@@ -14,6 +14,7 @@ import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.config.CosmereConfigs;
+import leaf.cosmere.common.config.CosmereServerConfig;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -37,6 +38,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -71,7 +73,12 @@ public class EntityEventHandler
 			if (eventEntity instanceof Player)
 			{
 				//todo choose based on planet? eg scadrial gets twinborn, roshar gets surgebinding etc?
-				if (!CosmereConfigs.SERVER_CONFIG.ALLOW_METALBORN_CHOICE.get())
+				if (CosmereConfigs.SERVER_CONFIG.POWER_GENERATION.get() == CosmereServerConfig.PowerGeneration.NONE)
+				{
+					// no powers
+					spiritweb.setHasBeenInitialized();
+				}
+				else if (CosmereConfigs.SERVER_CONFIG.POWER_GENERATION.get() == CosmereServerConfig.PowerGeneration.RANDOM)
 				{
 					//give random power
 					giveEntityStartingManifestation(livingEntity, spiritweb);
@@ -85,7 +92,7 @@ public class EntityEventHandler
 					String command = "/cosmere choose_metalborn_powers ";
 					MutableComponent instructionComponent = Component.literal("To choose powers, use ");
 					instructionComponent.append(Component.literal("§6§n/cosmere choose_metalborn_powers [allomancy] [feruchemy]")
-													.setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command))));
+							.setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command))));
 
 					player.sendSystemMessage(instructionComponent);
 				}
@@ -145,15 +152,26 @@ public class EntityEventHandler
 	{
 		boolean isPlayerEntity = entity instanceof Player;
 
+		if (isPlayerEntity)
+		{
+			if (!MathHelper.chance(CosmereConfigs.SERVER_CONFIG.PLAYER_METALBORN_CHANCE.get()))
+			{
+				// if player isn't metalborn, no need to continue
+				// a bit messy to do this but oh well, we want to change it anyway      // tech debt? what's that?
+				addOtherPowers(spiritwebCapability);
+				return;
+			}
+		}
+
 		final Integer chanceOfFullPowers = CosmereConfigs.SERVER_CONFIG.FULLBORN_POWERS_CHANCE.get();
-		final Integer chanceOfTwinborn = CosmereConfigs.SERVER_CONFIG.TWINBORN_POWERS_CHANCE.get();
+		final Integer chanceOfTwinborn = isPlayerEntity ? CosmereConfigs.SERVER_CONFIG.TWINBORN_POWERS_CHANCE_PLAYER.get() : CosmereConfigs.SERVER_CONFIG.TWINBORN_POWERS_CHANCE_MOB.get();
 		//low chance of having full powers of one type
 		//0-15 inclusive is normal powers.
 		boolean isFullPowersFromOneType = MathHelper.chance(chanceOfFullPowers);
 
 		//small chance of being twin born, but only if not having full powers above
 		//except for players who are guaranteed having at least two powers.
-		boolean isTwinborn = isPlayerEntity || MathHelper.chance(chanceOfTwinborn);
+		boolean isTwinborn = MathHelper.chance(chanceOfTwinborn);
 
 		//randomise the given powers from allomancy and feruchemy
 		int allomancyPowerID = MathHelper.randomInt(0, 15);
@@ -162,16 +180,36 @@ public class EntityEventHandler
 		final Metals.MetalType allomancyMetal = Metals.MetalType.valueOf(allomancyPowerID).get();
 		final Metals.MetalType feruchemyMetal = Metals.MetalType.valueOf(feruchemyPowerID).get();
 
+		final boolean allomancyLoaded = ModList.get().isLoaded("allomancy");
+		final boolean feruchemyLoaded = ModList.get().isLoaded("feruchemy");
+
 		//if not twinborn, pick one power
 		boolean isAllomancy = MathHelper.randomBool();
 
 		if (isFullPowersFromOneType)
 		{
 			//ooh full powers
-			final Manifestations.ManifestationTypes manifestationType =
-					isAllomancy
-					? Manifestations.ManifestationTypes.ALLOMANCY
-					: Manifestations.ManifestationTypes.FERUCHEMY;
+
+			final Manifestations.ManifestationTypes manifestationType;
+			if (allomancyLoaded && feruchemyLoaded)
+			{
+				manifestationType = isAllomancy
+									? Manifestations.ManifestationTypes.ALLOMANCY
+									: Manifestations.ManifestationTypes.FERUCHEMY;
+			}
+			else if (allomancyLoaded)
+			{
+				manifestationType = Manifestations.ManifestationTypes.ALLOMANCY;
+			}
+			else if (feruchemyLoaded)
+			{
+				manifestationType = Manifestations.ManifestationTypes.FERUCHEMY;
+			}
+			else
+			{
+				// ...why are we here?
+				return;
+			}
 
 
 			CosmereAPI.logger.info("Entity {} has full powers! {}", spiritwebCapability.getLiving().getName().getString(), manifestationType);
@@ -195,29 +233,62 @@ public class EntityEventHandler
 			final Manifestation feruchemyPower = Manifestations.ManifestationTypes.FERUCHEMY.getManifestation(feruchemyMetal.getID());
 			if (isTwinborn)
 			{
-				spiritwebCapability.giveManifestation(allomancyPower, 9);
-				spiritwebCapability.giveManifestation(feruchemyPower, 9);
-
-				if (spiritwebCapability.getLiving() instanceof Player player)
+				if (allomancyLoaded)
 				{
-					spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY).GiveStartingItem(player, allomancyPower);
-					spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.FERUCHEMY).GiveStartingItem(player, feruchemyPower);
+					spiritwebCapability.giveManifestation(allomancyPower, 9);
+					if (spiritwebCapability.getLiving() instanceof Player player)
+					{
+						spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY).GiveStartingItem(player, allomancyPower);
+					}
+					CosmereAPI.logger.info(
+							"Entity {} has been granted allomantic {}!",
+							spiritwebCapability.getLiving().getName().getString(),
+							allomancyMetal);
 				}
+				if (feruchemyLoaded)
+				{
+					spiritwebCapability.giveManifestation(feruchemyPower, 9);
 
-				CosmereAPI.logger.info(
-						"Entity {} has been granted allomantic {} and feruchemical {}!",
+					if (spiritwebCapability.getLiving() instanceof Player player)
+					{
+						spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.FERUCHEMY).GiveStartingItem(player, feruchemyPower);
+					}
+					CosmereAPI.logger.info(
+						"Entity {} has been granted feruchemical {}!",
 						spiritwebCapability.getLiving().getName().getString(),
-						allomancyMetal,
 						feruchemyMetal);
+				}
 			}
 			else
 			{
-				Manifestation manifestation =
+				Manifestation manifestation;
+				isAllomancy = isPlayerEntity ? MathHelper.randomInt(0, 99) < CosmereConfigs.SERVER_CONFIG.PLAYER_MISTING_TO_FERRING_DISTRIBUTION.get() : MathHelper.randomBool();
+				if (allomancyLoaded && feruchemyLoaded)
+				{
+					manifestation =
 						isAllomancy
 						? allomancyPower
 						: feruchemyPower;
+				}
+				else if (allomancyLoaded)
+				{
+					manifestation = allomancyPower;
+				}
+				else if (feruchemyLoaded)
+				{
+					manifestation = feruchemyPower;
+				}
+				else
+				{
+					// again, why are we here?
+					return;
+				}
 
 				spiritwebCapability.giveManifestation(manifestation, 9);
+				if (spiritwebCapability.getLiving() instanceof Player player)
+				{
+					spiritwebCapability.getSubmodule(isAllomancy ? Manifestations.ManifestationTypes.ALLOMANCY : Manifestations.ManifestationTypes.FERUCHEMY).GiveStartingItem(player, manifestation);
+				}
 				CosmereAPI.logger.info("Entity {} has been granted {}, with metal {}!",
 						spiritwebCapability.getLiving().getName().getString(),
 						isAllomancy
@@ -283,33 +354,26 @@ public class EntityEventHandler
 			return;
 		}
 
-		//inverted determination
-		int total = -(int) EntityHelper.getAttributeValue(event.getEntity(), AttributesRegistry.DETERMINATION.getAttribute());
+		float total = (float) EntityHelper.getAttributeValue(event.getEntity(), AttributesRegistry.DETERMINATION.getAttribute());
 
-		//take less damage when tapping
-		//always reduce damage by something
-		//always increase damage by something
-		final int i = Math.abs(total);
-		//never able to reduce by 100%
-		// 76% ish max? eg tap10 / 13 = 0.76
-		//store 3 is the max so never able to increase damage to self by more than 23%?
-		// 23% ish max? eg store3 / 13 = 0.23
-		final float v = i / 13f;
-		// leaving 24%
-		// 1 - 0.76 = 0.24
-		// So we add 76% extra damage
-		// 1 + 0.23 = 1.23
-		final float v1 = total > 0 ? (1 + v) : (1 - v);
+		//ignore if no determination changes, players default to 0
+		//should we todo config this?
+		if (total > 0.1)
+		{
+			final float maxDetermination = 23.125f;//can we detect this properly? not really
+			final float percentageOfMaxDetermination = total / maxDetermination;
 
-		//eg 7 damage at tap 10 would be:
-		// 7 * 0.24 = 1.68 damage remaining
-		//eg 7 damage at store 3 would be:
-		// 7 * 1.23 = 8.61
-
-		//basically never let them have more than 80% damage reduction
-		//but also why not let them increase taking damage, that's fine.
-		final float clampedPercentage = Mth.clamp(v1, 0.2f, 2);
-		event.setAmount(event.getAmount() * clampedPercentage);//todo convert to config
+			//increase damage reduction
+			float damageReduction = 1 - Mth.lerp(percentageOfMaxDetermination, 0, 0.80f);
+			event.setAmount(event.getAmount() * damageReduction);
+		}
+		else if (total < -0.1)
+		{
+			//increase damage taken
+			final float minDetermination = 3f;//can we detect this properly? not really
+			final float percentageOfMinDetermination = Math.abs(total) / minDetermination;
+			float damageIncrease = Mth.lerp(percentageOfMinDetermination, 1, 1.25f);
+			event.setAmount(event.getAmount() * damageIncrease);
+		}
 	}
-
 }

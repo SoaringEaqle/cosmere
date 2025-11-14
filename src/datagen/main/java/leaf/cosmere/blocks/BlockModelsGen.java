@@ -1,14 +1,11 @@
 /*
- * File updated ~ 6 - 8 - 2024 ~ Leaf
+ * File updated ~ 9 - 3 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.blocks;
 
-import leaf.cosmere.api.helpers.RegistryHelper;
 import leaf.cosmere.api.providers.IBlockProvider;
 import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.blocks.MetalBlock;
-import leaf.cosmere.common.blocks.MetalOreBlock;
 import leaf.cosmere.common.blocks.MetalworkingTableBlock;
 import leaf.cosmere.common.registry.BlocksRegistry;
 import net.minecraft.data.PackOutput;
@@ -33,7 +30,7 @@ public class BlockModelsGen extends BlockStateProvider
 		for (IBlockProvider itemRegistryObject : BlocksRegistry.BLOCKS.getAllBlocks())
 		{
 			final Block block = itemRegistryObject.getBlock();
-			if (block instanceof MetalBlock)
+			/*if (block instanceof MetalBlock)
 			{
 				//ModelFile blockModel = models().cubeAll(getPath(itemRegistryObject), new ResourceLocation(Cosmere.MODID, "block/metal_block"));
 
@@ -44,7 +41,8 @@ public class BlockModelsGen extends BlockStateProvider
 				simpleBlock(block, blockModel);
 				continue;
 			}
-			else if (block instanceof MetalworkingTableBlock)
+			else */
+			if (block instanceof MetalworkingTableBlock)
 			{
 				ModelFile blockModel = models().withExistingParent("metalworking_table", new ResourceLocation("block/cube"))
 						.texture("particle", Cosmere.rl("block/metalworking_table_front"))
@@ -57,7 +55,7 @@ public class BlockModelsGen extends BlockStateProvider
 				simpleBlock(block, blockModel);
 				continue;
 			}
-			else if (block instanceof MetalOreBlock)
+			/*else if (block instanceof MetalOreBlock)
 			{
 				//Special thanks to @Random & @sciwhiz12  on discord who helped me get these running
 				//To get the overlay working, you need to tell the blocks they have transparency, which I've donne in the ClientSetup script.
@@ -72,7 +70,7 @@ public class BlockModelsGen extends BlockStateProvider
 
 				simpleBlock(block, blockModel);
 				continue;
-			}
+			}*/
 			simpleBlock(itemRegistryObject.getBlock());
 		}
 

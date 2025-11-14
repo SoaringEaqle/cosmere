@@ -1,5 +1,5 @@
 /*
- * File updated ~ 20 - 11 - 2024 ~ Leaf
+ * File updated ~ 8 - 1 - 2025 ~ Leaf
  */
 
 package leaf.cosmere.common.registry;
@@ -56,7 +56,7 @@ public class AttributesRegistry
 			ATTRIBUTES.register(
 					"determination",
 					Cosmere.MODID,
-					1,
+					0,
 					-99,
 					99);
 

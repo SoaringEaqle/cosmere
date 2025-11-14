@@ -14,12 +14,15 @@ public class CosmereServerConfig implements ICosmereConfig
 
 	public final ForgeConfigSpec.IntValue CHARGEABLE_MAX_VALUE;
 	public final ForgeConfigSpec.BooleanValue SCULK_CAN_HEAR_KINETIC_INVESTITURE;
+	public final ForgeConfigSpec.IntValue PLAYER_METALBORN_CHANCE;
 	public final ForgeConfigSpec.IntValue FULLBORN_POWERS_CHANCE;
-	public final ForgeConfigSpec.IntValue TWINBORN_POWERS_CHANCE;
+	public final ForgeConfigSpec.IntValue TWINBORN_POWERS_CHANCE_PLAYER;
+	public final ForgeConfigSpec.IntValue TWINBORN_POWERS_CHANCE_MOB;
+	public final ForgeConfigSpec.IntValue PLAYER_MISTING_TO_FERRING_DISTRIBUTION;
 	public final ForgeConfigSpec.IntValue RAIDER_POWERS_CHANCE;
 	public final ForgeConfigSpec.IntValue MOB_POWERS_CHANCE;
 	public final ForgeConfigSpec.DoubleValue EMOTIONAL_POWERS_SINGLE_TARGET_RANGE_MULTIPLIER;
-	public final ForgeConfigSpec.BooleanValue ALLOW_METALBORN_CHOICE;
+	public final ForgeConfigSpec.EnumValue<PowerGeneration> POWER_GENERATION;
 
 
 	CosmereServerConfig()
@@ -33,12 +36,15 @@ public class CosmereServerConfig implements ICosmereConfig
 		MOB_POWERS_CHANCE = builder.comment("1 in how many mobs should have powers?").defineInRange("mobPowerChance", 16, 1, 123456);
 		RAIDER_POWERS_CHANCE = builder.comment("1 in how many Raiders should have powers?").defineInRange("raiderPowerChance", 64, 1, 123456);
 
+		PLAYER_METALBORN_CHANCE = builder.comment("1 in how many players should be metalborn?").defineInRange("playerMetalbornChance", 1, 1, 123456);
 		FULLBORN_POWERS_CHANCE = builder.comment("1 in how many should powered individuals should have full powers of one type").defineInRange("fullPowersChance", 16, 1, 123456);
-		TWINBORN_POWERS_CHANCE = builder.comment("If not full born, 1 in how many powered mobs should be twinborn? Players are twinborn as a minimum.").defineInRange("twinbornPowersChance", 16, 1, 123456);
+		TWINBORN_POWERS_CHANCE_PLAYER = builder.comment("If not full born, 1 in how many powered players should be twinborn? If players are not twinborn, they will be either a misting or ferring.").defineInRange("twinbornPowersChancePlayer", 1, 1, 123456);
+		TWINBORN_POWERS_CHANCE_MOB = builder.comment("If not full born, 1 in how many powered mobs should be twinborn?").defineInRange("twinbornPowersChanceMob", 16, 1, 123456);
+		PLAYER_MISTING_TO_FERRING_DISTRIBUTION = builder.comment("Ratio defined as a percentage of how many metalborn players are mistings vs ferrings. E.g. 25 means 25%, or 1 in 4 players will be mistings.").defineInRange("playerMistingToFerringDistribution", 50, 0, 100);
 
 		EMOTIONAL_POWERS_SINGLE_TARGET_RANGE_MULTIPLIER = builder.comment("Multiplier for emotional allomancy range when singe-targeting").defineInRange("emotionalAllomancySingleTargetRange", 1.5D, 1D, 123456D);
 
-		ALLOW_METALBORN_CHOICE = builder.comment("Allow players to choose allomantic and feruchemical abilities for themselves using commands").define("allowMetalbornChoice", false);
+		POWER_GENERATION = builder.comment("Power generation method. RANDOM assigns random powers on spawn, PICK allows players to choose allomantic and feruchemical abilities, and NONE assigns nothing").defineEnum("powerGeneration", PowerGeneration.RANDOM);
 
 		builder.pop();
 		configSpec = builder.build();
@@ -70,7 +76,17 @@ public class CosmereServerConfig implements ICosmereConfig
 		MOB_POWERS_CHANCE.clearCache();
 		RAIDER_POWERS_CHANCE.clearCache();
 		FULLBORN_POWERS_CHANCE.clearCache();
-		TWINBORN_POWERS_CHANCE.clearCache();
+		TWINBORN_POWERS_CHANCE_MOB.clearCache();
+		TWINBORN_POWERS_CHANCE_PLAYER.clearCache();
+		PLAYER_MISTING_TO_FERRING_DISTRIBUTION.clearCache();
 		EMOTIONAL_POWERS_SINGLE_TARGET_RANGE_MULTIPLIER.clearCache();
+	}
+
+	public enum PowerGeneration
+	{
+		NONE,
+		RANDOM,
+		PICK
+		// todo: ORIGINS later
 	}
 }

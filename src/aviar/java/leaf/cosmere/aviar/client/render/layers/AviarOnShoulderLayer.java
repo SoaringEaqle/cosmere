@@ -1,7 +1,12 @@
+/*
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
+ */
+
 package leaf.cosmere.aviar.client.render.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import leaf.cosmere.aviar.common.registries.AviarEntityTypes;
 import net.minecraft.client.model.ParrotModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -37,10 +42,16 @@ public class AviarOnShoulderLayer<T extends Player> extends RenderLayer<T, Playe
 
 	private void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pNetHeadYaw, float pHeadPitch, boolean pLeftShoulder)
 	{
-		CompoundTag compoundtag = pLeftShoulder ? pLivingEntity.getShoulderEntityLeft() : pLivingEntity.getShoulderEntityRight();
-		EntityType.byString(compoundtag.getString("id")).filter((entityType) -> {
-			return entityType == EntityType.PARROT;
-		}).ifPresent((entityType) -> {
+		CompoundTag compoundtag =
+				pLeftShoulder
+				? pLivingEntity.getShoulderEntityLeft()
+				: pLivingEntity.getShoulderEntityRight();
+
+		EntityType.byString(compoundtag.getString("id")).filter((entityType) ->
+		{
+			return entityType == AviarEntityTypes.AVIAR_ENTITY.get();
+		}).ifPresent((entityType) ->
+		{
 			pMatrixStack.pushPose();
 			pMatrixStack.translate(pLeftShoulder ? 0.4F : -0.4F, pLivingEntity.isCrouching() ? -1.3F : -1.5F, 0.0F);
 			Parrot.Variant variant = Parrot.Variant.byId(compoundtag.getInt("Variant"));

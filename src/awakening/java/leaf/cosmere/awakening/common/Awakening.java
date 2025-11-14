@@ -1,5 +1,5 @@
 /*
- * File updated ~ 30 - 11 - 2023 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.awakening.common;
@@ -8,11 +8,11 @@ import leaf.cosmere.api.CosmereAPI;
 import leaf.cosmere.api.IModModule;
 import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Version;
-import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.config.CosmereModConfig;
 import leaf.cosmere.awakening.common.capabilities.AwakeningSpiritwebSubmodule;
 import leaf.cosmere.awakening.common.config.AwakeningConfigs;
 import leaf.cosmere.awakening.common.registries.*;
+import leaf.cosmere.common.Cosmere;
+import leaf.cosmere.common.config.CosmereModConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -48,7 +48,7 @@ public class Awakening implements IModModule
 		AwakeningBiomes.BIOMES.register(modBus);
 		AwakeningBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(modBus);
 		AwakeningBlocks.BLOCKS.register(modBus);
-		AwakeningEffects.EFFECTS.register(modBus);
+		//AwakeningEffects.EFFECTS.register(modBus);
 		AwakeningFeatures.CONFIGURED_FEATURES.register(modBus);
 		AwakeningFeatures.PLACED_FEATURES.register(modBus);
 		AwakeningEntityTypes.ENTITY_TYPES.register(modBus);

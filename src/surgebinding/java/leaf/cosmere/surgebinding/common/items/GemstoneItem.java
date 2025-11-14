@@ -1,5 +1,5 @@
 /*
- * File updated ~ 10 - 8 - 2024 ~ Leaf
+ * File updated ~ 20 - 12 - 2024 ~ Leaf
  */
 
 package leaf.cosmere.surgebinding.common.items;
@@ -8,7 +8,6 @@ import leaf.cosmere.api.IHasGemType;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.charge.ItemChargeHelper;
 import leaf.cosmere.common.items.ChargeableItemBase;
 import leaf.cosmere.common.properties.PropTypes;
 import leaf.cosmere.surgebinding.common.capabilities.SurgebindingSpiritwebSubmodule;
@@ -129,15 +128,20 @@ public class GemstoneItem extends ChargeableItemBase implements IHasGemType
 			//Get stormlight from gems
 			if (!pPlayer.isCrouching())
 			{
-				if (charge + playerStormlight > maxPlayerStormlight)
+				//if charge is less than max stormlight, put all charge into player.
+
+				final int attemptedTotal = charge + playerStormlight;
+				if (attemptedTotal <= maxPlayerStormlight)
 				{
-					sb.adjustStormlight((maxPlayerStormlight - playerStormlight), true);
-					ItemChargeHelper.requestChargeExact(itemStack, pPlayer, ((charge + playerStormlight) - maxPlayerStormlight), true);
+					sb.adjustStormlight(charge, true);
+					setCharge(itemStack, 0);
 				}
 				else
 				{
-					sb.adjustStormlight(charge, true);
-					ItemChargeHelper.requestChargeExact(itemStack, pPlayer, 0, true);
+					int remainder = attemptedTotal - maxPlayerStormlight;
+					final int chargeLevelUsed = charge - remainder;
+					sb.adjustStormlight(chargeLevelUsed, true);
+					adjustCharge(itemStack, -chargeLevelUsed);
 				}
 			}
 			//put remaining stormlight into gem.
