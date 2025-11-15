@@ -133,7 +133,7 @@ public class ManifestationCommand extends ModCommand
 			SpiritwebCapability.get(player).ifPresent((spiritweb) ->
 			{
 				//todo change this so that the user sets the strength in the command
-				spiritweb.giveManifestation(manifestation, 8);
+				spiritweb.giveManifestation(manifestation, 9);
 				source.sendSuccess(() -> Component.translatable(Constants.Strings.POWER_SET_SUCCESS, playerText, manifestationText), false);
 				ReportPowersFoundOnPlayer(context, player);
 				spiritweb.syncToClients(null);
