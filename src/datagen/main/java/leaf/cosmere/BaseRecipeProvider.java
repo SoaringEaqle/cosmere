@@ -249,7 +249,6 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.save(consumer, new ResourceLocation(modid, "conversions/" + name));
 	}
 
-
 	protected void decompressRecipe(Consumer<FinishedRecipe> consumer, ItemLike output, TagKey<Item> input, String name)
 	{
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output, 9)
@@ -268,18 +267,6 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.unlockedBy("has_item", has(input));
 	}
 
-	protected void godMetalNuggetRecipe(Consumer<FinishedRecipe> consumer, ItemLike inputGodMetal)
-	{
-		if(!(inputGodMetal instanceof IHasMetalType godMetalItem)) return;
-
-		String name = godMetalItem.getMetalType().getName() + "_god_nugget";
-
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ItemsRegistry.GOD_METAL_NUGGETS.get(godMetalItem.getMetalType()).get())
-				.requires(inputGodMetal)
-				.unlockedBy("has_item", has(inputGodMetal))
-				.save(consumer, new ResourceLocation(Cosmere.MODID, name));
-	}
-
 	protected ShapedRecipeBuilder compressRecipe(ItemLike output, TagKey<Item> input, ItemLike center)
 	{
 		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
@@ -287,6 +274,20 @@ public abstract class BaseRecipeProvider extends RecipeProvider
 				.define('J', center)
 				.pattern("III")
 				.pattern("IJI")
+				.pattern("III")
+				.unlockedBy("has_item", has(input));
+	}
+
+	protected ShapedRecipeBuilder godMetalCompressRecipe(ItemLike output, ItemLike input)
+	{
+		CompoundTag tag = new CompoundTag();
+		tag.putInt("nuggetSize", 16);
+		PartialNBTIngredient ingredient = PartialNBTIngredient.of(input, tag);
+
+		return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, output)
+				.define('I', ingredient)
+				.pattern("III")
+				.pattern("III")
 				.pattern("III")
 				.unlockedBy("has_item", has(input));
 	}

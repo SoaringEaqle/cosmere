@@ -8,9 +8,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -43,8 +46,9 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 	}
 
 	@Override
-	public int getMaxStackSize(ItemStack stack) {
-		return 1;
+	public void onCraftedBy(ItemStack itemStack, Level level, Player player) {
+		CompoundTag nbt = itemStack.getOrCreateTag();
+		if(!nbt.contains("nuggetSize")) writeMetalAlloySizeNbtData(itemStack, getMaxSize());
 	}
 
 	// God Metals shouldn't hurt
@@ -71,14 +75,7 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 
 	@Override
 	public ItemStack getCraftingRemainingItem(ItemStack stack) {
-		ItemStack out = stack.copy();
-		int size = readMetalAlloySizeNbtData(stack);
-
-		int newSize = size - 1;
-		if (newSize < 1) return ItemStack.EMPTY;
-
-		writeMetalAlloySizeNbtData(out, newSize);
-		return out;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -87,7 +84,6 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 		// God Metals should have foil
 		return super.isFoil(itemStack);
 	}
-
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
@@ -111,6 +107,10 @@ public class GodMetalNuggetItem extends MetalNuggetItem implements IHasSize, IGr
 						.withStyle(ChatFormatting.BLUE));
 			}
 		}
+	}
+
+	public boolean overrideOtherStackedOnMe(ItemStack pStack, ItemStack pOther, Slot pSlot, ClickAction pAction, Player pPlayer, SlotAccess pAccess) {
+		return false;
 	}
 
 	@Override

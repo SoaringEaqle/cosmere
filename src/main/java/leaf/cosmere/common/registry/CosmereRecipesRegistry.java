@@ -1,8 +1,8 @@
 package leaf.cosmere.common.registry;
 
 import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.recipes.GodMetalAlloyNuggetCompress;
-import leaf.cosmere.common.recipes.GodMetalAlloyNuggetDecompress;
+import leaf.cosmere.common.recipes.GodMetalNuggetsCompress;
+import leaf.cosmere.common.recipes.GodMetalNuggetsDecompress;
 import leaf.cosmere.common.recipes.GodMetalAlloyNuggetRecipe;
 import leaf.cosmere.common.registration.impl.RecipeSerializerDeferredRegister;
 import leaf.cosmere.common.registration.impl.RecipeSerializerRegistryObject;
@@ -16,11 +16,11 @@ public class CosmereRecipesRegistry
 			RECIPE_SERIALIZERS.register("crafting_god_metal_alloy_nugget_recipe",
 					() -> new SimpleCraftingRecipeSerializer<>(GodMetalAlloyNuggetRecipe::new));
 
-	public static final RecipeSerializerRegistryObject<GodMetalAlloyNuggetCompress> GOD_METAL_ALLOY_NUGGET_COMPRESS =
+	public static final RecipeSerializerRegistryObject<GodMetalNuggetsCompress> GOD_METAL_ALLOY_NUGGET_COMPRESS =
 			RECIPE_SERIALIZERS.register("crafting_god_metal_alloy_nugget_compress",
-					() -> new SimpleCraftingRecipeSerializer<>(GodMetalAlloyNuggetCompress::new));
+					() -> new SimpleCraftingRecipeSerializer<>(GodMetalNuggetsCompress::new));
 
-	public static final RecipeSerializerRegistryObject<GodMetalAlloyNuggetDecompress> GOD_METAL_ALLOY_NUGGET_DECOMPRESS =
+	public static final RecipeSerializerRegistryObject<GodMetalNuggetsDecompress> GOD_METAL_ALLOY_NUGGET_DECOMPRESS =
 			RECIPE_SERIALIZERS.register("crafting_god_metal_alloy_nugget_decompress",
-					() -> new SimpleCraftingRecipeSerializer<>(GodMetalAlloyNuggetDecompress::new));
+					() -> new SimpleCraftingRecipeSerializer<>(GodMetalNuggetsDecompress::new));
 }

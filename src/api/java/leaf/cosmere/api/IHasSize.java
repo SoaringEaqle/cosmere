@@ -13,7 +13,7 @@ public interface IHasSize
 	{
 		CompoundTag nbt = itemStack.getOrCreateTag();
 		if(nbt.contains("nuggetSize")) return nbt.getInt("nuggetSize");
-		nbt.putInt("nuggetSize", getMaxSize());
+		writeMetalAlloySizeNbtData(itemStack, getMaxSize());
 		return getMaxSize();
 	}
 

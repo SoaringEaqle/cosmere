@@ -1,5 +1,6 @@
 package leaf.cosmere.common.recipes;
 
+import leaf.cosmere.api.IHasSize;
 import leaf.cosmere.api.Metals.MetalType;
 import leaf.cosmere.api.providers.IItemProvider;
 import leaf.cosmere.common.Cosmere;
@@ -8,6 +9,7 @@ import leaf.cosmere.common.items.GodMetalNuggetItem;
 import leaf.cosmere.common.items.MetalNuggetItem;
 import leaf.cosmere.common.registry.CosmereRecipesRegistry;
 import leaf.cosmere.common.registry.ItemsRegistry;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -19,6 +21,7 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -48,6 +51,7 @@ public class GodMetalAlloyNuggetRecipe extends CustomRecipe
 		);
 
 		if(!INGREDIENT_GOD_METAL_NUG.test(inv.getItem(4))) return false;
+		if(inv.getItem(4).getCount() != 1) return false;
 
 		MetalType metalType = null;
 		for(int i = 0; i < inv.getContainerSize(); i++)
@@ -64,7 +68,7 @@ public class GodMetalAlloyNuggetRecipe extends CustomRecipe
 			else if(INGREDIENT_MC_METAL_NUG.test(itemStack))
 			{
 				Item item = itemStack.getItem();
-				MetalType newMetalType = null;
+				MetalType newMetalType;
 				if (item == Items.IRON_NUGGET)
 				{
 					newMetalType = MetalType.IRON;
@@ -136,5 +140,30 @@ public class GodMetalAlloyNuggetRecipe extends CustomRecipe
 		return CosmereRecipesRegistry.GOD_METAL_ALLOY_NUGGET_RECIPE.get();
 	}
 
+
+	public @NotNull NonNullList<ItemStack> getRemainingItems(CraftingContainer pContainer) {
+		NonNullList<ItemStack> nonnulllist = NonNullList.withSize(pContainer.getContainerSize(), ItemStack.EMPTY);
+
+		for(int i = 0; i < nonnulllist.size(); ++i) {
+			ItemStack item = pContainer.getItem(i);
+			if (item.hasCraftingRemainingItem()) {
+				nonnulllist.set(i, getCraftingRemainingItem(item));
+			}
+		}
+
+		return nonnulllist;
+	}
+
+	public ItemStack getCraftingRemainingItem(ItemStack stack) {
+		ItemStack out = stack.copy();
+		IHasSize item = (IHasSize) stack.getItem();
+		int size = item.readMetalAlloySizeNbtData(stack);
+
+		int newSize = size - 1;
+		if (newSize < 1) return ItemStack.EMPTY;
+
+		item.writeMetalAlloySizeNbtData(out, newSize);
+		return out;
+	}
 
 }
