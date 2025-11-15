@@ -1,7 +1,6 @@
-// 1.20.1	2025-11-12T21:49:11.1760335	Item Models: cosmere
+// 1.20.1	2025-11-14T18:10:47.1080284	Item Models: cosmere
 ff0d97cfe0dc1ec1f93e6a39585a79d351141f40 assets/cosmere/models/item/aluminum_ingot.json
 8b0d2f2a1126a0af33aa3e87bf6486a87914d9a3 assets/cosmere/models/item/aluminum_nugget.json
-0a47643b87e93db158c9c4175d9e582e24841f98 assets/cosmere/models/item/atium_god_nugget.json
 4a894e0164206d6a02ad4c4d773cc458a0e331db assets/cosmere/models/item/atium_ingot.json
 0a47643b87e93db158c9c4175d9e582e24841f98 assets/cosmere/models/item/atium_nugget.json
 0f98979d062133ede87d33109e00afc8ee1d11b1 assets/cosmere/models/item/bendalloy_blend.json
@@ -25,7 +24,6 @@ d0f7f1f9bf4078c3ce32dd1fc6d21eb72889010a assets/cosmere/models/item/duralumin_bl
 ee62a22f6baecee57f2242a3474c420d1f12d407 assets/cosmere/models/item/electrum_ingot.json
 85ff83dfdaf3ad35aa3d2f7571a12ca9063b5389 assets/cosmere/models/item/electrum_nugget.json
 31ffe9eeff25c7a22a24938b36557b62be478b3d assets/cosmere/models/item/guide.json
-4633420b9247c1b84a2db84236d1ae32e642d726 assets/cosmere/models/item/harmonium_god_nugget.json
 0e6a8187a44579b813f0f7ef5d36c4163fcff33d assets/cosmere/models/item/harmonium_ingot.json
 4633420b9247c1b84a2db84236d1ae32e642d726 assets/cosmere/models/item/harmonium_nugget.json
 31dabb6ca7702c1b23a4938220defd4d743e916b assets/cosmere/models/item/lead_ingot.json
@@ -39,7 +37,6 @@ a1ce81a83eb7607057cdc87732f966f6eda6588c assets/cosmere/models/item/lerasatium_c
 8d80c47c8d79e63c103ddbcd8c665cd308bf544e assets/cosmere/models/item/lerasatium_copper_alloy_nugget.json
 4328a7fe4f53646a793b085aed19030df0c3159a assets/cosmere/models/item/lerasatium_duralumin_alloy_nugget.json
 b1d20ea74ea555c65c0d13333a7ae5524fa3e347 assets/cosmere/models/item/lerasatium_electrum_alloy_nugget.json
-d85774d23a216f7591929b49a96cd2237b85cad7 assets/cosmere/models/item/lerasatium_god_nugget.json
 8f21a751679478d62cdb3d93dbdaff1ff8091ef7 assets/cosmere/models/item/lerasatium_gold_alloy_nugget.json
 998e1f48856030da41aba793d1af39b12129c210 assets/cosmere/models/item/lerasatium_ingot.json
 54ec2be247217c2daf38fded73bf1c17060ef5d0 assets/cosmere/models/item/lerasatium_iron_alloy_nugget.json
@@ -58,7 +55,6 @@ b7ce440e61f92e099cf763e4add9991c78f2d8a5 assets/cosmere/models/item/lerasium_chr
 aa2b4e035e84388db0e35a62c38863cff2b6290a assets/cosmere/models/item/lerasium_copper_alloy_nugget.json
 574e08f69b1e6c4a9f7a4d5af04307f119f7916d assets/cosmere/models/item/lerasium_duralumin_alloy_nugget.json
 d6835cf7377b0b37f793ad497f85db8bdfc5962a assets/cosmere/models/item/lerasium_electrum_alloy_nugget.json
-65eef0f81e2060f9544e9ea7af25654e4d792bc9 assets/cosmere/models/item/lerasium_god_nugget.json
 b687b9fa1f047d36fd345392d0cca7f6228f1ab3 assets/cosmere/models/item/lerasium_gold_alloy_nugget.json
 7c908cb447a777f0e5f50538334cf2c477cff74c assets/cosmere/models/item/lerasium_ingot.json
 fc566fc538d4e3070d1f9b289f51615ce4661667 assets/cosmere/models/item/lerasium_iron_alloy_nugget.json

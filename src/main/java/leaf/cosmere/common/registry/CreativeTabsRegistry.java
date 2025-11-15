@@ -36,7 +36,7 @@ public class CreativeTabsRegistry
 										List<IItemProvider> items = ItemsRegistry.ITEMS.getAllItems();
 										for(IItemProvider item : items)
 										{
-											if(!(item.asItem() instanceof GodMetalAlloyNuggetItem) && !(item.asItem() instanceof GodMetalNuggetItem))
+											if(!(item.asItem() instanceof GodMetalAlloyNuggetItem))
 											{
 												output.accept(item);
 											}
