@@ -222,7 +222,7 @@ public class EntityEventHandler
 					// Elend is 12
 					// Vin is 9
 					// Average strength is 8
-					spiritwebCapability.giveManifestation(manifestation, 8);
+					spiritwebCapability.giveManifestation(manifestation, 9);
 
 				}
 			}
@@ -239,7 +239,7 @@ public class EntityEventHandler
 			{
 				if (allomancyLoaded)
 				{
-					spiritwebCapability.giveManifestation(allomancyPower, 8);
+					spiritwebCapability.giveManifestation(allomancyPower, 9);
 					if (spiritwebCapability.getLiving() instanceof Player player)
 					{
 						spiritwebCapability.getSubmodule(Manifestations.ManifestationTypes.ALLOMANCY).GiveStartingItem(player, allomancyPower);
@@ -251,7 +251,7 @@ public class EntityEventHandler
 				}
 				if (feruchemyLoaded)
 				{
-					spiritwebCapability.giveManifestation(feruchemyPower, 8);
+					spiritwebCapability.giveManifestation(feruchemyPower, 9);
 
 					if (spiritwebCapability.getLiving() instanceof Player player)
 					{
@@ -288,7 +288,7 @@ public class EntityEventHandler
 					return;
 				}
 
-				spiritwebCapability.giveManifestation(manifestation, 8);
+				spiritwebCapability.giveManifestation(manifestation, 9);
 				if (spiritwebCapability.getLiving() instanceof Player player)
 				{
 					spiritwebCapability.getSubmodule(isAllomancy ? Manifestations.ManifestationTypes.ALLOMANCY : Manifestations.ManifestationTypes.FERUCHEMY).GiveStartingItem(player, manifestation);
