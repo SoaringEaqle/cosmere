@@ -218,10 +218,6 @@ public class EntityEventHandler
 			{
 				if (manifestation.getManifestationType() == manifestationType)
 				{
-					// Lord Mistborn is 16
-					// Elend is 12
-					// Vin is 9
-					// Average strength is 8
 					spiritwebCapability.giveManifestation(manifestation, 9);
 
 				}
