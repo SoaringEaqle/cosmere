@@ -48,7 +48,7 @@ public class AllomancyBendalloy extends AllomancyManifestation
 				return;
 			}
 
-			int invest = data.getInvestitureContainer().runInvestiturePull(this);
+			double invest = data.runInvestiturePull(this);
 			//Slows Down Time for the entities around the user
 			if (playerThreadMap.get(uuid) == null)
 			{

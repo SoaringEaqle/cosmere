@@ -8,7 +8,8 @@ import leaf.cosmere.api.ISpiritwebSubmodule;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
-import leaf.cosmere.api.investiture.IInvContainer;
+import leaf.cosmere.api.investiture.IInvestiture;
+import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.manifestation.Manifestation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,8 +27,6 @@ public interface ISpiritweb extends INBTSerializable<CompoundTag>
 	void tick();
 
 	LivingEntity getLiving();
-
-	IInvContainer getInvestitureContainer();
 
 	boolean hasManifestation(Manifestation manifestation);
 
@@ -98,6 +97,25 @@ public interface ISpiritweb extends INBTSerializable<CompoundTag>
 
 	Set<Map.Entry<UUID, CosmereEffectInstance>> getEffects();
 
-	int maxBEU();
+	KineticInvestiture findInvestiture(Manifestation[] appManifest);
+
+	//double currentBEUDraw(List<KineticInvestiture> list);
+
+	double runInvestiturePull(Manifestation manifestation);
+
+	double currentBEUDraw(List<KineticInvestiture> list);
+	double currentBEU();
+
+	double getMaxBEU();
+	void setMaxBEU(double maxBEU);
+
+	HashSet<KineticInvestiture> availableInvestitures(Manifestation manifest);
+
+	void mergeOrAddInvestiture(IInvestiture invest);
+
+	void clean();
+
+	boolean hasInvestiture(IInvestiture investiture);
+
 
 }

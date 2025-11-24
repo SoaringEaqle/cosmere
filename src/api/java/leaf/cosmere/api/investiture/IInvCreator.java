@@ -1,21 +1,16 @@
 package leaf.cosmere.api.investiture;
 
 import leaf.cosmere.api.Manifestations;
-
+import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 
 public interface IInvCreator
-	//Used when creating new investiture
-	//ex: using allomancy, being near perpendicularity, recharging stormlight, etc.
 {
-	default KineticInvestiture newInvest(IInfuseContainer data)
-	{
-		return new KineticInvestiture(data, InvHelpers.Shard.PURE,
-				InvHelpers.InvestitureSource.DIRECT,
-				data.getMaxBEU()-data.currentBEU(),
-				Manifestations.ManifestArrayBuilder.getAll());
-	}
 
-	KineticInvestiture newInvest(IInfuseContainer data, double beu, double decay);
+	KineticInvestiture newInvest(ISpiritweb data);
 
-	KineticInvestiture newInvest(IInfuseContainer data, double beu);
+	KineticInvestiture newInvest(ISpiritweb data, double beu, double decay);
+
+	KineticInvestiture newInvest(ISpiritweb data, double beu);
+
 }

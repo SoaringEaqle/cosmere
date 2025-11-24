@@ -5,13 +5,9 @@
 package leaf.cosmere.common.eventHandlers;
 
 import leaf.cosmere.api.Constants;
-import leaf.cosmere.api.investiture.IInfuseContainer;
-import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
-import leaf.cosmere.common.cap.InfusionContainer;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
-import leaf.cosmere.common.cap.entity.InvestitureContainer;
 import leaf.cosmere.common.items.InvestableItemBase;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

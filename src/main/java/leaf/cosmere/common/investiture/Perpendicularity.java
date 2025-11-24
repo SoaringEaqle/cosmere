@@ -4,8 +4,6 @@
 
 package leaf.cosmere.common.investiture;
 
-import leaf.cosmere.api.investiture.IInvCreator;
-
 public class Perpendicularity implements IInvCreator
 {
 

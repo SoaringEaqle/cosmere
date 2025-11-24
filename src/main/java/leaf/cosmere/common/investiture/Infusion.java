@@ -1,29 +1,30 @@
 package leaf.cosmere.common.investiture;
 
 import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.investiture.*;
+import leaf.cosmere.api.investiture.IInvestiture;
+import leaf.cosmere.api.investiture.InvHelpers;
+import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.manifestation.Manifestation;
-import leaf.cosmere.common.cap.entity.InvestitureContainer;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
+import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
-import java.util.UUID;
 
 public class Infusion implements IInvestiture
 {
-	private IInfuseContainer<?> container;
-	private IInvContainer<?> infuser;
+	private ISpiritweb container;
+	private ISpiritweb infuser;
 	private InvHelpers.Shard shard;
-	private InvHelpers.InvestitureSource source;
 	private Manifestation[] applicableManifestations;
-	private int beu;
-	private int currentMaxDraw;
+	private double beu;
+	private double currentMaxDraw;
 
 	private CompoundTag nbt;
 
-	public Infusion(IInfuseContainer<?> container, Manifestation manifest, List<KineticInvestiture> investitures)
+	public Infusion(ISpiritweb container, Manifestation manifest, List<KineticInvestiture> investitures)
 	{
 
 		beu = 0;
@@ -48,10 +49,10 @@ public class Infusion implements IInvestiture
 			}
 		}
 		applicableManifestations = new Manifestation[]{manifest};
-		infuser = investitures.get(0).getContainer();
+		infuser =  investitures.get(0).getContainer();
 	}
 
-	public Infusion(IInfuseContainer<?> container, Manifestation[] manifest, int beu, IInvContainer infuser,
+	public Infusion(ISpiritweb container, Manifestation[] manifest, double beu, ISpiritweb infuser,
 	                InvHelpers.Shard shard, InvHelpers.InvestitureSource source
 	                )
 	{
@@ -59,18 +60,16 @@ public class Infusion implements IInvestiture
 		this.infuser = infuser;
 		this.applicableManifestations = manifest;
 		this.beu = beu;
-		this.shard = shard;
-		this.source = source;
-	}
+		this.shard = shard;}
 
 	@Override
-	public int getBEU()
+	public double getBEU()
 	{
 		return beu;
 	}
 
 	@Override
-	public void setBEU(int beu)
+	public void setBEU(double beu)
 	{
 		this.beu = beu;
 	}
@@ -87,20 +86,15 @@ public class Infusion implements IInvestiture
 		return shard;
 	}
 
-	@Override
-	public InvHelpers.InvestitureSource getSource()
-	{
-		return source;
-	}
 
 	@Override
-	public IInfuseContainer<?> getContainer()
+	public ISpiritweb getContainer()
 	{
 		return container;
 	}
 
 	@Override
-	public int getCurrentMaxDraw()
+	public double getCurrentMaxDraw()
 	{
 		return currentMaxDraw;
 	}
@@ -108,7 +102,23 @@ public class Infusion implements IInvestiture
 	@Override
 	public void calculateCurrentMaxDraw()
 	{
-		currentMaxDraw = Math.min(beu, applicableManifestations[0].maxInvestitureDraw(infuser.getSpiritweb().resolve().get()));
+		currentMaxDraw = Math.min(beu, applicableManifestations[0].maxInvestitureDraw(infuser));
+	}
+
+	public boolean merge(Infusion other)
+	{
+		if(this == other)
+		{
+			return false;
+		}
+		if(this.shard == other.shard
+				&& this.getContainer().equals(other.getContainer()))
+		{
+			this.beu += other.getBEU();
+			other.setBEU(0);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -119,7 +129,6 @@ public class Infusion implements IInvestiture
 			this.nbt = new CompoundTag();
 		}
 		nbt.putString("shard", shard.getName().toLowerCase());
-		nbt.putString("source", source.getName().toLowerCase());
 		nbt.putInt("manifestations_length", applicableManifestations.length);
 		final CompoundTag manifestationNBT = new CompoundTag();
 		for (int i = 0; i < applicableManifestations.length; i++)
@@ -127,9 +136,9 @@ public class Infusion implements IInvestiture
 			manifestationNBT.putInt(applicableManifestations[i].getRegistryName().toString(), i);
 		}
 		nbt.put("manifestations", manifestationNBT);
-		nbt.putInt("beu", beu);
+		nbt.putDouble("beu", beu);
 
-		nbt.putUUID("infuser", infuser.getParent().getUUID());
+		nbt.putInt("infuser", infuser.getLiving().getId());
 
 		return nbt;
 	}
@@ -138,9 +147,8 @@ public class Infusion implements IInvestiture
 	public void deserializeNBT(CompoundTag nbt)
 	{
 		this.nbt = nbt;
-		beu = nbt.getInt("beu");
+		beu = nbt.getDouble("beu");
 		shard = InvHelpers.Shard.valueOf(nbt.getString("shard"));
-		source = InvHelpers.InvestitureSource.valueOf(nbt.getString("source"));
 		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
 		for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
@@ -151,6 +159,10 @@ public class Infusion implements IInvestiture
 			{
 				applicableManifestations[manifestNBT.getInt(manifestationLoc)] = manifestation;
 			}
+		}
+		if (Minecraft.getInstance().level.getEntity(nbt.getInt("infuser")) instanceof LivingEntity entity)
+		{
+			infuser = SpiritwebCapability.get(entity).resolve().get();
 		}
 	}
 
@@ -208,28 +220,28 @@ public class Infusion implements IInvestiture
 			default -> InvHelpers.Shard.NONE;
 		};
 	}
-
-	public static Infusion buildFromNBT(CompoundTag nbt, IInfuseContainer<?> container)
-	{
-		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
-		CompoundTag manifestNBT = nbt.getCompound("manifestations");
-		for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
-		{
-			final String manifestationLoc = manifestation.getRegistryName().toString();
-
-			if (manifestNBT.contains(manifestationLoc))
-			{
-				array[manifestNBT.getInt(manifestationLoc)] = manifestation;
-			}
-		}
-
-		UUID uuid = nbt.getUUID("infuser");
-		Entity infuse = Minecraft.getInstance().level.getServer().getAllLevels().iterator().next().getEntity(uuid);
-
-		Infusion invest = new Infusion(container, array,
-				nbt.getInt("beu"), (InvestitureContainer)InvestitureContainer.get(infuse).resolve().get(), InvHelpers.Shard.valueOf(nbt.getString("shard")),
-				InvHelpers.InvestitureSource.valueOf(nbt.getString("source")));
-		invest.nbt = nbt;
-		return invest;
-	}
+//
+//	public static Infusion buildFromNBT(CompoundTag nbt, IInfuseContainer<?> container)
+//	{
+//		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
+//		CompoundTag manifestNBT = nbt.getCompound("manifestations");
+//		for (Manifestation manifestation : CosmereAPI.manifestationRegistry())
+//		{
+//			final String manifestationLoc = manifestation.getRegistryName().toString();
+//
+//			if (manifestNBT.contains(manifestationLoc))
+//			{
+//				array[manifestNBT.getInt(manifestationLoc)] = manifestation;
+//			}
+//		}
+//
+//		UUID uuid = nbt.getUUID("infuser");
+//		Entity infuse = Minecraft.getInstance().level.getServer().getAllLevels().iterator().next().getEntity(uuid);
+//
+//		Infusion invest = new Infusion(container, array,
+//				nbt.getDouble("beu"), Infusor, InvHelpers.Shard.valueOf(nbt.getString("shard")),
+//				InvHelpers.InvestitureSource.valueOf(nbt.getString("source")));
+//		invest.nbt = nbt;
+//		return invest;
+//	}
 }

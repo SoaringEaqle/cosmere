@@ -7,10 +7,11 @@ package leaf.cosmere.surgebinding.common.items;
 import leaf.cosmere.api.IHasGemType;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.Roshar;
-import leaf.cosmere.api.investiture.IInvContainer;
-import leaf.cosmere.api.investiture.InvHelpers;
-import leaf.cosmere.api.investiture.Transferer;
+import leaf.cosmere.api.investiture.IInvCreator;
+import leaf.cosmere.api.investiture.KineticInvestiture;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
+import leaf.cosmere.common.items.ChargeableItemBase;
 import leaf.cosmere.common.items.InvestableItemBase;
 import leaf.cosmere.common.properties.PropTypes;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
@@ -28,7 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
-public class GemstoneItem extends InvestableItemBase implements IHasGemType
+public class GemstoneItem extends ChargeableItemBase implements IHasGemType, IInvCreator
 {
 	private final Roshar.Gemstone gemstone;
 	private final Roshar.GemSize gemSize;
@@ -107,7 +108,6 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 		SpiritwebCapability.get(pPlayer).ifPresent(spiritweb ->
 		{
 			SpiritwebCapability data = (SpiritwebCapability) spiritweb;
-			IInvContainer playerContainer = data.getInvestitureContainer();
 
 			boolean hasAnySurgebinding = SurgebindingManifestations.SURGEBINDING_POWERS.values().stream().anyMatch((manifestation -> spiritweb.hasManifestation(manifestation.getManifestation())));
 
@@ -127,9 +127,7 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 
 			final int maxPlayerStormlight = SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get();
 
-			Stormlight invest = (Stormlight) (playerContainer.findInvestiture(Manifestations.ManifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING)));
-			Stormlight gemInvest = (Stormlight) (getAsContainer(itemStack).findInvestiture(Manifestations.ManifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING)));
-
+			Stormlight invest = (Stormlight) (data.findInvestiture(Manifestations.ManifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING)));
 
 			//Get stormlight from gems
 			if (!pPlayer.isCrouching())
@@ -138,16 +136,16 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 
 
 
-				final int attemptedTotal = charge + invest.getBEU();
+				final int attemptedTotal = (int) (charge + invest.getBEU());
 				if (attemptedTotal <= maxPlayerStormlight)
 				{
-					new LightTransferer(gemInvest, playerContainer, 400, 0, 5)
-							.setKillAmount(maxPlayerStormlight - invest.getBEU());
+					newInvest(data, attemptedTotal);
+					adjustCharge(itemStack, -attemptedTotal);
 				}
 				else
 				{
-					new LightTransferer(gemInvest, playerContainer, 400, 0, 3)
-							.setKillAmount(maxPlayerStormlight - invest.getBEU());
+					newInvest(data, maxPlayerStormlight);
+					adjustCharge(itemStack, -maxPlayerStormlight);
 				}
 			}
 			//put remaining stormlight into gem.
@@ -157,19 +155,37 @@ public class GemstoneItem extends InvestableItemBase implements IHasGemType
 				{
 					if ((charge + invest.getBEU()) > getMaxCharge(itemStack))
 					{
-						new LightTransferer(invest, getAsContainer(itemStack),
-								1000, 0, Integer.MAX_VALUE);
+						adjustCharge(itemStack, getMaxCharge(itemStack));
+						invest.removeBEU(getMaxCharge(itemStack));
 					}
 					else
 					{
-						new LightTransferer(invest, getAsContainer(itemStack),
-								1000, 0, Integer.MAX_VALUE);
+						adjustCharge(itemStack, (int) invest.getBEU());
+						invest.drain();
 					}
-				}
+				}t
 			}
 		});
 
 
 		return InteractionResultHolder.consume(itemStack);
+	}
+
+	@Override
+	public KineticInvestiture newInvest(ISpiritweb data)
+	{
+		return new Stormlight(data, 0);
+	}
+
+	@Override
+	public KineticInvestiture newInvest(ISpiritweb data, double beu, double decay)
+	{
+		return new Stormlight(data, beu);
+	}
+
+	@Override
+	public KineticInvestiture newInvest(ISpiritweb data, double beu)
+	{
+		return new Stormlight(data, beu);
 	}
 }

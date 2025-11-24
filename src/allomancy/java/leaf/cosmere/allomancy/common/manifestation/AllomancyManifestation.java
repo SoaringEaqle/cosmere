@@ -164,7 +164,7 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		allo.adjustIngestedMetal(metalType, -cost, isActiveTick);
 		if(isActiveTick)
 		{
-			newInvest(data.getInvestitureContainer());
+			newInvest(data);
 		}
 
 		if (isActiveTick && livingEntity instanceof ServerPlayer serverPlayer)
@@ -266,13 +266,13 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 	
 	@Override
-	public int maxInvestitureDraw(ISpiritweb data)
+	public double maxInvestitureDraw(ISpiritweb data)
 	{
 		return (int) ((10 * getStrength(data,false)) + minInvestitureDraw(data));
 	}
 	
 	@Override
-	public int minInvestitureDraw(ISpiritweb data)
+	public double minInvestitureDraw(ISpiritweb data)
 	{
 		if(isFlaring(data))
 		{
@@ -301,24 +301,14 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 
 	@Override
-	public KineticInvestiture newInvest(IInfuseContainer data)
+	public KineticInvestiture newInvest(ISpiritweb data)
 	{
 
-		ISpiritweb web;
-		if(data.getParent() instanceof LivingEntity entity)
-		{
-			web = SpiritwebCapability.get(entity).resolve().get();
-		}
-		else
-		{
-			return null;
-		}
-
 		//gets investiture
-		int beu = beuGrantAmount(web);
+		int beu = beuGrantAmount(data);
 
 		Manifestation[] appManifest;
-		if(isCompounding(web))
+		if(isCompounding(data))
 		{
 			appManifest = appManifestComp;
 		}
@@ -329,7 +319,6 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 		KineticInvestiture sub = new KineticInvestiture(
 				data,
 				InvHelpers.Shard.PRESERVATION,
-				InvHelpers.InvestitureSource.DIRECT,
 				beu,
 				appManifest);
 		sub.setPriority(5);
@@ -337,13 +326,13 @@ public class AllomancyManifestation extends Manifestation implements IHasMetalTy
 	}
 
 	@Override
-	public KineticInvestiture newInvest(IInfuseContainer data, double beu, double decay)
+	public KineticInvestiture newInvest(ISpiritweb data, double beu, double decay)
 	{
 		return newInvest(data);
 	}
 
 	@Override
-	public KineticInvestiture newInvest(IInfuseContainer data, double beu)
+	public KineticInvestiture newInvest(ISpiritweb data, double beu)
 	{
 		return newInvest(data);
 	}

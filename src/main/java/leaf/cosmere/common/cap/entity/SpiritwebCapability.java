@@ -10,11 +10,13 @@ import com.mojang.blaze3d.vertex.*;
 import leaf.cosmere.api.*;
 import leaf.cosmere.api.cosmereEffect.CosmereEffect;
 import leaf.cosmere.api.cosmereEffect.CosmereEffectInstance;
-import leaf.cosmere.api.investiture.IInvContainer;
+import leaf.cosmere.api.investiture.IInvestiture;
+import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.Cosmere;
 import leaf.cosmere.common.config.CosmereConfigs;
+import leaf.cosmere.common.investiture.Infusion;
 import leaf.cosmere.common.network.packets.SyncPlayerSpiritwebMessage;
 import leaf.cosmere.common.registry.AttributesRegistry;
 import leaf.cosmere.common.registry.GameEventRegistry;
@@ -69,7 +71,6 @@ public class SpiritwebCapability implements ISpiritweb
 	private boolean hasBeenInitialized = false;
 
 	private final LivingEntity livingEntity;
-	private IInvContainer investitureContainer;
 
 	public final Map<Manifestation, Integer> MANIFESTATIONS_MODE = new HashMap<>();
 
@@ -88,6 +89,10 @@ public class SpiritwebCapability implements ISpiritweb
 
 	private final Map<Manifestations.ManifestationTypes, ISpiritwebSubmodule> spiritwebSubmodules;
 
+	public final Set<Infusion> infusions = new HashSet<>();
+	public final Set<KineticInvestiture> investitures = new HashSet<>();
+	private double maxBEU;
+
 
 
 
@@ -95,9 +100,6 @@ public class SpiritwebCapability implements ISpiritweb
 	{
 		this.livingEntity = ent;
 		spiritwebSubmodules = Cosmere.makeSpiritwebSubmodules();
-		investitureContainer = InvestitureContainer.get(livingEntity).isPresent() ?
-		                       InvestitureContainer.get(livingEntity).resolve().get() :
-		                       null;
 	}
 
 
@@ -149,8 +151,6 @@ public class SpiritwebCapability implements ISpiritweb
 			spiritwebSubmodule.serialize(this);
 		}
 
-		IInvContainer container = InvestitureContainer.get(livingEntity).resolve().get();
-		nbt.put("investContainer", container.serializeNBT());
 
 
 		return nbt;
@@ -207,10 +207,6 @@ public class SpiritwebCapability implements ISpiritweb
 		{
 			spiritwebSubmodule.deserialize(this);
 		}
-
-		investitureContainer = InvestitureContainer.get(livingEntity).isPresent() ?
-		                       InvestitureContainer.get(livingEntity).resolve().get() :
-		                       null;
 
 	}
 
@@ -370,6 +366,19 @@ public class SpiritwebCapability implements ISpiritweb
 				didSetup = true;
 			}
 
+			// Clean up and decay at the end of every other second
+			if(getLiving().tickCount % 40 == 39)
+			{
+				tickServer();
+			}
+			if(getLiving().tickCount % 20 == 19)
+			{
+				for (IInvestiture invest : infusions)
+				{
+					invest.calculateCurrentMaxDraw();
+				}
+			}
+
 			final LivingEntity spiritWebEntity = getLiving();
 			if (selectedManifestation != ManifestationRegistry.NONE.get() && !hasManifestation(selectedManifestation))
 			{
@@ -430,17 +439,31 @@ public class SpiritwebCapability implements ISpiritweb
 		}
 	}
 
+	private void tickServer()
+	{
+		for(Infusion invest: infusions)
+		{
+			if (invest.getBEU() <= 0)
+			{
+				infusions.remove(invest);
+			}
+		}
+		for(KineticInvestiture invest: investitures)
+		{
+			invest.decay();
+			if (invest.getBEU() <= 0)
+			{
+				infusions.remove(invest);
+			}
+		}
+	}
+
 	@Override
 	public LivingEntity getLiving()
 	{
 		return livingEntity;
 	}
 
-	@Override
-	public IInvContainer getInvestitureContainer()
-	{
-		return investitureContainer;
-	}
 
 
 	//Copy things from an old spiritweb into the new one.
@@ -1012,10 +1035,232 @@ public class SpiritwebCapability implements ISpiritweb
 	}
 
 	@Override
-	public int maxBEU()
+	public double currentBEU()
 	{
-		//todo: determine maximum BEU capacity based on player's powers, active powers, location, etc.
-		return Integer.MAX_VALUE;
+		double out = 0;
+		for(IInvestiture invest : infusions)
+		{
+			out += invest.getBEU();
+		}
+		for(IInvestiture invest : investitures)
+		{
+			out += invest.getBEU();
+		}
+		return out;
+	}
+
+
+	public double currentBEUDraw(List<KineticInvestiture> list)
+	{
+		double sub = 0;
+		for(KineticInvestiture invest: list)
+		{
+			sub += invest.getCurrentMaxDraw();
+		}
+		return sub;
+	}
+
+
+	@Override
+	public double getMaxBEU()
+	{
+		return maxBEU;
+	}
+
+	@Override
+	public void setMaxBEU(double maxBEU)
+	{
+		this.maxBEU = maxBEU;
+	}
+
+	@Override
+	public boolean hasInvestiture(IInvestiture investiture)
+	{
+		return !investitures.stream().filter(investiture1 -> investiture == investiture1).toList().isEmpty();
+	}
+
+	@Override
+	public HashSet<KineticInvestiture> availableInvestitures(Manifestation manifest)
+	{
+		HashSet<KineticInvestiture> out = new HashSet<>();
+		for (KineticInvestiture invest : investitures)
+		{
+			if(Arrays.stream(invest.getApplicableManifestations()).anyMatch(m1 -> m1.equals(manifest)))
+			{
+				out.add(invest);
+			}
+		}
+		return out;
+	}
+
+	@Override
+	public void mergeOrAddInvestiture(IInvestiture invest)
+	{
+		if (invest instanceof Infusion infusion)
+		{
+			for (Infusion investiture : infusions)
+			{
+				if(infusion.merge(investiture))
+				{
+					investiture.setBEU(0);
+				}
+			}
+			infusions.add(infusion);
+		}
+		else if (invest instanceof KineticInvestiture kInvest)
+		{
+			for (KineticInvestiture investiture : investitures)
+			{
+				if(kInvest.merge(investiture))
+				{
+					investiture.setBEU(0);
+				}
+			}
+			investitures.add(kInvest);
+		}
+	}
+	@Override
+	public KineticInvestiture findInvestiture(Manifestation[] appManifest)
+	{
+		for (KineticInvestiture invest : investitures)
+		{
+			if (Arrays.equals(invest.getApplicableManifestations(), appManifest))
+			{
+				return invest;
+			}
+		}
+		return null;
+	}
+
+
+
+	@Override
+	// Clears out empty investiture objects from the ArrayList and the game memory
+	// Objects in use elsewhere will not be removed, and can re-attach themselves later using the "reattach()" method
+	public void clean()
+	{
+		infusions.removeIf(investiture -> investiture.getBEU() == 0);
+		System.gc();
+	}
+
+	public double runInvestiturePull(Manifestation manifestation)
+	{
+
+		/*Steps
+		1. Available list of all investiture that can apply to input.
+		2. Create an output variable.
+		3. Sum max currently available
+		4. If - sum is less than manifestation min
+			T. a. return 0.
+		5.  for 5x - Start at 1:
+			a. If - output >= manifestation max
+				T. a. break.
+			b. Temp list of all available with the given priority.
+			c. If - temp is empty
+				T. a. continue;
+			d. Find the max currently available beu's for the priority
+			e. Create temp variable.
+			f. If - the max currently available is less than or equal to manifestation max:
+				T. a. For - each in Temp list
+					i. add max currently available to temp
+				F. a. see below.
+			g. Add last pull to output.
+		6. clean list.
+		7. return output
+		 */
+
+
+		ArrayList<KineticInvestiture> availInvestitures = new ArrayList<>();
+		for(IInvestiture invest: availableInvestitures(manifestation))
+		{
+			if(invest instanceof KineticInvestiture invest1)
+			{
+				availInvestitures.add(invest1);
+			}
+		}
+		double out = 0;
+
+		//Test to see if the minimum amount of investiture is available
+		//If not return
+		if(currentBEUDraw(availInvestitures) < manifestation.minInvestitureDraw(this))
+		{
+			return 0;
+		}
+
+
+		//Loops through each priority
+		for(int i = 1; i <= 5; i++)
+		{
+			if(out > manifestation.maxInvestitureDraw(this))
+			{
+				break;
+			}
+			//Temporary list of values of given priority
+			ArrayList<KineticInvestiture> temp = new ArrayList<>();
+			double tempTotal = 0;
+
+			//Adds infusions to temporary list
+			for (KineticInvestiture invest : availInvestitures)
+			{
+				// remove empty investiture sets
+				if(invest.getBEU() == 0)
+				{
+					availInvestitures.remove(invest);
+				}
+				else if(invest.getPriority() == i)
+				{
+					temp.add(invest);
+					tempTotal += invest.getBEU();
+				}
+			}
+			//Don't need to loop through an empty list.
+			if(temp.isEmpty())
+			{
+				continue;
+			}
+			double theoryMax = manifestation.maxInvestitureDraw(this) - out;
+			//If current total is less than max, pull all investiture from each source of the priority
+			if(tempTotal <= theoryMax)
+			{
+				for(KineticInvestiture invest: temp)
+				{
+					out += invest.drain();
+
+				}
+			}
+			//Else, pull a percentage relative to each investiture's total.
+			else
+			{
+
+				double tempOut = 0;
+				for(KineticInvestiture invest: temp)
+				{
+					double toDraw =  ((invest.getBEU()/tempTotal) * theoryMax);
+					tempOut += invest.removeBEU(toDraw, true);
+				}
+				int index = 0;
+
+				//Checking that investiture gets pulled correctly
+				while(tempOut < theoryMax)
+				{
+					KineticInvestiture invest = temp.get(index);
+					if(invest.getBEU() > 0)
+					{
+						tempOut += 1;
+						invest.removeBEU(1, true);
+					}
+					if(invest.getBEU() == 0)
+					{
+						temp.remove(index);
+					}
+					index = index >= temp.size() ? 0 : index + 1;
+				}
+
+				out += tempOut;
+			}
+		}
+		clean();
+		return out;
 	}
 
 }

@@ -4,7 +4,6 @@
 
 package leaf.cosmere.common.network.packets;
 
-import leaf.cosmere.common.cap.entity.InvestitureContainer;
 import leaf.cosmere.common.network.ICosmerePacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;

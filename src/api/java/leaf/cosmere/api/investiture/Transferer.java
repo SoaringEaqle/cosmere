@@ -10,19 +10,18 @@ public class Transferer
 	private int cycles = Integer.MAX_VALUE;
 	private int cycNum = 0;
 
-	private int killAmount;
+	private double killAmount;
 
-	public Transferer(KineticInvestiture investIn, IInvContainer containerOut, int transfeRate, int decayRate, int cycles, int killPoint)
+	public Transferer(KineticInvestiture investIn, IInfuseContainer containerOut, int transfeRate, double decayRate, int cycles, double killPoint)
 	{
 		this(investIn, containerOut, transfeRate, decayRate);
 		this.cycles = cycles;
 		this.killAmount = Math.min(killPoint, containerOut.getMaxBEU());
 	}
-	public Transferer(KineticInvestiture investIn, IInvContainer containerOut, int transferRate, int decayRate)
+	public Transferer(KineticInvestiture investIn, IInfuseContainer containerOut, int transferRate, double decayRate)
 	{
 		this.investIn = investIn;
 		InvHelpers.Shard shard = investIn.getShard();
-		InvHelpers.InvestitureSource source = investIn.getContainer().containerSource();
 		Manifestation[] man = investIn.getApplicableManifestations();
 		this.investOut = new KineticInvestiture(containerOut, shard, source, investIn.removeBEU(transferRate), man, decayRate);
 		rate = transferRate;
@@ -35,7 +34,7 @@ public class Transferer
 		this(investIn, containerOut, transferRate, 0);
 	}
 
-	protected Transferer(KineticInvestiture investIn, KineticInvestiture investOut, int transferRate, int cycles, int killPoint)
+	protected Transferer(KineticInvestiture investIn, KineticInvestiture investOut, int transferRate, int cycles, double killPoint)
 	{
 		this.investOut = investOut;
 		this.investIn = investIn;
@@ -84,7 +83,7 @@ public class Transferer
 		return investOut;
 	}
 
-	public void setKillAmount(int amount)
+	public void setKillAmount(double amount)
 	{
 		killAmount = amount;
 	}

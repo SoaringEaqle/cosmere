@@ -35,7 +35,7 @@ public class AllomancyAtium extends AllomancyManifestation
 		//Reveals Your Future
 		{
 			//todo
-			data.getInvestitureContainer().runInvestiturePull(this);
+			data.runInvestiturePull(this);
 
 		}
 	}

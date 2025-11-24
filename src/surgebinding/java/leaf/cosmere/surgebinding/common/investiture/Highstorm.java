@@ -1,9 +1,6 @@
 package leaf.cosmere.surgebinding.common.investiture;
 
 import leaf.cosmere.api.helpers.TimeHelper;
-import leaf.cosmere.api.investiture.IInfuseContainer;
-import leaf.cosmere.api.investiture.IInvContainer;
-import leaf.cosmere.api.investiture.IInvCreator;
 import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingDimensions;
 import net.minecraft.core.Position;

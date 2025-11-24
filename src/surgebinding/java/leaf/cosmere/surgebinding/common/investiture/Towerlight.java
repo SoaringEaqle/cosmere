@@ -1,19 +1,17 @@
 package leaf.cosmere.surgebinding.common.investiture;
 
 import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.investiture.InvHelpers;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 
 public class Towerlight extends KineticInvestiture
 {
-	public Towerlight(IInvContainer<?> container,
-	                  int beu)
+	public Towerlight(ISpiritweb container,
+	                  double beu)
 	{
 		super(container,
 				InvHelpers.Shard.HONOR,
-				//Feels most accurate
-				InvHelpers.InvestitureSource.MISTS,
 				beu,
 				Manifestations.ManifestArrayBuilder.getAllType(Manifestations.ManifestationTypes.SURGEBINDING));
 

@@ -1,6 +1,7 @@
 package leaf.cosmere.api.investiture;
 
 import leaf.cosmere.api.manifestation.Manifestation;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 import net.minecraft.nbt.CompoundTag;
 
 public interface IInvestiture
@@ -13,9 +14,7 @@ public interface IInvestiture
 
 	InvHelpers.Shard getShard();
 
-	InvHelpers.InvestitureSource getSource();
-
-	IInfuseContainer<?> getContainer();
+	ISpiritweb getContainer();
 
 	double getCurrentMaxDraw();
 

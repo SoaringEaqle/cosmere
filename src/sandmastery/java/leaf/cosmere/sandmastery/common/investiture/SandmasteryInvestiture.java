@@ -1,7 +1,6 @@
 package leaf.cosmere.sandmastery.common.investiture;
 
 import leaf.cosmere.api.Manifestations;
-import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.investiture.InvHelpers;
 

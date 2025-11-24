@@ -5,6 +5,7 @@
 package leaf.cosmere.api.manifestation;
 
 import leaf.cosmere.api.CosmereAPI;
+import leaf.cosmere.api.investiture.IInvestiture;
 import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.Manifestations;
 import leaf.cosmere.api.providers.IManifestationProvider;
@@ -14,8 +15,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
+import org.checkerframework.checker.units.qual.K;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Manifestation implements IManifestationProvider
 {
@@ -142,58 +146,14 @@ public class Manifestation implements IManifestationProvider
 	}
 
 
-	//May be redundant method
-	public int drawInvestiture(ISpiritweb data, int beu)
-	{
-		ArrayList<KineticInvestiture> invests = data.getInvestitureContainer().availableInvestitures(this);
-		int sum = 0;
-		for(KineticInvestiture investiture: invests)
-		{
-			sum += investiture.getBEU();
-		}
-		if((sum < this.minInvestitureDraw(data)))
-		{
-			return 0;
-		}
-		int drawn = 0;
-		if(sum > this.maxInvestitureDraw(data))
-		{
-			beu = this.maxInvestitureDraw(data);
-			sum = this.maxInvestitureDraw(data);
-
-		}
-		while(beu > 0)
-		{
-			//priority filter
-			// 1 highest, 5 lowest
-			for(int i = 1; i <= 5; i++)
-			{
-				for (KineticInvestiture investiture: invests)
-				{
-					if(investiture.getPriority() == i)
-					{
-						beu = investiture.removeBEU(beu);
-						drawn = sum - beu;
-					}
-				}
-			}
-
-
-		}
-		return drawn;
-
-	}
-
-	public int maxInvestitureDraw(ISpiritweb data)
+	public double maxInvestitureDraw(ISpiritweb data)
 	{
 		return 0;
 	}
 
-	public int minInvestitureDraw(ISpiritweb data)
+	public double minInvestitureDraw(ISpiritweb data)
 	{
 		return 0;
 	}
-
-
 
 }

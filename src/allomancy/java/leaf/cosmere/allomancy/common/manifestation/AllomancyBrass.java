@@ -85,7 +85,7 @@ public class AllomancyBrass extends AllomancyManifestation
 			//todo, replace x * mode with config based value
 			double allomanticStrength = getStrength(data, false);
 
-			int investiture = data.getInvestitureContainer().runInvestiturePull(this);
+			double investiture = data.runInvestiturePull(this);
 
 			if (playerThreadMap.get(uuid) == null)
 			{

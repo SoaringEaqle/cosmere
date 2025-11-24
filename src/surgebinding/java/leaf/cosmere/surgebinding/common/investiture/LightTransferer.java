@@ -1,17 +1,16 @@
 package leaf.cosmere.surgebinding.common.investiture;
 
-import leaf.cosmere.api.investiture.IInvContainer;
 import leaf.cosmere.api.investiture.KineticInvestiture;
 import leaf.cosmere.api.investiture.Transferer;
 
 public class LightTransferer extends Transferer
 {
-	public LightTransferer(KineticInvestiture investIn, IInvContainer containerOut, int transferRate, int decayRate, int cycles)
+	public LightTransferer(KineticInvestiture investIn, IInvContainer containerOut, int transferRate, double decayRate, int cycles)
 	{
 		super(investIn, getInvestiture(investIn, containerOut, transferRate, decayRate), transferRate, cycles, containerOut.getMaxBEU());
 	}
 
-	private static KineticInvestiture getInvestiture(KineticInvestiture investIn, IInvContainer containerOut, int transferRate, int decayRate)
+	private static KineticInvestiture getInvestiture(KineticInvestiture investIn, IInvContainer containerOut, int transferRate, double decayRate)
 	{
 		if(investIn instanceof Stormlight light)
 		{

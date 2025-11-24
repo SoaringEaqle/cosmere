@@ -14,9 +14,8 @@ import javax.annotation.Nonnull;
 public class KineticInvestiture implements IInvestiture
 {
 
-	private IInfuseContainer<?> container;
+	private ISpiritweb container;
 	private InvHelpers.Shard shard;
-	private InvHelpers.InvestitureSource source;
 	private Manifestation[] applicableManifestations;
 	private int priority = 1;
 	private double beu;
@@ -26,9 +25,8 @@ public class KineticInvestiture implements IInvestiture
 	private CompoundTag nbt;
 
 
-	public KineticInvestiture(@Nonnull IInfuseContainer<?> container,
+	public KineticInvestiture(@Nonnull ISpiritweb container,
 	                          InvHelpers.Shard shard,
-	                          InvHelpers.InvestitureSource source,
 	                          double beu,
 	                          Manifestation[] applicableManifestations,
 	                          double decayRate)
@@ -40,12 +38,10 @@ public class KineticInvestiture implements IInvestiture
 		this.container.mergeOrAddInvestiture(this);
 		this.decayRate = decayRate;
 		this.shard = shard;
-		this.source = source;
 	}
 
-	public KineticInvestiture(@Nonnull IInvContainer<?> container,
+	public KineticInvestiture(@Nonnull ISpiritweb container,
 	                          InvHelpers.Shard shard,
-	                          InvHelpers.InvestitureSource source,
 	                          double beu,
 	                          Manifestation[] applicableManifestations)
 	{
@@ -55,7 +51,6 @@ public class KineticInvestiture implements IInvestiture
 		this.container = container;
 		this.container.mergeOrAddInvestiture(this);
 		this.shard = shard;
-		this.source = source;
 		this.decayRate = 0;
 	}
 
@@ -158,13 +153,8 @@ public class KineticInvestiture implements IInvestiture
 		return shard;
 	}
 
-	@Override
-	public InvHelpers.InvestitureSource getSource()
-	{
-		return source;
-	}
 
-	public IInfuseContainer<?> getContainer()
+	public ISpiritweb getContainer()
 	{
 		return container;
 	}
@@ -179,21 +169,12 @@ public class KineticInvestiture implements IInvestiture
 		int x = 0;
 		for(Manifestation manifest: applicableManifestations)
 		{
-			if(getSpiritweb() != null && manifest.isActive(getSpiritweb()))
+			if(container != null && manifest.isActive(container))
 			{
 				x++;
 			}
 		}
 		currentMaxDraw = beu/x;
-	}
-
-	public ISpiritweb getSpiritweb()
-	{
-		if(container instanceof IInvContainer contain)
-		{
-			return (ISpiritweb) contain.getSpiritweb().resolve().orElse(null);
-		}
-		return null;
 	}
 
 
@@ -245,7 +226,6 @@ public class KineticInvestiture implements IInvestiture
 			this.nbt = new CompoundTag();
 		}
 		nbt.putString("shard", shard.getName().toLowerCase());
-		nbt.putString("source", source.getName().toLowerCase());
 		nbt.putInt("manifestations_length", applicableManifestations.length);
 		final CompoundTag manifestationNBT = new CompoundTag();
 		for (int i = 0; i < applicableManifestations.length; i++)
@@ -266,7 +246,6 @@ public class KineticInvestiture implements IInvestiture
 		decayRate = nbt.getDouble("decay_rate");
 		beu = nbt.getDouble("beu");
 		shard = InvHelpers.Shard.valueOf(nbt.getString("shard"));
-		source = InvHelpers.InvestitureSource.valueOf(nbt.getString("source"));
 		priority = nbt.getInt("priority");
 		applicableManifestations = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -283,7 +262,7 @@ public class KineticInvestiture implements IInvestiture
 
 	}
 
-	public static KineticInvestiture buildFromNBT(CompoundTag nbt, IInvContainer<?> data)
+	public static KineticInvestiture buildFromNBT(CompoundTag nbt, ISpiritweb data)
 	{
 		Manifestation[] array = new Manifestation[nbt.getInt("manifestations_length")];
 		CompoundTag manifestNBT = nbt.getCompound("manifestations");
@@ -298,8 +277,7 @@ public class KineticInvestiture implements IInvestiture
 		}
 		KineticInvestiture invest = new KineticInvestiture(data,
 				InvHelpers.Shard.valueOf(nbt.getString("shard")),
-				InvHelpers.InvestitureSource.valueOf(nbt.getString("source")),
-				nbt.getDouble("beu"),array, nbt.getInt("decay_rate"));
+				nbt.getDouble("beu"),array, nbt.getDouble("decay_rate"));
 		invest.nbt = nbt;
 		invest.setPriority(nbt.getInt("priority"));
 		return invest;
