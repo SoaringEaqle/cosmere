@@ -5,7 +5,6 @@
 package leaf.cosmere.surgebinding.common.capabilities.ideals;
 
 import leaf.cosmere.api.CosmereAPI;
-import leaf.cosmere.api.EnumUtils;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.manifestation.Manifestation;
 import leaf.cosmere.api.spiritweb.ISpiritweb;
@@ -24,6 +23,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.event.ServerChatEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
 
 public class RadiantStateManager
 {
@@ -88,54 +89,70 @@ public class RadiantStateManager
 		}
 
 		String playerMessage = SurgebindingServerConfig.cleanIdeal(event.getRawText());
-		int idealToSwear = 0;
+		int idealToSwear = ideal + 1;
 		Roshar.RadiantOrder idealOrder = null;
 
 		//every order's first ideal is the same
 
 		boolean foundAssociatedIdeal = false;
 
-		if (idealToSwear <= this.ideal)
-		{
-			return;
-		}
 
-		//for each order
-		for (Roshar.RadiantOrder radiantOrder : EnumUtils.RADIANT_ORDERS)
+		//Check first ideal
+		if (idealToSwear == 1)
+		//same for all orders. Don't need to check each one.
 		{
-			if (foundAssociatedIdeal)
+
+			Random order = new Random();
+
+			//todo new way to determine your order.
+			int orderID = order.nextInt(9);
+
+			String thisIdeal = SurgebindingConfigs.SERVER.getIdeal(1, orderID);
+
+			if (playerMessage.contains(thisIdeal))
 			{
-				break;
+				idealOrder = Roshar.RadiantOrder.valueOf(orderID).get();
+
 			}
 
-			//for each ideal
-			for (int ideal = 1; ideal <= 5; ideal++)
+
+		}
+		else if (idealToSwear < 5)
+		{
+			//No need to check anything, since they've already sworn the highest
+			return;
+
+		}
+		else if (idealToSwear == 0)
+		{
+			//not relevant, exit
+			return;
+		}
+		else
+		{
+			String thisIdeal = SurgebindingConfigs.SERVER.getIdeal(idealToSwear, order.getID());
+			if (thisIdeal.equals(SurgebindingServerConfig.IDEAL_NOT_IMPLEMENTED))
 			{
-				String thisIdeal = SurgebindingConfigs.SERVER.getIdeal(ideal, radiantOrder.getID());
-				if (thisIdeal.equals(SurgebindingServerConfig.IDEAL_NOT_IMPLEMENTED))
+				//skip ideals that are not yet implemented
+				return;
+			}
+
+			if (playerMessage.contains(thisIdeal))
+			{
+				//check if the message matches the ideal
+				//if it does, set idealToSwear to the ideal's index
+				//also set which order the ideal belongs to
+				//break out of the loop
+				idealToSwear = ideal;
+
+				//if it's not the first ideal
+				if (idealToSwear != 1)
 				{
-					//skip ideals that are not yet implemented
-					continue;
+					//only the first ideal is universal,
+					idealOrder = order;
 				}
 
-				if (playerMessage.contains(thisIdeal))
-				{
-					//check if the message matches the ideal
-					//if it does, set idealToSwear to the ideal's index
-					//also set which order the ideal belongs to
-					//break out of the loop
-					idealToSwear = ideal;
-
-					//if it's not the first ideal
-					if (idealToSwear != 1)
-					{
-						//only the first ideal is universal,
-						idealOrder = radiantOrder;
-					}
-
-					foundAssociatedIdeal = true;
-					break;
-				}
+				foundAssociatedIdeal = true;
 			}
 		}
 
@@ -274,9 +291,9 @@ public class RadiantStateManager
 				if (this.ideal != 1)
 				{
 					player.sendSystemMessage(Component.literal("THESE WORDS ARE ACCEPTED."));
-					updatePowerState();
 				}
 				//player.playSound(SoundEvents.LIGHTNING_BOLT_THUNDER, 1000, 0.8F + player.getRandom().nextFloat() * 0.2F);
+				updatePowerState();
 				player.level().playSound(
 						null,//null so it also sends to triggering player
 						player.getX(),

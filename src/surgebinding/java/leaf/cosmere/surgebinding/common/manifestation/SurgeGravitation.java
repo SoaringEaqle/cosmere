@@ -39,7 +39,8 @@ public class SurgeGravitation extends SurgebindingManifestation
 
 					SurgebindingSpiritwebSubmodule submodule = (SurgebindingSpiritwebSubmodule) iSpiritweb.getSubmodule(Manifestations.ManifestationTypes.SURGEBINDING);
 
-					if (submodule.adjustStormlight(-20, true))
+					int mode = iSpiritweb.getMode(SurgebindingManifestations.SURGEBINDING_POWERS.get(Roshar.Surges.GRAVITATION).get());
+					if (submodule.adjustStormlight(-20 * mode, true))
 					{
 						final LivingEntity entity = event.getEntity();
 						CosmereAPI.logger.info("%s has launched %s into the sky".formatted(player.getName().getString(), entity.getName().getString()));
@@ -49,7 +50,7 @@ public class SurgeGravitation extends SurgebindingManifestation
 						entity.setOnGround(false);
 						entity.setJumping(true);
 
-						entity.setDeltaMovement(0, 50, 0);
+						entity.setDeltaMovement(0, 50 * mode, 0);
 
 
 						entity.hurtMarked = true;

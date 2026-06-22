@@ -8,10 +8,12 @@ import leaf.cosmere.common.registration.impl.EntityTypeDeferredRegister;
 import leaf.cosmere.common.registration.impl.EntityTypeRegistryObject;
 import leaf.cosmere.surgebinding.common.Surgebinding;
 import leaf.cosmere.surgebinding.common.entity.Chull;
+import leaf.cosmere.surgebinding.common.entity.PlayerTransportationStandin;
 import leaf.cosmere.surgebinding.common.entity.spren.Cryptic;
 import leaf.cosmere.surgebinding.common.entity.spren.Honorspren;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraftforge.registries.RegistryObject;
 
 public class SurgebindingEntityTypes
 {
@@ -46,6 +48,13 @@ public class SurgebindingEntityTypes
 							.updateInterval(2)
 							.clientTrackingRange(8)
 							.sized(0.35F, 0.6F)
+			);
+
+	public static final EntityTypeRegistryObject<PlayerTransportationStandin> PLAYER_STANDIN =
+			ENTITY_TYPES.register("player_standin",
+					EntityType.Builder.of(PlayerTransportationStandin::new, MobCategory.MISC)
+							.sized(0.0F, 0.0F)
+							.clientTrackingRange(256)
 			);
 
 

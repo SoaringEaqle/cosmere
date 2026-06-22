@@ -11,17 +11,24 @@ import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.items.CapWrapper;
 import leaf.cosmere.surgebinding.common.capabilities.ideals.RadiantStateManager;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
+import leaf.cosmere.surgebinding.common.entity.PlayerTransportationStandin;
 import leaf.cosmere.surgebinding.common.items.GemstoneItem;
+import leaf.cosmere.surgebinding.common.items.HonorbladeItem;
 import leaf.cosmere.surgebinding.common.items.tiers.ShardplateArmorMaterial;
 import leaf.cosmere.surgebinding.common.manifestation.SurgeProgression;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingDimensions;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -40,6 +47,9 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	private int stormlightStored = 0;
 
 	private boolean herald = false;
+
+	private PlayerTransportationStandin peeringEnt;
+	private ServerLevel peeringLev;
 
 	//Since I'm referencing it so often. For readability if nothing else
 	int maxPlayerStormlight = SurgebindingConfigs.SERVER.PLAYER_MAX_STORMLIGHT.get();
@@ -60,6 +70,33 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	public boolean isHerald()
 	{
 		return herald;
+	}
+
+	public boolean isPeeringToShadesmar()
+	{
+		return peeringEnt != null;
+	}
+
+	public PlayerTransportationStandin getPeeringEnt()
+	{
+		return peeringEnt;
+	}
+
+	public ServerLevel getPeeringLev()
+	{
+		return peeringLev;
+	}
+
+	public void setPeering(PlayerTransportationStandin peeringEnt, ServerLevel level)
+	{
+		this.peeringEnt = peeringEnt;
+		this.peeringLev = level;
+	}
+
+	public void stopPeering()
+	{
+		this.peeringEnt = null;
+		this.peeringLev = null;
 	}
 
 	public boolean isOathed()
@@ -113,6 +150,7 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 
 			if (stormlightStored > 0 && surgebindingActiveTick)
 			{
+				livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 2));
 				//being hurt takes priority
 				if (livingEntity.getHealth() < livingEntity.getMaxHealth())
 				{
@@ -430,5 +468,10 @@ public class SurgebindingSpiritwebSubmodule implements ISpiritwebSubmodule
 	public void setHerald(boolean isHerald)
 	{
 		herald = isHerald;
+	}
+
+	public RadiantStateManager getIdealsManager()
+	{
+		return idealsManager;
 	}
 }

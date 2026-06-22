@@ -5,6 +5,7 @@
 package leaf.cosmere.common.commands.subcommands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -119,7 +120,7 @@ public class ManifestationCommand extends ModCommand
 
 	private static int give(CommandContext<CommandSourceStack> context) throws CommandSyntaxException
 	{
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context, 3);
 
 		for (ServerPlayer player : players)
 		{
@@ -133,7 +134,12 @@ public class ManifestationCommand extends ModCommand
 			SpiritwebCapability.get(player).ifPresent((spiritweb) ->
 			{
 				//todo change this so that the user sets the strength in the command
-				spiritweb.giveManifestation(manifestation, 9);
+				int level = context.getArgument("strength", Integer.class);
+				if(level == 0)
+				{
+					level = 9;
+				}
+				spiritweb.giveManifestation(manifestation, level);
 				source.sendSuccess(() -> Component.translatable(Constants.Strings.POWER_SET_SUCCESS, playerText, manifestationText), false);
 				ReportPowersFoundOnPlayer(context, player);
 				spiritweb.syncToClients(null);
@@ -186,10 +192,11 @@ public class ManifestationCommand extends ModCommand
 								.executes(ManifestationCommand::reroll)))
 				.then(Commands.literal("give")
 						.requires(context -> context.hasPermission(2))
+						.then(Commands.argument("target", EntityArgument.players())
 						.then(Commands.argument("manifestation", ManifestationsArgumentType.createArgument())
 								.executes(ManifestationCommand::give)
-								.then(Commands.argument("target", EntityArgument.players())
-										.executes(ManifestationCommand::give))))
+										.then(Commands.argument("strength", IntegerArgumentType.integer(1,16))
+										.executes(ManifestationCommand::give)))))
 				.then(Commands.literal("remove")
 						.requires(context -> context.hasPermission(2))
 						.then(Commands.argument("manifestation", ManifestationsArgumentType.createArgument())

@@ -50,8 +50,8 @@ public class HonorbladeItem extends ShardbladeItem
 			ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
 			builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeedIn, AttributeModifier.Operation.ADDITION));
-			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getFirstSurge()).getAttribute(), new AttributeModifier(PRIMARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 5, AttributeModifier.Operation.ADDITION));
-			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getSecondSurge()).getAttribute(), new AttributeModifier(SECONDARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 5, AttributeModifier.Operation.ADDITION));
+			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getFirstSurge()).getAttribute(), new AttributeModifier(PRIMARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 3, AttributeModifier.Operation.ADDITION));
+			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getSecondSurge()).getAttribute(), new AttributeModifier(SECONDARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 3, AttributeModifier.Operation.ADDITION));
 			this.attributeModifiers = builder.build();
 		}
 
@@ -63,10 +63,34 @@ public class HonorbladeItem extends ShardbladeItem
 
 	}
 
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers()
+	{
+		if (attributeModifiers == null)
+		{
+			ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
+			builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeedIn, AttributeModifier.Operation.ADDITION));
+			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getFirstSurge()).getAttribute(), new AttributeModifier(PRIMARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 3, AttributeModifier.Operation.ADDITION));
+			builder.put(SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getSecondSurge()).getAttribute(), new AttributeModifier(SECONDARY_HONORBLADE_SURGE_UUID, "SurgeAttribute", 3, AttributeModifier.Operation.ADDITION));
+			this.attributeModifiers = builder.build();
+		}
+		return attributeModifiers;
+	}
+
 
 	public boolean canSummonDismiss(Player player)
 	{
 		//honorblades can always be dismissed
 		return true;
+	}
+
+	public UUID getPrimaryHonorbladeSurgeUuid()
+	{
+		return PRIMARY_HONORBLADE_SURGE_UUID;
+	}
+
+	public UUID getSecondaryHonorbladeSurgeUuid()
+	{
+		return SECONDARY_HONORBLADE_SURGE_UUID;
 	}
 }

@@ -5,6 +5,7 @@
 package leaf.cosmere.surgebinding.common.manifestation;
 
 import leaf.cosmere.api.Roshar;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 
 public class SurgeCohesion extends SurgebindingManifestation
 {
@@ -16,5 +17,6 @@ public class SurgeCohesion extends SurgebindingManifestation
 
 	// alter objects at a molecular level?
 	// moving through stone?
+
 
 }

@@ -4,14 +4,17 @@
 
 package leaf.cosmere.surgebinding.common.network.packets;
 
+import com.google.common.collect.Multimap;
 import leaf.cosmere.api.Roshar;
 import leaf.cosmere.api.helpers.CompoundNBTHelper;
+import leaf.cosmere.api.spiritweb.ISpiritweb;
 import leaf.cosmere.common.cap.entity.SpiritwebCapability;
 import leaf.cosmere.common.network.ICosmerePacket;
 import leaf.cosmere.surgebinding.common.config.SurgebindingConfigs;
 import leaf.cosmere.surgebinding.common.items.HonorbladeItem;
 import leaf.cosmere.surgebinding.common.items.ShardbladeItem;
 import leaf.cosmere.surgebinding.common.registries.SurgebindingAttributes;
+import leaf.cosmere.surgebinding.common.registries.SurgebindingManifestations;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
@@ -23,6 +26,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class SummonShardblade implements ICosmerePacket
@@ -106,21 +110,32 @@ public class SummonShardblade implements ICosmerePacket
 	private static void UpdateIntrinsicPowers(HonorbladeItem honorbladeItem, LivingEntity livingEntity, boolean isStoringHonorblade)
 	{
 		final Roshar.RadiantOrder radiantOrder = honorbladeItem.radiantOrder;
-		UUID uuid = UUID.fromString(radiantOrder.getName());
 		Attribute firstSurge = SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getFirstSurge()).getAttribute();
 		Attribute secondSurge = SurgebindingAttributes.SURGEBINDING_ATTRIBUTES.get(radiantOrder.getSecondSurge()).getAttribute();
+		UUID primary = honorbladeItem.getPrimaryHonorbladeSurgeUuid();
+		UUID secondary = honorbladeItem.getSecondaryHonorbladeSurgeUuid();
+		ISpiritweb web = SpiritwebCapability.get(livingEntity).resolve().get();
 
 		if (isStoringHonorblade)
 		{
 			//then add the power to the spiritweb
-			livingEntity.getAttribute(firstSurge).addPermanentModifier(new AttributeModifier(uuid, radiantOrder.getName() + "PrimaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
-			livingEntity.getAttribute(secondSurge).addPermanentModifier(new AttributeModifier(uuid, radiantOrder.getName() + "SecondaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
+			livingEntity.getAttribute(firstSurge).addPermanentModifier(new AttributeModifier(primary, radiantOrder.getName() + "PrimaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
+			livingEntity.getAttribute(secondSurge).addPermanentModifier(new AttributeModifier(secondary, radiantOrder.getName() + "SecondaryHonorbladeSurge", 5, AttributeModifier.Operation.ADDITION));
+			if(!web.hasManifestation(SurgebindingManifestations.SURGEBINDING_POWERS.get(radiantOrder.getFirstSurge()).get()))
+			{
+				web.giveManifestation(SurgebindingManifestations.SURGEBINDING_POWERS.get(radiantOrder.getFirstSurge()).get(),0);
+			}
+			if(!web.hasManifestation(SurgebindingManifestations.SURGEBINDING_POWERS.get(radiantOrder.getSecondSurge()).get()))
+			{
+				web.giveManifestation(SurgebindingManifestations.SURGEBINDING_POWERS.get(radiantOrder.getSecondSurge()).get(),0);
+			}
+
 		}
 		else
 		{
 			//otherwise remove, the power will be granted by having the item in hand
-			livingEntity.getAttribute(firstSurge).removePermanentModifier(uuid);
-			livingEntity.getAttribute(secondSurge).removePermanentModifier(uuid);
+			livingEntity.getAttribute(firstSurge).removePermanentModifier(primary);
+			livingEntity.getAttribute(secondSurge).removePermanentModifier(secondary);
 		}
 	}
 
