@@ -4,6 +4,7 @@
 
 package leaf.cosmere.surgebinding.common.capabilities;
 
+import leaf.cosmere.surgebinding.common.utils.ShardHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -16,4 +17,7 @@ public interface IShardbladeDynamicData extends INBTSerializable<CompoundTag>
 	String getPommelID();
 
 	String getCrossGuardID();
+
+	int id(ShardHelper.BladeComponent comp);
+	int setId(ShardHelper.BladeComponent comp, int id);
 }

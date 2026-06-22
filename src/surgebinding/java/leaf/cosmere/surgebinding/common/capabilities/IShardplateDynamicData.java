@@ -1,5 +1,6 @@
 package leaf.cosmere.surgebinding.common.capabilities;
 
+import leaf.cosmere.surgebinding.common.utils.ShardHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -32,4 +33,9 @@ public interface IShardplateDynamicData extends INBTSerializable<CompoundTag>
 	String getLeftBootTipID();
 
 	boolean isColored();
+
+	int id(ShardHelper.PlateComponent comp);
+	int setId(ShardHelper.PlateComponent comp, int id);
+
+	String compID(ShardHelper.PlateComponent comp);
 }

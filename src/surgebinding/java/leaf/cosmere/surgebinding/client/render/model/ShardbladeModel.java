@@ -23,10 +23,6 @@ public class ShardbladeModel extends Model
 {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ResourceLocation TEXTURE = Surgebinding.rl("textures/item/models/shardblade/dynamic.png");
-	public static final int TOTAL_BLADE_IDS = 2;
-	public static final int TOTAL_HANDLE_IDS = 1;
-	public static final int TOTAL_POMMEL_IDS = 1;
-	public static final int TOTAL_CROSS_GUARD_IDS = 1;
 
 	private final ModelPart root;
 	private final ModelPart blade;

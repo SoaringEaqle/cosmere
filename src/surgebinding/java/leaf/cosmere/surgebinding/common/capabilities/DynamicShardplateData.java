@@ -1,14 +1,9 @@
 
 package leaf.cosmere.surgebinding.common.capabilities;
 
-import leaf.cosmere.api.Roshar;
-import leaf.cosmere.api.math.MathHelper;
-import leaf.cosmere.surgebinding.client.render.model.DynamicShardplateModel;
-import leaf.cosmere.surgebinding.common.eventHandlers.SurgebindingCapabilitiesHandler;
-import leaf.cosmere.surgebinding.common.items.ShardplateCurioItem;
+import leaf.cosmere.surgebinding.common.utils.ShardHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -17,7 +12,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.util.HashMap;
 
 public class DynamicShardplateData extends ShardData implements ICapabilityProvider, INBTSerializable<CompoundTag>, IShardplateDynamicData
 {
@@ -40,6 +35,8 @@ public class DynamicShardplateData extends ShardData implements ICapabilityProvi
 	private String leftBootOutsideID;
 	private String leftBootTipID;
 
+	private HashMap<ShardHelper.PlateComponent, Integer> idMap;
+
 	private boolean colored;
 
 
@@ -48,22 +45,7 @@ public class DynamicShardplateData extends ShardData implements ICapabilityProvi
 	{
 		super(stack);
 
-		this.headID = "head" + MathHelper.randomInt(1, DynamicShardplateModel.TOTAL_HELMET_IDS);
-		this.faceplateID = "faceplate" + MathHelper.randomInt(1, DynamicShardplateModel.TOTAL_FACEPLATE_IDS);
-		this.bodyID = "body" + MathHelper.randomInt(1, DynamicShardplateModel.TOTAL_TORSO_IDS);
-		this.kamaID = "kama" + MathHelper.randomInt(0, DynamicShardplateModel.TOTAL_KAMA_IDS);
-
-		this.rightArmID = "right_armmain" + MathHelper.randomInt(1, DynamicShardplateModel.TOTAL_ARM_IDS);
-		this.rightPaldronsID = "right_paldron" + MathHelper.randomInt(0, DynamicShardplateModel.TOTAL_PALDRON_IDS);
-		this.rightLegID = "rightleg_top" + MathHelper.randomInt(1, DynamicShardplateModel.TOTAL_LEG_IDS);
-		this.rightBootOutsideID = "rightboot_outside" + MathHelper.randomInt(1, DynamicShardplateModel.TOTAL_BOOT_IDS);
-		this.rightBootTipID = new String(rightBootOutsideID).replace("outside","tip");
-
-		this.leftArmID = new String(rightArmID).replace("right","left");
-		this.leftPaldronsID = new String(rightPaldronsID).replace("right","left");
-		this.leftLegID = new String(rightLegID).replace("right","left");
-		this.leftBootOutsideID = new String(rightBootOutsideID).replace("right","left");
-		this.leftBootTipID = new String(rightBootTipID).replace("right","left");
+		idMap = ShardHelper.PlateComponent.randomComponentMap();
 
 		this.colored = true;
 	}
@@ -204,5 +186,35 @@ public class DynamicShardplateData extends ShardData implements ICapabilityProvi
 	public boolean isColored()
 	{
 		return colored;
+	}
+
+	@Override
+	public int id(ShardHelper.PlateComponent comp)
+	{
+		return idMap.getOrDefault(comp, 0);
+	}
+
+	@Override
+	public int setId(ShardHelper.PlateComponent comp, int id)
+	{
+		//invalid error code 2
+		var out = -2;
+		if (comp.isValid(id))
+		{
+			//object did not exist
+			out = -1;
+			if(idMap.containsKey(comp))
+			{
+				out = idMap.get(comp);
+			}
+			idMap.put(comp, id);
+		}
+		return out;
+	}
+
+	@Override
+	public String compID(ShardHelper.PlateComponent comp)
+	{
+		return comp.componentNameID(idMap);
 	}
 }
